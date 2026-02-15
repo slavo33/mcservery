@@ -14,7 +14,180 @@ export type Database = {
   }
   public: {
     Tables: {
-      [_ in never]: never
+      comments: {
+        Row: {
+          content: string
+          created_at: string
+          id: string
+          server_id: string
+          user_id: string
+        }
+        Insert: {
+          content: string
+          created_at?: string
+          id?: string
+          server_id: string
+          user_id: string
+        }
+        Update: {
+          content?: string
+          created_at?: string
+          id?: string
+          server_id?: string
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "comments_server_id_fkey"
+            columns: ["server_id"]
+            isOneToOne: false
+            referencedRelation: "servers"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      profiles: {
+        Row: {
+          avatar_url: string | null
+          created_at: string
+          id: string
+          nickname: string
+          updated_at: string
+        }
+        Insert: {
+          avatar_url?: string | null
+          created_at?: string
+          id: string
+          nickname?: string
+          updated_at?: string
+        }
+        Update: {
+          avatar_url?: string | null
+          created_at?: string
+          id?: string
+          nickname?: string
+          updated_at?: string
+        }
+        Relationships: []
+      }
+      reactions: {
+        Row: {
+          comment_id: string
+          created_at: string
+          id: string
+          reaction: Database["public"]["Enums"]["reaction_type"]
+          user_id: string
+        }
+        Insert: {
+          comment_id: string
+          created_at?: string
+          id?: string
+          reaction: Database["public"]["Enums"]["reaction_type"]
+          user_id: string
+        }
+        Update: {
+          comment_id?: string
+          created_at?: string
+          id?: string
+          reaction?: Database["public"]["Enums"]["reaction_type"]
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "reactions_comment_id_fkey"
+            columns: ["comment_id"]
+            isOneToOne: false
+            referencedRelation: "comments"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      server_likes: {
+        Row: {
+          created_at: string
+          id: string
+          server_id: string
+          user_id: string
+        }
+        Insert: {
+          created_at?: string
+          id?: string
+          server_id: string
+          user_id: string
+        }
+        Update: {
+          created_at?: string
+          id?: string
+          server_id?: string
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "server_likes_server_id_fkey"
+            columns: ["server_id"]
+            isOneToOne: false
+            referencedRelation: "servers"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      servers: {
+        Row: {
+          created_at: string
+          description: string
+          id: string
+          images: string[]
+          ip: string
+          likes_count: number
+          max_players: number
+          minigames: string[]
+          name: string
+          owner_id: string
+          platform: string[]
+          proxy: string | null
+          software: string
+          tags: string[]
+          updated_at: string
+          version: string
+        }
+        Insert: {
+          created_at?: string
+          description?: string
+          id?: string
+          images?: string[]
+          ip: string
+          likes_count?: number
+          max_players?: number
+          minigames?: string[]
+          name: string
+          owner_id: string
+          platform?: string[]
+          proxy?: string | null
+          software?: string
+          tags?: string[]
+          updated_at?: string
+          version?: string
+        }
+        Update: {
+          created_at?: string
+          description?: string
+          id?: string
+          images?: string[]
+          ip?: string
+          likes_count?: number
+          max_players?: number
+          minigames?: string[]
+          name?: string
+          owner_id?: string
+          platform?: string[]
+          proxy?: string | null
+          software?: string
+          tags?: string[]
+          updated_at?: string
+          version?: string
+        }
+        Relationships: []
+      }
     }
     Views: {
       [_ in never]: never
@@ -23,7 +196,13 @@ export type Database = {
       [_ in never]: never
     }
     Enums: {
-      [_ in never]: never
+      reaction_type:
+        | "heart"
+        | "thumbs_up"
+        | "thumbs_down"
+        | "laugh"
+        | "fire"
+        | "sad"
     }
     CompositeTypes: {
       [_ in never]: never
@@ -150,6 +329,15 @@ export type CompositeTypes<
 
 export const Constants = {
   public: {
-    Enums: {},
+    Enums: {
+      reaction_type: [
+        "heart",
+        "thumbs_up",
+        "thumbs_down",
+        "laugh",
+        "fire",
+        "sad",
+      ],
+    },
   },
 } as const

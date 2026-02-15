@@ -1,22 +1,33 @@
 import { Heart, Users, Wifi, WifiOff, Copy } from "lucide-react";
 import type { MinecraftServer } from "@/lib/mockData";
 import { useState } from "react";
+import { Link } from "react-router-dom";
 
 interface ServerCardProps {
   server: MinecraftServer;
+  dbMode?: boolean;
+  dbId?: string;
 }
 
-const ServerCard = ({ server }: ServerCardProps) => {
+const ServerCard = ({ server, dbMode, dbId }: ServerCardProps) => {
   const [liked, setLiked] = useState(false);
   const [copied, setCopied] = useState(false);
 
-  const copyIp = () => {
+  const copyIp = (e: React.MouseEvent) => {
+    e.preventDefault();
+    e.stopPropagation();
     navigator.clipboard.writeText(server.ip);
     setCopied(true);
     setTimeout(() => setCopied(false), 2000);
   };
 
-  return (
+  const handleLike = (e: React.MouseEvent) => {
+    e.preventDefault();
+    e.stopPropagation();
+    setLiked(!liked);
+  };
+
+  const cardContent = (
     <div className="group gradient-card rounded-lg border border-border shadow-card transition-all duration-300 glow-border-hover overflow-hidden">
       {/* Image banner */}
       <div className="relative h-40 overflow-hidden bg-secondary">
@@ -24,7 +35,6 @@ const ServerCard = ({ server }: ServerCardProps) => {
         <div className="absolute inset-0 flex items-center justify-center text-muted-foreground font-display text-2xl tracking-widest opacity-30">
           {server.name}
         </div>
-        {/* Status */}
         <div className="absolute top-3 left-3 z-20">
           {server.isOnline ? (
             <span className="badge-platform" style={{ background: "hsla(145, 63%, 42%, 0.2)", color: "hsl(145 63% 55%)", borderColor: "hsla(145, 63%, 42%, 0.3)" }}>
@@ -36,7 +46,6 @@ const ServerCard = ({ server }: ServerCardProps) => {
             </span>
           )}
         </div>
-        {/* Players */}
         <div className="absolute top-3 right-3 z-20">
           <span className="inline-flex items-center gap-1.5 rounded-full bg-background/60 backdrop-blur-sm px-2.5 py-1 text-xs font-medium text-foreground">
             <Users className="h-3 w-3" /> {server.players.online}/{server.players.max}
@@ -51,7 +60,7 @@ const ServerCard = ({ server }: ServerCardProps) => {
             {server.name}
           </h3>
           <button
-            onClick={() => setLiked(!liked)}
+            onClick={handleLike}
             className="flex items-center gap-1 text-muted-foreground hover:text-primary transition-colors shrink-0"
           >
             <Heart className={`h-4 w-4 transition-all ${liked ? "fill-primary text-primary scale-110" : ""}`} />
@@ -61,7 +70,6 @@ const ServerCard = ({ server }: ServerCardProps) => {
 
         <p className="text-sm text-muted-foreground mb-3 line-clamp-2">{server.description}</p>
 
-        {/* Tags */}
         <div className="flex flex-wrap gap-1.5 mb-3">
           {server.platform.map((p) => (
             <span key={p} className="badge-platform">{p === "java" ? "Java" : "Bedrock"}</span>
@@ -71,7 +79,6 @@ const ServerCard = ({ server }: ServerCardProps) => {
           {server.proxy && <span className="badge-platform">{server.proxy}</span>}
         </div>
 
-        {/* Minigames */}
         <div className="flex flex-wrap gap-1 mb-3">
           {server.minigames.slice(0, 3).map((mg) => (
             <span key={mg} className="text-xs text-muted-foreground bg-secondary rounded px-1.5 py-0.5">
@@ -83,10 +90,9 @@ const ServerCard = ({ server }: ServerCardProps) => {
           )}
         </div>
 
-        {/* IP */}
         <button
           onClick={copyIp}
-          className="flex w-full items-center justify-between rounded-md border border-border bg-secondary/50 px-3 py-2 text-sm font-mono text-foreground transition-all hover:glow-border hover:border-primary/40"
+          className="flex w-full items-center justify-between rounded-md border border-border bg-secondary/50 px-3 py-2 text-sm font-mono text-foreground transition-all hover:border-primary/40"
         >
           <span>{server.ip}</span>
           <span className="flex items-center gap-1 text-xs text-muted-foreground">
@@ -97,6 +103,12 @@ const ServerCard = ({ server }: ServerCardProps) => {
       </div>
     </div>
   );
+
+  if (dbMode && dbId) {
+    return <Link to={`/server/${dbId}`}>{cardContent}</Link>;
+  }
+
+  return cardContent;
 };
 
 export default ServerCard;
