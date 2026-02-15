@@ -1,10 +1,12 @@
 import { useState } from "react";
 import { Link } from "react-router-dom";
-import { Menu, X, Gamepad2 } from "lucide-react";
+import { Menu, X, Gamepad2, User, LogOut } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import { useAuth } from "@/hooks/useAuth";
 
 const Header = () => {
   const [mobileOpen, setMobileOpen] = useState(false);
+  const { user, profile, signOut } = useAuth();
 
   const navItems = [
     { label: "Domov", to: "/" },
@@ -33,9 +35,33 @@ const Header = () => {
               {item.label}
             </Link>
           ))}
-          <Button className="ml-4 gradient-primary border-0 font-display text-sm font-semibold tracking-wide text-primary-foreground">
-            Prihlásiť sa
-          </Button>
+          {user ? (
+            <div className="ml-4 flex items-center gap-2">
+              <Link to="/profile" className="flex items-center gap-2 rounded-md px-3 py-2 text-sm text-muted-foreground hover:bg-secondary hover:text-foreground transition-colors">
+                <div className="h-6 w-6 rounded-full bg-secondary border border-border overflow-hidden flex items-center justify-center">
+                  {profile?.avatar_url ? (
+                    <img src={profile.avatar_url} alt="" className="h-full w-full object-cover" />
+                  ) : (
+                    <User className="h-3 w-3 text-muted-foreground" />
+                  )}
+                </div>
+                <span>{profile?.nickname || "Profil"}</span>
+              </Link>
+              <button
+                onClick={signOut}
+                className="rounded-md p-2 text-muted-foreground hover:bg-secondary hover:text-foreground transition-colors"
+                title="Odhlásiť sa"
+              >
+                <LogOut className="h-4 w-4" />
+              </button>
+            </div>
+          ) : (
+            <Link to="/auth">
+              <Button className="ml-4 gradient-primary border-0 font-display text-sm font-semibold tracking-wide text-primary-foreground">
+                Prihlásiť sa
+              </Button>
+            </Link>
+          )}
         </nav>
 
         {/* Mobile toggle */}
@@ -61,9 +87,25 @@ const Header = () => {
                 {item.label}
               </Link>
             ))}
-            <Button className="mt-2 gradient-primary border-0 font-display text-sm font-semibold tracking-wide text-primary-foreground">
-              Prihlásiť sa
-            </Button>
+            {user ? (
+              <>
+                <Link to="/profile" onClick={() => setMobileOpen(false)} className="rounded-md px-4 py-3 text-sm font-medium text-muted-foreground hover:bg-secondary hover:text-foreground">
+                  Môj profil
+                </Link>
+                <button
+                  onClick={() => { signOut(); setMobileOpen(false); }}
+                  className="rounded-md px-4 py-3 text-left text-sm font-medium text-muted-foreground hover:bg-secondary hover:text-foreground"
+                >
+                  Odhlásiť sa
+                </button>
+              </>
+            ) : (
+              <Link to="/auth" onClick={() => setMobileOpen(false)}>
+                <Button className="mt-2 w-full gradient-primary border-0 font-display text-sm font-semibold tracking-wide text-primary-foreground">
+                  Prihlásiť sa
+                </Button>
+              </Link>
+            )}
           </nav>
         </div>
       )}
