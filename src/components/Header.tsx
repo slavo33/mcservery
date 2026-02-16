@@ -3,15 +3,18 @@ import { Link } from "react-router-dom";
 import { Menu, X, Gamepad2, User, LogOut } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { useAuth } from "@/hooks/useAuth";
+import { useLanguage } from "@/i18n/LanguageContext";
+import LanguageSwitcher from "@/components/LanguageSwitcher";
 
 const Header = () => {
   const [mobileOpen, setMobileOpen] = useState(false);
   const { user, profile, signOut } = useAuth();
+  const { t } = useLanguage();
 
   const navItems = [
-    { label: "Domov", to: "/" },
-    { label: "Servery", to: "/servers" },
-    { label: "Pridať server", to: "/add-server" },
+    { label: t("nav_home"), to: "/" },
+    { label: t("nav_servers"), to: "/servers" },
+    { label: t("nav_add_server"), to: "/add-server" },
   ];
 
   return (
@@ -35,8 +38,9 @@ const Header = () => {
               {item.label}
             </Link>
           ))}
+          <LanguageSwitcher />
           {user ? (
-            <div className="ml-4 flex items-center gap-2">
+            <div className="ml-2 flex items-center gap-2">
               <Link to="/profile" className="flex items-center gap-2 rounded-md px-3 py-2 text-sm text-muted-foreground hover:bg-secondary hover:text-foreground transition-colors">
                 <div className="h-6 w-6 rounded-full bg-secondary border border-border overflow-hidden flex items-center justify-center">
                   {profile?.avatar_url ? (
@@ -45,12 +49,12 @@ const Header = () => {
                     <User className="h-3 w-3 text-muted-foreground" />
                   )}
                 </div>
-                <span>{profile?.nickname || "Profil"}</span>
+                <span>{profile?.nickname || t("nav_profile")}</span>
               </Link>
               <button
                 onClick={signOut}
                 className="rounded-md p-2 text-muted-foreground hover:bg-secondary hover:text-foreground transition-colors"
-                title="Odhlásiť sa"
+                title={t("nav_logout")}
               >
                 <LogOut className="h-4 w-4" />
               </button>
@@ -58,7 +62,7 @@ const Header = () => {
           ) : (
             <Link to="/auth">
               <Button className="ml-4 gradient-primary border-0 font-display text-sm font-semibold tracking-wide text-primary-foreground">
-                Prihlásiť sa
+                {t("nav_login")}
               </Button>
             </Link>
           )}
@@ -87,22 +91,25 @@ const Header = () => {
                 {item.label}
               </Link>
             ))}
+            <div className="px-4 py-2">
+              <LanguageSwitcher />
+            </div>
             {user ? (
               <>
                 <Link to="/profile" onClick={() => setMobileOpen(false)} className="rounded-md px-4 py-3 text-sm font-medium text-muted-foreground hover:bg-secondary hover:text-foreground">
-                  Môj profil
+                  {t("nav_profile")}
                 </Link>
                 <button
                   onClick={() => { signOut(); setMobileOpen(false); }}
                   className="rounded-md px-4 py-3 text-left text-sm font-medium text-muted-foreground hover:bg-secondary hover:text-foreground"
                 >
-                  Odhlásiť sa
+                  {t("nav_logout")}
                 </button>
               </>
             ) : (
               <Link to="/auth" onClick={() => setMobileOpen(false)}>
                 <Button className="mt-2 w-full gradient-primary border-0 font-display text-sm font-semibold tracking-wide text-primary-foreground">
-                  Prihlásiť sa
+                  {t("nav_login")}
                 </Button>
               </Link>
             )}

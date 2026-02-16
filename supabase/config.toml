@@ -1,1 +1,4 @@
 project_id = "uinrxvxfrvjtqwklbiqk"
+
+[functions.mc-ping]
+verify_jwt = false

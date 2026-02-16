@@ -5,10 +5,12 @@ import { useAuth } from "@/hooks/useAuth";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import CommentSection from "@/components/CommentSection";
-import { Heart, Users, Wifi, WifiOff, Copy, ArrowLeft } from "lucide-react";
+import { Heart, Users, Copy, ArrowLeft, Shield, ShieldOff, ExternalLink } from "lucide-react";
 import { toast } from "sonner";
+import { useLanguage } from "@/i18n/LanguageContext";
+import { useServerStatus } from "@/hooks/useServerStatus";
 
-interface ServerDetail {
+interface ServerDetailData {
   id: string;
   name: string;
   description: string;
@@ -22,56 +24,54 @@ interface ServerDetail {
   likes_count: number;
   max_players: number;
   owner_id: string;
+  is_warez: boolean;
+  has_whitelist: boolean;
+  discord_url: string | null;
+  website_url: string | null;
+  instagram_url: string | null;
+  tiktok_url: string | null;
+  youtube_url: string | null;
+  twitter_url: string | null;
   profiles: { nickname: string; avatar_url: string | null } | null;
 }
 
 const ServerDetailPage = () => {
   const { id } = useParams<{ id: string }>();
   const { user } = useAuth();
-  const [server, setServer] = useState<ServerDetail | null>(null);
+  const { t } = useLanguage();
+  const [server, setServer] = useState<ServerDetailData | null>(null);
   const [loading, setLoading] = useState(true);
   const [liked, setLiked] = useState(false);
   const [likesCount, setLikesCount] = useState(0);
 
+  const { status } = useServerStatus(server?.ip || "");
+
   useEffect(() => {
     if (!id) return;
-
     const fetchServer = async () => {
       const { data } = await supabase
         .from("servers")
         .select("*, profiles(nickname, avatar_url)")
         .eq("id", id)
         .single();
-
       if (data) {
-        setServer(data as unknown as ServerDetail);
+        setServer(data as unknown as ServerDetailData);
         setLikesCount(data.likes_count);
       }
       setLoading(false);
     };
-
     const checkLike = async () => {
       if (!user) return;
-      const { data } = await supabase
-        .from("server_likes")
-        .select("id")
-        .eq("server_id", id)
-        .eq("user_id", user.id)
-        .maybeSingle();
+      const { data } = await supabase.from("server_likes").select("id").eq("server_id", id).eq("user_id", user.id).maybeSingle();
       setLiked(!!data);
     };
-
     fetchServer();
     checkLike();
   }, [id, user]);
 
   const toggleLike = async () => {
-    if (!user) {
-      toast.error("Prihlás sa pre lajkovanie");
-      return;
-    }
+    if (!user) { toast.error(t("nav_login")); return; }
     if (!id) return;
-
     if (liked) {
       await supabase.from("server_likes").delete().eq("server_id", id).eq("user_id", user.id);
       setLiked(false);
@@ -86,7 +86,7 @@ const ServerDetailPage = () => {
   const copyIp = () => {
     if (server) {
       navigator.clipboard.writeText(server.ip);
-      toast.success("IP skopírovaná!");
+      toast.success(t("detail_copied"));
     }
   };
 
@@ -94,9 +94,7 @@ const ServerDetailPage = () => {
     return (
       <div className="min-h-screen flex flex-col bg-background">
         <Header />
-        <main className="flex-1 flex items-center justify-center">
-          <p className="text-muted-foreground">Načítavam...</p>
-        </main>
+        <main className="flex-1 flex items-center justify-center"><p className="text-muted-foreground">{t("loading")}</p></main>
         <Footer />
       </div>
     );
@@ -106,38 +104,56 @@ const ServerDetailPage = () => {
     return (
       <div className="min-h-screen flex flex-col bg-background">
         <Header />
-        <main className="flex-1 flex items-center justify-center">
-          <p className="text-muted-foreground">Server nenájdený</p>
-        </main>
+        <main className="flex-1 flex items-center justify-center"><p className="text-muted-foreground">Server nenájdený</p></main>
         <Footer />
       </div>
     );
   }
+
+  const links = [
+    { url: server.discord_url, label: "Discord" },
+    { url: server.website_url, label: t("add_website") },
+    { url: server.instagram_url, label: "Instagram" },
+    { url: server.tiktok_url, label: "TikTok" },
+    { url: server.youtube_url, label: "YouTube" },
+    { url: server.twitter_url, label: "Twitter / X" },
+  ].filter((l) => l.url);
+
+  const onlinePlayers = status?.players?.online ?? 0;
+  const maxPlayers = status?.players?.max ?? server.max_players;
+  const isOnline = status?.online ?? false;
 
   return (
     <div className="min-h-screen flex flex-col bg-background">
       <Header />
       <main className="flex-1 container mx-auto px-4 py-10 max-w-3xl">
         <Link to="/servers" className="inline-flex items-center gap-1 text-sm text-muted-foreground hover:text-foreground mb-6 transition-colors">
-          <ArrowLeft className="h-4 w-4" /> Späť na servery
+          <ArrowLeft className="h-4 w-4" /> {t("detail_back")}
         </Link>
 
         <div className="gradient-card rounded-lg border border-border shadow-card overflow-hidden">
-          {/* Header */}
           <div className="relative h-48 bg-secondary">
             <div className="absolute inset-0 gradient-hero z-10" />
             <div className="absolute inset-0 flex items-center justify-center text-muted-foreground font-display text-4xl tracking-widest opacity-20">
               {server.name}
             </div>
+            {/* Status overlay */}
+            <div className="absolute top-4 right-4 z-20">
+              <span className="inline-flex items-center gap-1.5 rounded-full bg-background/60 backdrop-blur-sm px-3 py-1.5 text-sm font-medium text-foreground">
+                <Users className="h-4 w-4" />
+                <span className={isOnline ? "text-green-400" : "text-muted-foreground"}>
+                  {onlinePlayers}/{maxPlayers}
+                </span>
+              </span>
+            </div>
           </div>
 
           <div className="p-6 space-y-6">
-            {/* Title + Like */}
             <div className="flex items-start justify-between">
               <div>
                 <h1 className="font-display text-3xl font-bold text-foreground">{server.name}</h1>
                 <p className="text-sm text-muted-foreground mt-1">
-                  Pridané: {server.profiles?.nickname || "Hráč"}
+                  {t("detail_added_by")} {server.profiles?.nickname || "Hráč"}
                 </p>
               </div>
               <button onClick={toggleLike} className="flex items-center gap-2 text-muted-foreground hover:text-primary transition-colors">
@@ -146,10 +162,9 @@ const ServerDetailPage = () => {
               </button>
             </div>
 
-            {/* Description */}
             <p className="text-foreground/90">{server.description}</p>
 
-            {/* Tags */}
+            {/* Tags + badges */}
             <div className="flex flex-wrap gap-2">
               {server.platform.map((p) => (
                 <span key={p} className="badge-platform">{p === "java" ? "Java" : "Bedrock"}</span>
@@ -157,34 +172,58 @@ const ServerDetailPage = () => {
               <span className="badge-tag">{server.software}</span>
               <span className="badge-tag">v{server.version}</span>
               {server.proxy && <span className="badge-platform">{server.proxy}</span>}
+              <span className={`badge-tag ${server.is_warez ? "" : ""}`}>
+                {server.is_warez ? t("detail_warez") : t("detail_original")}
+              </span>
+              <span className="badge-platform">
+                {server.has_whitelist ? (
+                  <><Shield className="h-3 w-3 mr-1" /> {t("detail_whitelist")}</>
+                ) : (
+                  <><ShieldOff className="h-3 w-3 mr-1" /> {t("detail_no_whitelist")}</>
+                )}
+              </span>
             </div>
 
-            {/* Minigames */}
             {server.minigames.length > 0 && (
               <div>
-                <h3 className="text-sm font-semibold text-foreground mb-2">Minihry</h3>
+                <h3 className="text-sm font-semibold text-foreground mb-2">{t("detail_minigames")}</h3>
                 <div className="flex flex-wrap gap-1.5">
                   {server.minigames.map((mg) => (
-                    <span key={mg} className="text-xs text-muted-foreground bg-secondary rounded px-2 py-1">
-                      {mg}
-                    </span>
+                    <span key={mg} className="text-xs text-muted-foreground bg-secondary rounded px-2 py-1">{mg}</span>
+                  ))}
+                </div>
+              </div>
+            )}
+
+            {/* Social Links */}
+            {links.length > 0 && (
+              <div>
+                <h3 className="text-sm font-semibold text-foreground mb-2">{t("add_links")}</h3>
+                <div className="flex flex-wrap gap-2">
+                  {links.map((link) => (
+                    <a
+                      key={link.label}
+                      href={link.url!}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="inline-flex items-center gap-1.5 rounded-md border border-border bg-secondary/50 px-3 py-1.5 text-sm text-muted-foreground hover:text-foreground hover:border-primary/40 transition-colors"
+                    >
+                      <ExternalLink className="h-3 w-3" />
+                      {link.label}
+                    </a>
                   ))}
                 </div>
               </div>
             )}
 
             {/* IP */}
-            <button
-              onClick={copyIp}
-              className="flex w-full items-center justify-between rounded-md border border-border bg-secondary/50 px-4 py-3 text-foreground font-mono transition-all hover:border-primary/40 glow-border-hover"
-            >
+            <button onClick={copyIp} className="flex w-full items-center justify-between rounded-md border border-border bg-secondary/50 px-4 py-3 text-foreground font-mono transition-all hover:border-primary/40 glow-border-hover">
               <span>{server.ip}</span>
               <span className="flex items-center gap-1 text-sm text-muted-foreground">
-                <Copy className="h-4 w-4" /> Kopírovať
+                <Copy className="h-4 w-4" /> {t("detail_copy")}
               </span>
             </button>
 
-            {/* Comments */}
             <div className="border-t border-border pt-6">
               <CommentSection serverId={server.id} />
             </div>

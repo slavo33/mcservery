@@ -135,9 +135,13 @@ export type Database = {
         Row: {
           created_at: string
           description: string
+          discord_url: string | null
+          has_whitelist: boolean
           id: string
           images: string[]
+          instagram_url: string | null
           ip: string
+          is_warez: boolean
           likes_count: number
           max_players: number
           minigames: string[]
@@ -147,15 +151,23 @@ export type Database = {
           proxy: string | null
           software: string
           tags: string[]
+          tiktok_url: string | null
+          twitter_url: string | null
           updated_at: string
           version: string
+          website_url: string | null
+          youtube_url: string | null
         }
         Insert: {
           created_at?: string
           description?: string
+          discord_url?: string | null
+          has_whitelist?: boolean
           id?: string
           images?: string[]
+          instagram_url?: string | null
           ip: string
+          is_warez?: boolean
           likes_count?: number
           max_players?: number
           minigames?: string[]
@@ -165,15 +177,23 @@ export type Database = {
           proxy?: string | null
           software?: string
           tags?: string[]
+          tiktok_url?: string | null
+          twitter_url?: string | null
           updated_at?: string
           version?: string
+          website_url?: string | null
+          youtube_url?: string | null
         }
         Update: {
           created_at?: string
           description?: string
+          discord_url?: string | null
+          has_whitelist?: boolean
           id?: string
           images?: string[]
+          instagram_url?: string | null
           ip?: string
+          is_warez?: boolean
           likes_count?: number
           max_players?: number
           minigames?: string[]
@@ -183,8 +203,12 @@ export type Database = {
           proxy?: string | null
           software?: string
           tags?: string[]
+          tiktok_url?: string | null
+          twitter_url?: string | null
           updated_at?: string
           version?: string
+          website_url?: string | null
+          youtube_url?: string | null
         }
         Relationships: []
       }

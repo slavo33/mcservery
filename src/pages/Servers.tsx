@@ -3,9 +3,9 @@ import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import ServerCard from "@/components/ServerCard";
 import ServerFilters from "@/components/ServerFilters";
-import { mockServers, type MinecraftServer } from "@/lib/mockData";
+import type { MinecraftServer } from "@/lib/mockData";
 import { supabase } from "@/integrations/supabase/client";
-import { Link } from "react-router-dom";
+import { useLanguage } from "@/i18n/LanguageContext";
 
 interface DbServer {
   id: string;
@@ -20,9 +20,12 @@ interface DbServer {
   tags: string[];
   likes_count: number;
   max_players: number;
+  is_warez: boolean;
+  has_whitelist: boolean;
 }
 
 const Servers = () => {
+  const { t } = useLanguage();
   const [search, setSearch] = useState("");
   const [platform, setPlatform] = useState("");
   const [version, setVersion] = useState("");
@@ -32,14 +35,13 @@ const Servers = () => {
   useEffect(() => {
     const fetch = async () => {
       const { data } = await supabase.from("servers").select("*").order("likes_count", { ascending: false });
-      if (data) setDbServers(data as DbServer[]);
+      if (data) setDbServers(data as unknown as DbServer[]);
     };
     fetch();
   }, []);
 
-  // Convert DB servers to card format
-  const allServers: (MinecraftServer & { dbId?: string })[] = useMemo(() => {
-    const fromDb = dbServers.map((s) => ({
+  const allServers: (MinecraftServer & { dbId?: string; is_warez?: boolean; has_whitelist?: boolean })[] = useMemo(() => {
+    return dbServers.map((s) => ({
       id: s.id,
       dbId: s.id,
       name: s.name,
@@ -55,8 +57,9 @@ const Servers = () => {
       likes: s.likes_count,
       tags: s.tags,
       isOnline: true,
+      is_warez: s.is_warez,
+      has_whitelist: s.has_whitelist,
     }));
-    return [...fromDb, ...mockServers];
   }, [dbServers]);
 
   const filtered = useMemo(() => {
@@ -80,9 +83,9 @@ const Servers = () => {
       <Header />
       <main className="flex-1 container mx-auto px-4 py-10">
         <h1 className="font-display text-4xl font-bold text-foreground mb-2">
-          Všetky <span className="text-gradient">servery</span>
+          {t("servers_title_1")} <span className="text-gradient">{t("servers_title_2")}</span>
         </h1>
-        <p className="text-muted-foreground mb-8">Prehľadaj a filtruj Minecraft servery</p>
+        <p className="text-muted-foreground mb-8">{t("servers_subtitle")}</p>
 
         <ServerFilters
           search={search} onSearchChange={setSearch}
@@ -94,18 +97,13 @@ const Servers = () => {
         {filtered.length > 0 ? (
           <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
             {filtered.map((server) => (
-              <ServerCard
-                key={server.id}
-                server={server}
-                dbMode={!!(server as any).dbId}
-                dbId={(server as any).dbId}
-              />
+              <ServerCard key={server.id} server={server} dbMode={!!server.dbId} dbId={server.dbId} />
             ))}
           </div>
         ) : (
           <div className="text-center py-20">
-            <p className="text-muted-foreground font-display text-xl">Žiadne servery nenájdené</p>
-            <p className="text-sm text-muted-foreground mt-2">Skús zmeniť filtre alebo hľadaný výraz</p>
+            <p className="text-muted-foreground font-display text-xl">{t("servers_none")}</p>
+            <p className="text-sm text-muted-foreground mt-2">{t("servers_none_hint")}</p>
           </div>
         )}
       </main>

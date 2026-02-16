@@ -1,6 +1,7 @@
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import { Button } from "@/components/ui/button";
+import { Switch } from "@/components/ui/switch";
 import { softwareOptions, versions, minigameOptions } from "@/lib/mockData";
 import { useState } from "react";
 import { Plus, Upload } from "lucide-react";
@@ -8,10 +9,12 @@ import { supabase } from "@/integrations/supabase/client";
 import { useAuth } from "@/hooks/useAuth";
 import { toast } from "sonner";
 import { useNavigate } from "react-router-dom";
+import { useLanguage } from "@/i18n/LanguageContext";
 
 const AddServer = () => {
   const { user } = useAuth();
   const navigate = useNavigate();
+  const { t } = useLanguage();
   const [name, setName] = useState("");
   const [ip, setIp] = useState("");
   const [description, setDescription] = useState("");
@@ -20,6 +23,14 @@ const AddServer = () => {
   const [proxy, setProxy] = useState("");
   const [selectedPlatform, setSelectedPlatform] = useState<string[]>([]);
   const [selectedMinigames, setSelectedMinigames] = useState<string[]>([]);
+  const [isWarez, setIsWarez] = useState(false);
+  const [hasWhitelist, setHasWhitelist] = useState(false);
+  const [discordUrl, setDiscordUrl] = useState("");
+  const [websiteUrl, setWebsiteUrl] = useState("");
+  const [instagramUrl, setInstagramUrl] = useState("");
+  const [tiktokUrl, setTiktokUrl] = useState("");
+  const [youtubeUrl, setYoutubeUrl] = useState("");
+  const [twitterUrl, setTwitterUrl] = useState("");
   const [submitting, setSubmitting] = useState(false);
 
   const togglePlatform = (p: string) =>
@@ -35,7 +46,7 @@ const AddServer = () => {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!user) {
-      toast.error("Musíš sa prihlásiť");
+      toast.error(t("add_login_required"));
       navigate("/auth");
       return;
     }
@@ -56,10 +67,18 @@ const AddServer = () => {
       platform: selectedPlatform.map((p) => p.toLowerCase()),
       minigames: selectedMinigames,
       tags: selectedMinigames.slice(0, 5),
-    });
+      is_warez: isWarez,
+      has_whitelist: hasWhitelist,
+      discord_url: discordUrl.trim() || null,
+      website_url: websiteUrl.trim() || null,
+      instagram_url: instagramUrl.trim() || null,
+      tiktok_url: tiktokUrl.trim() || null,
+      youtube_url: youtubeUrl.trim() || null,
+      twitter_url: twitterUrl.trim() || null,
+    } as any);
 
     if (error) {
-      toast.error("Chyba pri pridávaní servera: " + error.message);
+      toast.error("Chyba: " + error.message);
     } else {
       toast.success("Server bol pridaný!");
       navigate("/servers");
@@ -67,45 +86,62 @@ const AddServer = () => {
     setSubmitting(false);
   };
 
+  const inputClass = "w-full rounded-md border border-border bg-secondary/50 py-2.5 px-3 text-sm text-foreground placeholder:text-muted-foreground focus:border-primary/50 focus:outline-none focus:ring-1 focus:ring-primary/30";
+
   return (
     <div className="min-h-screen flex flex-col bg-background">
       <Header />
       <main className="flex-1 container mx-auto px-4 py-10 max-w-2xl">
         <h1 className="font-display text-4xl font-bold text-foreground mb-2">
-          Pridať <span className="text-gradient">server</span>
+          {t("add_title_1")} <span className="text-gradient">{t("add_title_2")}</span>
         </h1>
-        <p className="text-muted-foreground mb-8">Zdieľaj svoj Minecraft server s komunitou</p>
+        <p className="text-muted-foreground mb-8">{t("add_subtitle")}</p>
 
         {!user && (
           <div className="gradient-card rounded-lg border border-border shadow-card p-6 text-center mb-6">
-            <p className="text-muted-foreground mb-3">Na pridanie servera sa musíš prihlásiť</p>
+            <p className="text-muted-foreground mb-3">{t("add_login_required")}</p>
             <Button onClick={() => navigate("/auth")} className="gradient-primary border-0 text-primary-foreground font-display">
-              Prihlásiť sa
+              {t("add_login_btn")}
             </Button>
           </div>
         )}
 
         <form onSubmit={handleSubmit} className="gradient-card rounded-lg border border-border shadow-card p-6 space-y-6">
           <div>
-            <label className="text-sm font-semibold text-foreground mb-1.5 block">Názov servera *</label>
-            <input type="text" value={name} onChange={(e) => setName(e.target.value)} placeholder="MôjServer" maxLength={50}
-              className="w-full rounded-md border border-border bg-secondary/50 py-2.5 px-3 text-sm text-foreground placeholder:text-muted-foreground focus:border-primary/50 focus:outline-none focus:ring-1 focus:ring-primary/30" required />
+            <label className="text-sm font-semibold text-foreground mb-1.5 block">{t("add_name")} *</label>
+            <input type="text" value={name} onChange={(e) => setName(e.target.value)} placeholder="MôjServer" maxLength={50} className={inputClass} required />
           </div>
 
           <div>
-            <label className="text-sm font-semibold text-foreground mb-1.5 block">IP adresa *</label>
-            <input type="text" value={ip} onChange={(e) => setIp(e.target.value)} placeholder="play.mojserver.sk" maxLength={100}
-              className="w-full rounded-md border border-border bg-secondary/50 py-2.5 px-3 text-sm text-foreground placeholder:text-muted-foreground focus:border-primary/50 focus:outline-none focus:ring-1 focus:ring-primary/30" required />
+            <label className="text-sm font-semibold text-foreground mb-1.5 block">{t("add_ip")} *</label>
+            <input type="text" value={ip} onChange={(e) => setIp(e.target.value)} placeholder="play.mojserver.sk" maxLength={100} className={inputClass} required />
           </div>
 
           <div>
-            <label className="text-sm font-semibold text-foreground mb-1.5 block">Popis</label>
-            <textarea rows={4} value={description} onChange={(e) => setDescription(e.target.value)} placeholder="Opíš svoj server..." maxLength={1000}
-              className="w-full rounded-md border border-border bg-secondary/50 py-2.5 px-3 text-sm text-foreground placeholder:text-muted-foreground focus:border-primary/50 focus:outline-none focus:ring-1 focus:ring-primary/30 resize-none" />
+            <label className="text-sm font-semibold text-foreground mb-1.5 block">{t("add_desc")}</label>
+            <textarea rows={4} value={description} onChange={(e) => setDescription(e.target.value)} placeholder="Opíš svoj server..." maxLength={1000} className={`${inputClass} resize-none`} />
+          </div>
+
+          {/* Warez + Whitelist */}
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+            <div className="flex items-center justify-between rounded-md border border-border bg-secondary/30 px-4 py-3">
+              <div>
+                <p className="text-sm font-semibold text-foreground">{t("add_warez")}</p>
+                <p className="text-xs text-muted-foreground">{t("add_warez_desc")}</p>
+              </div>
+              <Switch checked={isWarez} onCheckedChange={setIsWarez} />
+            </div>
+            <div className="flex items-center justify-between rounded-md border border-border bg-secondary/30 px-4 py-3">
+              <div>
+                <p className="text-sm font-semibold text-foreground">{t("add_whitelist")}</p>
+                <p className="text-xs text-muted-foreground">{t("add_whitelist_desc")}</p>
+              </div>
+              <Switch checked={hasWhitelist} onCheckedChange={setHasWhitelist} />
+            </div>
           </div>
 
           <div>
-            <label className="text-sm font-semibold text-foreground mb-2 block">Platforma</label>
+            <label className="text-sm font-semibold text-foreground mb-2 block">{t("add_platform")}</label>
             <div className="flex gap-2">
               {["Java", "Bedrock"].map((p) => (
                 <button key={p} type="button" onClick={() => togglePlatform(p)}
@@ -116,28 +152,25 @@ const AddServer = () => {
 
           <div className="grid grid-cols-2 gap-4">
             <div>
-              <label className="text-sm font-semibold text-foreground mb-1.5 block">Verzia</label>
-              <select value={version} onChange={(e) => setVersion(e.target.value)}
-                className="w-full rounded-md border border-border bg-secondary/50 py-2.5 px-3 text-sm text-foreground focus:border-primary/50 focus:outline-none focus:ring-1 focus:ring-primary/30">
-                <option value="">Vyber verziu</option>
+              <label className="text-sm font-semibold text-foreground mb-1.5 block">{t("add_version")}</label>
+              <select value={version} onChange={(e) => setVersion(e.target.value)} className={inputClass}>
+                <option value="">—</option>
                 {versions.map((v) => <option key={v} value={v}>{v}</option>)}
               </select>
             </div>
             <div>
-              <label className="text-sm font-semibold text-foreground mb-1.5 block">Software</label>
-              <select value={software} onChange={(e) => setSoftware(e.target.value)}
-                className="w-full rounded-md border border-border bg-secondary/50 py-2.5 px-3 text-sm text-foreground focus:border-primary/50 focus:outline-none focus:ring-1 focus:ring-primary/30">
-                <option value="">Vyber software</option>
+              <label className="text-sm font-semibold text-foreground mb-1.5 block">{t("add_software")}</label>
+              <select value={software} onChange={(e) => setSoftware(e.target.value)} className={inputClass}>
+                <option value="">—</option>
                 {softwareOptions.map((s) => <option key={s} value={s}>{s}</option>)}
               </select>
             </div>
           </div>
 
           <div>
-            <label className="text-sm font-semibold text-foreground mb-1.5 block">Proxy</label>
-            <select value={proxy} onChange={(e) => setProxy(e.target.value)}
-              className="w-full rounded-md border border-border bg-secondary/50 py-2.5 px-3 text-sm text-foreground focus:border-primary/50 focus:outline-none focus:ring-1 focus:ring-primary/30">
-              <option value="">Žiadny</option>
+            <label className="text-sm font-semibold text-foreground mb-1.5 block">{t("add_proxy")}</label>
+            <select value={proxy} onChange={(e) => setProxy(e.target.value)} className={inputClass}>
+              <option value="">{t("add_proxy_none")}</option>
               <option value="BungeeCord">BungeeCord</option>
               <option value="Velocity">Velocity</option>
               <option value="Waterfall">Waterfall</option>
@@ -145,7 +178,7 @@ const AddServer = () => {
           </div>
 
           <div>
-            <label className="text-sm font-semibold text-foreground mb-2 block">Minihry</label>
+            <label className="text-sm font-semibold text-foreground mb-2 block">{t("add_minigames")}</label>
             <div className="flex flex-wrap gap-1.5">
               {minigameOptions.map((m) => (
                 <button key={m} type="button" onClick={() => toggleMinigame(m)}
@@ -154,13 +187,44 @@ const AddServer = () => {
             </div>
           </div>
 
+          {/* Links */}
           <div>
-            <label className="text-sm font-semibold text-foreground mb-2 block">Fotky / GIF</label>
+            <label className="text-sm font-semibold text-foreground mb-3 block">{t("add_links")}</label>
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+              <div>
+                <label className="text-xs text-muted-foreground mb-1 block">{t("add_discord")}</label>
+                <input type="url" value={discordUrl} onChange={(e) => setDiscordUrl(e.target.value)} placeholder="https://discord.gg/..." className={inputClass} />
+              </div>
+              <div>
+                <label className="text-xs text-muted-foreground mb-1 block">{t("add_website")}</label>
+                <input type="url" value={websiteUrl} onChange={(e) => setWebsiteUrl(e.target.value)} placeholder="https://..." className={inputClass} />
+              </div>
+              <div>
+                <label className="text-xs text-muted-foreground mb-1 block">{t("add_instagram")}</label>
+                <input type="url" value={instagramUrl} onChange={(e) => setInstagramUrl(e.target.value)} placeholder="https://instagram.com/..." className={inputClass} />
+              </div>
+              <div>
+                <label className="text-xs text-muted-foreground mb-1 block">{t("add_tiktok")}</label>
+                <input type="url" value={tiktokUrl} onChange={(e) => setTiktokUrl(e.target.value)} placeholder="https://tiktok.com/@..." className={inputClass} />
+              </div>
+              <div>
+                <label className="text-xs text-muted-foreground mb-1 block">{t("add_youtube")}</label>
+                <input type="url" value={youtubeUrl} onChange={(e) => setYoutubeUrl(e.target.value)} placeholder="https://youtube.com/..." className={inputClass} />
+              </div>
+              <div>
+                <label className="text-xs text-muted-foreground mb-1 block">{t("add_twitter")}</label>
+                <input type="url" value={twitterUrl} onChange={(e) => setTwitterUrl(e.target.value)} placeholder="https://x.com/..." className={inputClass} />
+              </div>
+            </div>
+          </div>
+
+          <div>
+            <label className="text-sm font-semibold text-foreground mb-2 block">{t("add_photos")}</label>
             <div className="flex items-center justify-center rounded-md border-2 border-dashed border-border bg-secondary/30 py-10 cursor-pointer hover:border-primary/40 transition-colors">
               <div className="text-center">
                 <Upload className="h-8 w-8 text-muted-foreground mx-auto mb-2" />
-                <p className="text-sm text-muted-foreground">Nahraj fotky alebo GIF zo servera</p>
-                <p className="text-xs text-muted-foreground mt-1">PNG, JPG, GIF do 5MB</p>
+                <p className="text-sm text-muted-foreground">{t("add_photos_hint")}</p>
+                <p className="text-xs text-muted-foreground mt-1">{t("add_photos_formats")}</p>
               </div>
             </div>
           </div>
@@ -168,7 +232,7 @@ const AddServer = () => {
           <Button type="submit" disabled={submitting || !user}
             className="w-full gradient-primary border-0 font-display text-base font-semibold tracking-wide text-primary-foreground glow-red gap-2" size="lg">
             <Plus className="h-4 w-4" />
-            {submitting ? "Pridávam..." : "Pridať server"}
+            {submitting ? t("add_submitting") : t("add_submit")}
           </Button>
         </form>
       </main>
