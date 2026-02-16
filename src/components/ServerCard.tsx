@@ -1,10 +1,12 @@
-import { Heart, Users, Wifi, WifiOff, Copy } from "lucide-react";
+import { Heart, Users, Wifi, WifiOff, Copy, Shield, ShieldOff } from "lucide-react";
 import type { MinecraftServer } from "@/lib/mockData";
 import { useState } from "react";
 import { Link } from "react-router-dom";
+import { useLanguage } from "@/i18n/LanguageContext";
+import { useServerStatus } from "@/hooks/useServerStatus";
 
 interface ServerCardProps {
-  server: MinecraftServer;
+  server: MinecraftServer & { is_warez?: boolean; has_whitelist?: boolean };
   dbMode?: boolean;
   dbId?: string;
 }
@@ -12,6 +14,12 @@ interface ServerCardProps {
 const ServerCard = ({ server, dbMode, dbId }: ServerCardProps) => {
   const [liked, setLiked] = useState(false);
   const [copied, setCopied] = useState(false);
+  const { t } = useLanguage();
+  const { status } = useServerStatus(server.ip);
+
+  const isOnline = status ? status.online : server.isOnline;
+  const onlinePlayers = status ? status.players.online : server.players.online;
+  const maxPlayers = status ? status.players.max : server.players.max;
 
   const copyIp = (e: React.MouseEvent) => {
     e.preventDefault();
@@ -29,40 +37,43 @@ const ServerCard = ({ server, dbMode, dbId }: ServerCardProps) => {
 
   const cardContent = (
     <div className="group gradient-card rounded-lg border border-border shadow-card transition-all duration-300 glow-border-hover overflow-hidden">
-      {/* Image banner */}
       <div className="relative h-40 overflow-hidden bg-secondary">
         <div className="absolute inset-0 gradient-hero z-10" />
         <div className="absolute inset-0 flex items-center justify-center text-muted-foreground font-display text-2xl tracking-widest opacity-30">
           {server.name}
         </div>
-        <div className="absolute top-3 left-3 z-20">
-          {server.isOnline ? (
+        <div className="absolute top-3 left-3 z-20 flex gap-1.5">
+          {isOnline ? (
             <span className="badge-platform" style={{ background: "hsla(145, 63%, 42%, 0.2)", color: "hsl(145 63% 55%)", borderColor: "hsla(145, 63%, 42%, 0.3)" }}>
-              <Wifi className="h-3 w-3 mr-1" /> Online
+              <Wifi className="h-3 w-3 mr-1" /> {t("online")}
             </span>
           ) : (
             <span className="badge-tag">
-              <WifiOff className="h-3 w-3 mr-1" /> Offline
+              <WifiOff className="h-3 w-3 mr-1" /> {t("offline")}
+            </span>
+          )}
+          {server.is_warez && (
+            <span className="badge-tag text-xs">Warez</span>
+          )}
+          {server.has_whitelist && (
+            <span className="badge-platform text-xs">
+              <Shield className="h-3 w-3 mr-1" /> WL
             </span>
           )}
         </div>
         <div className="absolute top-3 right-3 z-20">
           <span className="inline-flex items-center gap-1.5 rounded-full bg-background/60 backdrop-blur-sm px-2.5 py-1 text-xs font-medium text-foreground">
-            <Users className="h-3 w-3" /> {server.players.online}/{server.players.max}
+            <Users className="h-3 w-3" /> {onlinePlayers}/{maxPlayers}
           </span>
         </div>
       </div>
 
-      {/* Content */}
       <div className="p-4">
         <div className="flex items-start justify-between gap-2 mb-2">
           <h3 className="font-display text-lg font-bold text-foreground leading-tight group-hover:text-primary transition-colors">
             {server.name}
           </h3>
-          <button
-            onClick={handleLike}
-            className="flex items-center gap-1 text-muted-foreground hover:text-primary transition-colors shrink-0"
-          >
+          <button onClick={handleLike} className="flex items-center gap-1 text-muted-foreground hover:text-primary transition-colors shrink-0">
             <Heart className={`h-4 w-4 transition-all ${liked ? "fill-primary text-primary scale-110" : ""}`} />
             <span className="text-xs">{server.likes + (liked ? 1 : 0)}</span>
           </button>
@@ -81,23 +92,18 @@ const ServerCard = ({ server, dbMode, dbId }: ServerCardProps) => {
 
         <div className="flex flex-wrap gap-1 mb-3">
           {server.minigames.slice(0, 3).map((mg) => (
-            <span key={mg} className="text-xs text-muted-foreground bg-secondary rounded px-1.5 py-0.5">
-              {mg}
-            </span>
+            <span key={mg} className="text-xs text-muted-foreground bg-secondary rounded px-1.5 py-0.5">{mg}</span>
           ))}
           {server.minigames.length > 3 && (
             <span className="text-xs text-muted-foreground">+{server.minigames.length - 3}</span>
           )}
         </div>
 
-        <button
-          onClick={copyIp}
-          className="flex w-full items-center justify-between rounded-md border border-border bg-secondary/50 px-3 py-2 text-sm font-mono text-foreground transition-all hover:border-primary/40"
-        >
+        <button onClick={copyIp} className="flex w-full items-center justify-between rounded-md border border-border bg-secondary/50 px-3 py-2 text-sm font-mono text-foreground transition-all hover:border-primary/40">
           <span>{server.ip}</span>
           <span className="flex items-center gap-1 text-xs text-muted-foreground">
             <Copy className="h-3 w-3" />
-            {copied ? "Skopírované!" : "Kopírovať"}
+            {copied ? t("detail_copied") : t("detail_copy")}
           </span>
         </button>
       </div>
