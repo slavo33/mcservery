@@ -9,6 +9,7 @@ import Index from "./pages/Index";
 import Servers from "./pages/Servers";
 import AddServer from "./pages/AddServer";
 import ServerDetail from "./pages/ServerDetail";
+import EditServer from "./pages/EditServer";
 import Auth from "./pages/Auth";
 import Profile from "./pages/Profile";
 import NotFound from "./pages/NotFound";
@@ -27,6 +28,7 @@ const App = () => (
               <Route path="/" element={<Index />} />
               <Route path="/servers" element={<Servers />} />
               <Route path="/server/:id" element={<ServerDetail />} />
+              <Route path="/server/:id/edit" element={<EditServer />} />
               <Route path="/add-server" element={<AddServer />} />
               <Route path="/auth" element={<Auth />} />
               <Route path="/profile" element={<Profile />} />
