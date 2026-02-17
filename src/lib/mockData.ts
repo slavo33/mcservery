@@ -112,8 +112,69 @@ export const mockServers: MinecraftServer[] = [
   },
 ];
 
-export const versions = ["1.21", "1.20.4", "1.20.2", "1.19.4", "1.18.2"];
+export const versions = [
+  "1.21.5", "1.21.4", "1.21.3", "1.21.2", "1.21.1", "1.21",
+  "1.20.6", "1.20.5", "1.20.4", "1.20.3", "1.20.2", "1.20.1", "1.20",
+  "1.19.4", "1.19.3", "1.19.2", "1.19.1", "1.19",
+  "1.18.2", "1.18.1", "1.18",
+  "1.17.1", "1.17",
+  "1.16.5", "1.16.4", "1.16.3", "1.16.2", "1.16.1", "1.16",
+  "1.15.2", "1.15.1", "1.15",
+  "1.14.4", "1.14.3", "1.14.2", "1.14.1", "1.14",
+  "1.13.2", "1.13.1", "1.13",
+  "1.12.2", "1.12.1", "1.12",
+  "1.11.2", "1.11.1", "1.11",
+  "1.10.2", "1.10.1", "1.10",
+  "1.9.4", "1.9.2", "1.9",
+  "1.8.9", "1.8.8", "1.8",
+  "1.7.10", "1.7.5", "1.7.2",
+  "1.6.4", "1.6.2",
+  "1.5.2", "1.5.1",
+  "1.4.7", "1.4.6",
+  "1.3.2", "1.2.5",
+];
+
 export const platforms = ["Java", "Bedrock"];
-export const proxies = ["BungeeCord", "Velocity", "Žiadny"];
-export const softwareOptions = ["Paper", "Spigot", "Purpur", "Bukkit", "Forge", "Fabric"];
-export const minigameOptions = ["Survival", "SkyWars", "BedWars", "KitPvP", "Creative", "Parkour", "UHC", "SkyBlock", "Duels", "BuildBattle"];
+
+export const softwareOptions = [
+  // Vanilla & Bukkit
+  "Vanilla", "CraftBukkit", "Bukkit", "Spigot", "Paper", "Purpur", "Pufferfish", "Folia",
+  // Forge
+  "Forge", "NeoForge", "Magma", "Mohist", "CatServer", "Arclight",
+  // Fabric
+  "Fabric", "Quilt",
+  // Sponge
+  "SpongeVanilla", "SpongeForge",
+  // Bedrock
+  "Bedrock Dedicated Server", "PocketMine-MP", "Nukkit", "PowerNukkitX",
+  // Hybrid
+  "Glowstone",
+];
+
+export const proxyOptions = [
+  "Žiadny",
+  "BungeeCord",
+  "Waterfall",
+  "Velocity",
+  "Gate",
+  "Infrared",
+  "Travertine",
+  "FlameCord",
+  "HexaCord",
+  "NullCordX",
+  "Aegis",
+  "Geyser (Standalone)",
+];
+
+export const minigameOptions = [
+  "Survival", "SkyWars", "BedWars", "EggWars", "KitPvP", "Creative", "Parkour",
+  "UHC", "SkyBlock", "Duels", "BuildBattle", "Party Games", "Pillars of Fortune",
+  "Murder Mystery", "TNT Run", "TNT Tag", "Hide and Seek", "Capture the Flag",
+  "Hunger Games", "Factions", "Prison", "Towny", "RPG", "Anarchy",
+  "OneBlock", "AcidIsland", "Lucky Block", "Bridge", "TheBridge",
+  "Cops and Robbers", "Spleef", "Wool Wars", "Blitz Survival Games",
+  "Mega Walls", "Warlords", "Speed UHC", "The Pit", "Zombies",
+  "Build Battle Pro", "Draw It", "Pixel Painters", "Arena Brawl",
+  "Quake Craft", "VampireZ", "Smash Heroes", "Turbo Kart Racers",
+  "Dropper", "MineStrike", "Races", "Skyfall", "Economy", "Vanilla Survival",
+];
