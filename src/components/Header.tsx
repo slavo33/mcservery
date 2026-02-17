@@ -68,13 +68,16 @@ const Header = () => {
           )}
         </nav>
 
-        {/* Mobile toggle */}
-        <button
-          onClick={() => setMobileOpen(!mobileOpen)}
-          className="text-foreground md:hidden"
-        >
-          {mobileOpen ? <X className="h-6 w-6" /> : <Menu className="h-6 w-6" />}
-        </button>
+        {/* Mobile: language + toggle */}
+        <div className="flex items-center gap-1 md:hidden">
+          <LanguageSwitcher />
+          <button
+            onClick={() => setMobileOpen(!mobileOpen)}
+            className="text-foreground"
+          >
+            {mobileOpen ? <X className="h-6 w-6" /> : <Menu className="h-6 w-6" />}
+          </button>
+        </div>
       </div>
 
       {/* Mobile nav */}
@@ -91,9 +94,6 @@ const Header = () => {
                 {item.label}
               </Link>
             ))}
-            <div className="px-4 py-2">
-              <LanguageSwitcher />
-            </div>
             {user ? (
               <>
                 <Link to="/profile" onClick={() => setMobileOpen(false)} className="rounded-md px-4 py-3 text-sm font-medium text-muted-foreground hover:bg-secondary hover:text-foreground">

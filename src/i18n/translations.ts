@@ -1,18 +1,23 @@
 export type Locale = "sk" | "cs" | "en" | "de" | "fr" | "ru" | "uk" | "es" | "pt" | "br" | "zh" | "ja";
 
 export const localeNames: Record<Locale, string> = {
-  sk: "Slovenčina",
-  cs: "Čeština",
-  en: "English",
-  de: "Deutsch",
-  fr: "Français",
-  ru: "Русский",
-  uk: "Українська",
-  es: "Español",
-  pt: "Português",
-  br: "Brasileiro",
-  zh: "中文",
-  ja: "日本語",
+  sk: "🇸🇰 Slovenčina",
+  cs: "🇨🇿 Čeština",
+  en: "🇬🇧 English",
+  de: "🇩🇪 Deutsch",
+  fr: "🇫🇷 Français",
+  ru: "🇷🇺 Русский",
+  uk: "🇺🇦 Українська",
+  es: "🇪🇸 Español",
+  pt: "🇵🇹 Português",
+  br: "🇧🇷 Brasileiro",
+  zh: "🇨🇳 中文",
+  ja: "🇯🇵 日本語",
+};
+
+export const localeFlags: Record<Locale, string> = {
+  sk: "🇸🇰", cs: "🇨🇿", en: "🇬🇧", de: "🇩🇪", fr: "🇫🇷", ru: "🇷🇺",
+  uk: "🇺🇦", es: "🇪🇸", pt: "🇵🇹", br: "🇧🇷", zh: "🇨🇳", ja: "🇯🇵",
 };
 
 type TranslationKeys = {

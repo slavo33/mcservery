@@ -2,7 +2,7 @@ import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import { Button } from "@/components/ui/button";
 import { Switch } from "@/components/ui/switch";
-import { softwareOptions, versions, minigameOptions } from "@/lib/mockData";
+import { softwareOptions, versions, minigameOptions, proxyOptions } from "@/lib/mockData";
 import { useState } from "react";
 import { Plus, Upload } from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
@@ -170,10 +170,9 @@ const AddServer = () => {
           <div>
             <label className="text-sm font-semibold text-foreground mb-1.5 block">{t("add_proxy")}</label>
             <select value={proxy} onChange={(e) => setProxy(e.target.value)} className={inputClass}>
-              <option value="">{t("add_proxy_none")}</option>
-              <option value="BungeeCord">BungeeCord</option>
-              <option value="Velocity">Velocity</option>
-              <option value="Waterfall">Waterfall</option>
+              {proxyOptions.map((p) => (
+                <option key={p} value={p === "Žiadny" ? "" : p}>{p}</option>
+              ))}
             </select>
           </div>
 

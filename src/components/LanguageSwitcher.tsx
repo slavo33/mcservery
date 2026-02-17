@@ -1,6 +1,5 @@
 import { useLanguage } from "@/i18n/LanguageContext";
-import { localeNames, type Locale } from "@/i18n/translations";
-import { Globe } from "lucide-react";
+import { localeNames, localeFlags, type Locale } from "@/i18n/translations";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -13,8 +12,8 @@ const LanguageSwitcher = () => {
 
   return (
     <DropdownMenu>
-      <DropdownMenuTrigger className="rounded-md p-2 text-muted-foreground hover:bg-secondary hover:text-foreground transition-colors" title="Language">
-        <Globe className="h-4 w-4" />
+      <DropdownMenuTrigger className="rounded-md px-2 py-1.5 text-sm text-muted-foreground hover:bg-secondary hover:text-foreground transition-colors" title="Language">
+        <span className="text-base">{localeFlags[locale]}</span>
       </DropdownMenuTrigger>
       <DropdownMenuContent align="end" className="max-h-80 overflow-y-auto">
         {(Object.keys(localeNames) as Locale[]).map((l) => (
