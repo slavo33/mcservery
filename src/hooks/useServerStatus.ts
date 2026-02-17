@@ -18,6 +18,8 @@ export const useServerStatus = (ip: string) => {
   const [loading, setLoading] = useState(!status);
 
   useEffect(() => {
+    if (!ip) { setLoading(false); return; }
+
     const c = cache.get(ip);
     if (c && Date.now() - c.ts < CACHE_TTL) {
       setStatus(c.data);
