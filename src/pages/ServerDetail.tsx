@@ -32,7 +32,7 @@ interface ServerDetailData {
   tiktok_url: string | null;
   youtube_url: string | null;
   twitter_url: string | null;
-  profiles: { nickname: string; avatar_url: string | null } | null;
+  ownerNickname?: string;
 }
 
 const ServerDetailPage = () => {
@@ -51,11 +51,17 @@ const ServerDetailPage = () => {
     const fetchServer = async () => {
       const { data } = await supabase
         .from("servers")
-        .select("*, profiles(nickname, avatar_url)")
+        .select("*")
         .eq("id", id)
         .single();
       if (data) {
-        setServer(data as unknown as ServerDetailData);
+        // Fetch owner nickname separately
+        const { data: profileData } = await supabase
+          .from("profiles")
+          .select("nickname")
+          .eq("id", data.owner_id)
+          .single();
+        setServer({ ...(data as unknown as ServerDetailData), ownerNickname: profileData?.nickname || "Hráč" });
         setLikesCount(data.likes_count);
       }
       setLoading(false);
@@ -153,7 +159,7 @@ const ServerDetailPage = () => {
               <div>
                 <h1 className="font-display text-3xl font-bold text-foreground">{server.name}</h1>
                 <p className="text-sm text-muted-foreground mt-1">
-                  {t("detail_added_by")} {server.profiles?.nickname || "Hráč"}
+                  {t("detail_added_by")} {server.ownerNickname || "Hráč"}
                 </p>
               </div>
               <button onClick={toggleLike} className="flex items-center gap-2 text-muted-foreground hover:text-primary transition-colors">
