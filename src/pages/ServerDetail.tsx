@@ -5,7 +5,7 @@ import { useAuth } from "@/hooks/useAuth";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import CommentSection from "@/components/CommentSection";
-import { Heart, Users, Copy, ArrowLeft, Shield, ShieldOff, ExternalLink, Trash2, User } from "lucide-react";
+import { Heart, Users, Copy, ArrowLeft, Shield, ShieldOff, ExternalLink, Trash2, Pencil, User } from "lucide-react";
 import { toast } from "sonner";
 import { useLanguage } from "@/i18n/LanguageContext";
 import { useServerStatus } from "@/hooks/useServerStatus";
@@ -208,9 +208,14 @@ const ServerDetailPage = () => {
               </div>
               <div className="flex items-center gap-3">
                 {user?.id === server.owner_id && (
-                  <button onClick={handleDeleteServer} className="text-muted-foreground hover:text-destructive transition-colors" title="Zmazať server">
-                    <Trash2 className="h-5 w-5" />
-                  </button>
+                  <>
+                    <Link to={`/server/${server.id}/edit`} className="text-muted-foreground hover:text-primary transition-colors" title="Upraviť server">
+                      <Pencil className="h-5 w-5" />
+                    </Link>
+                    <button onClick={handleDeleteServer} className="text-muted-foreground hover:text-destructive transition-colors" title="Zmazať server">
+                      <Trash2 className="h-5 w-5" />
+                    </button>
+                  </>
                 )}
                 <button onClick={toggleLike} className="flex items-center gap-2 text-muted-foreground hover:text-primary transition-colors">
                   <Heart className={`h-6 w-6 transition-all ${liked ? "fill-primary text-primary" : ""}`} />
