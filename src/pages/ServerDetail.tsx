@@ -1,14 +1,15 @@
 import { useState, useEffect } from "react";
-import { useParams, Link } from "react-router-dom";
+import { useParams, Link, useNavigate } from "react-router-dom";
 import { supabase } from "@/integrations/supabase/client";
 import { useAuth } from "@/hooks/useAuth";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import CommentSection from "@/components/CommentSection";
-import { Heart, Users, Copy, ArrowLeft, Shield, ShieldOff, ExternalLink } from "lucide-react";
+import { Heart, Users, Copy, ArrowLeft, Shield, ShieldOff, ExternalLink, Trash2, User } from "lucide-react";
 import { toast } from "sonner";
 import { useLanguage } from "@/i18n/LanguageContext";
 import { useServerStatus } from "@/hooks/useServerStatus";
+import { Avatar, AvatarImage, AvatarFallback } from "@/components/ui/avatar";
 
 interface ServerDetailData {
   id: string;
@@ -33,6 +34,14 @@ interface ServerDetailData {
   youtube_url: string | null;
   twitter_url: string | null;
   ownerNickname?: string;
+  ownerAvatar?: string | null;
+  ownerBio?: string;
+}
+
+interface OwnerProfile {
+  nickname: string;
+  avatar_url: string | null;
+  bio: string;
 }
 
 const ServerDetailPage = () => {
@@ -43,6 +52,8 @@ const ServerDetailPage = () => {
   const [loading, setLoading] = useState(true);
   const [liked, setLiked] = useState(false);
   const [likesCount, setLikesCount] = useState(0);
+
+  const navigate = useNavigate();
 
   const { status } = useServerStatus(server?.ip || "");
 
@@ -55,13 +66,18 @@ const ServerDetailPage = () => {
         .eq("id", id)
         .single();
       if (data) {
-        // Fetch owner nickname separately
         const { data: profileData } = await supabase
           .from("profiles")
-          .select("nickname")
+          .select("nickname, avatar_url, bio")
           .eq("id", data.owner_id)
           .single();
-        setServer({ ...(data as unknown as ServerDetailData), ownerNickname: profileData?.nickname || "Hráč" });
+        const p = profileData as OwnerProfile | null;
+        setServer({
+          ...(data as unknown as ServerDetailData),
+          ownerNickname: p?.nickname || "Hráč",
+          ownerAvatar: p?.avatar_url || null,
+          ownerBio: p?.bio || "",
+        });
         setLikesCount(data.likes_count);
       }
       setLoading(false);
@@ -93,6 +109,18 @@ const ServerDetailPage = () => {
     if (server) {
       navigator.clipboard.writeText(server.ip);
       toast.success(t("detail_copied"));
+    }
+  };
+
+  const handleDeleteServer = async () => {
+    if (!server || !user || user.id !== server.owner_id) return;
+    if (!confirm("Naozaj chceš zmazať tento server?")) return;
+    const { error } = await supabase.from("servers").delete().eq("id", server.id);
+    if (error) {
+      toast.error("Chyba pri mazaní servera");
+    } else {
+      toast.success("Server bol zmazaný");
+      navigate("/servers");
     }
   };
 
@@ -155,6 +183,22 @@ const ServerDetailPage = () => {
           </div>
 
           <div className="p-6 space-y-6">
+            {/* Owner profile card */}
+            <div className="flex items-center gap-3 rounded-md border border-border bg-secondary/30 p-3">
+              <Avatar className="h-12 w-12 border border-border">
+                {server.ownerAvatar ? (
+                  <AvatarImage src={server.ownerAvatar} alt={server.ownerNickname} />
+                ) : null}
+                <AvatarFallback><User className="h-5 w-5 text-muted-foreground" /></AvatarFallback>
+              </Avatar>
+              <div className="min-w-0 flex-1">
+                <p className="font-semibold text-foreground text-sm">{server.ownerNickname || "Hráč"}</p>
+                {server.ownerBio && (
+                  <p className="text-xs text-muted-foreground line-clamp-2">{server.ownerBio}</p>
+                )}
+              </div>
+            </div>
+
             <div className="flex items-start justify-between">
               <div>
                 <h1 className="font-display text-3xl font-bold text-foreground">{server.name}</h1>
@@ -162,10 +206,17 @@ const ServerDetailPage = () => {
                   {t("detail_added_by")} {server.ownerNickname || "Hráč"}
                 </p>
               </div>
-              <button onClick={toggleLike} className="flex items-center gap-2 text-muted-foreground hover:text-primary transition-colors">
-                <Heart className={`h-6 w-6 transition-all ${liked ? "fill-primary text-primary" : ""}`} />
-                <span className="font-display text-lg">{likesCount}</span>
-              </button>
+              <div className="flex items-center gap-3">
+                {user?.id === server.owner_id && (
+                  <button onClick={handleDeleteServer} className="text-muted-foreground hover:text-destructive transition-colors" title="Zmazať server">
+                    <Trash2 className="h-5 w-5" />
+                  </button>
+                )}
+                <button onClick={toggleLike} className="flex items-center gap-2 text-muted-foreground hover:text-primary transition-colors">
+                  <Heart className={`h-6 w-6 transition-all ${liked ? "fill-primary text-primary" : ""}`} />
+                  <span className="font-display text-lg">{likesCount}</span>
+                </button>
+              </div>
             </div>
 
             <p className="text-foreground/90">{server.description}</p>

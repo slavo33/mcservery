@@ -11,6 +11,7 @@ import { useNavigate } from "react-router-dom";
 const Profile = () => {
   const { user, profile, refreshProfile } = useAuth();
   const [nickname, setNickname] = useState(profile?.nickname || "");
+  const [bio, setBio] = useState(profile?.bio || "");
   const [uploading, setUploading] = useState(false);
   const [saving, setSaving] = useState(false);
   const navigate = useNavigate();
@@ -66,7 +67,7 @@ const Profile = () => {
     setSaving(true);
     const { error } = await supabase
       .from("profiles")
-      .update({ nickname: nickname.trim() })
+      .update({ nickname: nickname.trim(), bio: bio.trim() })
       .eq("id", user.id);
 
     if (error) {
@@ -122,6 +123,19 @@ const Profile = () => {
               onChange={(e) => setNickname(e.target.value)}
               maxLength={30}
               className="w-full rounded-md border border-border bg-secondary/50 py-2.5 px-3 text-sm text-foreground placeholder:text-muted-foreground focus:border-primary/50 focus:outline-none focus:ring-1 focus:ring-primary/30"
+            />
+          </div>
+
+          {/* Bio */}
+          <div>
+            <label className="text-sm font-semibold text-foreground mb-1.5 block">Bio</label>
+            <textarea
+              value={bio}
+              onChange={(e) => setBio(e.target.value)}
+              maxLength={200}
+              rows={3}
+              placeholder="Napíš niečo o sebe..."
+              className="w-full rounded-md border border-border bg-secondary/50 py-2.5 px-3 text-sm text-foreground placeholder:text-muted-foreground focus:border-primary/50 focus:outline-none focus:ring-1 focus:ring-primary/30 resize-none"
             />
           </div>
 

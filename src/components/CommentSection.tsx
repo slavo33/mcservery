@@ -60,7 +60,7 @@ const CommentSection = ({ serverId }: CommentSectionProps) => {
       toast.error("Chyba pri pridávaní komentára");
     } else {
       setNewComment("");
-      await fetchComments();
+      fetchComments();
     }
     setSubmitting(false);
   };
