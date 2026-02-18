@@ -7,9 +7,11 @@ import { Button } from "@/components/ui/button";
 import { toast } from "sonner";
 import { Camera, User } from "lucide-react";
 import { useNavigate } from "react-router-dom";
+import { useLanguage } from "@/i18n/LanguageContext";
 
 const Profile = () => {
   const { user, profile, refreshProfile } = useAuth();
+  const { t } = useLanguage();
   const [nickname, setNickname] = useState(profile?.nickname || "");
   const [bio, setBio] = useState(profile?.bio || "");
   const [uploading, setUploading] = useState(false);
@@ -25,7 +27,7 @@ const Profile = () => {
     const file = e.target.files?.[0];
     if (!file) return;
     if (file.size > 2 * 1024 * 1024) {
-      toast.error("Obrázok je príliš veľký (max 2MB)");
+      toast.error(t("profile_avatar_too_large"));
       return;
     }
 
@@ -38,7 +40,7 @@ const Profile = () => {
       .upload(path, file, { upsert: true });
 
     if (uploadError) {
-      toast.error("Chyba pri nahrávaní: " + uploadError.message);
+      toast.error(t("profile_avatar_error") + ": " + uploadError.message);
       setUploading(false);
       return;
     }
@@ -51,9 +53,9 @@ const Profile = () => {
       .eq("id", user.id);
 
     if (updateError) {
-      toast.error("Chyba pri ukladaní");
+      toast.error(t("profile_save_error"));
     } else {
-      toast.success("Avatar nahraný!");
+      toast.success(t("profile_avatar_success"));
       await refreshProfile();
     }
     setUploading(false);
@@ -61,7 +63,7 @@ const Profile = () => {
 
   const handleSave = async () => {
     if (!nickname.trim()) {
-      toast.error("Prezývka nemôže byť prázdna");
+      toast.error(t("profile_nickname_empty"));
       return;
     }
     setSaving(true);
@@ -71,9 +73,9 @@ const Profile = () => {
       .eq("id", user.id);
 
     if (error) {
-      toast.error("Chyba pri ukladaní");
+      toast.error(t("profile_save_error"));
     } else {
-      toast.success("Profil uložený!");
+      toast.success(t("profile_save_success"));
       await refreshProfile();
     }
     setSaving(false);
@@ -84,7 +86,7 @@ const Profile = () => {
       <Header />
       <main className="flex-1 container mx-auto px-4 py-10 max-w-lg">
         <h1 className="font-display text-4xl font-bold text-foreground mb-8">
-          Môj <span className="text-gradient">profil</span>
+          {t("profile_title_1")} <span className="text-gradient">{t("profile_title_2")}</span>
         </h1>
 
         <div className="gradient-card rounded-lg border border-border shadow-card p-6 space-y-6">
@@ -110,13 +112,13 @@ const Profile = () => {
               </label>
             </div>
             <p className="text-xs text-muted-foreground mt-2">
-              {uploading ? "Nahrávam..." : "Klikni na zmenu avataru"}
+              {uploading ? t("profile_uploading") : t("profile_avatar_hint")}
             </p>
           </div>
 
           {/* Nickname */}
           <div>
-            <label className="text-sm font-semibold text-foreground mb-1.5 block">Prezývka</label>
+            <label className="text-sm font-semibold text-foreground mb-1.5 block">{t("profile_nickname")}</label>
             <input
               type="text"
               value={nickname}
@@ -128,20 +130,20 @@ const Profile = () => {
 
           {/* Bio */}
           <div>
-            <label className="text-sm font-semibold text-foreground mb-1.5 block">Bio</label>
+            <label className="text-sm font-semibold text-foreground mb-1.5 block">{t("profile_bio")}</label>
             <textarea
               value={bio}
               onChange={(e) => setBio(e.target.value)}
               maxLength={200}
               rows={3}
-              placeholder="Napíš niečo o sebe..."
+              placeholder={t("profile_bio_placeholder")}
               className="w-full rounded-md border border-border bg-secondary/50 py-2.5 px-3 text-sm text-foreground placeholder:text-muted-foreground focus:border-primary/50 focus:outline-none focus:ring-1 focus:ring-primary/30 resize-none"
             />
           </div>
 
           {/* Email */}
           <div>
-            <label className="text-sm font-semibold text-foreground mb-1.5 block">Email</label>
+            <label className="text-sm font-semibold text-foreground mb-1.5 block">{t("profile_email")}</label>
             <p className="text-sm text-muted-foreground">{user.email}</p>
           </div>
 
@@ -151,7 +153,7 @@ const Profile = () => {
             className="w-full gradient-primary border-0 font-display text-base font-semibold tracking-wide text-primary-foreground"
             size="lg"
           >
-            {saving ? "Ukladám..." : "Uložiť zmeny"}
+            {saving ? t("profile_saving") : t("profile_save")}
           </Button>
         </div>
       </main>
