@@ -184,7 +184,7 @@ const ServerDetailPage = () => {
 
           <div className="p-6 space-y-6">
             {/* Owner profile card */}
-            <div className="flex items-center gap-3 rounded-md border border-border bg-secondary/30 p-3">
+            <Link to={`/user/${server.owner_id}`} className="flex items-center gap-3 rounded-md border border-border bg-secondary/30 p-3 hover:border-primary/40 transition-colors">
               <Avatar className="h-12 w-12 border border-border">
                 {server.ownerAvatar ? (
                   <AvatarImage src={server.ownerAvatar} alt={server.ownerNickname} />
@@ -192,12 +192,13 @@ const ServerDetailPage = () => {
                 <AvatarFallback><User className="h-5 w-5 text-muted-foreground" /></AvatarFallback>
               </Avatar>
               <div className="min-w-0 flex-1">
-                <p className="font-semibold text-foreground text-sm">{server.ownerNickname || "Hráč"}</p>
+                <p className="font-semibold text-foreground text-sm hover:text-primary transition-colors">{server.ownerNickname || "Hráč"}</p>
                 {server.ownerBio && (
                   <p className="text-xs text-muted-foreground line-clamp-2">{server.ownerBio}</p>
                 )}
+                <p className="text-xs text-primary/70 mt-0.5">Zobraziť profil →</p>
               </div>
-            </div>
+            </Link>
 
             <div className="flex items-start justify-between">
               <div>

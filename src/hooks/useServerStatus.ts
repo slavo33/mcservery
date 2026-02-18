@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import { supabase } from "@/integrations/supabase/client";
 
 interface ServerStatus {
@@ -16,6 +16,7 @@ export const useServerStatus = (ip: string) => {
     return null;
   });
   const [loading, setLoading] = useState(!status);
+  const retryCount = useRef(0);
 
   useEffect(() => {
     if (!ip) { setLoading(false); return; }
@@ -28,24 +29,49 @@ export const useServerStatus = (ip: string) => {
     }
 
     let cancelled = false;
+    let timeoutId: ReturnType<typeof setTimeout>;
+
     const fetchStatus = async () => {
       try {
         const { data, error } = await supabase.functions.invoke("mc-ping", {
           body: { ip },
         });
-        if (!cancelled && data) {
-          const s = { online: data.online, players: data.players };
+
+        if (cancelled) return;
+
+        if (error || !data) {
+          // Retry up to 2 times with backoff
+          if (retryCount.current < 2) {
+            retryCount.current++;
+            const delay = retryCount.current * 3000;
+            timeoutId = setTimeout(fetchStatus, delay);
+            return;
+          }
+          setStatus({ online: false, players: { online: 0, max: 0 } });
+        } else {
+          const s: ServerStatus = { online: data.online, players: data.players };
           cache.set(ip, { data: s, ts: Date.now() });
           setStatus(s);
+          retryCount.current = 0;
         }
       } catch {
-        if (!cancelled) setStatus({ online: false, players: { online: 0, max: 0 } });
+        if (cancelled) return;
+        if (retryCount.current < 2) {
+          retryCount.current++;
+          const delay = retryCount.current * 3000;
+          timeoutId = setTimeout(fetchStatus, delay);
+          return;
+        }
+        setStatus({ online: false, players: { online: 0, max: 0 } });
       }
       if (!cancelled) setLoading(false);
     };
 
     fetchStatus();
-    return () => { cancelled = true; };
+    return () => {
+      cancelled = true;
+      clearTimeout(timeoutId);
+    };
   }, [ip]);
 
   return { status, loading };

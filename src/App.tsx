@@ -12,6 +12,7 @@ import ServerDetail from "./pages/ServerDetail";
 import EditServer from "./pages/EditServer";
 import Auth from "./pages/Auth";
 import Profile from "./pages/Profile";
+import UserProfile from "./pages/UserProfile";
 import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
@@ -32,6 +33,7 @@ const App = () => (
               <Route path="/add-server" element={<AddServer />} />
               <Route path="/auth" element={<Auth />} />
               <Route path="/profile" element={<Profile />} />
+              <Route path="/user/:userId" element={<UserProfile />} />
               <Route path="*" element={<NotFound />} />
             </Routes>
           </AuthProvider>
