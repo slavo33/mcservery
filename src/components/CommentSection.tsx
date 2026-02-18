@@ -5,12 +5,17 @@ import { toast } from "sonner";
 import { Send, User, Trash2 } from "lucide-react";
 import CommentReactions from "./CommentReactions";
 
+interface Profile {
+  nickname: string;
+  avatar_url: string | null;
+}
+
 interface Comment {
   id: string;
   content: string;
   created_at: string;
   user_id: string;
-  profiles: { nickname: string; avatar_url: string | null } | null;
+  profile?: Profile | null;
 }
 
 interface CommentSectionProps {
@@ -27,13 +32,38 @@ const CommentSection = ({ serverId }: CommentSectionProps) => {
   const fetchComments = async () => {
     const { data, error } = await supabase
       .from("comments")
-      .select("id, content, created_at, user_id, profiles(nickname, avatar_url)")
+      .select("id, content, created_at, user_id, server_id")
       .eq("server_id", serverId)
       .order("created_at", { ascending: false });
 
-    if (!error && data) {
-      setComments(data as unknown as Comment[]);
+    if (error || !data) {
+      setLoading(false);
+      return;
     }
+
+    // Fetch profiles for all unique user_ids
+    const userIds = [...new Set(data.map((c) => c.user_id))];
+    const { data: profiles } = await supabase
+      .from("profiles")
+      .select("id, nickname, avatar_url")
+      .in("id", userIds);
+
+    const profileMap = new Map<string, Profile>();
+    if (profiles) {
+      for (const p of profiles) {
+        profileMap.set(p.id, { nickname: p.nickname, avatar_url: p.avatar_url });
+      }
+    }
+
+    setComments(
+      data.map((c) => ({
+        id: c.id,
+        content: c.content,
+        created_at: c.created_at,
+        user_id: c.user_id,
+        profile: profileMap.get(c.user_id) || null,
+      }))
+    );
     setLoading(false);
   };
 
@@ -57,10 +87,11 @@ const CommentSection = ({ serverId }: CommentSectionProps) => {
     });
 
     if (error) {
+      console.error("Comment insert error:", error);
       toast.error("Chyba pri pridávaní komentára");
     } else {
       setNewComment("");
-      fetchComments();
+      await fetchComments();
     }
     setSubmitting(false);
   };
@@ -84,7 +115,6 @@ const CommentSection = ({ serverId }: CommentSectionProps) => {
         Komentáre ({comments.length})
       </h3>
 
-      {/* New comment form */}
       {user ? (
         <form onSubmit={handleSubmit} className="flex gap-2">
           <input
@@ -107,7 +137,6 @@ const CommentSection = ({ serverId }: CommentSectionProps) => {
         <p className="text-sm text-muted-foreground">Prihlás sa pre komentovanie</p>
       )}
 
-      {/* Comments list */}
       {loading ? (
         <p className="text-sm text-muted-foreground">Načítavam...</p>
       ) : comments.length === 0 ? (
@@ -119,14 +148,14 @@ const CommentSection = ({ serverId }: CommentSectionProps) => {
               <div className="flex items-start justify-between gap-2">
                 <div className="flex items-center gap-2 mb-1">
                   <div className="h-7 w-7 rounded-full bg-secondary border border-border overflow-hidden flex items-center justify-center shrink-0">
-                    {comment.profiles?.avatar_url ? (
-                      <img src={comment.profiles.avatar_url} alt="" className="h-full w-full object-cover" />
+                    {comment.profile?.avatar_url ? (
+                      <img src={comment.profile.avatar_url} alt="" className="h-full w-full object-cover" />
                     ) : (
                       <User className="h-3.5 w-3.5 text-muted-foreground" />
                     )}
                   </div>
                   <span className="text-sm font-semibold text-foreground">
-                    {comment.profiles?.nickname || "Hráč"}
+                    {comment.profile?.nickname || "Hráč"}
                   </span>
                   <span className="text-xs text-muted-foreground">{formatDate(comment.created_at)}</span>
                 </div>
