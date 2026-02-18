@@ -4,6 +4,7 @@ import { useAuth } from "@/hooks/useAuth";
 import { toast } from "sonner";
 import { Send, User, Trash2 } from "lucide-react";
 import CommentReactions from "./CommentReactions";
+import { useLanguage } from "@/i18n/LanguageContext";
 
 interface Profile {
   nickname: string;
@@ -24,6 +25,7 @@ interface CommentSectionProps {
 
 const CommentSection = ({ serverId }: CommentSectionProps) => {
   const { user } = useAuth();
+  const { t, locale } = useLanguage();
   const [comments, setComments] = useState<Comment[]>([]);
   const [newComment, setNewComment] = useState("");
   const [loading, setLoading] = useState(true);
@@ -41,7 +43,6 @@ const CommentSection = ({ serverId }: CommentSectionProps) => {
       return;
     }
 
-    // Fetch profiles for all unique user_ids
     const userIds = [...new Set(data.map((c) => c.user_id))];
     const { data: profiles } = await supabase
       .from("profiles")
@@ -74,7 +75,7 @@ const CommentSection = ({ serverId }: CommentSectionProps) => {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!user) {
-      toast.error("Musíš sa prihlásiť na komentovanie");
+      toast.error(t("comments_login_required"));
       return;
     }
     if (!newComment.trim()) return;
@@ -88,7 +89,7 @@ const CommentSection = ({ serverId }: CommentSectionProps) => {
 
     if (error) {
       console.error("Comment insert error:", error);
-      toast.error("Chyba pri pridávaní komentára");
+      toast.error(t("comments_error"));
     } else {
       setNewComment("");
       await fetchComments();
@@ -100,19 +101,25 @@ const CommentSection = ({ serverId }: CommentSectionProps) => {
     const { error } = await supabase.from("comments").delete().eq("id", commentId);
     if (!error) {
       setComments((prev) => prev.filter((c) => c.id !== commentId));
-      toast.success("Komentár vymazaný");
+      toast.success(t("comments_deleted"));
     }
+  };
+
+  const localeMap: Record<string, string> = {
+    sk: "sk-SK", cs: "cs-CZ", en: "en-US", de: "de-DE", fr: "fr-FR",
+    ru: "ru-RU", uk: "uk-UA", es: "es-ES", pt: "pt-PT", br: "pt-BR",
+    zh: "zh-CN", ja: "ja-JP",
   };
 
   const formatDate = (dateStr: string) => {
     const d = new Date(dateStr);
-    return d.toLocaleDateString("sk-SK", { day: "numeric", month: "short", year: "numeric", hour: "2-digit", minute: "2-digit" });
+    return d.toLocaleDateString(localeMap[locale] || "en-US", { day: "numeric", month: "short", year: "numeric", hour: "2-digit", minute: "2-digit" });
   };
 
   return (
     <div className="space-y-4">
       <h3 className="font-display text-xl font-bold text-foreground">
-        Komentáre ({comments.length})
+        {t("comments_title")} ({comments.length})
       </h3>
 
       {user ? (
@@ -121,7 +128,7 @@ const CommentSection = ({ serverId }: CommentSectionProps) => {
             type="text"
             value={newComment}
             onChange={(e) => setNewComment(e.target.value)}
-            placeholder="Napíš komentár..."
+            placeholder={t("comments_placeholder")}
             maxLength={500}
             className="flex-1 rounded-md border border-border bg-secondary/50 py-2.5 px-3 text-sm text-foreground placeholder:text-muted-foreground focus:border-primary/50 focus:outline-none focus:ring-1 focus:ring-primary/30"
           />
@@ -134,13 +141,13 @@ const CommentSection = ({ serverId }: CommentSectionProps) => {
           </button>
         </form>
       ) : (
-        <p className="text-sm text-muted-foreground">Prihlás sa pre komentovanie</p>
+        <p className="text-sm text-muted-foreground">{t("comments_login_hint")}</p>
       )}
 
       {loading ? (
-        <p className="text-sm text-muted-foreground">Načítavam...</p>
+        <p className="text-sm text-muted-foreground">{t("loading")}</p>
       ) : comments.length === 0 ? (
-        <p className="text-sm text-muted-foreground">Žiadne komentáre. Buď prvý!</p>
+        <p className="text-sm text-muted-foreground">{t("comments_none")}</p>
       ) : (
         <div className="space-y-3">
           {comments.map((comment) => (
@@ -155,7 +162,7 @@ const CommentSection = ({ serverId }: CommentSectionProps) => {
                     )}
                   </div>
                   <span className="text-sm font-semibold text-foreground">
-                    {comment.profile?.nickname || "Hráč"}
+                    {comment.profile?.nickname || t("comments_player")}
                   </span>
                   <span className="text-xs text-muted-foreground">{formatDate(comment.created_at)}</span>
                 </div>

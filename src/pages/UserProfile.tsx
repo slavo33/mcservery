@@ -6,6 +6,7 @@ import Footer from "@/components/Footer";
 import ServerCard from "@/components/ServerCard";
 import { User, ArrowLeft } from "lucide-react";
 import { Avatar, AvatarImage, AvatarFallback } from "@/components/ui/avatar";
+import { useLanguage } from "@/i18n/LanguageContext";
 import type { MinecraftServer } from "@/lib/mockData";
 
 interface UserProfileData {
@@ -18,6 +19,7 @@ interface UserProfileData {
 
 const UserProfile = () => {
   const { userId } = useParams<{ userId: string }>();
+  const { t, locale } = useLanguage();
   const [profile, setProfile] = useState<UserProfileData | null>(null);
   const [servers, setServers] = useState<(MinecraftServer & { dbId: string; is_warez: boolean; has_whitelist: boolean })[]>([]);
   const [loading, setLoading] = useState(true);
@@ -63,12 +65,18 @@ const UserProfile = () => {
     fetchData();
   }, [userId]);
 
+  const localeMap: Record<string, string> = {
+    sk: "sk-SK", cs: "cs-CZ", en: "en-US", de: "de-DE", fr: "fr-FR",
+    ru: "ru-RU", uk: "uk-UA", es: "es-ES", pt: "pt-PT", br: "pt-BR",
+    zh: "zh-CN", ja: "ja-JP",
+  };
+
   if (loading) {
     return (
       <div className="min-h-screen flex flex-col bg-background">
         <Header />
         <main className="flex-1 flex items-center justify-center">
-          <p className="text-muted-foreground">Načítavam...</p>
+          <p className="text-muted-foreground">{t("loading")}</p>
         </main>
         <Footer />
       </div>
@@ -80,14 +88,14 @@ const UserProfile = () => {
       <div className="min-h-screen flex flex-col bg-background">
         <Header />
         <main className="flex-1 flex items-center justify-center">
-          <p className="text-muted-foreground">Profil nenájdený</p>
+          <p className="text-muted-foreground">{t("user_profile_not_found")}</p>
         </main>
         <Footer />
       </div>
     );
   }
 
-  const joinDate = new Date(profile.created_at).toLocaleDateString("sk-SK", {
+  const joinDate = new Date(profile.created_at).toLocaleDateString(localeMap[locale] || "en-US", {
     day: "numeric",
     month: "long",
     year: "numeric",
@@ -101,7 +109,7 @@ const UserProfile = () => {
           to="/servers"
           className="inline-flex items-center gap-1 text-sm text-muted-foreground hover:text-foreground mb-6 transition-colors"
         >
-          <ArrowLeft className="h-4 w-4" /> Späť na servery
+          <ArrowLeft className="h-4 w-4" /> {t("user_profile_back")}
         </Link>
 
         {/* Profile card */}
@@ -120,7 +128,7 @@ const UserProfile = () => {
                 {profile.nickname}
               </h1>
               <p className="text-sm text-muted-foreground">
-                Člen od {joinDate}
+                {t("user_profile_member_since")} {joinDate}
               </p>
               {profile.bio && (
                 <p className="text-sm text-foreground/80 mt-2">{profile.bio}</p>
@@ -131,7 +139,7 @@ const UserProfile = () => {
 
         {/* User's servers */}
         <h2 className="font-display text-xl font-bold text-foreground mb-4">
-          Servery ({servers.length})
+          {t("user_profile_servers")} ({servers.length})
         </h2>
 
         {servers.length > 0 ? (
@@ -147,7 +155,7 @@ const UserProfile = () => {
           </div>
         ) : (
           <p className="text-muted-foreground text-sm">
-            Tento hráč zatiaľ nepridal žiadne servery.
+            {t("user_profile_no_servers")}
           </p>
         )}
       </main>

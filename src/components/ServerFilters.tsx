@@ -1,5 +1,6 @@
 import { Search } from "lucide-react";
 import { versions, platforms, softwareOptions } from "@/lib/mockData";
+import { useLanguage } from "@/i18n/LanguageContext";
 
 interface ServerFiltersProps {
   search: string;
@@ -22,6 +23,8 @@ const ServerFilters = ({
   selectedSoftware,
   onSoftwareChange,
 }: ServerFiltersProps) => {
+  const { t } = useLanguage();
+
   return (
     <div className="gradient-card rounded-lg border border-border p-4 md:p-6 shadow-card mb-8">
       {/* Search */}
@@ -31,7 +34,7 @@ const ServerFilters = ({
           type="text"
           value={search}
           onChange={(e) => onSearchChange(e.target.value)}
-          placeholder="Hľadaj server podľa názvu alebo IP..."
+          placeholder={t("filter_search_placeholder")}
           className="w-full rounded-md border border-border bg-secondary/50 py-2.5 pl-10 pr-4 text-sm text-foreground placeholder:text-muted-foreground focus:border-primary/50 focus:outline-none focus:ring-1 focus:ring-primary/30 transition-colors"
         />
       </div>
@@ -40,13 +43,13 @@ const ServerFilters = ({
       <div className="flex flex-wrap gap-6">
         {/* Platform */}
         <div>
-          <span className="text-xs font-semibold uppercase tracking-wider text-muted-foreground mb-2 block">Platforma</span>
+          <span className="text-xs font-semibold uppercase tracking-wider text-muted-foreground mb-2 block">{t("filter_platform")}</span>
           <div className="flex flex-wrap gap-1.5">
             <button
               onClick={() => onPlatformChange("")}
               className={`filter-chip ${selectedPlatform === "" ? "active" : ""}`}
             >
-              Všetky
+              {t("filter_all")}
             </button>
             {platforms.map((p) => (
               <button
@@ -62,13 +65,13 @@ const ServerFilters = ({
 
         {/* Version */}
         <div>
-          <span className="text-xs font-semibold uppercase tracking-wider text-muted-foreground mb-2 block">Verzia</span>
+          <span className="text-xs font-semibold uppercase tracking-wider text-muted-foreground mb-2 block">{t("filter_version")}</span>
           <div className="flex flex-wrap gap-1.5">
             <button
               onClick={() => onVersionChange("")}
               className={`filter-chip ${selectedVersion === "" ? "active" : ""}`}
             >
-              Všetky
+              {t("filter_all")}
             </button>
             {versions.map((v) => (
               <button
@@ -84,13 +87,13 @@ const ServerFilters = ({
 
         {/* Software */}
         <div>
-          <span className="text-xs font-semibold uppercase tracking-wider text-muted-foreground mb-2 block">Software</span>
+          <span className="text-xs font-semibold uppercase tracking-wider text-muted-foreground mb-2 block">{t("filter_software")}</span>
           <div className="flex flex-wrap gap-1.5">
             <button
               onClick={() => onSoftwareChange("")}
               className={`filter-chip ${selectedSoftware === "" ? "active" : ""}`}
             >
-              Všetky
+              {t("filter_all")}
             </button>
             {softwareOptions.map((s) => (
               <button

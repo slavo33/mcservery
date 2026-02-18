@@ -114,12 +114,12 @@ const ServerDetailPage = () => {
 
   const handleDeleteServer = async () => {
     if (!server || !user || user.id !== server.owner_id) return;
-    if (!confirm("Naozaj chceš zmazať tento server?")) return;
+    if (!confirm(t("detail_delete_confirm"))) return;
     const { error } = await supabase.from("servers").delete().eq("id", server.id);
     if (error) {
-      toast.error("Chyba pri mazaní servera");
+      toast.error(t("detail_delete_error"));
     } else {
-      toast.success("Server bol zmazaný");
+      toast.success(t("detail_delete_success"));
       navigate("/servers");
     }
   };
@@ -138,7 +138,7 @@ const ServerDetailPage = () => {
     return (
       <div className="min-h-screen flex flex-col bg-background">
         <Header />
-        <main className="flex-1 flex items-center justify-center"><p className="text-muted-foreground">Server nenájdený</p></main>
+        <main className="flex-1 flex items-center justify-center"><p className="text-muted-foreground">{t("detail_not_found")}</p></main>
         <Footer />
       </div>
     );
@@ -192,11 +192,11 @@ const ServerDetailPage = () => {
                 <AvatarFallback><User className="h-5 w-5 text-muted-foreground" /></AvatarFallback>
               </Avatar>
               <div className="min-w-0 flex-1">
-                <p className="font-semibold text-foreground text-sm hover:text-primary transition-colors">{server.ownerNickname || "Hráč"}</p>
+                <p className="font-semibold text-foreground text-sm hover:text-primary transition-colors">{server.ownerNickname || t("comments_player")}</p>
                 {server.ownerBio && (
                   <p className="text-xs text-muted-foreground line-clamp-2">{server.ownerBio}</p>
                 )}
-                <p className="text-xs text-primary/70 mt-0.5">Zobraziť profil →</p>
+                <p className="text-xs text-primary/70 mt-0.5">{t("detail_view_profile")}</p>
               </div>
             </Link>
 
@@ -204,16 +204,16 @@ const ServerDetailPage = () => {
               <div>
                 <h1 className="font-display text-3xl font-bold text-foreground">{server.name}</h1>
                 <p className="text-sm text-muted-foreground mt-1">
-                  {t("detail_added_by")} {server.ownerNickname || "Hráč"}
+                  {t("detail_added_by")} {server.ownerNickname || t("comments_player")}
                 </p>
               </div>
               <div className="flex items-center gap-3">
                 {user?.id === server.owner_id && (
                   <>
-                    <Link to={`/server/${server.id}/edit`} className="text-muted-foreground hover:text-primary transition-colors" title="Upraviť server">
+                    <Link to={`/server/${server.id}/edit`} className="text-muted-foreground hover:text-primary transition-colors" title={t("detail_edit_server")}>
                       <Pencil className="h-5 w-5" />
                     </Link>
-                    <button onClick={handleDeleteServer} className="text-muted-foreground hover:text-destructive transition-colors" title="Zmazať server">
+                    <button onClick={handleDeleteServer} className="text-muted-foreground hover:text-destructive transition-colors" title={t("detail_delete_server")}>
                       <Trash2 className="h-5 w-5" />
                     </button>
                   </>
