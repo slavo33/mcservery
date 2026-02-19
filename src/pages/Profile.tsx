@@ -6,7 +6,7 @@ import Footer from "@/components/Footer";
 import ServerCard from "@/components/ServerCard";
 import { Button } from "@/components/ui/button";
 import { toast } from "sonner";
-import { Camera, User, Heart, Settings } from "lucide-react";
+import { Camera, User, Heart, Settings, Server } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import { useLanguage } from "@/i18n/LanguageContext";
 import type { MinecraftServer } from "@/lib/mockData";
@@ -18,9 +18,11 @@ const Profile = () => {
   const [bio, setBio] = useState(profile?.bio || "");
   const [uploading, setUploading] = useState(false);
   const [saving, setSaving] = useState(false);
-  const [tab, setTab] = useState<"settings" | "favorites">("settings");
+  const [tab, setTab] = useState<"settings" | "favorites" | "my_servers">("settings");
   const [likedServers, setLikedServers] = useState<(MinecraftServer & { dbId: string; is_warez: boolean; has_whitelist: boolean })[]>([]);
+  const [myServers, setMyServers] = useState<(MinecraftServer & { dbId: string; is_warez: boolean; has_whitelist: boolean })[]>([]);
   const [loadingFavorites, setLoadingFavorites] = useState(false);
+  const [loadingMyServers, setLoadingMyServers] = useState(false);
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -68,6 +70,46 @@ const Profile = () => {
       setLoadingFavorites(false);
     };
     fetchLiked();
+  }, [tab, user]);
+
+  useEffect(() => {
+    if (tab !== "my_servers" || !user) return;
+    const fetchMyServers = async () => {
+      setLoadingMyServers(true);
+      const { data: servers } = await supabase
+        .from("servers")
+        .select("*")
+        .eq("owner_id", user.id)
+        .order("created_at", { ascending: false });
+
+      if (servers) {
+        setMyServers(
+          servers.map((s: any) => ({
+            id: s.id,
+            dbId: s.id,
+            name: s.name,
+            description: s.description,
+            ip: s.ip,
+            image: "",
+            players: { online: 0, max: s.max_players },
+            version: s.version,
+            platform: s.platform as ("java" | "bedrock")[],
+            proxy: s.proxy || undefined,
+            software: s.software,
+            minigames: s.minigames,
+            likes: s.likes_count,
+            tags: s.tags,
+            isOnline: true,
+            is_warez: s.is_warez,
+            has_whitelist: s.has_whitelist,
+          }))
+        );
+      } else {
+        setMyServers([]);
+      }
+      setLoadingMyServers(false);
+    };
+    fetchMyServers();
   }, [tab, user]);
 
   if (!user) {
@@ -165,6 +207,17 @@ const Profile = () => {
             <Heart className="h-4 w-4" />
             {t("profile_tab_favorites")}
           </button>
+          <button
+            onClick={() => setTab("my_servers")}
+            className={`inline-flex items-center gap-2 rounded-md px-4 py-2 text-sm font-medium transition-colors ${
+              tab === "my_servers"
+                ? "bg-primary text-primary-foreground"
+                : "bg-secondary/50 text-muted-foreground hover:text-foreground border border-border"
+            }`}
+          >
+            <Server className="h-4 w-4" />
+            {t("profile_tab_my_servers")}
+          </button>
         </div>
 
         {tab === "settings" && (
@@ -249,6 +302,22 @@ const Profile = () => {
               </div>
             ) : (
               <p className="text-muted-foreground text-sm">{t("profile_favorites_empty")}</p>
+            )}
+          </div>
+        )}
+
+        {tab === "my_servers" && (
+          <div>
+            {loadingMyServers ? (
+              <p className="text-muted-foreground text-sm">{t("loading")}</p>
+            ) : myServers.length > 0 ? (
+              <div className="grid gap-6 sm:grid-cols-2">
+                {myServers.map((server) => (
+                  <ServerCard key={server.id} server={server} dbMode dbId={server.dbId} />
+                ))}
+              </div>
+            ) : (
+              <p className="text-muted-foreground text-sm">{t("profile_my_servers_empty")}</p>
             )}
           </div>
         )}
