@@ -157,10 +157,12 @@ type TranslationKeys = {
   footer_copyright: string;
   // Settings
   settings_language: string;
-  // Favorites
+  // Favorites & My servers
   profile_tab_settings: string;
   profile_tab_favorites: string;
+  profile_tab_my_servers: string;
   profile_favorites_empty: string;
+  profile_my_servers_empty: string;
   // Common
   loading: string;
   online: string;
@@ -295,7 +297,9 @@ const sk: TranslationKeys = {
   settings_language: "Jazyk",
   profile_tab_settings: "Nastavenia",
   profile_tab_favorites: "Obľúbené",
+  profile_tab_my_servers: "Moje servery",
   profile_favorites_empty: "Zatiaľ si nedal like žiadnemu serveru.",
+  profile_my_servers_empty: "Zatiaľ si nepridal žiadny server.",
   loading: "Načítavam...",
   online: "Online",
   offline: "Offline",
@@ -530,7 +534,9 @@ const en: TranslationKeys = {
   settings_language: "Language",
   profile_tab_settings: "Settings",
   profile_tab_favorites: "Favorites",
+  profile_tab_my_servers: "My Servers",
   profile_favorites_empty: "You haven't liked any servers yet.",
+  profile_my_servers_empty: "You haven't added any servers yet.",
   loading: "Loading...",
   online: "Online",
   offline: "Offline",
