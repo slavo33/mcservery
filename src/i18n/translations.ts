@@ -157,6 +157,10 @@ type TranslationKeys = {
   footer_copyright: string;
   // Settings
   settings_language: string;
+  // Favorites
+  profile_tab_settings: string;
+  profile_tab_favorites: string;
+  profile_favorites_empty: string;
   // Common
   loading: string;
   online: string;
@@ -289,6 +293,9 @@ const sk: TranslationKeys = {
   footer_privacy: "Ochrana súkromia",
   footer_copyright: "MCServery. Všetky práva vyhradené. Nie sme spojení s Mojang Studios.",
   settings_language: "Jazyk",
+  profile_tab_settings: "Nastavenia",
+  profile_tab_favorites: "Obľúbené",
+  profile_favorites_empty: "Zatiaľ si nedal like žiadnemu serveru.",
   loading: "Načítavam...",
   online: "Online",
   offline: "Offline",
@@ -521,6 +528,9 @@ const en: TranslationKeys = {
   footer_privacy: "Privacy Policy",
   footer_copyright: "MCServery. All rights reserved. Not affiliated with Mojang Studios.",
   settings_language: "Language",
+  profile_tab_settings: "Settings",
+  profile_tab_favorites: "Favorites",
+  profile_favorites_empty: "You haven't liked any servers yet.",
   loading: "Loading...",
   online: "Online",
   offline: "Offline",
