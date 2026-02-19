@@ -19,36 +19,71 @@ serve(async (req) => {
       });
     }
 
-    // Use mcsrvstat.us API for server status
     const host = ip.split(":")[0];
     const port = ip.split(":")[1] || "25565";
-    
-    const response = await fetch(`https://api.mcsrvstat.us/3/${host}:${port}`, {
-      headers: { "Accept": "application/json" },
-    });
+    const address = `${host}:${port}`;
 
-    if (!response.ok) {
-      return new Response(JSON.stringify({ online: false, players: { online: 0, max: 0 } }), {
-        headers: { ...corsHeaders, "Content-Type": "application/json" },
+    // Try mcstatus.io first (handles SRV records, more reliable)
+    try {
+      const res = await fetch(`https://api.mcstatus.io/v2/status/java/${address}`, {
+        headers: { "Accept": "application/json" },
+        signal: AbortSignal.timeout(10000),
       });
+
+      if (res.ok) {
+        const data = await res.json();
+        if (data.online) {
+          return new Response(
+            JSON.stringify({
+              online: true,
+              players: {
+                online: data.players?.online ?? 0,
+                max: data.players?.max ?? 0,
+              },
+              version: data.version?.name_clean || null,
+              motd: data.motd?.clean || null,
+              icon: data.icon || null,
+            }),
+            { headers: { ...corsHeaders, "Content-Type": "application/json" } }
+          );
+        }
+      }
+    } catch {
+      // mcstatus.io failed, try fallback
     }
 
-    const data = await response.json();
+    // Fallback: mcsrvstat.us
+    try {
+      const res = await fetch(`https://api.mcsrvstat.us/3/${address}`, {
+        headers: { "Accept": "application/json" },
+        signal: AbortSignal.timeout(10000),
+      });
+
+      if (res.ok) {
+        const data = await res.json();
+        return new Response(
+          JSON.stringify({
+            online: data.online || false,
+            players: {
+              online: data.players?.online ?? 0,
+              max: data.players?.max ?? 0,
+            },
+            version: data.version || null,
+            motd: data.motd?.clean?.[0] || null,
+            icon: data.icon || null,
+          }),
+          { headers: { ...corsHeaders, "Content-Type": "application/json" } }
+        );
+      }
+    } catch {
+      // fallback also failed
+    }
 
     return new Response(
-      JSON.stringify({
-        online: data.online || false,
-        players: {
-          online: data.players?.online || 0,
-          max: data.players?.max || 0,
-        },
-        version: data.version || null,
-        motd: data.motd?.clean?.[0] || null,
-        icon: data.icon || null,
-      }),
+      JSON.stringify({ online: false, players: { online: 0, max: 0 } }),
       { headers: { ...corsHeaders, "Content-Type": "application/json" } }
     );
-  } catch (error) {
+  } catch {
     return new Response(
       JSON.stringify({ online: false, players: { online: 0, max: 0 } }),
       { headers: { ...corsHeaders, "Content-Type": "application/json" } }
