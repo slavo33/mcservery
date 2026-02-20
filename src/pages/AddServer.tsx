@@ -1,3 +1,4 @@
+import { logError } from "@/lib/logger";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import { Button } from "@/components/ui/button";
@@ -78,7 +79,7 @@ const AddServer = () => {
     } as any);
 
     if (error) {
-      console.error("Server insert error:", error);
+      logError("Server insert error:", error);
       toast.error("Nepodarilo sa pridať server. Skús to znova.");
     } else {
       toast.success("Server bol pridaný!");

@@ -1,3 +1,4 @@
+import { logError } from "@/lib/logger";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import { Button } from "@/components/ui/button";
@@ -111,7 +112,7 @@ const EditServer = () => {
     } as any).eq("id", id);
 
     if (error) {
-      console.error("Server update error:", error);
+      logError("Server update error:", error);
       toast.error("Nepodarilo sa uložiť zmeny. Skús to znova.");
     } else {
       toast.success("Server bol aktualizovaný!");
