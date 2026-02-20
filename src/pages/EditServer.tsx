@@ -5,7 +5,8 @@ import { Button } from "@/components/ui/button";
 import { Switch } from "@/components/ui/switch";
 import { softwareOptions, versions, minigameOptions, proxyOptions } from "@/lib/mockData";
 import { useState, useEffect } from "react";
-import { Save, Upload } from "lucide-react";
+import { Save } from "lucide-react";
+import ServerImageUpload from "@/components/ServerImageUpload";
 import { supabase } from "@/integrations/supabase/client";
 import { useAuth } from "@/hooks/useAuth";
 import { toast } from "sonner";
@@ -28,6 +29,7 @@ const EditServer = () => {
   const [selectedPlatform, setSelectedPlatform] = useState<string[]>([]);
   const [selectedMinigames, setSelectedMinigames] = useState<string[]>([]);
   const [isWarez, setIsWarez] = useState(false);
+  const [serverImages, setServerImages] = useState<string[]>([]);
   const [hasWhitelist, setHasWhitelist] = useState(false);
   const [discordUrl, setDiscordUrl] = useState("");
   const [websiteUrl, setWebsiteUrl] = useState("");
@@ -59,6 +61,7 @@ const EditServer = () => {
       setProxy(data.proxy || "");
       setSelectedPlatform((data.platform || []).map((p: string) => p === "java" ? "Java" : "Bedrock"));
       setSelectedMinigames(data.minigames || []);
+      setServerImages(data.images || []);
       setIsWarez(data.is_warez);
       setHasWhitelist(data.has_whitelist);
       setDiscordUrl(data.discord_url || "");
@@ -101,6 +104,7 @@ const EditServer = () => {
       platform: selectedPlatform.map((p) => p.toLowerCase()),
       minigames: selectedMinigames,
       tags: selectedMinigames.slice(0, 5),
+      images: serverImages,
       is_warez: isWarez,
       has_whitelist: hasWhitelist,
       discord_url: discordUrl.trim() || null,
@@ -251,16 +255,11 @@ const EditServer = () => {
             </div>
           </div>
 
-          <div>
-            <label className="text-sm font-semibold text-foreground mb-2 block">{t("add_photos")}</label>
-            <div className="flex items-center justify-center rounded-md border-2 border-dashed border-border bg-secondary/30 py-10 cursor-pointer hover:border-primary/40 transition-colors">
-              <div className="text-center">
-                <Upload className="h-8 w-8 text-muted-foreground mx-auto mb-2" />
-                <p className="text-sm text-muted-foreground">{t("add_photos_hint")}</p>
-                <p className="text-xs text-muted-foreground mt-1">{t("add_photos_formats")}</p>
-              </div>
-            </div>
-          </div>
+          <ServerImageUpload
+            images={serverImages}
+            onImagesChange={setServerImages}
+            serverId={id}
+          />
 
           <Button type="submit" disabled={submitting}
             className="w-full gradient-primary border-0 font-display text-base font-semibold tracking-wide text-primary-foreground glow-red gap-2" size="lg">
