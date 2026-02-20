@@ -10,7 +10,7 @@ import { Button } from "@/components/ui/button";
 import { useLanguage } from "@/i18n/LanguageContext";
 import type { MinecraftServer } from "@/lib/mockData";
 
-const mapServer = (s: any): MinecraftServer & { is_warez?: boolean; has_whitelist?: boolean } => ({
+const mapServer = (s: any): MinecraftServer & { is_warez?: boolean; has_whitelist?: boolean; votes?: number } => ({
   id: s.id,
   name: s.name,
   description: s.description,
@@ -27,6 +27,7 @@ const mapServer = (s: any): MinecraftServer & { is_warez?: boolean; has_whitelis
   isOnline: true,
   is_warez: s.is_warez,
   has_whitelist: s.has_whitelist,
+  votes: s.vote_count || 0,
 });
 
 const Index = () => {
