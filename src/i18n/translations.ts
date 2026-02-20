@@ -670,6 +670,7 @@ const de: TranslationKeys = {
   footer_privacy: "Datenschutz",
   footer_copyright: "MCServery. Alle Rechte vorbehalten. Nicht verbunden mit Mojang Studios.",
   settings_language: "Sprache",
+  featured_title: "Wir empfehlen", featured_pin: "Anheften", featured_unpin: "Loslösen", featured_pinned: "Server angeheftet!", featured_unpinned: "Server losgelöst!",
   loading: "Laden...",
   players_online: "Spieler online",
 };
@@ -781,6 +782,7 @@ const fr: TranslationKeys = {
   footer_privacy: "Politique de confidentialité",
   footer_copyright: "MCServery. Tous droits réservés. Non affilié à Mojang Studios.",
   settings_language: "Langue",
+  featured_title: "Nous recommandons", featured_pin: "Épingler", featured_unpin: "Désépingler", featured_pinned: "Serveur épinglé !", featured_unpinned: "Serveur désépinglé !",
   loading: "Chargement...",
   online: "En ligne",
   offline: "Hors ligne",
@@ -802,7 +804,8 @@ const ru: TranslationKeys = {
   user_profile_back: "Назад к серверам", user_profile_not_found: "Профиль не найден", user_profile_member_since: "Участник с", user_profile_servers: "Серверы", user_profile_no_servers: "Этот игрок пока не добавил серверов.",
   comments_title: "Комментарии", comments_placeholder: "Напишите комментарий...", comments_login_required: "Войдите, чтобы комментировать", comments_login_hint: "Войдите для комментирования", comments_none: "Нет комментариев. Будьте первым!", comments_error: "Ошибка добавления комментария", comments_deleted: "Комментарий удалён", comments_player: "Игрок",
   footer_desc: "Крупнейший каталог серверов Minecraft. Найди свой идеальный сервер или поделись своим.", footer_nav: "Навигация", footer_legal: "Правовая информация", footer_terms: "Условия использования", footer_privacy: "Политика конфиденциальности", footer_copyright: "MCServery. Все права защищены. Не связано с Mojang Studios.",
-  settings_language: "Язык", loading: "Загрузка...", online: "Онлайн", offline: "Офлайн", players_online: "игроков онлайн",
+  settings_language: "Язык", featured_title: "Рекомендуем", featured_pin: "Закрепить", featured_unpin: "Открепить", featured_pinned: "Сервер закреплён!", featured_unpinned: "Сервер откреплён!",
+  loading: "Загрузка...", online: "Онлайн", offline: "Офлайн", players_online: "игроков онлайн",
 };
 
 const uk: TranslationKeys = {
@@ -820,7 +823,8 @@ const uk: TranslationKeys = {
   user_profile_back: "Назад до серверів", user_profile_not_found: "Профіль не знайдено", user_profile_member_since: "Учасник з", user_profile_servers: "Сервери", user_profile_no_servers: "Цей гравець ще не додав серверів.",
   comments_title: "Коментарі", comments_placeholder: "Напишіть коментар...", comments_login_required: "Увійдіть, щоб коментувати", comments_login_hint: "Увійдіть для коментування", comments_none: "Немає коментарів. Будьте першим!", comments_error: "Помилка додавання коментаря", comments_deleted: "Коментар видалено", comments_player: "Гравець",
   footer_desc: "Найбільший каталог серверів Minecraft. Знайди свій ідеальний сервер або поділись своїм.", footer_nav: "Навігація", footer_legal: "Правова інформація", footer_terms: "Умови використання", footer_privacy: "Політика конфіденційності", footer_copyright: "MCServery. Усі права захищені. Не пов'язано з Mojang Studios.",
-  settings_language: "Мова", loading: "Завантаження...", online: "Онлайн", offline: "Офлайн", players_online: "гравців онлайн",
+  settings_language: "Мова", featured_title: "Рекомендуємо", featured_pin: "Закріпити", featured_unpin: "Відкріпити", featured_pinned: "Сервер закріплено!", featured_unpinned: "Сервер відкріплено!",
+  loading: "Завантаження...", online: "Онлайн", offline: "Офлайн", players_online: "гравців онлайн",
 };
 
 const es: TranslationKeys = {
@@ -838,7 +842,8 @@ const es: TranslationKeys = {
   user_profile_back: "Volver a servidores", user_profile_not_found: "Perfil no encontrado", user_profile_member_since: "Miembro desde", user_profile_servers: "Servidores", user_profile_no_servers: "Este jugador aún no ha añadido servidores.",
   comments_title: "Comentarios", comments_placeholder: "Escribe un comentario...", comments_login_required: "Inicia sesión para comentar", comments_login_hint: "Inicia sesión para comentar", comments_none: "Sin comentarios. ¡Sé el primero!", comments_error: "Error al añadir comentario", comments_deleted: "Comentario eliminado", comments_player: "Jugador",
   footer_desc: "El mayor catálogo de servidores de Minecraft.", footer_terms: "Términos de uso", footer_privacy: "Política de privacidad", footer_copyright: "MCServery. Todos los derechos reservados. No afiliado a Mojang Studios.",
-  settings_language: "Idioma", loading: "Cargando...", online: "En línea", offline: "Fuera de línea", players_online: "jugadores en línea",
+  settings_language: "Idioma", featured_title: "Recomendamos", featured_pin: "Fijar", featured_unpin: "Desfijar", featured_pinned: "¡Servidor fijado!", featured_unpinned: "¡Servidor desfijado!",
+  loading: "Cargando...", online: "En línea", offline: "Fuera de línea", players_online: "jugadores en línea",
 };
 
 const pt: TranslationKeys = {
@@ -853,7 +858,8 @@ const pt: TranslationKeys = {
   profile_bio: "Bio", profile_bio_placeholder: "Escreva algo sobre você...", profile_nickname_empty: "O apelido não pode estar vazio", profile_save_error: "Erro ao salvar", profile_save_success: "Perfil salvo!", profile_avatar_too_large: "Imagem muito grande (máx 2MB)", profile_avatar_error: "Erro ao fazer upload", profile_avatar_success: "Avatar enviado!",
   user_profile_back: "Voltar aos servidores", user_profile_not_found: "Perfil não encontrado", user_profile_member_since: "Membro desde", user_profile_servers: "Servidores", user_profile_no_servers: "Este jogador ainda não adicionou servidores.",
   comments_title: "Comentários", comments_placeholder: "Escreva um comentário...", comments_login_required: "Entre para comentar", comments_login_hint: "Entre para comentar", comments_none: "Sem comentários. Seja o primeiro!", comments_error: "Erro ao adicionar comentário", comments_deleted: "Comentário excluído", comments_player: "Jogador",
-  settings_language: "Idioma", loading: "A carregar...", players_online: "jogadores online",
+  settings_language: "Idioma", featured_title: "Recomendamos", featured_pin: "Fixar", featured_unpin: "Desfixar", featured_pinned: "Servidor fixado!", featured_unpinned: "Servidor desfixado!",
+  loading: "A carregar...", players_online: "jogadores online",
 };
 
 const br: TranslationKeys = {
@@ -877,7 +883,8 @@ const zh: TranslationKeys = {
   user_profile_back: "返回服务器列表", user_profile_not_found: "未找到资料", user_profile_member_since: "加入于", user_profile_servers: "服务器", user_profile_no_servers: "该玩家尚未添加服务器。",
   comments_title: "评论", comments_placeholder: "写评论...", comments_login_required: "请登录后评论", comments_login_hint: "登录后评论", comments_none: "暂无评论，来第一个！", comments_error: "添加评论失败", comments_deleted: "评论已删除", comments_player: "玩家",
   footer_desc: "最大的Minecraft服务器目录。", footer_terms: "使用条款", footer_privacy: "隐私政策", footer_copyright: "MCServery。保留所有权利。与Mojang Studios无关。",
-  settings_language: "语言", loading: "加载中...", online: "在线", offline: "离线", players_online: "在线玩家",
+  settings_language: "语言", featured_title: "推荐", featured_pin: "置顶", featured_unpin: "取消置顶", featured_pinned: "服务器已置顶！", featured_unpinned: "服务器已取消置顶！",
+  loading: "加载中...", online: "在线", offline: "离线", players_online: "在线玩家",
 };
 
 const ja: TranslationKeys = {
@@ -895,7 +902,8 @@ const ja: TranslationKeys = {
   user_profile_back: "サーバー一覧に戻る", user_profile_not_found: "プロフィールが見つかりません", user_profile_member_since: "メンバー登録日", user_profile_servers: "サーバー", user_profile_no_servers: "このプレイヤーはまだサーバーを追加していません。",
   comments_title: "コメント", comments_placeholder: "コメントを書く...", comments_login_required: "コメントするにはログインしてください", comments_login_hint: "コメントするにはログイン", comments_none: "コメントなし。最初のコメントを！", comments_error: "コメント追加エラー", comments_deleted: "コメント削除済み", comments_player: "プレイヤー",
   footer_desc: "最大のMinecraftサーバーカタログ。", footer_terms: "利用規約", footer_privacy: "プライバシーポリシー", footer_copyright: "MCServery。全著作権所有。Mojang Studiosとは無関係。",
-  settings_language: "言語", loading: "読み込み中...", online: "オンライン", offline: "オフライン", players_online: "オンラインプレイヤー",
+  settings_language: "言語", featured_title: "おすすめ", featured_pin: "ピン留め", featured_unpin: "ピン解除", featured_pinned: "サーバーをピン留めしました！", featured_unpinned: "ピン留めを解除しました！",
+  loading: "読み込み中...", online: "オンライン", offline: "オフライン", players_online: "オンラインプレイヤー",
 };
 
 export const translations: Record<Locale, TranslationKeys> = { sk, cs, en, de, fr, ru, uk, es, pt, br, zh, ja };
