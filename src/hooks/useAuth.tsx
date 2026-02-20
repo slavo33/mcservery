@@ -6,7 +6,8 @@ interface AuthContextType {
   user: User | null;
   session: Session | null;
   loading: boolean;
-  profile: { nickname: string; avatar_url: string | null; bio: string; is_admin?: boolean } | null;
+  profile: { nickname: string; avatar_url: string | null; bio: string } | null;
+  isAdmin: boolean;
   signOut: () => Promise<void>;
   refreshProfile: () => Promise<void>;
 }
@@ -16,6 +17,7 @@ const AuthContext = createContext<AuthContextType>({
   session: null,
   loading: true,
   profile: null,
+  isAdmin: false,
   signOut: async () => {},
   refreshProfile: async () => {},
 });
@@ -26,15 +28,24 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
   const [user, setUser] = useState<User | null>(null);
   const [session, setSession] = useState<Session | null>(null);
   const [loading, setLoading] = useState(true);
-  const [profile, setProfile] = useState<{ nickname: string; avatar_url: string | null; bio: string; is_admin?: boolean } | null>(null);
+  const [profile, setProfile] = useState<{ nickname: string; avatar_url: string | null; bio: string } | null>(null);
+  const [isAdmin, setIsAdmin] = useState(false);
 
   const fetchProfile = async (userId: string) => {
     const { data } = await supabase
       .from("profiles")
-      .select("nickname, avatar_url, bio, is_admin")
+      .select("nickname, avatar_url, bio")
       .eq("id", userId)
       .single();
-    if (data) setProfile(data as any);
+    if (data) setProfile(data);
+
+    const { data: roleData } = await supabase
+      .from("user_roles")
+      .select("role")
+      .eq("user_id", userId)
+      .eq("role", "admin")
+      .maybeSingle();
+    setIsAdmin(!!roleData);
   };
 
   const refreshProfile = async () => {
@@ -49,6 +60,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
         setTimeout(() => fetchProfile(session.user.id), 0);
       } else {
         setProfile(null);
+        setIsAdmin(false);
       }
       setLoading(false);
     });
@@ -66,10 +78,11 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
   const signOut = async () => {
     await supabase.auth.signOut();
     setProfile(null);
+    setIsAdmin(false);
   };
 
   return (
-    <AuthContext.Provider value={{ user, session, loading, profile, signOut, refreshProfile }}>
+    <AuthContext.Provider value={{ user, session, loading, profile, isAdmin, signOut, refreshProfile }}>
       {children}
     </AuthContext.Provider>
   );
