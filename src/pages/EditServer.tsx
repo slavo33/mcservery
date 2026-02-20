@@ -5,7 +5,7 @@ import { Button } from "@/components/ui/button";
 import { Switch } from "@/components/ui/switch";
 import { softwareOptions, versions, minigameOptions, proxyOptions } from "@/lib/mockData";
 import { useState, useEffect } from "react";
-import { Save } from "lucide-react";
+import { Save, Key, Copy, Check } from "lucide-react";
 import ServerImageUpload from "@/components/ServerImageUpload";
 import { supabase } from "@/integrations/supabase/client";
 import { useAuth } from "@/hooks/useAuth";
@@ -37,7 +37,9 @@ const EditServer = () => {
   const [tiktokUrl, setTiktokUrl] = useState("");
   const [youtubeUrl, setYoutubeUrl] = useState("");
   const [twitterUrl, setTwitterUrl] = useState("");
-  const [submitting, setSubmitting] = useState(false);
+   const [submitting, setSubmitting] = useState(false);
+   const [voteApiKey, setVoteApiKey] = useState<string | null>(null);
+   const [apiKeyCopied, setApiKeyCopied] = useState(false);
 
   useEffect(() => {
     if (!id) return;
@@ -70,6 +72,7 @@ const EditServer = () => {
       setTiktokUrl(data.tiktok_url || "");
       setYoutubeUrl(data.youtube_url || "");
       setTwitterUrl(data.twitter_url || "");
+      setVoteApiKey(data.vote_api_key || null);
       setLoading(false);
     };
     fetchServer();
@@ -260,6 +263,40 @@ const EditServer = () => {
             onImagesChange={setServerImages}
             serverId={id}
           />
+
+          {voteApiKey && (
+            <div className="rounded-md border border-border bg-secondary/30 p-4 space-y-2">
+              <div className="flex items-center gap-2">
+                <Key className="h-4 w-4 text-primary" />
+                <p className="text-sm font-semibold text-foreground">Vote API Key</p>
+              </div>
+              <p className="text-xs text-muted-foreground">
+                Použi tento kľúč vo svojom Votifier/NuVotifier plugine na doručovanie odmien hráčom.
+              </p>
+              <div className="flex items-center gap-2">
+                <code className="flex-1 rounded bg-background border border-border px-3 py-2 text-xs font-mono text-foreground select-all break-all">
+                  {voteApiKey}
+                </code>
+                <Button
+                  type="button"
+                  variant="outline"
+                  size="sm"
+                  onClick={() => {
+                    navigator.clipboard.writeText(voteApiKey);
+                    setApiKeyCopied(true);
+                    toast.success("API kľúč skopírovaný!");
+                    setTimeout(() => setApiKeyCopied(false), 2000);
+                  }}
+                  className="shrink-0"
+                >
+                  {apiKeyCopied ? <Check className="h-3.5 w-3.5" /> : <Copy className="h-3.5 w-3.5" />}
+                </Button>
+              </div>
+              <p className="text-xs text-muted-foreground">
+                Endpoint: <code className="text-primary">{"GET /functions/v1/get-pending-votes?api_key="}{voteApiKey}</code>
+              </p>
+            </div>
+          )}
 
           <Button type="submit" disabled={submitting}
             className="w-full gradient-primary border-0 font-display text-base font-semibold tracking-wide text-primary-foreground glow-red gap-2" size="lg">
