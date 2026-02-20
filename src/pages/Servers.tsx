@@ -22,6 +22,7 @@ interface DbServer {
   max_players: number;
   is_warez: boolean;
   has_whitelist: boolean;
+  images: string[];
 }
 
 const Servers = () => {
@@ -47,7 +48,7 @@ const Servers = () => {
       name: s.name,
       description: s.description,
       ip: s.ip,
-      image: "",
+      image: s.images && s.images.length > 0 ? s.images[0] : "",
       players: { online: 0, max: s.max_players },
       version: s.version,
       platform: s.platform as ("java" | "bedrock")[],

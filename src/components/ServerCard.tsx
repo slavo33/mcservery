@@ -39,9 +39,13 @@ const ServerCard = ({ server, dbMode, dbId }: ServerCardProps) => {
     <div className="group gradient-card rounded-lg border border-border shadow-card transition-all duration-300 glow-border-hover overflow-hidden">
       <div className="relative h-40 overflow-hidden bg-secondary">
         <div className="absolute inset-0 gradient-hero z-10" />
-        <div className="absolute inset-0 flex items-center justify-center text-muted-foreground font-display text-2xl tracking-widest opacity-30">
-          {server.name}
-        </div>
+        {server.image ? (
+          <img src={server.image} alt={server.name} className="absolute inset-0 w-full h-full object-cover" />
+        ) : (
+          <div className="absolute inset-0 flex items-center justify-center text-muted-foreground font-display text-2xl tracking-widest opacity-30">
+            {server.name}
+          </div>
+        )}
         <div className="absolute top-3 left-3 z-20 flex gap-1.5">
           {isOnline ? (
             <span className="badge-platform" style={{ background: "hsla(145, 63%, 42%, 0.2)", color: "hsl(145 63% 55%)", borderColor: "hsla(145, 63%, 42%, 0.3)" }}>
