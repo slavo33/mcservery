@@ -1,4 +1,5 @@
 import { useState, useEffect } from "react";
+import { logError } from "@/lib/logger";
 import { supabase } from "@/integrations/supabase/client";
 import { useAuth } from "@/hooks/useAuth";
 import Header from "@/components/Header";
@@ -120,13 +121,19 @@ const Profile = () => {
   const handleAvatarUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
     if (!file) return;
+    const allowedTypes = ['image/jpeg', 'image/png', 'image/gif', 'image/webp'];
+    if (!allowedTypes.includes(file.type)) {
+      toast.error(t("profile_avatar_invalid_type") || "Neplatný typ súboru. Povolené sú JPG, PNG, GIF a WebP.");
+      return;
+    }
+
     if (file.size > 2 * 1024 * 1024) {
       toast.error(t("profile_avatar_too_large"));
       return;
     }
 
     setUploading(true);
-    const ext = file.name.split(".").pop();
+    const ext = file.type.split('/')[1] === 'jpeg' ? 'jpg' : file.type.split('/')[1];
     const path = `${user.id}/avatar.${ext}`;
 
     const { error: uploadError } = await supabase.storage
@@ -134,7 +141,7 @@ const Profile = () => {
       .upload(path, file, { upsert: true });
 
     if (uploadError) {
-      console.error("Avatar upload error:", uploadError);
+      logError("Avatar upload error:", uploadError);
       toast.error(t("profile_avatar_error"));
       setUploading(false);
       return;

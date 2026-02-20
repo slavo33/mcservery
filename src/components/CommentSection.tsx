@@ -1,4 +1,5 @@
 import { useState, useEffect } from "react";
+import { logError } from "@/lib/logger";
 import { supabase } from "@/integrations/supabase/client";
 import { useAuth } from "@/hooks/useAuth";
 import { toast } from "sonner";
@@ -88,7 +89,7 @@ const CommentSection = ({ serverId }: CommentSectionProps) => {
     });
 
     if (error) {
-      console.error("Comment insert error:", error);
+      logError("Comment insert error:", error);
       toast.error(t("comments_error"));
     } else {
       setNewComment("");
