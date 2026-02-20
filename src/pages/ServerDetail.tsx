@@ -5,7 +5,7 @@ import { useAuth } from "@/hooks/useAuth";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import CommentSection from "@/components/CommentSection";
-import { Heart, Users, Copy, ArrowLeft, Shield, ShieldOff, ExternalLink, Trash2, Pencil, User } from "lucide-react";
+import { Heart, Users, Copy, ArrowLeft, Shield, ShieldOff, ExternalLink, Trash2, Pencil, User, Pin } from "lucide-react";
 import { toast } from "sonner";
 import { useLanguage } from "@/i18n/LanguageContext";
 import { useServerStatus } from "@/hooks/useServerStatus";
@@ -36,6 +36,7 @@ interface ServerDetailData {
   ownerNickname?: string;
   ownerAvatar?: string | null;
   ownerBio?: string;
+  is_featured?: boolean;
 }
 
 interface OwnerProfile {
@@ -46,7 +47,7 @@ interface OwnerProfile {
 
 const ServerDetailPage = () => {
   const { id } = useParams<{ id: string }>();
-  const { user } = useAuth();
+  const { user, profile: authProfile } = useAuth();
   const { t } = useLanguage();
   const [server, setServer] = useState<ServerDetailData | null>(null);
   const [loading, setLoading] = useState(true);
@@ -102,6 +103,18 @@ const ServerDetailPage = () => {
       await supabase.from("server_likes").insert({ server_id: id, user_id: user.id });
       setLiked(true);
       setLikesCount((c) => c + 1);
+    }
+  };
+
+  const toggleFeatured = async () => {
+    if (!server || !user || !authProfile?.is_admin) return;
+    const newVal = !server.is_featured;
+    const { error } = await supabase.from("servers").update({ is_featured: newVal } as any).eq("id", server.id);
+    if (error) {
+      toast.error("Error");
+    } else {
+      setServer({ ...server, is_featured: newVal });
+      toast.success(newVal ? t("featured_pinned") : t("featured_unpinned"));
     }
   };
 
@@ -208,6 +221,15 @@ const ServerDetailPage = () => {
                 </p>
               </div>
               <div className="flex items-center gap-3">
+                {authProfile?.is_admin && (
+                  <button
+                    onClick={toggleFeatured}
+                    className={`transition-colors ${server.is_featured ? "text-primary" : "text-muted-foreground hover:text-primary"}`}
+                    title={server.is_featured ? t("featured_unpin") : t("featured_pin")}
+                  >
+                    <Pin className={`h-5 w-5 ${server.is_featured ? "fill-primary" : ""}`} />
+                  </button>
+                )}
                 {user?.id === server.owner_id && (
                   <>
                     <Link to={`/server/${server.id}/edit`} className="text-muted-foreground hover:text-primary transition-colors" title={t("detail_edit_server")}>

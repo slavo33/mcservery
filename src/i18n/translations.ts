@@ -163,6 +163,12 @@ type TranslationKeys = {
   profile_tab_my_servers: string;
   profile_favorites_empty: string;
   profile_my_servers_empty: string;
+  // Featured
+  featured_title: string;
+  featured_pin: string;
+  featured_unpin: string;
+  featured_pinned: string;
+  featured_unpinned: string;
   // Common
   loading: string;
   online: string;
@@ -300,6 +306,11 @@ const sk: TranslationKeys = {
   profile_tab_my_servers: "Moje servery",
   profile_favorites_empty: "Zatiaľ si nedal like žiadnemu serveru.",
   profile_my_servers_empty: "Zatiaľ si nepridal žiadny server.",
+  featured_title: "Odporúčame",
+  featured_pin: "Pripnúť do odporúčaných",
+  featured_unpin: "Odopnúť z odporúčaných",
+  featured_pinned: "Server pripnutý!",
+  featured_unpinned: "Server odopnutý!",
   loading: "Načítavam...",
   online: "Online",
   offline: "Offline",
@@ -537,6 +548,11 @@ const en: TranslationKeys = {
   profile_tab_my_servers: "My Servers",
   profile_favorites_empty: "You haven't liked any servers yet.",
   profile_my_servers_empty: "You haven't added any servers yet.",
+  featured_title: "We Recommend",
+  featured_pin: "Pin to featured",
+  featured_unpin: "Unpin from featured",
+  featured_pinned: "Server pinned!",
+  featured_unpinned: "Server unpinned!",
   loading: "Loading...",
   online: "Online",
   offline: "Offline",

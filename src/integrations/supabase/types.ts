@@ -52,6 +52,7 @@ export type Database = {
           bio: string | null
           created_at: string
           id: string
+          is_admin: boolean
           nickname: string
           updated_at: string
         }
@@ -60,6 +61,7 @@ export type Database = {
           bio?: string | null
           created_at?: string
           id: string
+          is_admin?: boolean
           nickname?: string
           updated_at?: string
         }
@@ -68,6 +70,7 @@ export type Database = {
           bio?: string | null
           created_at?: string
           id?: string
+          is_admin?: boolean
           nickname?: string
           updated_at?: string
         }
@@ -144,6 +147,7 @@ export type Database = {
           images: string[]
           instagram_url: string | null
           ip: string
+          is_featured: boolean
           is_warez: boolean
           likes_count: number
           max_players: number
@@ -170,6 +174,7 @@ export type Database = {
           images?: string[]
           instagram_url?: string | null
           ip: string
+          is_featured?: boolean
           is_warez?: boolean
           likes_count?: number
           max_players?: number
@@ -196,6 +201,7 @@ export type Database = {
           images?: string[]
           instagram_url?: string | null
           ip?: string
+          is_featured?: boolean
           is_warez?: boolean
           likes_count?: number
           max_players?: number
