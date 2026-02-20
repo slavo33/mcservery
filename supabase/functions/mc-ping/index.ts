@@ -64,10 +64,40 @@ serve(async (req) => {
     }
 
     const host = ip.split(":")[0];
-    const port = ip.split(":")[1] || "25565";
-    const address = `${host}:${port}`;
+    const port = ip.split(":")[1];
+    // Only append port if explicitly specified - let APIs handle SRV lookup
+    const address = port ? `${host}:${port}` : host;
 
-    // Try mcstatus.io first (handles SRV records, more reliable)
+    // Try mcsrvstat.us first (better SRV record support)
+    try {
+      const res = await fetch(`https://api.mcsrvstat.us/3/${address}`, {
+        headers: { "Accept": "application/json" },
+        signal: AbortSignal.timeout(10000),
+      });
+
+      if (res.ok) {
+        const data = await res.json();
+        if (data.online) {
+          return new Response(
+            JSON.stringify({
+              online: true,
+              players: {
+                online: data.players?.online ?? 0,
+                max: data.players?.max ?? 0,
+              },
+              version: data.version || null,
+              motd: data.motd?.clean?.[0] || null,
+              icon: data.icon || null,
+            }),
+            { headers: { ...corsHeaders, "Content-Type": "application/json" } }
+          );
+        }
+      }
+    } catch {
+      // mcsrvstat.us failed, try fallback
+    }
+
+    // Fallback: mcstatus.io
     try {
       const res = await fetch(`https://api.mcstatus.io/v2/status/java/${address}`, {
         headers: { "Accept": "application/json" },
@@ -91,33 +121,6 @@ serve(async (req) => {
             { headers: { ...corsHeaders, "Content-Type": "application/json" } }
           );
         }
-      }
-    } catch {
-      // mcstatus.io failed, try fallback
-    }
-
-    // Fallback: mcsrvstat.us
-    try {
-      const res = await fetch(`https://api.mcsrvstat.us/3/${address}`, {
-        headers: { "Accept": "application/json" },
-        signal: AbortSignal.timeout(10000),
-      });
-
-      if (res.ok) {
-        const data = await res.json();
-        return new Response(
-          JSON.stringify({
-            online: data.online || false,
-            players: {
-              online: data.players?.online ?? 0,
-              max: data.players?.max ?? 0,
-            },
-            version: data.version || null,
-            motd: data.motd?.clean?.[0] || null,
-            icon: data.icon || null,
-          }),
-          { headers: { ...corsHeaders, "Content-Type": "application/json" } }
-        );
       }
     } catch {
       // fallback also failed
