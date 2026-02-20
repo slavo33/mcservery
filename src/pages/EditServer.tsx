@@ -46,12 +46,12 @@ const EditServer = () => {
     const fetchServer = async () => {
       const { data } = await supabase.from("servers").select("*").eq("id", id).single();
       if (!data) {
-        toast.error("Server nenájdený");
+        toast.error(t("edit_not_found"));
         navigate("/servers");
         return;
       }
       if (user && data.owner_id !== user.id) {
-        toast.error("Nemáš oprávnenie upravovať tento server");
+        toast.error(t("edit_no_permission"));
         navigate(`/server/${id}`);
         return;
       }
@@ -92,7 +92,7 @@ const EditServer = () => {
     e.preventDefault();
     if (!user || !id) return;
     if (!name.trim() || !ip.trim()) {
-      toast.error("Vyplň názov a IP adresu");
+      toast.error(t("edit_fill_required"));
       return;
     }
 
@@ -120,9 +120,9 @@ const EditServer = () => {
 
     if (error) {
       logError("Server update error:", error);
-      toast.error("Nepodarilo sa uložiť zmeny. Skús to znova.");
+      toast.error(t("edit_save_error"));
     } else {
-      toast.success("Server bol aktualizovaný!");
+      toast.success(t("edit_save_success"));
       navigate(`/server/${id}`);
     }
     setSubmitting(false);
@@ -145,9 +145,9 @@ const EditServer = () => {
       <Header />
       <main className="flex-1 container mx-auto px-4 py-10 max-w-2xl">
         <h1 className="font-display text-4xl font-bold text-foreground mb-2">
-          Upraviť <span className="text-gradient">server</span>
+          {t("edit_title_1")} <span className="text-gradient">{t("edit_title_2")}</span>
         </h1>
-        <p className="text-muted-foreground mb-8">Uprav údaje svojho servera</p>
+        <p className="text-muted-foreground mb-8">{t("edit_subtitle")}</p>
 
         <form onSubmit={handleSubmit} className="gradient-card rounded-lg border border-border shadow-card p-6 space-y-6">
           <div>
@@ -268,10 +268,10 @@ const EditServer = () => {
             <div className="rounded-md border border-border bg-secondary/30 p-4 space-y-2">
               <div className="flex items-center gap-2">
                 <Key className="h-4 w-4 text-primary" />
-                <p className="text-sm font-semibold text-foreground">Vote API Key</p>
+              <p className="text-sm font-semibold text-foreground">{t("edit_vote_api_key")}</p>
               </div>
               <p className="text-xs text-muted-foreground">
-                Použi tento kľúč vo svojom Votifier/NuVotifier plugine na doručovanie odmien hráčom.
+                {t("edit_vote_api_desc")}
               </p>
               <div className="flex items-center gap-2">
                 <code className="flex-1 rounded bg-background border border-border px-3 py-2 text-xs font-mono text-foreground select-all break-all">
@@ -284,7 +284,7 @@ const EditServer = () => {
                   onClick={() => {
                     navigator.clipboard.writeText(voteApiKey);
                     setApiKeyCopied(true);
-                    toast.success("API kľúč skopírovaný!");
+                    toast.success(t("edit_vote_api_copied"));
                     setTimeout(() => setApiKeyCopied(false), 2000);
                   }}
                   className="shrink-0"
@@ -293,7 +293,7 @@ const EditServer = () => {
                 </Button>
               </div>
               <p className="text-xs text-muted-foreground">
-                Endpoint: <code className="text-primary">{"GET /functions/v1/get-pending-votes?api_key="}{voteApiKey}</code>
+                {t("edit_vote_api_endpoint")}: <code className="text-primary">{"GET /functions/v1/get-pending-votes?api_key="}{voteApiKey}</code>
               </p>
             </div>
           )}
@@ -301,7 +301,7 @@ const EditServer = () => {
           <Button type="submit" disabled={submitting}
             className="w-full gradient-primary border-0 font-display text-base font-semibold tracking-wide text-primary-foreground glow-red gap-2" size="lg">
             <Save className="h-4 w-4" />
-            {submitting ? "Ukladám..." : "Uložiť zmeny"}
+            {submitting ? t("edit_saving") : t("edit_save")}
           </Button>
         </form>
       </main>
