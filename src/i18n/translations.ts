@@ -156,6 +156,7 @@ type TranslationKeys = {
   footer_privacy: string;
   footer_copyright: string;
   footer_contact: string;
+  footer_support: string;
   // Settings
   settings_language: string;
   // Favorites & My servers
@@ -302,6 +303,7 @@ const sk: TranslationKeys = {
   footer_privacy: "Ochrana súkromia",
   footer_copyright: "MCServery. Všetky práva vyhradené. Nie sme spojení s Mojang Studios.",
   footer_contact: "Kontakt",
+  footer_support: "Podporiť nás",
   settings_language: "Jazyk",
   profile_tab_settings: "Nastavenia",
   profile_tab_favorites: "Obľúbené",
@@ -417,6 +419,7 @@ const cs: TranslationKeys = {
   footer_privacy: "Ochrana soukromí",
   footer_copyright: "MCServery. Všechna práva vyhrazena. Nejsme spojeni s Mojang Studios.",
   footer_contact: "Kontakt",
+  footer_support: "Podpořte nás",
   loading: "Načítám...",
   players_online: "hráčů online",
   featured_title: "Doporučujeme",
@@ -551,6 +554,7 @@ const en: TranslationKeys = {
   footer_privacy: "Privacy Policy",
   footer_copyright: "MCServery. All rights reserved. Not affiliated with Mojang Studios.",
   footer_contact: "Contact",
+  footer_support: "Support us",
   settings_language: "Language",
   profile_tab_settings: "Settings",
   profile_tab_favorites: "Favorites",
@@ -674,6 +678,7 @@ const de: TranslationKeys = {
   footer_privacy: "Datenschutz",
   footer_copyright: "MCServery. Alle Rechte vorbehalten. Nicht verbunden mit Mojang Studios.",
   footer_contact: "Kontakt",
+  footer_support: "Unterstütze uns",
   settings_language: "Sprache",
   featured_title: "Wir empfehlen", featured_pin: "Anheften", featured_unpin: "Loslösen", featured_pinned: "Server angeheftet!", featured_unpinned: "Server losgelöst!",
   loading: "Laden...",
@@ -787,6 +792,7 @@ const fr: TranslationKeys = {
   footer_privacy: "Politique de confidentialité",
   footer_copyright: "MCServery. Tous droits réservés. Non affilié à Mojang Studios.",
   footer_contact: "Contact",
+  footer_support: "Nous soutenir",
   settings_language: "Langue",
   featured_title: "Nous recommandons", featured_pin: "Épingler", featured_unpin: "Désépingler", featured_pinned: "Serveur épinglé !", featured_unpinned: "Serveur désépinglé !",
   loading: "Chargement...",
@@ -809,7 +815,7 @@ const ru: TranslationKeys = {
   profile_title_1: "Мой", profile_title_2: "профиль", profile_nickname: "Никнейм", profile_email: "Email", profile_save: "Сохранить", profile_saving: "Сохраняю...", profile_avatar_hint: "Нажмите для смены аватара", profile_uploading: "Загрузка...", profile_bio: "О себе", profile_bio_placeholder: "Напишите о себе...", profile_nickname_empty: "Никнейм не может быть пустым", profile_save_error: "Ошибка сохранения", profile_save_success: "Профиль сохранён!", profile_avatar_too_large: "Изображение слишком большое (макс 2МБ)", profile_avatar_error: "Ошибка загрузки", profile_avatar_success: "Аватар загружен!",
   user_profile_back: "Назад к серверам", user_profile_not_found: "Профиль не найден", user_profile_member_since: "Участник с", user_profile_servers: "Серверы", user_profile_no_servers: "Этот игрок пока не добавил серверов.",
   comments_title: "Комментарии", comments_placeholder: "Напишите комментарий...", comments_login_required: "Войдите, чтобы комментировать", comments_login_hint: "Войдите для комментирования", comments_none: "Нет комментариев. Будьте первым!", comments_error: "Ошибка добавления комментария", comments_deleted: "Комментарий удалён", comments_player: "Игрок",
-  footer_desc: "Крупнейший каталог серверов Minecraft. Найди свой идеальный сервер или поделись своим.", footer_nav: "Навигация", footer_legal: "Правовая информация", footer_terms: "Условия использования", footer_privacy: "Политика конфиденциальности", footer_copyright: "MCServery. Все права защищены. Не связано с Mojang Studios.", footer_contact: "Контакт",
+  footer_desc: "Крупнейший каталог серверов Minecraft. Найди свой идеальный сервер или поделись своим.", footer_nav: "Навигация", footer_legal: "Правовая информация", footer_terms: "Условия использования", footer_privacy: "Политика конфиденциальности", footer_copyright: "MCServery. Все права защищены. Не связано с Mojang Studios.", footer_contact: "Контакт", footer_support: "Поддержать нас",
   settings_language: "Язык", featured_title: "Рекомендуем", featured_pin: "Закрепить", featured_unpin: "Открепить", featured_pinned: "Сервер закреплён!", featured_unpinned: "Сервер откреплён!",
   loading: "Загрузка...", online: "Онлайн", offline: "Офлайн", players_online: "игроков онлайн",
 };
@@ -828,7 +834,7 @@ const uk: TranslationKeys = {
   profile_title_1: "Мій", profile_title_2: "профіль", profile_nickname: "Нікнейм", profile_email: "Email", profile_save: "Зберегти зміни", profile_saving: "Зберігаю...", profile_avatar_hint: "Натисни для зміни аватара", profile_uploading: "Завантаження...", profile_bio: "Про себе", profile_bio_placeholder: "Напишіть щось про себе...", profile_nickname_empty: "Нікнейм не може бути порожнім", profile_save_error: "Помилка збереження", profile_save_success: "Профіль збережено!", profile_avatar_too_large: "Зображення занадто велике (макс 2МБ)", profile_avatar_error: "Помилка завантаження", profile_avatar_success: "Аватар завантажено!",
   user_profile_back: "Назад до серверів", user_profile_not_found: "Профіль не знайдено", user_profile_member_since: "Учасник з", user_profile_servers: "Сервери", user_profile_no_servers: "Цей гравець ще не додав серверів.",
   comments_title: "Коментарі", comments_placeholder: "Напишіть коментар...", comments_login_required: "Увійдіть, щоб коментувати", comments_login_hint: "Увійдіть для коментування", comments_none: "Немає коментарів. Будьте першим!", comments_error: "Помилка додавання коментаря", comments_deleted: "Коментар видалено", comments_player: "Гравець",
-  footer_desc: "Найбільший каталог серверів Minecraft. Знайди свій ідеальний сервер або поділись своїм.", footer_nav: "Навігація", footer_legal: "Правова інформація", footer_terms: "Умови використання", footer_privacy: "Політика конфіденційності", footer_copyright: "MCServery. Усі права захищені. Не пов'язано з Mojang Studios.", footer_contact: "Контакт",
+  footer_desc: "Найбільший каталог серверів Minecraft. Знайди свій ідеальний сервер або поділись своїм.", footer_nav: "Навігація", footer_legal: "Правова інформація", footer_terms: "Умови використання", footer_privacy: "Політика конфіденційності", footer_copyright: "MCServery. Усі права захищені. Не пов'язано з Mojang Studios.", footer_contact: "Контакт", footer_support: "Підтримати нас",
   settings_language: "Мова", featured_title: "Рекомендуємо", featured_pin: "Закріпити", featured_unpin: "Відкріпити", featured_pinned: "Сервер закріплено!", featured_unpinned: "Сервер відкріплено!",
   loading: "Завантаження...", online: "Онлайн", offline: "Офлайн", players_online: "гравців онлайн",
 };
@@ -847,7 +853,7 @@ const es: TranslationKeys = {
   profile_title_1: "Mi", profile_title_2: "perfil", profile_nickname: "Apodo", profile_save: "Guardar cambios", profile_saving: "Guardando...", profile_avatar_hint: "Haz clic para cambiar el avatar", profile_uploading: "Subiendo...", profile_bio: "Bio", profile_bio_placeholder: "Escribe algo sobre ti...", profile_nickname_empty: "El apodo no puede estar vacío", profile_save_error: "Error al guardar", profile_save_success: "¡Perfil guardado!", profile_avatar_too_large: "Imagen demasiado grande (máx 2MB)", profile_avatar_error: "Error al subir", profile_avatar_success: "¡Avatar subido!",
   user_profile_back: "Volver a servidores", user_profile_not_found: "Perfil no encontrado", user_profile_member_since: "Miembro desde", user_profile_servers: "Servidores", user_profile_no_servers: "Este jugador aún no ha añadido servidores.",
   comments_title: "Comentarios", comments_placeholder: "Escribe un comentario...", comments_login_required: "Inicia sesión para comentar", comments_login_hint: "Inicia sesión para comentar", comments_none: "Sin comentarios. ¡Sé el primero!", comments_error: "Error al añadir comentario", comments_deleted: "Comentario eliminado", comments_player: "Jugador",
-  footer_desc: "El mayor catálogo de servidores de Minecraft.", footer_terms: "Términos de uso", footer_privacy: "Política de privacidad", footer_copyright: "MCServery. Todos los derechos reservados. No afiliado a Mojang Studios.", footer_contact: "Contacto",
+  footer_desc: "El mayor catálogo de servidores de Minecraft.", footer_terms: "Términos de uso", footer_privacy: "Política de privacidad", footer_copyright: "MCServery. Todos los derechos reservados. No afiliado a Mojang Studios.", footer_contact: "Contacto", footer_support: "Apóyanos",
   settings_language: "Idioma", featured_title: "Recomendamos", featured_pin: "Fijar", featured_unpin: "Desfijar", featured_pinned: "¡Servidor fijado!", featured_unpinned: "¡Servidor desfijado!",
   loading: "Cargando...", online: "En línea", offline: "Fuera de línea", players_online: "jugadores en línea",
 };
@@ -867,6 +873,7 @@ const pt: TranslationKeys = {
   settings_language: "Idioma", featured_title: "Recomendamos", featured_pin: "Fixar", featured_unpin: "Desfixar", featured_pinned: "Servidor fixado!", featured_unpinned: "Servidor desfixado!",
   loading: "A carregar...", players_online: "jogadores online",
   footer_contact: "Contacto",
+  footer_support: "Apoie-nos",
 };
 
 const br: TranslationKeys = {
@@ -889,7 +896,7 @@ const zh: TranslationKeys = {
   profile_title_1: "我的", profile_title_2: "资料", profile_nickname: "昵称", profile_email: "邮箱", profile_save: "保存更改", profile_saving: "保存中...", profile_avatar_hint: "点击更换头像", profile_uploading: "上传中...", profile_bio: "简介", profile_bio_placeholder: "写点关于自己的...", profile_nickname_empty: "昵称不能为空", profile_save_error: "保存失败", profile_save_success: "资料已保存！", profile_avatar_too_large: "图片太大（最大2MB）", profile_avatar_error: "上传失败", profile_avatar_success: "头像已上传！",
   user_profile_back: "返回服务器列表", user_profile_not_found: "未找到资料", user_profile_member_since: "加入于", user_profile_servers: "服务器", user_profile_no_servers: "该玩家尚未添加服务器。",
   comments_title: "评论", comments_placeholder: "写评论...", comments_login_required: "请登录后评论", comments_login_hint: "登录后评论", comments_none: "暂无评论，来第一个！", comments_error: "添加评论失败", comments_deleted: "评论已删除", comments_player: "玩家",
-  footer_desc: "最大的Minecraft服务器目录。", footer_terms: "使用条款", footer_privacy: "隐私政策", footer_copyright: "MCServery。保留所有权利。与Mojang Studios无关。", footer_contact: "联系方式",
+  footer_desc: "最大的Minecraft服务器目录。", footer_terms: "使用条款", footer_privacy: "隐私政策", footer_copyright: "MCServery。保留所有权利。与Mojang Studios无关。", footer_contact: "联系方式", footer_support: "支持我们",
   settings_language: "语言", featured_title: "推荐", featured_pin: "置顶", featured_unpin: "取消置顶", featured_pinned: "服务器已置顶！", featured_unpinned: "服务器已取消置顶！",
   loading: "加载中...", online: "在线", offline: "离线", players_online: "在线玩家",
 };
@@ -908,7 +915,7 @@ const ja: TranslationKeys = {
   profile_title_1: "マイ", profile_title_2: "プロフィール", profile_nickname: "ニックネーム", profile_email: "メール", profile_save: "変更を保存", profile_saving: "保存中...", profile_avatar_hint: "クリックしてアバターを変更", profile_uploading: "アップロード中...", profile_bio: "自己紹介", profile_bio_placeholder: "自己紹介を書いてください...", profile_nickname_empty: "ニックネームは空にできません", profile_save_error: "保存エラー", profile_save_success: "プロフィール保存！", profile_avatar_too_large: "画像が大きすぎます（最大2MB）", profile_avatar_error: "アップロードエラー", profile_avatar_success: "アバターがアップロードされました！",
   user_profile_back: "サーバー一覧に戻る", user_profile_not_found: "プロフィールが見つかりません", user_profile_member_since: "メンバー登録日", user_profile_servers: "サーバー", user_profile_no_servers: "このプレイヤーはまだサーバーを追加していません。",
   comments_title: "コメント", comments_placeholder: "コメントを書く...", comments_login_required: "コメントするにはログインしてください", comments_login_hint: "コメントするにはログイン", comments_none: "コメントなし。最初のコメントを！", comments_error: "コメント追加エラー", comments_deleted: "コメント削除済み", comments_player: "プレイヤー",
-  footer_desc: "最大のMinecraftサーバーカタログ。", footer_terms: "利用規約", footer_privacy: "プライバシーポリシー", footer_copyright: "MCServery。全著作権所有。Mojang Studiosとは無関係。", footer_contact: "お問い合わせ",
+  footer_desc: "最大のMinecraftサーバーカタログ。", footer_terms: "利用規約", footer_privacy: "プライバシーポリシー", footer_copyright: "MCServery。全著作権所有。Mojang Studiosとは無関係。", footer_contact: "お問い合わせ", footer_support: "サポートする",
   settings_language: "言語", featured_title: "おすすめ", featured_pin: "ピン留め", featured_unpin: "ピン解除", featured_pinned: "サーバーをピン留めしました！", featured_unpinned: "ピン留めを解除しました！",
   loading: "読み込み中...", online: "オンライン", offline: "オフライン", players_online: "オンラインプレイヤー",
 };
