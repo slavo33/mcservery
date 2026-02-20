@@ -5,7 +5,7 @@ import { Button } from "@/components/ui/button";
 import { Switch } from "@/components/ui/switch";
 import { softwareOptions, versions, minigameOptions, proxyOptions } from "@/lib/mockData";
 import { useState, useEffect } from "react";
-import { Save } from "lucide-react";
+import { Save, Upload } from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
 import { useAuth } from "@/hooks/useAuth";
 import { toast } from "sonner";
@@ -247,6 +247,17 @@ const EditServer = () => {
               <div>
                 <label className="text-xs text-muted-foreground mb-1 block">{t("add_twitter")}</label>
                 <input type="url" value={twitterUrl} onChange={(e) => setTwitterUrl(e.target.value)} placeholder="https://x.com/..." className={inputClass} />
+              </div>
+            </div>
+          </div>
+
+          <div>
+            <label className="text-sm font-semibold text-foreground mb-2 block">{t("add_photos")}</label>
+            <div className="flex items-center justify-center rounded-md border-2 border-dashed border-border bg-secondary/30 py-10 cursor-pointer hover:border-primary/40 transition-colors">
+              <div className="text-center">
+                <Upload className="h-8 w-8 text-muted-foreground mx-auto mb-2" />
+                <p className="text-sm text-muted-foreground">{t("add_photos_hint")}</p>
+                <p className="text-xs text-muted-foreground mt-1">{t("add_photos_formats")}</p>
               </div>
             </div>
           </div>
