@@ -111,7 +111,8 @@ const EditServer = () => {
     } as any).eq("id", id);
 
     if (error) {
-      toast.error("Chyba: " + error.message);
+      console.error("Server update error:", error);
+      toast.error("Nepodarilo sa uložiť zmeny. Skús to znova.");
     } else {
       toast.success("Server bol aktualizovaný!");
       navigate(`/server/${id}`);

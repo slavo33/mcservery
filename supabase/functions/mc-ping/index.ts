@@ -5,6 +5,50 @@ const corsHeaders = {
   "Access-Control-Allow-Headers": "authorization, x-client-info, apikey, content-type",
 };
 
+function isValidMinecraftAddress(ip: string): boolean {
+  const parts = ip.split(":");
+  const host = parts[0];
+
+  // Block internal/private IP ranges
+  const blockedPatterns = [
+    /^127\./,
+    /^10\./,
+    /^172\.(1[6-9]|2[0-9]|3[01])\./,
+    /^192\.168\./,
+    /^169\.254\./,
+    /^0\./,
+    /^metadata/i,
+    /localhost/i,
+    /^::1$/,
+    /^fc00/i,
+    /^fe80/i,
+  ];
+
+  if (blockedPatterns.some((pattern) => pattern.test(host))) {
+    return false;
+  }
+
+  // Validate hostname format (alphanumeric, dots, hyphens only)
+  if (!/^[a-zA-Z0-9.-]+$/.test(host)) {
+    return false;
+  }
+
+  // Must have at least one dot or be a valid IP
+  if (host.length < 1 || host.length > 253) {
+    return false;
+  }
+
+  // Validate port if present
+  if (parts[1]) {
+    const port = Number(parts[1]);
+    if (isNaN(port) || port < 1 || port > 65535) {
+      return false;
+    }
+  }
+
+  return true;
+}
+
 serve(async (req) => {
   if (req.method === "OPTIONS") {
     return new Response(null, { headers: corsHeaders });
@@ -12,8 +56,8 @@ serve(async (req) => {
 
   try {
     const { ip } = await req.json();
-    if (!ip) {
-      return new Response(JSON.stringify({ error: "IP required" }), {
+    if (!ip || typeof ip !== "string" || !isValidMinecraftAddress(ip)) {
+      return new Response(JSON.stringify({ error: "Invalid address" }), {
         status: 400,
         headers: { ...corsHeaders, "Content-Type": "application/json" },
       });
