@@ -37,6 +37,7 @@ interface ServerDetailData {
   ownerAvatar?: string | null;
   ownerBio?: string;
   is_featured?: boolean;
+  images?: string[];
 }
 
 interface OwnerProfile {
@@ -181,9 +182,13 @@ const ServerDetailPage = () => {
         <div className="gradient-card rounded-lg border border-border shadow-card overflow-hidden">
           <div className="relative h-48 bg-secondary">
             <div className="absolute inset-0 gradient-hero z-10" />
-            <div className="absolute inset-0 flex items-center justify-center text-muted-foreground font-display text-4xl tracking-widest opacity-20">
-              {server.name}
-            </div>
+            {server.images && server.images.length > 0 ? (
+              <img src={server.images[0]} alt={server.name} className="absolute inset-0 w-full h-full object-cover" />
+            ) : (
+              <div className="absolute inset-0 flex items-center justify-center text-muted-foreground font-display text-4xl tracking-widest opacity-20">
+                {server.name}
+              </div>
+            )}
             {/* Status overlay */}
             <div className="absolute top-4 right-4 z-20">
               <span className="inline-flex items-center gap-1.5 rounded-full bg-background/60 backdrop-blur-sm px-3 py-1.5 text-sm font-medium text-foreground">
@@ -194,6 +199,17 @@ const ServerDetailPage = () => {
               </span>
             </div>
           </div>
+
+          {/* Image gallery */}
+          {server.images && server.images.length > 1 && (
+            <div className="grid grid-cols-2 sm:grid-cols-3 gap-2 px-6 pt-4">
+              {server.images.map((url, i) => (
+                <a key={i} href={url} target="_blank" rel="noopener noreferrer" className="rounded-md overflow-hidden border border-border aspect-video hover:border-primary/40 transition-colors">
+                  <img src={url} alt={`${server.name} ${i + 1}`} className="w-full h-full object-cover" />
+                </a>
+              ))}
+            </div>
+          )}
 
           <div className="p-6 space-y-6">
             {/* Owner profile card */}
