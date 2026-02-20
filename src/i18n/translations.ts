@@ -416,6 +416,11 @@ const cs: TranslationKeys = {
   footer_copyright: "MCServery. Všechna práva vyhrazena. Nejsme spojeni s Mojang Studios.",
   loading: "Načítám...",
   players_online: "hráčů online",
+  featured_title: "Doporučujeme",
+  featured_pin: "Připnout do doporučených",
+  featured_unpin: "Odepnout z doporučených",
+  featured_pinned: "Server připnut!",
+  featured_unpinned: "Server odepnut!",
 };
 
 const en: TranslationKeys = {

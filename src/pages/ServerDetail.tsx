@@ -47,7 +47,7 @@ interface OwnerProfile {
 
 const ServerDetailPage = () => {
   const { id } = useParams<{ id: string }>();
-  const { user, profile: authProfile } = useAuth();
+  const { user, isAdmin } = useAuth();
   const { t } = useLanguage();
   const [server, setServer] = useState<ServerDetailData | null>(null);
   const [loading, setLoading] = useState(true);
@@ -107,7 +107,7 @@ const ServerDetailPage = () => {
   };
 
   const toggleFeatured = async () => {
-    if (!server || !user || !authProfile?.is_admin) return;
+    if (!server || !user || !isAdmin) return;
     const newVal = !server.is_featured;
     const { error } = await supabase.from("servers").update({ is_featured: newVal } as any).eq("id", server.id);
     if (error) {
@@ -221,7 +221,7 @@ const ServerDetailPage = () => {
                 </p>
               </div>
               <div className="flex items-center gap-3">
-                {authProfile?.is_admin && (
+                {isAdmin && (
                   <button
                     onClick={toggleFeatured}
                     className={`transition-colors ${server.is_featured ? "text-primary" : "text-muted-foreground hover:text-primary"}`}
