@@ -159,6 +159,8 @@ export type Database = {
           twitter_url: string | null
           updated_at: string
           version: string
+          vote_api_key: string | null
+          vote_count: number
           website_url: string | null
           youtube_url: string | null
         }
@@ -186,6 +188,8 @@ export type Database = {
           twitter_url?: string | null
           updated_at?: string
           version?: string
+          vote_api_key?: string | null
+          vote_count?: number
           website_url?: string | null
           youtube_url?: string | null
         }
@@ -213,6 +217,8 @@ export type Database = {
           twitter_url?: string | null
           updated_at?: string
           version?: string
+          vote_api_key?: string | null
+          vote_count?: number
           website_url?: string | null
           youtube_url?: string | null
         }
@@ -235,6 +241,41 @@ export type Database = {
           user_id?: string
         }
         Relationships: []
+      }
+      votes: {
+        Row: {
+          claimed: boolean
+          created_at: string
+          id: string
+          minecraft_nick: string
+          server_id: string
+          voter_ip: string
+        }
+        Insert: {
+          claimed?: boolean
+          created_at?: string
+          id?: string
+          minecraft_nick: string
+          server_id: string
+          voter_ip: string
+        }
+        Update: {
+          claimed?: boolean
+          created_at?: string
+          id?: string
+          minecraft_nick?: string
+          server_id?: string
+          voter_ip?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "votes_server_id_fkey"
+            columns: ["server_id"]
+            isOneToOne: false
+            referencedRelation: "servers"
+            referencedColumns: ["id"]
+          },
+        ]
       }
     }
     Views: {

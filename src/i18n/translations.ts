@@ -171,6 +171,24 @@ type TranslationKeys = {
   featured_unpin: string;
   featured_pinned: string;
   featured_unpinned: string;
+  // Vote
+  vote_title: string;
+  vote_description: string;
+  vote_nick_placeholder: string;
+  vote_nick_required: string;
+  vote_nick_invalid: string;
+  vote_submit: string;
+  vote_success: string;
+  vote_thanks: string;
+  vote_next_in_24h: string;
+  vote_cooldown: string;
+  vote_error: string;
+  vote_count: string;
+  // Sort
+  sort_label: string;
+  sort_votes: string;
+  sort_likes: string;
+  sort_players: string;
   // Common
   loading: string;
   online: string;
@@ -319,6 +337,22 @@ const sk: TranslationKeys = {
   online: "Online",
   offline: "Offline",
   players_online: "hráčov online",
+  vote_title: "Hlasovať",
+  vote_description: "Zadaj svoj Minecraft nick a hlasuj za tento server. Hlasovať môžeš raz za 24 hodín.",
+  vote_nick_placeholder: "Tvoj Minecraft nick",
+  vote_nick_required: "Zadaj Minecraft nick",
+  vote_nick_invalid: "Neplatný nick (3-16 znakov, písmená, čísla, _)",
+  vote_submit: "Hlasovať",
+  vote_success: "Hlas zaznamenaný!",
+  vote_thanks: "Ďakujeme za hlas!",
+  vote_next_in_24h: "Ďalší hlas môžeš dať o 24 hodín.",
+  vote_cooldown: "Už si hlasoval za posledných 24 hodín.",
+  vote_error: "Chyba pri hlasovaní",
+  vote_count: "hlasov",
+  sort_label: "Zoradiť podľa",
+  sort_votes: "Hlasy",
+  sort_likes: "Lajky",
+  sort_players: "Hráči",
 };
 
 const cs: TranslationKeys = {
@@ -570,6 +604,22 @@ const en: TranslationKeys = {
   online: "Online",
   offline: "Offline",
   players_online: "players online",
+  vote_title: "Vote",
+  vote_description: "Enter your Minecraft nick and vote for this server. You can vote once every 24 hours.",
+  vote_nick_placeholder: "Your Minecraft nick",
+  vote_nick_required: "Enter your Minecraft nick",
+  vote_nick_invalid: "Invalid nick (3-16 chars, letters, numbers, _)",
+  vote_submit: "Vote",
+  vote_success: "Vote recorded!",
+  vote_thanks: "Thanks for voting!",
+  vote_next_in_24h: "You can vote again in 24 hours.",
+  vote_cooldown: "You already voted in the last 24 hours.",
+  vote_error: "Error while voting",
+  vote_count: "votes",
+  sort_label: "Sort by",
+  sort_votes: "Votes",
+  sort_likes: "Likes",
+  sort_players: "Players",
 };
 
 const de: TranslationKeys = {

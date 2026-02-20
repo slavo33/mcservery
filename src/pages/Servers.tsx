@@ -3,6 +3,7 @@ import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import ServerCard from "@/components/ServerCard";
 import ServerFilters from "@/components/ServerFilters";
+import { ArrowUpDown } from "lucide-react";
 import type { MinecraftServer } from "@/lib/mockData";
 import { supabase } from "@/integrations/supabase/client";
 import { useLanguage } from "@/i18n/LanguageContext";
@@ -23,6 +24,7 @@ interface DbServer {
   is_warez: boolean;
   has_whitelist: boolean;
   images: string[];
+  vote_count: number;
 }
 
 const Servers = () => {
@@ -31,11 +33,13 @@ const Servers = () => {
   const [platform, setPlatform] = useState("");
   const [version, setVersion] = useState("");
   const [software, setSoftware] = useState("");
+  const [sortBy, setSortBy] = useState<"votes" | "likes" | "players">("votes");
+  const [sortDir, setSortDir] = useState<"desc" | "asc">("desc");
   const [dbServers, setDbServers] = useState<DbServer[]>([]);
 
   useEffect(() => {
     const fetch = async () => {
-      const { data } = await supabase.from("servers").select("*").order("likes_count", { ascending: false });
+      const { data } = await supabase.from("servers").select("*").order("vote_count", { ascending: false });
       if (data) setDbServers(data as unknown as DbServer[]);
     };
     fetch();
@@ -56,6 +60,7 @@ const Servers = () => {
       software: s.software,
       minigames: s.minigames,
       likes: s.likes_count,
+      votes: (s as any).vote_count || 0,
       tags: s.tags,
       isOnline: true,
       is_warez: s.is_warez,
@@ -64,7 +69,7 @@ const Servers = () => {
   }, [dbServers]);
 
   const filtered = useMemo(() => {
-    return allServers.filter((s) => {
+    let result = allServers.filter((s) => {
       if (search) {
         const q = search.toLowerCase();
         if (!s.name.toLowerCase().includes(q) && !s.ip.toLowerCase().includes(q)) return false;
@@ -77,7 +82,18 @@ const Servers = () => {
       if (software && s.software !== software) return false;
       return true;
     });
-  }, [search, platform, version, software, allServers]);
+
+    // Sort
+    result.sort((a, b) => {
+      let valA = 0, valB = 0;
+      if (sortBy === "votes") { valA = (a as any).votes || 0; valB = (b as any).votes || 0; }
+      else if (sortBy === "likes") { valA = a.likes; valB = b.likes; }
+      else if (sortBy === "players") { valA = a.players.online; valB = b.players.online; }
+      return sortDir === "desc" ? valB - valA : valA - valB;
+    });
+
+    return result;
+  }, [search, platform, version, software, allServers, sortBy, sortDir]);
 
   return (
     <div className="min-h-screen flex flex-col bg-background">
@@ -94,6 +110,25 @@ const Servers = () => {
           selectedVersion={version} onVersionChange={setVersion}
           selectedSoftware={software} onSoftwareChange={setSoftware}
         />
+
+        {/* Sorting */}
+        <div className="flex items-center gap-2 mb-6 flex-wrap">
+          <span className="text-sm text-muted-foreground flex items-center gap-1">
+            <ArrowUpDown className="h-4 w-4" /> {t("sort_label")}:
+          </span>
+          {(["votes", "likes", "players"] as const).map((opt) => (
+            <button
+              key={opt}
+              onClick={() => {
+                if (sortBy === opt) setSortDir(sortDir === "desc" ? "asc" : "desc");
+                else { setSortBy(opt); setSortDir("desc"); }
+              }}
+              className={`text-sm px-3 py-1 rounded-full border transition-colors ${sortBy === opt ? "border-primary bg-primary/10 text-primary" : "border-border text-muted-foreground hover:border-primary/40"}`}
+            >
+              {t(`sort_${opt}` as any)} {sortBy === opt ? (sortDir === "desc" ? "↓" : "↑") : ""}
+            </button>
+          ))}
+        </div>
 
         {filtered.length > 0 ? (
           <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
