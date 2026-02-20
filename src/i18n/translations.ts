@@ -189,6 +189,22 @@ type TranslationKeys = {
   sort_votes: string;
   sort_likes: string;
   sort_players: string;
+  // Edit server
+  edit_title_1: string;
+  edit_title_2: string;
+  edit_subtitle: string;
+  edit_save: string;
+  edit_saving: string;
+  edit_save_error: string;
+  edit_save_success: string;
+  edit_fill_required: string;
+  edit_not_found: string;
+  edit_no_permission: string;
+  // Vote API key
+  edit_vote_api_key: string;
+  edit_vote_api_desc: string;
+  edit_vote_api_copied: string;
+  edit_vote_api_endpoint: string;
   // Common
   loading: string;
   online: string;
@@ -353,6 +369,20 @@ const sk: TranslationKeys = {
   sort_votes: "Hlasy",
   sort_likes: "Lajky",
   sort_players: "Hráči",
+  edit_title_1: "Upraviť",
+  edit_title_2: "server",
+  edit_subtitle: "Uprav údaje svojho servera",
+  edit_save: "Uložiť zmeny",
+  edit_saving: "Ukladám...",
+  edit_save_error: "Nepodarilo sa uložiť zmeny. Skús to znova.",
+  edit_save_success: "Server bol aktualizovaný!",
+  edit_fill_required: "Vyplň názov a IP adresu",
+  edit_not_found: "Server nenájdený",
+  edit_no_permission: "Nemáš oprávnenie upravovať tento server",
+  edit_vote_api_key: "Vote API Key",
+  edit_vote_api_desc: "Použi tento kľúč vo svojom Votifier/NuVotifier plugine na doručovanie odmien hráčom.",
+  edit_vote_api_copied: "API kľúč skopírovaný!",
+  edit_vote_api_endpoint: "Endpoint",
 };
 
 const cs: TranslationKeys = {
@@ -477,6 +507,20 @@ const cs: TranslationKeys = {
   sort_votes: "Hlasy",
   sort_likes: "Lajky",
   sort_players: "Hráči",
+  edit_title_1: "Upravit",
+  edit_title_2: "server",
+  edit_subtitle: "Uprav údaje svého serveru",
+  edit_save: "Uložit změny",
+  edit_saving: "Ukládám...",
+  edit_save_error: "Nepodařilo se uložit změny. Zkus to znovu.",
+  edit_save_success: "Server byl aktualizován!",
+  edit_fill_required: "Vyplň název a IP adresu",
+  edit_not_found: "Server nenalezen",
+  edit_no_permission: "Nemáš oprávnění upravovat tento server",
+  edit_vote_api_key: "Vote API Key",
+  edit_vote_api_desc: "Použij tento klíč ve svém Votifier/NuVotifier pluginu pro doručování odměn hráčům.",
+  edit_vote_api_copied: "API klíč zkopírován!",
+  edit_vote_api_endpoint: "Endpoint",
 };
 
 const en: TranslationKeys = {
@@ -636,6 +680,20 @@ const en: TranslationKeys = {
   sort_votes: "Votes",
   sort_likes: "Likes",
   sort_players: "Players",
+  edit_title_1: "Edit",
+  edit_title_2: "server",
+  edit_subtitle: "Update your server details",
+  edit_save: "Save changes",
+  edit_saving: "Saving...",
+  edit_save_error: "Failed to save changes. Try again.",
+  edit_save_success: "Server updated!",
+  edit_fill_required: "Fill in the name and IP address",
+  edit_not_found: "Server not found",
+  edit_no_permission: "You don't have permission to edit this server",
+  edit_vote_api_key: "Vote API Key",
+  edit_vote_api_desc: "Use this key in your Votifier/NuVotifier plugin to deliver rewards to players.",
+  edit_vote_api_copied: "API key copied!",
+  edit_vote_api_endpoint: "Endpoint",
 };
 
 const de: TranslationKeys = {
@@ -765,6 +823,20 @@ const de: TranslationKeys = {
   sort_votes: "Stimmen",
   sort_likes: "Likes",
   sort_players: "Spieler",
+  edit_title_1: "Server",
+  edit_title_2: "bearbeiten",
+  edit_subtitle: "Aktualisiere die Daten deines Servers",
+  edit_save: "Änderungen speichern",
+  edit_saving: "Wird gespeichert...",
+  edit_save_error: "Änderungen konnten nicht gespeichert werden. Versuche es erneut.",
+  edit_save_success: "Server aktualisiert!",
+  edit_fill_required: "Fülle Name und IP-Adresse aus",
+  edit_not_found: "Server nicht gefunden",
+  edit_no_permission: "Du hast keine Berechtigung, diesen Server zu bearbeiten",
+  edit_vote_api_key: "Vote API Key",
+  edit_vote_api_desc: "Verwende diesen Schlüssel in deinem Votifier/NuVotifier-Plugin, um Spielern Belohnungen zuzustellen.",
+  edit_vote_api_copied: "API-Schlüssel kopiert!",
+  edit_vote_api_endpoint: "Endpoint",
 };
 
 const fr: TranslationKeys = {
@@ -897,6 +969,20 @@ const fr: TranslationKeys = {
   sort_votes: "Votes",
   sort_likes: "Likes",
   sort_players: "Joueurs",
+  edit_title_1: "Modifier le",
+  edit_title_2: "serveur",
+  edit_subtitle: "Mets à jour les informations de ton serveur",
+  edit_save: "Enregistrer les modifications",
+  edit_saving: "Enregistrement...",
+  edit_save_error: "Impossible d'enregistrer les modifications. Réessaie.",
+  edit_save_success: "Serveur mis à jour !",
+  edit_fill_required: "Remplis le nom et l'adresse IP",
+  edit_not_found: "Serveur introuvable",
+  edit_no_permission: "Tu n'as pas la permission de modifier ce serveur",
+  edit_vote_api_key: "Clé API Vote",
+  edit_vote_api_desc: "Utilise cette clé dans ton plugin Votifier/NuVotifier pour distribuer des récompenses aux joueurs.",
+  edit_vote_api_copied: "Clé API copiée !",
+  edit_vote_api_endpoint: "Endpoint",
 };
 
 const ru: TranslationKeys = {
@@ -918,6 +1004,7 @@ const ru: TranslationKeys = {
   loading: "Загрузка...", online: "Онлайн", offline: "Офлайн", players_online: "игроков онлайн",
   vote_title: "Голосовать", vote_description: "Введите свой Minecraft ник и проголосуйте за этот сервер. Голосовать можно раз в 24 часа.", vote_nick_placeholder: "Ваш Minecraft ник", vote_nick_required: "Введите Minecraft ник", vote_nick_invalid: "Неверный ник (3-16 символов, буквы, цифры, _)", vote_submit: "Голосовать", vote_success: "Голос записан!", vote_thanks: "Спасибо за голос!", vote_next_in_24h: "Следующий голос через 24 часа.", vote_cooldown: "Вы уже голосовали за последние 24 часа.", vote_error: "Ошибка голосования", vote_count: "голосов",
   sort_label: "Сортировать по", sort_votes: "Голоса", sort_likes: "Лайки", sort_players: "Игроки",
+  edit_title_1: "Редактировать", edit_title_2: "сервер", edit_subtitle: "Обновите данные вашего сервера", edit_save: "Сохранить изменения", edit_saving: "Сохраняю...", edit_save_error: "Не удалось сохранить изменения. Попробуйте снова.", edit_save_success: "Сервер обновлён!", edit_fill_required: "Заполните название и IP-адрес", edit_not_found: "Сервер не найден", edit_no_permission: "У вас нет прав для редактирования этого сервера", edit_vote_api_key: "Vote API Key", edit_vote_api_desc: "Используйте этот ключ в вашем Votifier/NuVotifier плагине для доставки наград игрокам.", edit_vote_api_copied: "API-ключ скопирован!", edit_vote_api_endpoint: "Endpoint",
 };
 
 const uk: TranslationKeys = {
@@ -939,6 +1026,7 @@ const uk: TranslationKeys = {
   loading: "Завантаження...", online: "Онлайн", offline: "Офлайн", players_online: "гравців онлайн",
   vote_title: "Голосувати", vote_description: "Введіть свій Minecraft нік і проголосуйте за цей сервер. Голосувати можна раз на 24 години.", vote_nick_placeholder: "Ваш Minecraft нік", vote_nick_required: "Введіть Minecraft нік", vote_nick_invalid: "Невірний нік (3-16 символів, літери, цифри, _)", vote_submit: "Голосувати", vote_success: "Голос записано!", vote_thanks: "Дякуємо за голос!", vote_next_in_24h: "Наступний голос через 24 години.", vote_cooldown: "Ви вже голосували за останні 24 години.", vote_error: "Помилка голосування", vote_count: "голосів",
   sort_label: "Сортувати за", sort_votes: "Голоси", sort_likes: "Лайки", sort_players: "Гравці",
+  edit_title_1: "Редагувати", edit_title_2: "сервер", edit_subtitle: "Оновіть дані вашого сервера", edit_save: "Зберегти зміни", edit_saving: "Зберігаю...", edit_save_error: "Не вдалося зберегти зміни. Спробуйте ще раз.", edit_save_success: "Сервер оновлено!", edit_fill_required: "Заповніть назву та IP-адресу", edit_not_found: "Сервер не знайдено", edit_no_permission: "У вас немає дозволу редагувати цей сервер", edit_vote_api_key: "Vote API Key", edit_vote_api_desc: "Використовуйте цей ключ у вашому Votifier/NuVotifier плагіні для доставки нагород гравцям.", edit_vote_api_copied: "API-ключ скопійовано!", edit_vote_api_endpoint: "Endpoint",
 };
 
 const es: TranslationKeys = {
@@ -960,6 +1048,7 @@ const es: TranslationKeys = {
   loading: "Cargando...", online: "En línea", offline: "Fuera de línea", players_online: "jugadores en línea",
   vote_title: "Votar", vote_description: "Ingresa tu nick de Minecraft y vota por este servidor. Puedes votar una vez cada 24 horas.", vote_nick_placeholder: "Tu nick de Minecraft", vote_nick_required: "Ingresa tu nick de Minecraft", vote_nick_invalid: "Nick inválido (3-16 caracteres, letras, números, _)", vote_submit: "Votar", vote_success: "¡Voto registrado!", vote_thanks: "¡Gracias por votar!", vote_next_in_24h: "Podrás votar de nuevo en 24 horas.", vote_cooldown: "Ya votaste en las últimas 24 horas.", vote_error: "Error al votar", vote_count: "votos",
   sort_label: "Ordenar por", sort_votes: "Votos", sort_likes: "Likes", sort_players: "Jugadores",
+  edit_title_1: "Editar", edit_title_2: "servidor", edit_subtitle: "Actualiza los datos de tu servidor", edit_save: "Guardar cambios", edit_saving: "Guardando...", edit_save_error: "No se pudieron guardar los cambios. Inténtalo de nuevo.", edit_save_success: "¡Servidor actualizado!", edit_fill_required: "Completa el nombre y la dirección IP", edit_not_found: "Servidor no encontrado", edit_no_permission: "No tienes permiso para editar este servidor", edit_vote_api_key: "Vote API Key", edit_vote_api_desc: "Usa esta clave en tu plugin Votifier/NuVotifier para entregar recompensas a los jugadores.", edit_vote_api_copied: "¡Clave API copiada!", edit_vote_api_endpoint: "Endpoint",
 };
 
 const pt: TranslationKeys = {
@@ -980,6 +1069,7 @@ const pt: TranslationKeys = {
   footer_support: "Apoie-nos",
   vote_title: "Votar", vote_description: "Digite seu nick do Minecraft e vote neste servidor. Você pode votar uma vez a cada 24 horas.", vote_nick_placeholder: "Seu nick do Minecraft", vote_nick_required: "Digite seu nick do Minecraft", vote_nick_invalid: "Nick inválido (3-16 caracteres, letras, números, _)", vote_submit: "Votar", vote_success: "Voto registrado!", vote_thanks: "Obrigado pelo voto!", vote_next_in_24h: "Você poderá votar novamente em 24 horas.", vote_cooldown: "Você já votou nas últimas 24 horas.", vote_error: "Erro ao votar", vote_count: "votos",
   sort_label: "Ordenar por", sort_votes: "Votos", sort_likes: "Likes", sort_players: "Jogadores",
+  edit_title_1: "Editar", edit_title_2: "servidor", edit_subtitle: "Atualize os dados do seu servidor", edit_save: "Salvar alterações", edit_saving: "Salvando...", edit_save_error: "Não foi possível salvar as alterações. Tente novamente.", edit_save_success: "Servidor atualizado!", edit_fill_required: "Preencha o nome e o endereço IP", edit_not_found: "Servidor não encontrado", edit_no_permission: "Você não tem permissão para editar este servidor", edit_vote_api_key: "Vote API Key", edit_vote_api_desc: "Use esta chave no seu plugin Votifier/NuVotifier para entregar recompensas aos jogadores.", edit_vote_api_copied: "Chave API copiada!", edit_vote_api_endpoint: "Endpoint",
 };
 
 const br: TranslationKeys = {
@@ -1007,6 +1097,7 @@ const zh: TranslationKeys = {
   loading: "加载中...", online: "在线", offline: "离线", players_online: "在线玩家",
   vote_title: "投票", vote_description: "输入你的Minecraft昵称并为此服务器投票。每24小时可投票一次。", vote_nick_placeholder: "你的Minecraft昵称", vote_nick_required: "请输入Minecraft昵称", vote_nick_invalid: "无效昵称（3-16个字符，字母、数字、_）", vote_submit: "投票", vote_success: "投票成功！", vote_thanks: "感谢投票！", vote_next_in_24h: "24小时后可再次投票。", vote_cooldown: "你在过去24小时内已投过票。", vote_error: "投票出错", vote_count: "票",
   sort_label: "排序方式", sort_votes: "投票", sort_likes: "点赞", sort_players: "玩家",
+  edit_title_1: "编辑", edit_title_2: "服务器", edit_subtitle: "更新你的服务器信息", edit_save: "保存更改", edit_saving: "保存中...", edit_save_error: "无法保存更改，请重试。", edit_save_success: "服务器已更新！", edit_fill_required: "请填写名称和IP地址", edit_not_found: "服务器未找到", edit_no_permission: "你没有权限编辑此服务器", edit_vote_api_key: "Vote API Key", edit_vote_api_desc: "在你的Votifier/NuVotifier插件中使用此密钥来为玩家发放奖励。", edit_vote_api_copied: "API密钥已复制！", edit_vote_api_endpoint: "Endpoint",
 };
 
 const ja: TranslationKeys = {
@@ -1028,6 +1119,7 @@ const ja: TranslationKeys = {
   loading: "読み込み中...", online: "オンライン", offline: "オフライン", players_online: "オンラインプレイヤー",
   vote_title: "投票する", vote_description: "Minecraftのニックネームを入力してこのサーバーに投票しましょう。24時間ごとに1回投票できます。", vote_nick_placeholder: "Minecraftニックネーム", vote_nick_required: "Minecraftニックネームを入力してください", vote_nick_invalid: "無効なニックネーム（3-16文字、英数字、_）", vote_submit: "投票する", vote_success: "投票完了！", vote_thanks: "投票ありがとうございます！", vote_next_in_24h: "24時間後に再投票できます。", vote_cooldown: "過去24時間以内にすでに投票しています。", vote_error: "投票エラー", vote_count: "票",
   sort_label: "並び替え", sort_votes: "投票数", sort_likes: "いいね", sort_players: "プレイヤー",
+  edit_title_1: "サーバーを", edit_title_2: "編集", edit_subtitle: "サーバー情報を更新", edit_save: "変更を保存", edit_saving: "保存中...", edit_save_error: "変更を保存できませんでした。もう一度お試しください。", edit_save_success: "サーバーが更新されました！", edit_fill_required: "名前とIPアドレスを入力してください", edit_not_found: "サーバーが見つかりません", edit_no_permission: "このサーバーを編集する権限がありません", edit_vote_api_key: "Vote API Key", edit_vote_api_desc: "Votifier/NuVotifierプラグインでこのキーを使用して、プレイヤーに報酬を配布します。", edit_vote_api_copied: "APIキーをコピーしました！", edit_vote_api_endpoint: "Endpoint",
 };
 
 export const translations: Record<Locale, TranslationKeys> = { sk, cs, en, de, fr, ru, uk, es, pt, br, zh, ja };
