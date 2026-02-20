@@ -15,7 +15,7 @@ const mapServer = (s: any): MinecraftServer & { is_warez?: boolean; has_whitelis
   name: s.name,
   description: s.description,
   ip: s.ip,
-  image: "",
+  image: s.images && s.images.length > 0 ? s.images[0] : "",
   players: { online: 0, max: s.max_players },
   version: s.version,
   platform: s.platform as ("java" | "bedrock")[],
