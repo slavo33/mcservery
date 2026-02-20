@@ -134,7 +134,8 @@ const Profile = () => {
       .upload(path, file, { upsert: true });
 
     if (uploadError) {
-      toast.error(t("profile_avatar_error") + ": " + uploadError.message);
+      console.error("Avatar upload error:", uploadError);
+      toast.error(t("profile_avatar_error"));
       setUploading(false);
       return;
     }

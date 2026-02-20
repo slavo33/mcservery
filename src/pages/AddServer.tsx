@@ -78,7 +78,8 @@ const AddServer = () => {
     } as any);
 
     if (error) {
-      toast.error("Chyba: " + error.message);
+      console.error("Server insert error:", error);
+      toast.error("Nepodarilo sa pridať server. Skús to znova.");
     } else {
       toast.success("Server bol pridaný!");
       navigate("/servers");
