@@ -461,6 +461,22 @@ const cs: TranslationKeys = {
   featured_unpin: "Odepnout z doporučených",
   featured_pinned: "Server připnut!",
   featured_unpinned: "Server odepnut!",
+  vote_title: "Hlasovat",
+  vote_description: "Zadej svůj Minecraft nick a hlasuj pro tento server. Hlasovat můžeš jednou za 24 hodin.",
+  vote_nick_placeholder: "Tvůj Minecraft nick",
+  vote_nick_required: "Zadej Minecraft nick",
+  vote_nick_invalid: "Neplatný nick (3-16 znaků, písmena, čísla, _)",
+  vote_submit: "Hlasovat",
+  vote_success: "Hlas zaznamenán!",
+  vote_thanks: "Děkujeme za hlas!",
+  vote_next_in_24h: "Další hlas můžeš dát za 24 hodin.",
+  vote_cooldown: "Už jsi hlasoval za posledních 24 hodin.",
+  vote_error: "Chyba při hlasování",
+  vote_count: "hlasů",
+  sort_label: "Seřadit podle",
+  sort_votes: "Hlasy",
+  sort_likes: "Lajky",
+  sort_players: "Hráči",
 };
 
 const en: TranslationKeys = {
@@ -733,6 +749,22 @@ const de: TranslationKeys = {
   featured_title: "Wir empfehlen", featured_pin: "Anheften", featured_unpin: "Loslösen", featured_pinned: "Server angeheftet!", featured_unpinned: "Server losgelöst!",
   loading: "Laden...",
   players_online: "Spieler online",
+  vote_title: "Abstimmen",
+  vote_description: "Gib deinen Minecraft-Nick ein und stimme für diesen Server. Du kannst alle 24 Stunden abstimmen.",
+  vote_nick_placeholder: "Dein Minecraft-Nick",
+  vote_nick_required: "Gib deinen Minecraft-Nick ein",
+  vote_nick_invalid: "Ungültiger Nick (3-16 Zeichen, Buchstaben, Zahlen, _)",
+  vote_submit: "Abstimmen",
+  vote_success: "Stimme gespeichert!",
+  vote_thanks: "Danke für deine Stimme!",
+  vote_next_in_24h: "Du kannst in 24 Stunden erneut abstimmen.",
+  vote_cooldown: "Du hast bereits in den letzten 24 Stunden abgestimmt.",
+  vote_error: "Fehler beim Abstimmen",
+  vote_count: "Stimmen",
+  sort_label: "Sortieren nach",
+  sort_votes: "Stimmen",
+  sort_likes: "Likes",
+  sort_players: "Spieler",
 };
 
 const fr: TranslationKeys = {
@@ -849,6 +881,22 @@ const fr: TranslationKeys = {
   online: "En ligne",
   offline: "Hors ligne",
   players_online: "joueurs en ligne",
+  vote_title: "Voter",
+  vote_description: "Entre ton pseudo Minecraft et vote pour ce serveur. Tu peux voter une fois toutes les 24 heures.",
+  vote_nick_placeholder: "Ton pseudo Minecraft",
+  vote_nick_required: "Entre ton pseudo Minecraft",
+  vote_nick_invalid: "Pseudo invalide (3-16 caractères, lettres, chiffres, _)",
+  vote_submit: "Voter",
+  vote_success: "Vote enregistré !",
+  vote_thanks: "Merci pour ton vote !",
+  vote_next_in_24h: "Tu pourras revoter dans 24 heures.",
+  vote_cooldown: "Tu as déjà voté dans les dernières 24 heures.",
+  vote_error: "Erreur lors du vote",
+  vote_count: "votes",
+  sort_label: "Trier par",
+  sort_votes: "Votes",
+  sort_likes: "Likes",
+  sort_players: "Joueurs",
 };
 
 const ru: TranslationKeys = {
@@ -868,6 +916,8 @@ const ru: TranslationKeys = {
   footer_desc: "Крупнейший каталог серверов Minecraft. Найди свой идеальный сервер или поделись своим.", footer_nav: "Навигация", footer_legal: "Правовая информация", footer_terms: "Условия использования", footer_privacy: "Политика конфиденциальности", footer_copyright: "MCServery. Все права защищены. Не связано с Mojang Studios.", footer_contact: "Контакт", footer_support: "Поддержать нас",
   settings_language: "Язык", featured_title: "Рекомендуем", featured_pin: "Закрепить", featured_unpin: "Открепить", featured_pinned: "Сервер закреплён!", featured_unpinned: "Сервер откреплён!",
   loading: "Загрузка...", online: "Онлайн", offline: "Офлайн", players_online: "игроков онлайн",
+  vote_title: "Голосовать", vote_description: "Введите свой Minecraft ник и проголосуйте за этот сервер. Голосовать можно раз в 24 часа.", vote_nick_placeholder: "Ваш Minecraft ник", vote_nick_required: "Введите Minecraft ник", vote_nick_invalid: "Неверный ник (3-16 символов, буквы, цифры, _)", vote_submit: "Голосовать", vote_success: "Голос записан!", vote_thanks: "Спасибо за голос!", vote_next_in_24h: "Следующий голос через 24 часа.", vote_cooldown: "Вы уже голосовали за последние 24 часа.", vote_error: "Ошибка голосования", vote_count: "голосов",
+  sort_label: "Сортировать по", sort_votes: "Голоса", sort_likes: "Лайки", sort_players: "Игроки",
 };
 
 const uk: TranslationKeys = {
@@ -887,6 +937,8 @@ const uk: TranslationKeys = {
   footer_desc: "Найбільший каталог серверів Minecraft. Знайди свій ідеальний сервер або поділись своїм.", footer_nav: "Навігація", footer_legal: "Правова інформація", footer_terms: "Умови використання", footer_privacy: "Політика конфіденційності", footer_copyright: "MCServery. Усі права захищені. Не пов'язано з Mojang Studios.", footer_contact: "Контакт", footer_support: "Підтримати нас",
   settings_language: "Мова", featured_title: "Рекомендуємо", featured_pin: "Закріпити", featured_unpin: "Відкріпити", featured_pinned: "Сервер закріплено!", featured_unpinned: "Сервер відкріплено!",
   loading: "Завантаження...", online: "Онлайн", offline: "Офлайн", players_online: "гравців онлайн",
+  vote_title: "Голосувати", vote_description: "Введіть свій Minecraft нік і проголосуйте за цей сервер. Голосувати можна раз на 24 години.", vote_nick_placeholder: "Ваш Minecraft нік", vote_nick_required: "Введіть Minecraft нік", vote_nick_invalid: "Невірний нік (3-16 символів, літери, цифри, _)", vote_submit: "Голосувати", vote_success: "Голос записано!", vote_thanks: "Дякуємо за голос!", vote_next_in_24h: "Наступний голос через 24 години.", vote_cooldown: "Ви вже голосували за останні 24 години.", vote_error: "Помилка голосування", vote_count: "голосів",
+  sort_label: "Сортувати за", sort_votes: "Голоси", sort_likes: "Лайки", sort_players: "Гравці",
 };
 
 const es: TranslationKeys = {
@@ -906,6 +958,8 @@ const es: TranslationKeys = {
   footer_desc: "El mayor catálogo de servidores de Minecraft.", footer_terms: "Términos de uso", footer_privacy: "Política de privacidad", footer_copyright: "MCServery. Todos los derechos reservados. No afiliado a Mojang Studios.", footer_contact: "Contacto", footer_support: "Apóyanos",
   settings_language: "Idioma", featured_title: "Recomendamos", featured_pin: "Fijar", featured_unpin: "Desfijar", featured_pinned: "¡Servidor fijado!", featured_unpinned: "¡Servidor desfijado!",
   loading: "Cargando...", online: "En línea", offline: "Fuera de línea", players_online: "jugadores en línea",
+  vote_title: "Votar", vote_description: "Ingresa tu nick de Minecraft y vota por este servidor. Puedes votar una vez cada 24 horas.", vote_nick_placeholder: "Tu nick de Minecraft", vote_nick_required: "Ingresa tu nick de Minecraft", vote_nick_invalid: "Nick inválido (3-16 caracteres, letras, números, _)", vote_submit: "Votar", vote_success: "¡Voto registrado!", vote_thanks: "¡Gracias por votar!", vote_next_in_24h: "Podrás votar de nuevo en 24 horas.", vote_cooldown: "Ya votaste en las últimas 24 horas.", vote_error: "Error al votar", vote_count: "votos",
+  sort_label: "Ordenar por", sort_votes: "Votos", sort_likes: "Likes", sort_players: "Jugadores",
 };
 
 const pt: TranslationKeys = {
@@ -924,6 +978,8 @@ const pt: TranslationKeys = {
   loading: "A carregar...", players_online: "jogadores online",
   footer_contact: "Contacto",
   footer_support: "Apoie-nos",
+  vote_title: "Votar", vote_description: "Digite seu nick do Minecraft e vote neste servidor. Você pode votar uma vez a cada 24 horas.", vote_nick_placeholder: "Seu nick do Minecraft", vote_nick_required: "Digite seu nick do Minecraft", vote_nick_invalid: "Nick inválido (3-16 caracteres, letras, números, _)", vote_submit: "Votar", vote_success: "Voto registrado!", vote_thanks: "Obrigado pelo voto!", vote_next_in_24h: "Você poderá votar novamente em 24 horas.", vote_cooldown: "Você já votou nas últimas 24 horas.", vote_error: "Erro ao votar", vote_count: "votos",
+  sort_label: "Ordenar por", sort_votes: "Votos", sort_likes: "Likes", sort_players: "Jogadores",
 };
 
 const br: TranslationKeys = {
@@ -949,6 +1005,8 @@ const zh: TranslationKeys = {
   footer_desc: "最大的Minecraft服务器目录。", footer_terms: "使用条款", footer_privacy: "隐私政策", footer_copyright: "MCServery。保留所有权利。与Mojang Studios无关。", footer_contact: "联系方式", footer_support: "支持我们",
   settings_language: "语言", featured_title: "推荐", featured_pin: "置顶", featured_unpin: "取消置顶", featured_pinned: "服务器已置顶！", featured_unpinned: "服务器已取消置顶！",
   loading: "加载中...", online: "在线", offline: "离线", players_online: "在线玩家",
+  vote_title: "投票", vote_description: "输入你的Minecraft昵称并为此服务器投票。每24小时可投票一次。", vote_nick_placeholder: "你的Minecraft昵称", vote_nick_required: "请输入Minecraft昵称", vote_nick_invalid: "无效昵称（3-16个字符，字母、数字、_）", vote_submit: "投票", vote_success: "投票成功！", vote_thanks: "感谢投票！", vote_next_in_24h: "24小时后可再次投票。", vote_cooldown: "你在过去24小时内已投过票。", vote_error: "投票出错", vote_count: "票",
+  sort_label: "排序方式", sort_votes: "投票", sort_likes: "点赞", sort_players: "玩家",
 };
 
 const ja: TranslationKeys = {
@@ -968,6 +1026,8 @@ const ja: TranslationKeys = {
   footer_desc: "最大のMinecraftサーバーカタログ。", footer_terms: "利用規約", footer_privacy: "プライバシーポリシー", footer_copyright: "MCServery。全著作権所有。Mojang Studiosとは無関係。", footer_contact: "お問い合わせ", footer_support: "サポートする",
   settings_language: "言語", featured_title: "おすすめ", featured_pin: "ピン留め", featured_unpin: "ピン解除", featured_pinned: "サーバーをピン留めしました！", featured_unpinned: "ピン留めを解除しました！",
   loading: "読み込み中...", online: "オンライン", offline: "オフライン", players_online: "オンラインプレイヤー",
+  vote_title: "投票する", vote_description: "Minecraftのニックネームを入力してこのサーバーに投票しましょう。24時間ごとに1回投票できます。", vote_nick_placeholder: "Minecraftニックネーム", vote_nick_required: "Minecraftニックネームを入力してください", vote_nick_invalid: "無効なニックネーム（3-16文字、英数字、_）", vote_submit: "投票する", vote_success: "投票完了！", vote_thanks: "投票ありがとうございます！", vote_next_in_24h: "24時間後に再投票できます。", vote_cooldown: "過去24時間以内にすでに投票しています。", vote_error: "投票エラー", vote_count: "票",
+  sort_label: "並び替え", sort_votes: "投票数", sort_likes: "いいね", sort_players: "プレイヤー",
 };
 
 export const translations: Record<Locale, TranslationKeys> = { sk, cs, en, de, fr, ru, uk, es, pt, br, zh, ja };
