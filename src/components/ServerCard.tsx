@@ -1,4 +1,4 @@
-import { Heart, Users, Wifi, WifiOff, Copy, Shield, ShieldOff } from "lucide-react";
+import { Heart, Users, Wifi, WifiOff, Copy, Shield, ShieldOff, Vote } from "lucide-react";
 import type { MinecraftServer } from "@/lib/mockData";
 import { useState } from "react";
 import { Link } from "react-router-dom";
@@ -6,7 +6,7 @@ import { useLanguage } from "@/i18n/LanguageContext";
 import { useServerStatus } from "@/hooks/useServerStatus";
 
 interface ServerCardProps {
-  server: MinecraftServer & { is_warez?: boolean; has_whitelist?: boolean };
+  server: MinecraftServer & { is_warez?: boolean; has_whitelist?: boolean; votes?: number };
   dbMode?: boolean;
   dbId?: string;
 }
@@ -77,10 +77,16 @@ const ServerCard = ({ server, dbMode, dbId }: ServerCardProps) => {
           <h3 className="font-display text-lg font-bold text-foreground leading-tight group-hover:text-primary transition-colors">
             {server.name}
           </h3>
-          <button onClick={handleLike} className="flex items-center gap-1 text-muted-foreground hover:text-primary transition-colors shrink-0">
-            <Heart className={`h-4 w-4 transition-all ${liked ? "fill-primary text-primary scale-110" : ""}`} />
-            <span className="text-xs">{server.likes + (liked ? 1 : 0)}</span>
-          </button>
+          <div className="flex items-center gap-3 shrink-0">
+            <span className="flex items-center gap-1 text-muted-foreground text-xs">
+              <Vote className="h-3.5 w-3.5 text-primary" />
+              {(server as any).votes || 0}
+            </span>
+            <button onClick={handleLike} className="flex items-center gap-1 text-muted-foreground hover:text-primary transition-colors">
+              <Heart className={`h-4 w-4 transition-all ${liked ? "fill-primary text-primary scale-110" : ""}`} />
+              <span className="text-xs">{server.likes + (liked ? 1 : 0)}</span>
+            </button>
+          </div>
         </div>
 
         <p className="text-sm text-muted-foreground mb-3 line-clamp-2">{server.description}</p>
