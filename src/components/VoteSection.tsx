@@ -34,32 +34,35 @@ const VoteSection = ({ serverId, voteCount, onVoted }: VoteSectionProps) => {
 
     setLoading(true);
     try {
-      const { data, error } = await supabase.functions.invoke("handle-vote", {
-        body: { server_id: serverId, minecraft_nick: trimmedNick },
-      });
+      const res = await fetch(
+        `${import.meta.env.VITE_SUPABASE_URL}/functions/v1/handle-vote`,
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            "apikey": import.meta.env.VITE_SUPABASE_PUBLISHABLE_KEY,
+            "Authorization": `Bearer ${import.meta.env.VITE_SUPABASE_PUBLISHABLE_KEY}`,
+          },
+          body: JSON.stringify({ server_id: serverId, minecraft_nick: trimmedNick }),
+        }
+      );
 
-      if (error) {
-        const body = typeof error === "object" && "context" in error ? error : null;
-        // Try to parse the response for specific errors
-        toast.error(t("vote_error"));
-        setLoading(false);
-        return;
-      }
+      const result = await res.json();
 
-      if (data?.error === "cooldown" || data?.error === "cooldown_ip") {
-        setCooldownEnd(data.next_vote || null);
+      if (result?.error === "cooldown" || result?.error === "cooldown_ip") {
+        setCooldownEnd(result.next_vote || null);
         toast.error(t("vote_cooldown"));
         setLoading(false);
         return;
       }
 
-      if (data?.error === "invalid_nick") {
+      if (result?.error === "invalid_nick") {
         toast.error(t("vote_nick_invalid"));
         setLoading(false);
         return;
       }
 
-      if (data?.error) {
+      if (result?.error) {
         toast.error(t("vote_error"));
         setLoading(false);
         return;
