@@ -2,3 +2,9 @@ project_id = "uinrxvxfrvjtqwklbiqk"
 
 [functions.mc-ping]
 verify_jwt = false
+
+[functions.handle-vote]
+verify_jwt = false
+
+[functions.get-pending-votes]
+verify_jwt = false

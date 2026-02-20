@@ -5,6 +5,7 @@ import { useAuth } from "@/hooks/useAuth";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import CommentSection from "@/components/CommentSection";
+import VoteSection from "@/components/VoteSection";
 import { Heart, Users, Copy, ArrowLeft, Shield, ShieldOff, ExternalLink, Trash2, Pencil, User, Pin } from "lucide-react";
 import { toast } from "sonner";
 import { useLanguage } from "@/i18n/LanguageContext";
@@ -38,6 +39,7 @@ interface ServerDetailData {
   ownerBio?: string;
   is_featured?: boolean;
   images?: string[];
+  vote_count?: number;
 }
 
 interface OwnerProfile {
@@ -54,6 +56,7 @@ const ServerDetailPage = () => {
   const [loading, setLoading] = useState(true);
   const [liked, setLiked] = useState(false);
   const [likesCount, setLikesCount] = useState(0);
+  const [voteCount, setVoteCount] = useState(0);
 
   const navigate = useNavigate();
 
@@ -81,6 +84,7 @@ const ServerDetailPage = () => {
           ownerBio: p?.bio || "",
         });
         setLikesCount(data.likes_count);
+        setVoteCount((data as any).vote_count || 0);
       }
       setLoading(false);
     };
@@ -324,6 +328,14 @@ const ServerDetailPage = () => {
                 <Copy className="h-4 w-4" /> {t("detail_copy")}
               </span>
             </button>
+
+            <div className="border-t border-border pt-6">
+              <VoteSection
+                serverId={server.id}
+                voteCount={voteCount}
+                onVoted={() => setVoteCount((c) => c + 1)}
+              />
+            </div>
 
             <div className="border-t border-border pt-6">
               <CommentSection serverId={server.id} />
