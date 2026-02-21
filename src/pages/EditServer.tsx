@@ -78,7 +78,7 @@ const EditServer = () => {
         .from("server_secrets" as any)
         .select("vote_api_key")
         .eq("server_id", id)
-        .single() as { data: { vote_api_key: string | null } | null };
+        .maybeSingle() as { data: { vote_api_key: string | null } | null };
       setVoteApiKey(secrets?.vote_api_key || null);
       
       setLoading(false);
