@@ -24,14 +24,14 @@ Deno.serve(async (req) => {
       Deno.env.get("SUPABASE_SERVICE_ROLE_KEY")!
     );
 
-    // Verify API key matches server
-    const { data: server } = await supabase
-      .from("servers")
-      .select("id, vote_api_key")
-      .eq("id", serverId)
+    // Verify API key matches server via server_secrets table
+    const { data: secret } = await supabase
+      .from("server_secrets")
+      .select("vote_api_key")
+      .eq("server_id", serverId)
       .single();
 
-    if (!server || server.vote_api_key !== apiKey) {
+    if (!secret || String(secret.vote_api_key) !== apiKey) {
       return new Response(JSON.stringify({ error: "unauthorized" }), { status: 401, headers: { ...corsHeaders, "Content-Type": "application/json" } });
     }
 
