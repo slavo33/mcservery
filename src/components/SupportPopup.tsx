@@ -51,7 +51,7 @@ const SupportPopup = () => {
 
       <button
         onClick={() => setExpanded(!expanded)}
-        className="flex h-12 w-12 items-center justify-center rounded-full gradient-primary shadow-lg text-primary-foreground transition-transform hover:scale-110 active:scale-95"
+        className="flex h-12 w-12 items-center justify-center rounded-full gradient-primary shadow-lg text-primary-foreground transition-transform hover:scale-110 active:scale-95 animate-bounce"
         title={t("support_popup_title")}
       >
         <Heart className="h-5 w-5" fill="currentColor" />
