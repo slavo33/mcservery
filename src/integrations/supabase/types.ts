@@ -134,6 +134,32 @@ export type Database = {
           },
         ]
       }
+      server_secrets: {
+        Row: {
+          id: string
+          server_id: string
+          vote_api_key: string | null
+        }
+        Insert: {
+          id?: string
+          server_id: string
+          vote_api_key?: string | null
+        }
+        Update: {
+          id?: string
+          server_id?: string
+          vote_api_key?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "server_secrets_server_id_fkey"
+            columns: ["server_id"]
+            isOneToOne: true
+            referencedRelation: "servers"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       servers: {
         Row: {
           created_at: string
@@ -159,7 +185,6 @@ export type Database = {
           twitter_url: string | null
           updated_at: string
           version: string
-          vote_api_key: string | null
           vote_count: number
           website_url: string | null
           youtube_url: string | null
@@ -188,7 +213,6 @@ export type Database = {
           twitter_url?: string | null
           updated_at?: string
           version?: string
-          vote_api_key?: string | null
           vote_count?: number
           website_url?: string | null
           youtube_url?: string | null
@@ -217,7 +241,6 @@ export type Database = {
           twitter_url?: string | null
           updated_at?: string
           version?: string
-          vote_api_key?: string | null
           vote_count?: number
           website_url?: string | null
           youtube_url?: string | null

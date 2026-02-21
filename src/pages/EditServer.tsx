@@ -72,7 +72,15 @@ const EditServer = () => {
       setTiktokUrl(data.tiktok_url || "");
       setYoutubeUrl(data.youtube_url || "");
       setTwitterUrl(data.twitter_url || "");
-      setVoteApiKey(data.vote_api_key || null);
+
+      // Fetch vote API key from server_secrets (owner-only access)
+      const { data: secrets } = await supabase
+        .from("server_secrets" as any)
+        .select("vote_api_key")
+        .eq("server_id", id)
+        .single() as { data: { vote_api_key: string | null } | null };
+      setVoteApiKey(secrets?.vote_api_key || null);
+      
       setLoading(false);
     };
     fetchServer();
