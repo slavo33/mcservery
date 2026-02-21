@@ -153,7 +153,6 @@ const Auth = () => {
                 } else if (data?.url) {
                   window.location.href = data.url;
                 }
-                if (error) toast.error(error.message);
               } else {
                 const { error } = await lovable.auth.signInWithOAuth("google", {
                   redirect_uri: window.location.origin,
