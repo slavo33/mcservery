@@ -145,8 +145,14 @@ const Auth = () => {
                   provider: "google",
                   options: {
                     redirectTo: `${window.location.origin}/auth`,
+                    skipBrowserRedirect: true,
                   },
                 });
+                if (error) {
+                  toast.error(error.message);
+                } else if (data?.url) {
+                  window.location.href = data.url;
+                }
                 if (error) toast.error(error.message);
               } else {
                 const { error } = await lovable.auth.signInWithOAuth("google", {
