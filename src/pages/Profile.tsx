@@ -13,10 +13,10 @@ import { useLanguage } from "@/i18n/LanguageContext";
 import type { MinecraftServer } from "@/lib/mockData";
 
 const Profile = () => {
-  const { user, profile, refreshProfile } = useAuth();
+  const { user, loading, profile, refreshProfile } = useAuth();
   const { t } = useLanguage();
-  const [nickname, setNickname] = useState(profile?.nickname || "");
-  const [bio, setBio] = useState(profile?.bio || "");
+  const [nickname, setNickname] = useState("");
+  const [bio, setBio] = useState("");
   const [uploading, setUploading] = useState(false);
   const [saving, setSaving] = useState(false);
   const [tab, setTab] = useState<"settings" | "favorites" | "my_servers">("settings");
@@ -113,8 +113,34 @@ const Profile = () => {
     fetchMyServers();
   }, [tab, user]);
 
+  // Sync profile data to local state
+  useEffect(() => {
+    if (profile) {
+      setNickname(profile.nickname || "");
+      setBio(profile.bio || "");
+    }
+  }, [profile]);
+
+  // Redirect unauthenticated users
+  useEffect(() => {
+    if (!loading && !user) {
+      navigate("/auth");
+    }
+  }, [loading, user, navigate]);
+
+  if (loading) {
+    return (
+      <div className="min-h-screen flex flex-col bg-background">
+        <Header />
+        <main className="flex-1 flex items-center justify-center">
+          <p className="text-muted-foreground">{t("loading")}</p>
+        </main>
+        <Footer />
+      </div>
+    );
+  }
+
   if (!user) {
-    navigate("/auth");
     return null;
   }
 
