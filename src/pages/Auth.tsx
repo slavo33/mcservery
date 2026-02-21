@@ -136,30 +136,10 @@ const Auth = () => {
             variant="outline"
             className="w-full"
             onClick={async () => {
-              const isCustomDomain =
-                !window.location.hostname.includes("lovable.app") &&
-                !window.location.hostname.includes("lovableproject.com");
-
-              if (isCustomDomain) {
-                // Bypass auth-bridge for custom domains
-                const { data, error } = await supabase.auth.signInWithOAuth({
-                  provider: "google",
-                  options: {
-                    redirectTo: `${window.location.origin}/auth`,
-                    skipBrowserRedirect: true,
-                  },
-                });
-                if (error) {
-                  toast.error(error.message);
-                } else if (data?.url) {
-                  window.location.href = data.url;
-                }
-              } else {
-                const { error } = await lovable.auth.signInWithOAuth("google", {
-                  redirect_uri: window.location.origin,
-                });
-                if (error) toast.error(error.message);
-              }
+              const { error } = await lovable.auth.signInWithOAuth("google", {
+                redirect_uri: window.location.origin,
+              });
+              if (error) toast.error(error.message);
             }}
           >
             <svg className="mr-2 h-4 w-4" viewBox="0 0 24 24">
