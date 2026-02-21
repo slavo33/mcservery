@@ -14,6 +14,7 @@ import Auth from "./pages/Auth";
 import Profile from "./pages/Profile";
 import UserProfile from "./pages/UserProfile";
 import NotFound from "./pages/NotFound";
+import SupportPopup from "./components/SupportPopup";
 
 const queryClient = new QueryClient();
 
@@ -36,6 +37,7 @@ const App = () => (
               <Route path="/user/:userId" element={<UserProfile />} />
               <Route path="*" element={<NotFound />} />
             </Routes>
+            <SupportPopup />
           </AuthProvider>
         </BrowserRouter>
       </LanguageProvider>

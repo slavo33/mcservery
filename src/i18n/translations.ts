@@ -207,6 +207,11 @@ type TranslationKeys = {
   edit_vote_api_desc: string;
   edit_vote_api_copied: string;
   edit_vote_api_endpoint: string;
+  // Support popup
+  support_popup_title: string;
+  support_popup_desc: string;
+  support_popup_btn: string;
+  support_popup_close: string;
   // Common
   loading: string;
   online: string;
@@ -387,6 +392,10 @@ const sk: TranslationKeys = {
   edit_vote_api_desc: "Použi tento kľúč vo svojom Votifier/NuVotifier plugine na doručovanie odmien hráčom.",
   edit_vote_api_copied: "API kľúč skopírovaný!",
   edit_vote_api_endpoint: "Endpoint",
+  support_popup_title: "Podpor MCServery ❤️",
+  support_popup_desc: "MCServery je bezplatný projekt. Ak sa ti páči, môžeš nás podporiť cez Ko-fi. Každá podpora nám pomáha!",
+  support_popup_btn: "Podporiť na Ko-fi",
+  support_popup_close: "Teraz nie, ďakujem",
 };
 
 const cs: TranslationKeys = {
@@ -527,6 +536,10 @@ const cs: TranslationKeys = {
   edit_vote_api_desc: "Použij tento klíč ve svém Votifier/NuVotifier pluginu pro doručování odměn hráčům.",
   edit_vote_api_copied: "API klíč zkopírován!",
   edit_vote_api_endpoint: "Endpoint",
+  support_popup_title: "Podpoř MCServery ❤️",
+  support_popup_desc: "MCServery je bezplatný projekt. Pokud se ti líbí, můžeš nás podpořit přes Ko-fi. Každá podpora nám pomáhá!",
+  support_popup_btn: "Podpořit na Ko-fi",
+  support_popup_close: "Teď ne, děkuji",
 };
 
 const en: TranslationKeys = {
@@ -702,6 +715,10 @@ const en: TranslationKeys = {
   edit_vote_api_desc: "Use this key in your Votifier/NuVotifier plugin to deliver rewards to players.",
   edit_vote_api_copied: "API key copied!",
   edit_vote_api_endpoint: "Endpoint",
+  support_popup_title: "Support MCServery ❤️",
+  support_popup_desc: "MCServery is a free project. If you enjoy it, you can support us on Ko-fi. Every contribution helps!",
+  support_popup_btn: "Support on Ko-fi",
+  support_popup_close: "Not now, thanks",
 };
 
 const de: TranslationKeys = {
@@ -847,6 +864,10 @@ const de: TranslationKeys = {
   edit_vote_api_desc: "Verwende diesen Schlüssel in deinem Votifier/NuVotifier-Plugin, um Spielern Belohnungen zuzustellen.",
   edit_vote_api_copied: "API-Schlüssel kopiert!",
   edit_vote_api_endpoint: "Endpoint",
+  support_popup_title: "Unterstütze MCServery ❤️",
+  support_popup_desc: "MCServery ist ein kostenloses Projekt. Wenn es dir gefällt, kannst du uns auf Ko-fi unterstützen!",
+  support_popup_btn: "Auf Ko-fi unterstützen",
+  support_popup_close: "Jetzt nicht, danke",
 };
 
 const fr: TranslationKeys = {
@@ -995,6 +1016,10 @@ const fr: TranslationKeys = {
   edit_vote_api_desc: "Utilise cette clé dans ton plugin Votifier/NuVotifier pour distribuer des récompenses aux joueurs.",
   edit_vote_api_copied: "Clé API copiée !",
   edit_vote_api_endpoint: "Endpoint",
+  support_popup_title: "Soutiens MCServery ❤️",
+  support_popup_desc: "MCServery est un projet gratuit. Si tu l'apprécies, tu peux nous soutenir sur Ko-fi !",
+  support_popup_btn: "Soutenir sur Ko-fi",
+  support_popup_close: "Pas maintenant, merci",
 };
 
 const ru: TranslationKeys = {
@@ -1017,6 +1042,7 @@ const ru: TranslationKeys = {
   vote_title: "Голосовать", vote_description: "Введите свой Minecraft ник и проголосуйте за этот сервер. Голосовать можно раз в 24 часа.", vote_nick_placeholder: "Ваш Minecraft ник", vote_nick_required: "Введите Minecraft ник", vote_nick_invalid: "Неверный ник (3-16 символов, буквы, цифры, _)", vote_submit: "Голосовать", vote_success: "Голос записан!", vote_thanks: "Спасибо за голос!", vote_next_in_24h: "Следующий голос через 24 часа.", vote_cooldown: "Вы уже голосовали за последние 24 часа.", vote_error: "Ошибка голосования", vote_count: "голосов",
   sort_label: "Сортировать по", sort_votes: "Голоса", sort_likes: "Лайки", sort_players: "Игроки",
   edit_title_1: "Редактировать", edit_title_2: "сервер", edit_subtitle: "Обновите данные вашего сервера", edit_save: "Сохранить изменения", edit_saving: "Сохраняю...", edit_save_error: "Не удалось сохранить изменения. Попробуйте снова.", edit_save_success: "Сервер обновлён!", edit_fill_required: "Заполните название и IP-адрес", edit_not_found: "Сервер не найден", edit_no_permission: "У вас нет прав для редактирования этого сервера", edit_vote_api_key: "Vote API Key", edit_vote_api_desc: "Используйте этот ключ в вашем Votifier/NuVotifier плагине для доставки наград игрокам.", edit_vote_api_copied: "API-ключ скопирован!", edit_vote_api_endpoint: "Endpoint",
+  support_popup_title: "Поддержите MCServery ❤️", support_popup_desc: "MCServery — бесплатный проект. Если вам нравится, поддержите нас на Ko-fi!", support_popup_btn: "Поддержать на Ko-fi", support_popup_close: "Не сейчас, спасибо",
 };
 
 const uk: TranslationKeys = {
@@ -1039,6 +1065,7 @@ const uk: TranslationKeys = {
   vote_title: "Голосувати", vote_description: "Введіть свій Minecraft нік і проголосуйте за цей сервер. Голосувати можна раз на 24 години.", vote_nick_placeholder: "Ваш Minecraft нік", vote_nick_required: "Введіть Minecraft нік", vote_nick_invalid: "Невірний нік (3-16 символів, літери, цифри, _)", vote_submit: "Голосувати", vote_success: "Голос записано!", vote_thanks: "Дякуємо за голос!", vote_next_in_24h: "Наступний голос через 24 години.", vote_cooldown: "Ви вже голосували за останні 24 години.", vote_error: "Помилка голосування", vote_count: "голосів",
   sort_label: "Сортувати за", sort_votes: "Голоси", sort_likes: "Лайки", sort_players: "Гравці",
   edit_title_1: "Редагувати", edit_title_2: "сервер", edit_subtitle: "Оновіть дані вашого сервера", edit_save: "Зберегти зміни", edit_saving: "Зберігаю...", edit_save_error: "Не вдалося зберегти зміни. Спробуйте ще раз.", edit_save_success: "Сервер оновлено!", edit_fill_required: "Заповніть назву та IP-адресу", edit_not_found: "Сервер не знайдено", edit_no_permission: "У вас немає дозволу редагувати цей сервер", edit_vote_api_key: "Vote API Key", edit_vote_api_desc: "Використовуйте цей ключ у вашому Votifier/NuVotifier плагіні для доставки нагород гравцям.", edit_vote_api_copied: "API-ключ скопійовано!", edit_vote_api_endpoint: "Endpoint",
+  support_popup_title: "Підтримайте MCServery ❤️", support_popup_desc: "MCServery — безкоштовний проект. Якщо вам подобається, підтримайте нас на Ko-fi!", support_popup_btn: "Підтримати на Ko-fi", support_popup_close: "Не зараз, дякую",
 };
 
 const es: TranslationKeys = {
