@@ -624,6 +624,18 @@ const cs: TranslationKeys = {
   edit_vote_api_desc: "Použij tento klíč ve svém Votifier/NuVotifier pluginu pro doručování odměn hráčům.",
   edit_vote_api_copied: "API klíč zkopírován!",
   edit_vote_api_endpoint: "Endpoint",
+  edit_votifier_title: "Votifier / NuVotifier nastavení",
+  edit_votifier_desc: "Zadej údaje z tvého Votifier/NuVotifier pluginu pro propojení hlasování s Minecraft serverem.",
+  edit_votifier_ip: "Votifier IP",
+  edit_votifier_ip_placeholder: "např. 123.45.67.89",
+  edit_votifier_port: "Votifier Port",
+  edit_votifier_port_placeholder: "např. 8192",
+  edit_votifier_key: "Votifier Public Key",
+  edit_votifier_key_placeholder: "Vlož RSA public key z config.yml...",
+  edit_votifier_saved: "Votifier nastavení uloženo!",
+  edit_votifier_ip_no_port: "Votifier IP nesmí obsahovat port (např. :8192). Zadej pouze IP adresu.",
+  edit_votifier_port_invalid: "Votifier port musí být číslo mezi 1 a 65535.",
+  edit_votifier_key_invalid: "Votifier Public Key musí začínat na -----BEGIN PUBLIC KEY-----",
   support_popup_title: "Podpoř MCServery ❤️",
   support_popup_desc: "MCServery je bezplatný projekt. Pokud se ti líbí, můžeš nás podpořit přes Ko-fi. Každá podpora nám pomáhá!",
   support_popup_btn: "Podpořit na Ko-fi",
@@ -996,6 +1008,18 @@ const de: TranslationKeys = {
   edit_vote_api_desc: "Verwende diesen Schlüssel in deinem Votifier/NuVotifier-Plugin, um Spielern Belohnungen zuzustellen.",
   edit_vote_api_copied: "API-Schlüssel kopiert!",
   edit_vote_api_endpoint: "Endpoint",
+  edit_votifier_title: "Votifier / NuVotifier Einstellungen",
+  edit_votifier_desc: "Gib die Daten deines Votifier/NuVotifier-Plugins ein, um die Abstimmung mit deinem Minecraft-Server zu verbinden.",
+  edit_votifier_ip: "Votifier IP",
+  edit_votifier_ip_placeholder: "z.B. 123.45.67.89",
+  edit_votifier_port: "Votifier Port",
+  edit_votifier_port_placeholder: "z.B. 8192",
+  edit_votifier_key: "Votifier Public Key",
+  edit_votifier_key_placeholder: "RSA Public Key aus config.yml einfügen...",
+  edit_votifier_saved: "Votifier-Einstellungen gespeichert!",
+  edit_votifier_ip_no_port: "Votifier IP darf keinen Port enthalten (z.B. :8192). Gib nur die IP-Adresse ein.",
+  edit_votifier_port_invalid: "Votifier Port muss eine Zahl zwischen 1 und 65535 sein.",
+  edit_votifier_key_invalid: "Votifier Public Key muss mit -----BEGIN PUBLIC KEY----- beginnen",
   support_popup_title: "Unterstütze MCServery ❤️",
   support_popup_desc: "MCServery ist ein kostenloses Projekt. Wenn es dir gefällt, kannst du uns auf Ko-fi unterstützen!",
   support_popup_btn: "Auf Ko-fi unterstützen",
@@ -1150,6 +1174,18 @@ const fr: TranslationKeys = {
   edit_vote_api_desc: "Utilise cette clé dans ton plugin Votifier/NuVotifier pour distribuer des récompenses aux joueurs.",
   edit_vote_api_copied: "Clé API copiée !",
   edit_vote_api_endpoint: "Endpoint",
+  edit_votifier_title: "Paramètres Votifier / NuVotifier",
+  edit_votifier_desc: "Entre les données de ton plugin Votifier/NuVotifier pour connecter les votes à ton serveur Minecraft.",
+  edit_votifier_ip: "IP Votifier",
+  edit_votifier_ip_placeholder: "ex. 123.45.67.89",
+  edit_votifier_port: "Port Votifier",
+  edit_votifier_port_placeholder: "ex. 8192",
+  edit_votifier_key: "Clé publique Votifier",
+  edit_votifier_key_placeholder: "Colle la clé publique RSA depuis config.yml...",
+  edit_votifier_saved: "Paramètres Votifier sauvegardés !",
+  edit_votifier_ip_no_port: "L'IP Votifier ne doit pas contenir de port (ex. :8192). Entre uniquement l'adresse IP.",
+  edit_votifier_port_invalid: "Le port Votifier doit être un nombre entre 1 et 65535.",
+  edit_votifier_key_invalid: "La clé publique Votifier doit commencer par -----BEGIN PUBLIC KEY-----",
   support_popup_title: "Soutiens MCServery ❤️",
   support_popup_desc: "MCServery est un projet gratuit. Si tu l'apprécies, tu peux nous soutenir sur Ko-fi !",
   support_popup_btn: "Soutenir sur Ko-fi",
@@ -1176,6 +1212,7 @@ const ru: TranslationKeys = {
   vote_title: "Голосовать", vote_description: "Введите свой Minecraft ник и проголосуйте за этот сервер. Голосовать можно раз в 24 часа.", vote_nick_placeholder: "Ваш Minecraft ник", vote_nick_required: "Введите Minecraft ник", vote_nick_invalid: "Неверный ник (3-16 символов, буквы, цифры, _)", vote_submit: "Голосовать", vote_success: "Голос записан!", vote_thanks: "Спасибо за голос!", vote_next_in_24h: "Следующий голос через 24 часа.", vote_cooldown: "Вы уже голосовали за последние 24 часа.", vote_error: "Ошибка голосования", vote_count: "голосов", vote_submit_big: "ГОЛОСОВАТЬ ЗА СЕРВЕР", top_voters_title: "Лучшие голосующие",
   sort_label: "Сортировать по", sort_votes: "Голоса", sort_likes: "Лайки", sort_players: "Игроки",
   edit_title_1: "Редактировать", edit_title_2: "сервер", edit_subtitle: "Обновите данные вашего сервера", edit_save: "Сохранить изменения", edit_saving: "Сохраняю...", edit_save_error: "Не удалось сохранить изменения. Попробуйте снова.", edit_save_success: "Сервер обновлён!", edit_fill_required: "Заполните название и IP-адрес", edit_not_found: "Сервер не найден", edit_no_permission: "У вас нет прав для редактирования этого сервера", edit_vote_api_key: "Vote API Key", edit_vote_api_desc: "Используйте этот ключ в вашем Votifier/NuVotifier плагине для доставки наград игрокам.", edit_vote_api_copied: "API-ключ скопирован!", edit_vote_api_endpoint: "Endpoint",
+  edit_votifier_title: "Настройки Votifier / NuVotifier", edit_votifier_desc: "Введите данные вашего плагина Votifier/NuVotifier для подключения голосования к Minecraft серверу.", edit_votifier_ip: "Votifier IP", edit_votifier_ip_placeholder: "напр. 123.45.67.89", edit_votifier_port: "Votifier порт", edit_votifier_port_placeholder: "напр. 8192", edit_votifier_key: "Публичный ключ Votifier", edit_votifier_key_placeholder: "Вставьте RSA публичный ключ из config.yml...", edit_votifier_saved: "Настройки Votifier сохранены!", edit_votifier_ip_no_port: "Votifier IP не должен содержать порт (напр. :8192). Введите только IP-адрес.", edit_votifier_port_invalid: "Порт Votifier должен быть числом от 1 до 65535.", edit_votifier_key_invalid: "Публичный ключ Votifier должен начинаться с -----BEGIN PUBLIC KEY-----",
   support_popup_title: "Поддержите MCServery ❤️", support_popup_desc: "MCServery — бесплатный проект. Если вам нравится, поддержите нас на Ko-fi!", support_popup_btn: "Поддержать на Ko-fi", support_popup_close: "Не сейчас, спасибо",
 };
 
@@ -1199,6 +1236,7 @@ const uk: TranslationKeys = {
   vote_title: "Голосувати", vote_description: "Введіть свій Minecraft нік і проголосуйте за цей сервер. Голосувати можна раз на 24 години.", vote_nick_placeholder: "Ваш Minecraft нік", vote_nick_required: "Введіть Minecraft нік", vote_nick_invalid: "Невірний нік (3-16 символів, літери, цифри, _)", vote_submit: "Голосувати", vote_success: "Голос записано!", vote_thanks: "Дякуємо за голос!", vote_next_in_24h: "Наступний голос через 24 години.", vote_cooldown: "Ви вже голосували за останні 24 години.", vote_error: "Помилка голосування", vote_count: "голосів", vote_submit_big: "ГОЛОСУВАТИ ЗА СЕРВЕР", top_voters_title: "Найкращі голосуючі",
   sort_label: "Сортувати за", sort_votes: "Голоси", sort_likes: "Лайки", sort_players: "Гравці",
   edit_title_1: "Редагувати", edit_title_2: "сервер", edit_subtitle: "Оновіть дані вашого сервера", edit_save: "Зберегти зміни", edit_saving: "Зберігаю...", edit_save_error: "Не вдалося зберегти зміни. Спробуйте ще раз.", edit_save_success: "Сервер оновлено!", edit_fill_required: "Заповніть назву та IP-адресу", edit_not_found: "Сервер не знайдено", edit_no_permission: "У вас немає дозволу редагувати цей сервер", edit_vote_api_key: "Vote API Key", edit_vote_api_desc: "Використовуйте цей ключ у вашому Votifier/NuVotifier плагіні для доставки нагород гравцям.", edit_vote_api_copied: "API-ключ скопійовано!", edit_vote_api_endpoint: "Endpoint",
+  edit_votifier_title: "Налаштування Votifier / NuVotifier", edit_votifier_desc: "Введіть дані вашого плагіна Votifier/NuVotifier для підключення голосування до Minecraft сервера.", edit_votifier_ip: "Votifier IP", edit_votifier_ip_placeholder: "напр. 123.45.67.89", edit_votifier_port: "Votifier порт", edit_votifier_port_placeholder: "напр. 8192", edit_votifier_key: "Публічний ключ Votifier", edit_votifier_key_placeholder: "Вставте RSA публічний ключ з config.yml...", edit_votifier_saved: "Налаштування Votifier збережено!", edit_votifier_ip_no_port: "Votifier IP не повинен містити порт (напр. :8192). Введіть лише IP-адресу.", edit_votifier_port_invalid: "Порт Votifier має бути числом від 1 до 65535.", edit_votifier_key_invalid: "Публічний ключ Votifier має починатися з -----BEGIN PUBLIC KEY-----",
   support_popup_title: "Підтримайте MCServery ❤️", support_popup_desc: "MCServery — безкоштовний проект. Якщо вам подобається, підтримайте нас на Ko-fi!", support_popup_btn: "Підтримати на Ko-fi", support_popup_close: "Не зараз, дякую",
 };
 
@@ -1222,6 +1260,7 @@ const es: TranslationKeys = {
   vote_title: "Votar", vote_description: "Ingresa tu nick de Minecraft y vota por este servidor. Puedes votar una vez cada 24 horas.", vote_nick_placeholder: "Tu nick de Minecraft", vote_nick_required: "Ingresa tu nick de Minecraft", vote_nick_invalid: "Nick inválido (3-16 caracteres, letras, números, _)", vote_submit: "Votar", vote_success: "¡Voto registrado!", vote_thanks: "¡Gracias por votar!", vote_next_in_24h: "Podrás votar de nuevo en 24 horas.", vote_cooldown: "Ya votaste en las últimas 24 horas.", vote_error: "Error al votar", vote_count: "votos",
   sort_label: "Ordenar por", sort_votes: "Votos", sort_likes: "Likes", sort_players: "Jugadores",
   edit_title_1: "Editar", edit_title_2: "servidor", edit_subtitle: "Actualiza los datos de tu servidor", edit_save: "Guardar cambios", edit_saving: "Guardando...", edit_save_error: "No se pudieron guardar los cambios. Inténtalo de nuevo.", edit_save_success: "¡Servidor actualizado!", edit_fill_required: "Completa el nombre y la dirección IP", edit_not_found: "Servidor no encontrado", edit_no_permission: "No tienes permiso para editar este servidor", edit_vote_api_key: "Vote API Key", edit_vote_api_desc: "Usa esta clave en tu plugin Votifier/NuVotifier para entregar recompensas a los jugadores.", edit_vote_api_copied: "¡Clave API copiada!", edit_vote_api_endpoint: "Endpoint",
+  edit_votifier_title: "Configuración Votifier / NuVotifier", edit_votifier_desc: "Introduce los datos de tu plugin Votifier/NuVotifier para conectar las votaciones con tu servidor de Minecraft.", edit_votifier_ip: "IP de Votifier", edit_votifier_ip_placeholder: "ej. 123.45.67.89", edit_votifier_port: "Puerto de Votifier", edit_votifier_port_placeholder: "ej. 8192", edit_votifier_key: "Clave pública de Votifier", edit_votifier_key_placeholder: "Pega la clave pública RSA de config.yml...", edit_votifier_saved: "¡Configuración de Votifier guardada!", edit_votifier_ip_no_port: "La IP de Votifier no debe contener un puerto (ej. :8192). Introduce solo la dirección IP.", edit_votifier_port_invalid: "El puerto de Votifier debe ser un número entre 1 y 65535.", edit_votifier_key_invalid: "La clave pública de Votifier debe comenzar con -----BEGIN PUBLIC KEY-----",
 };
 
 const pt: TranslationKeys = {
@@ -1243,6 +1282,7 @@ const pt: TranslationKeys = {
   vote_title: "Votar", vote_description: "Digite seu nick do Minecraft e vote neste servidor. Você pode votar uma vez a cada 24 horas.", vote_nick_placeholder: "Seu nick do Minecraft", vote_nick_required: "Digite seu nick do Minecraft", vote_nick_invalid: "Nick inválido (3-16 caracteres, letras, números, _)", vote_submit: "Votar", vote_success: "Voto registrado!", vote_thanks: "Obrigado pelo voto!", vote_next_in_24h: "Você poderá votar novamente em 24 horas.", vote_cooldown: "Você já votou nas últimas 24 horas.", vote_error: "Erro ao votar", vote_count: "votos",
   sort_label: "Ordenar por", sort_votes: "Votos", sort_likes: "Likes", sort_players: "Jogadores",
   edit_title_1: "Editar", edit_title_2: "servidor", edit_subtitle: "Atualize os dados do seu servidor", edit_save: "Salvar alterações", edit_saving: "Salvando...", edit_save_error: "Não foi possível salvar as alterações. Tente novamente.", edit_save_success: "Servidor atualizado!", edit_fill_required: "Preencha o nome e o endereço IP", edit_not_found: "Servidor não encontrado", edit_no_permission: "Você não tem permissão para editar este servidor", edit_vote_api_key: "Vote API Key", edit_vote_api_desc: "Use esta chave no seu plugin Votifier/NuVotifier para entregar recompensas aos jogadores.", edit_vote_api_copied: "Chave API copiada!", edit_vote_api_endpoint: "Endpoint",
+  edit_votifier_title: "Configurações Votifier / NuVotifier", edit_votifier_desc: "Insira os dados do seu plugin Votifier/NuVotifier para conectar as votações ao seu servidor Minecraft.", edit_votifier_ip: "IP do Votifier", edit_votifier_ip_placeholder: "ex. 123.45.67.89", edit_votifier_port: "Porta do Votifier", edit_votifier_port_placeholder: "ex. 8192", edit_votifier_key: "Chave pública do Votifier", edit_votifier_key_placeholder: "Cole a chave pública RSA do config.yml...", edit_votifier_saved: "Configurações do Votifier salvas!", edit_votifier_ip_no_port: "O IP do Votifier não deve conter porta (ex. :8192). Insira apenas o endereço IP.", edit_votifier_port_invalid: "A porta do Votifier deve ser um número entre 1 e 65535.", edit_votifier_key_invalid: "A chave pública do Votifier deve começar com -----BEGIN PUBLIC KEY-----",
 };
 
 const br: TranslationKeys = {
@@ -1271,6 +1311,7 @@ const zh: TranslationKeys = {
   vote_title: "投票", vote_description: "输入你的Minecraft昵称并为此服务器投票。每24小时可投票一次。", vote_nick_placeholder: "你的Minecraft昵称", vote_nick_required: "请输入Minecraft昵称", vote_nick_invalid: "无效昵称（3-16个字符，字母、数字、_）", vote_submit: "投票", vote_success: "投票成功！", vote_thanks: "感谢投票！", vote_next_in_24h: "24小时后可再次投票。", vote_cooldown: "你在过去24小时内已投过票。", vote_error: "投票出错", vote_count: "票",
   sort_label: "排序方式", sort_votes: "投票", sort_likes: "点赞", sort_players: "玩家",
   edit_title_1: "编辑", edit_title_2: "服务器", edit_subtitle: "更新你的服务器信息", edit_save: "保存更改", edit_saving: "保存中...", edit_save_error: "无法保存更改，请重试。", edit_save_success: "服务器已更新！", edit_fill_required: "请填写名称和IP地址", edit_not_found: "服务器未找到", edit_no_permission: "你没有权限编辑此服务器", edit_vote_api_key: "Vote API Key", edit_vote_api_desc: "在你的Votifier/NuVotifier插件中使用此密钥来为玩家发放奖励。", edit_vote_api_copied: "API密钥已复制！", edit_vote_api_endpoint: "Endpoint",
+  edit_votifier_title: "Votifier / NuVotifier 设置", edit_votifier_desc: "输入你的 Votifier/NuVotifier 插件数据，将投票与你的 Minecraft 服务器连接。", edit_votifier_ip: "Votifier IP", edit_votifier_ip_placeholder: "例如 123.45.67.89", edit_votifier_port: "Votifier 端口", edit_votifier_port_placeholder: "例如 8192", edit_votifier_key: "Votifier 公钥", edit_votifier_key_placeholder: "粘贴 config.yml 中的 RSA 公钥...", edit_votifier_saved: "Votifier 设置已保存！", edit_votifier_ip_no_port: "Votifier IP 不能包含端口（例如 :8192）。请仅输入 IP 地址。", edit_votifier_port_invalid: "Votifier 端口必须是 1 到 65535 之间的数字。", edit_votifier_key_invalid: "Votifier 公钥必须以 -----BEGIN PUBLIC KEY----- 开头",
 };
 
 const ja: TranslationKeys = {
@@ -1293,6 +1334,7 @@ const ja: TranslationKeys = {
   vote_title: "投票する", vote_description: "Minecraftのニックネームを入力してこのサーバーに投票しましょう。24時間ごとに1回投票できます。", vote_nick_placeholder: "Minecraftニックネーム", vote_nick_required: "Minecraftニックネームを入力してください", vote_nick_invalid: "無効なニックネーム（3-16文字、英数字、_）", vote_submit: "投票する", vote_success: "投票完了！", vote_thanks: "投票ありがとうございます！", vote_next_in_24h: "24時間後に再投票できます。", vote_cooldown: "過去24時間以内にすでに投票しています。", vote_error: "投票エラー", vote_count: "票",
   sort_label: "並び替え", sort_votes: "投票数", sort_likes: "いいね", sort_players: "プレイヤー",
   edit_title_1: "サーバーを", edit_title_2: "編集", edit_subtitle: "サーバー情報を更新", edit_save: "変更を保存", edit_saving: "保存中...", edit_save_error: "変更を保存できませんでした。もう一度お試しください。", edit_save_success: "サーバーが更新されました！", edit_fill_required: "名前とIPアドレスを入力してください", edit_not_found: "サーバーが見つかりません", edit_no_permission: "このサーバーを編集する権限がありません", edit_vote_api_key: "Vote API Key", edit_vote_api_desc: "Votifier/NuVotifierプラグインでこのキーを使用して、プレイヤーに報酬を配布します。", edit_vote_api_copied: "APIキーをコピーしました！", edit_vote_api_endpoint: "Endpoint",
+  edit_votifier_title: "Votifier / NuVotifier 設定", edit_votifier_desc: "Votifier/NuVotifierプラグインのデータを入力して、投票をMinecraftサーバーに接続します。", edit_votifier_ip: "Votifier IP", edit_votifier_ip_placeholder: "例: 123.45.67.89", edit_votifier_port: "Votifier ポート", edit_votifier_port_placeholder: "例: 8192", edit_votifier_key: "Votifier 公開鍵", edit_votifier_key_placeholder: "config.ymlからRSA公開鍵を貼り付け...", edit_votifier_saved: "Votifier設定を保存しました！", edit_votifier_ip_no_port: "Votifier IPにはポートを含めないでください（例: :8192）。IPアドレスのみ入力してください。", edit_votifier_port_invalid: "Votifierポートは1から65535の数字である必要があります。", edit_votifier_key_invalid: "Votifier公開鍵は -----BEGIN PUBLIC KEY----- で始まる必要があります",
 };
 
 export const translations: Record<Locale, TranslationKeys> = { sk, cs, en, de, fr, ru, uk, es, pt, br, zh, ja };
