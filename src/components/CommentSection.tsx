@@ -3,7 +3,8 @@ import { logError } from "@/lib/logger";
 import { supabase } from "@/integrations/supabase/client";
 import { useAuth } from "@/hooks/useAuth";
 import { toast } from "sonner";
-import { Send, User, Trash2 } from "lucide-react";
+import { Send, User, Trash2, Flag } from "lucide-react";
+import ReportDialog from "./ReportDialog";
 import CommentReactions from "./CommentReactions";
 import { useLanguage } from "@/i18n/LanguageContext";
 
@@ -171,6 +172,9 @@ const CommentSection = ({ serverId }: CommentSectionProps) => {
                   <button onClick={() => handleDelete(comment.id)} className="text-muted-foreground hover:text-destructive transition-colors">
                     <Trash2 className="h-3.5 w-3.5" />
                   </button>
+                )}
+                {user && user.id !== comment.user_id && (
+                  <ReportDialog targetId={comment.id} reportType="comment" triggerClassName="text-muted-foreground hover:text-destructive transition-colors p-0.5" />
                 )}
               </div>
               <p className="text-sm text-foreground/90 ml-9">{comment.content}</p>

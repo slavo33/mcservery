@@ -7,6 +7,7 @@ import Footer from "@/components/Footer";
 import CommentSection from "@/components/CommentSection";
 import VoteSection from "@/components/VoteSection";
 import { Heart, Users, Copy, ArrowLeft, Shield, ShieldOff, ExternalLink, Trash2, Pencil, User, Pin } from "lucide-react";
+import ReportDialog from "@/components/ReportDialog";
 import { toast } from "sonner";
 import { useLanguage } from "@/i18n/LanguageContext";
 import { useServerStatus } from "@/hooks/useServerStatus";
@@ -264,6 +265,9 @@ const ServerDetailPage = () => {
                   <Heart className={`h-6 w-6 transition-all ${liked ? "fill-primary text-primary" : ""}`} />
                   <span className="font-display text-lg">{likesCount}</span>
                 </button>
+                {user && user.id !== server.owner_id && (
+                  <ReportDialog targetId={server.id} reportType="server" />
+                )}
               </div>
             </div>
 
