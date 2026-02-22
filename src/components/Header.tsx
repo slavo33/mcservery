@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { Link } from "react-router-dom";
-import { Menu, X, Gamepad2, User, LogOut } from "lucide-react";
+import { Menu, X, Gamepad2, User, LogOut, Shield } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { useAuth } from "@/hooks/useAuth";
 import { useLanguage } from "@/i18n/LanguageContext";
@@ -8,7 +8,7 @@ import LanguageSwitcher from "@/components/LanguageSwitcher";
 
 const Header = () => {
   const [mobileOpen, setMobileOpen] = useState(false);
-  const { user, profile, signOut } = useAuth();
+  const { user, profile, signOut, isAdmin } = useAuth();
   const { t } = useLanguage();
 
   const navItems = [
@@ -41,6 +41,12 @@ const Header = () => {
           <LanguageSwitcher />
           {user ? (
             <div className="ml-2 flex items-center gap-2">
+              {isAdmin && (
+                <Link to="/admin" className="flex items-center gap-1.5 rounded-md px-3 py-2 text-sm text-primary hover:bg-secondary transition-colors">
+                  <Shield className="h-4 w-4" />
+                  <span>{t("nav_admin_panel")}</span>
+                </Link>
+              )}
               <Link to="/profile" className="flex items-center gap-2 rounded-md px-3 py-2 text-sm text-muted-foreground hover:bg-secondary hover:text-foreground transition-colors">
                 <div className="h-6 w-6 rounded-full bg-secondary border border-border overflow-hidden flex items-center justify-center">
                   {profile?.avatar_url ? (
@@ -96,6 +102,12 @@ const Header = () => {
             ))}
             {user ? (
               <>
+                {isAdmin && (
+                  <Link to="/admin" onClick={() => setMobileOpen(false)} className="rounded-md px-4 py-3 text-sm font-medium text-primary hover:bg-secondary flex items-center gap-2">
+                    <Shield className="h-4 w-4" />
+                    {t("nav_admin_panel")}
+                  </Link>
+                )}
                 <Link to="/profile" onClick={() => setMobileOpen(false)} className="rounded-md px-4 py-3 text-sm font-medium text-muted-foreground hover:bg-secondary hover:text-foreground">
                   {t("nav_profile")}
                 </Link>

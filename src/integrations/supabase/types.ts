@@ -105,6 +105,42 @@ export type Database = {
           },
         ]
       }
+      reports: {
+        Row: {
+          created_at: string
+          id: string
+          reason: string
+          report_type: Database["public"]["Enums"]["report_type"]
+          reporter_id: string
+          resolved_at: string | null
+          resolved_by: string | null
+          status: Database["public"]["Enums"]["report_status"]
+          target_id: string
+        }
+        Insert: {
+          created_at?: string
+          id?: string
+          reason: string
+          report_type: Database["public"]["Enums"]["report_type"]
+          reporter_id: string
+          resolved_at?: string | null
+          resolved_by?: string | null
+          status?: Database["public"]["Enums"]["report_status"]
+          target_id: string
+        }
+        Update: {
+          created_at?: string
+          id?: string
+          reason?: string
+          report_type?: Database["public"]["Enums"]["report_type"]
+          reporter_id?: string
+          resolved_at?: string | null
+          resolved_by?: string | null
+          status?: Database["public"]["Enums"]["report_status"]
+          target_id?: string
+        }
+        Relationships: []
+      }
       server_likes: {
         Row: {
           created_at: string
@@ -322,6 +358,8 @@ export type Database = {
         | "laugh"
         | "fire"
         | "sad"
+      report_status: "pending" | "resolved" | "dismissed"
+      report_type: "server" | "comment"
     }
     CompositeTypes: {
       [_ in never]: never
@@ -458,6 +496,8 @@ export const Constants = {
         "fire",
         "sad",
       ],
+      report_status: ["pending", "resolved", "dismissed"],
+      report_type: ["server", "comment"],
     },
   },
 } as const

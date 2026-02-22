@@ -212,6 +212,35 @@ type TranslationKeys = {
   support_popup_desc: string;
   support_popup_btn: string;
   support_popup_close: string;
+  // Reports & Admin
+  nav_admin_panel: string;
+  report_server: string;
+  report_comment: string;
+  report_reason_placeholder: string;
+  report_submit: string;
+  report_success: string;
+  report_error: string;
+  report_title: string;
+  admin_title_1: string;
+  admin_title_2: string;
+  admin_subtitle: string;
+  admin_no_reports: string;
+  admin_report_type_server: string;
+  admin_report_type_comment: string;
+  admin_reported_by: string;
+  admin_reason: string;
+  admin_view_server: string;
+  admin_view_comment: string;
+  admin_delete_server: string;
+  admin_delete_comment: string;
+  admin_dismiss: string;
+  admin_resolved: string;
+  admin_server_deleted: string;
+  admin_comment_deleted: string;
+  admin_dismissed: string;
+  admin_status_pending: string;
+  admin_status_resolved: string;
+  admin_status_dismissed: string;
   // Common
   loading: string;
   online: string;
@@ -396,6 +425,34 @@ const sk: TranslationKeys = {
   support_popup_desc: "MCServery je bezplatný projekt. Ak sa ti páči, môžeš nás podporiť cez Ko-fi. Každá podpora nám pomáha!",
   support_popup_btn: "Podporiť na Ko-fi",
   support_popup_close: "Teraz nie, ďakujem",
+  nav_admin_panel: "Admin panel",
+  report_server: "Nahlásiť server",
+  report_comment: "Nahlásiť komentár",
+  report_reason_placeholder: "Opíš dôvod nahlásenia (napr. nevhodný popis, profilovka...)",
+  report_submit: "Odoslať nahlásenie",
+  report_success: "Nahlásenie odoslané!",
+  report_error: "Chyba pri nahlasovaní",
+  report_title: "Nahlásiť",
+  admin_title_1: "Admin",
+  admin_title_2: "panel",
+  admin_subtitle: "Správa nahlásení serverov a komentárov",
+  admin_no_reports: "Žiadne nahlásenia",
+  admin_report_type_server: "Server",
+  admin_report_type_comment: "Komentár",
+  admin_reported_by: "Nahlásil",
+  admin_reason: "Dôvod",
+  admin_view_server: "Zobraziť server",
+  admin_view_comment: "Zobraziť komentár",
+  admin_delete_server: "Zmazať server",
+  admin_delete_comment: "Zmazať komentár",
+  admin_dismiss: "Zamietnuť",
+  admin_resolved: "Vyriešené",
+  admin_server_deleted: "Server bol zmazaný!",
+  admin_comment_deleted: "Komentár bol zmazaný!",
+  admin_dismissed: "Nahlásenie zamietnuté",
+  admin_status_pending: "Čakajúce",
+  admin_status_resolved: "Vyriešené",
+  admin_status_dismissed: "Zamietnuté",
 };
 
 const cs: TranslationKeys = {
@@ -719,6 +776,34 @@ const en: TranslationKeys = {
   support_popup_desc: "MCServery is a free project. If you enjoy it, you can support us on Ko-fi. Every contribution helps!",
   support_popup_btn: "Support on Ko-fi",
   support_popup_close: "Not now, thanks",
+  nav_admin_panel: "Admin Panel",
+  report_server: "Report server",
+  report_comment: "Report comment",
+  report_reason_placeholder: "Describe the reason for reporting (e.g. inappropriate description, profile picture...)",
+  report_submit: "Submit report",
+  report_success: "Report submitted!",
+  report_error: "Error submitting report",
+  report_title: "Report",
+  admin_title_1: "Admin",
+  admin_title_2: "Panel",
+  admin_subtitle: "Manage server and comment reports",
+  admin_no_reports: "No reports",
+  admin_report_type_server: "Server",
+  admin_report_type_comment: "Comment",
+  admin_reported_by: "Reported by",
+  admin_reason: "Reason",
+  admin_view_server: "View server",
+  admin_view_comment: "View comment",
+  admin_delete_server: "Delete server",
+  admin_delete_comment: "Delete comment",
+  admin_dismiss: "Dismiss",
+  admin_resolved: "Resolved",
+  admin_server_deleted: "Server deleted!",
+  admin_comment_deleted: "Comment deleted!",
+  admin_dismissed: "Report dismissed",
+  admin_status_pending: "Pending",
+  admin_status_resolved: "Resolved",
+  admin_status_dismissed: "Dismissed",
 };
 
 const de: TranslationKeys = {
