@@ -187,3 +187,7 @@
     opacity: 0;
   }
 }
+
+.pixelated {
+  image-rendering: pixelated;
+}
