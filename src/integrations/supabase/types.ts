@@ -175,16 +175,25 @@ export type Database = {
           id: string
           server_id: string
           vote_api_key: string | null
+          votifier_ip: string | null
+          votifier_port: number | null
+          votifier_public_key: string | null
         }
         Insert: {
           id?: string
           server_id: string
           vote_api_key?: string | null
+          votifier_ip?: string | null
+          votifier_port?: number | null
+          votifier_public_key?: string | null
         }
         Update: {
           id?: string
           server_id?: string
           vote_api_key?: string | null
+          votifier_ip?: string | null
+          votifier_port?: number | null
+          votifier_public_key?: string | null
         }
         Relationships: [
           {
