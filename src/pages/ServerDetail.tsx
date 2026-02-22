@@ -6,6 +6,7 @@ import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import CommentSection from "@/components/CommentSection";
 import VoteSection from "@/components/VoteSection";
+import TopVoters from "@/components/TopVoters";
 import { Heart, Users, Copy, ArrowLeft, Shield, ShieldOff, ExternalLink, Trash2, Pencil, User, Pin } from "lucide-react";
 import ReportDialog from "@/components/ReportDialog";
 import { toast } from "sonner";
@@ -58,6 +59,7 @@ const ServerDetailPage = () => {
   const [liked, setLiked] = useState(false);
   const [likesCount, setLikesCount] = useState(0);
   const [voteCount, setVoteCount] = useState(0);
+  const [voteRefreshKey, setVoteRefreshKey] = useState(0);
 
   const navigate = useNavigate();
 
@@ -333,12 +335,16 @@ const ServerDetailPage = () => {
               </span>
             </button>
 
-            <div className="border-t border-border pt-6">
+            <div className="border-t border-border pt-6 space-y-4">
               <VoteSection
                 serverId={server.id}
                 voteCount={voteCount}
-                onVoted={() => setVoteCount((c) => c + 1)}
+                onVoted={() => {
+                  setVoteCount((c) => c + 1);
+                  setVoteRefreshKey((k) => k + 1);
+                }}
               />
+              <TopVoters serverId={server.id} refreshKey={voteRefreshKey} />
             </div>
 
             <div className="border-t border-border pt-6">

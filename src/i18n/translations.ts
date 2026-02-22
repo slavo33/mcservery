@@ -186,6 +186,8 @@ type TranslationKeys = {
   vote_cooldown: string;
   vote_error: string;
   vote_count: string;
+  vote_submit_big: string;
+  top_voters_title: string;
   // Sort
   sort_label: string;
   sort_votes: string;
@@ -403,6 +405,8 @@ const sk: TranslationKeys = {
   vote_cooldown: "Už si hlasoval za posledných 24 hodín.",
   vote_error: "Chyba pri hlasovaní",
   vote_count: "hlasov",
+  vote_submit_big: "HLASOVAŤ ZA SERVER",
+  top_voters_title: "Top hlasujúci",
   sort_label: "Zoradiť podľa",
   sort_votes: "Hlasy",
   sort_likes: "Lajky",
@@ -575,6 +579,8 @@ const cs: TranslationKeys = {
   vote_cooldown: "Už jsi hlasoval za posledních 24 hodin.",
   vote_error: "Chyba při hlasování",
   vote_count: "hlasů",
+  vote_submit_big: "HLASOVAT ZA SERVER",
+  top_voters_title: "Top hlasující",
   sort_label: "Seřadit podle",
   sort_votes: "Hlasy",
   sort_likes: "Lajky",
@@ -754,6 +760,8 @@ const en: TranslationKeys = {
   vote_cooldown: "You already voted in the last 24 hours.",
   vote_error: "Error while voting",
   vote_count: "votes",
+  vote_submit_big: "VOTE FOR SERVER",
+  top_voters_title: "Top Voters",
   sort_label: "Sort by",
   sort_votes: "Votes",
   sort_likes: "Likes",
@@ -931,6 +939,8 @@ const de: TranslationKeys = {
   vote_cooldown: "Du hast bereits in den letzten 24 Stunden abgestimmt.",
   vote_error: "Fehler beim Abstimmen",
   vote_count: "Stimmen",
+  vote_submit_big: "FÜR SERVER STIMMEN",
+  top_voters_title: "Top-Wähler",
   sort_label: "Sortieren nach",
   sort_votes: "Stimmen",
   sort_likes: "Likes",
@@ -1083,6 +1093,8 @@ const fr: TranslationKeys = {
   vote_cooldown: "Tu as déjà voté dans les dernières 24 heures.",
   vote_error: "Erreur lors du vote",
   vote_count: "votes",
+  vote_submit_big: "VOTER POUR LE SERVEUR",
+  top_voters_title: "Meilleurs votants",
   sort_label: "Trier par",
   sort_votes: "Votes",
   sort_likes: "Likes",
@@ -1124,7 +1136,7 @@ const ru: TranslationKeys = {
   footer_desc: "Крупнейший каталог серверов Minecraft. Найди свой идеальный сервер или поделись своим.", footer_nav: "Навигация", footer_legal: "Правовая информация", footer_terms: "Условия использования", footer_privacy: "Политика конфиденциальности", footer_copyright: "MCServery. Все права защищены. Не связано с Mojang Studios.", footer_contact: "Контакт", footer_support: "Поддержать нас",
   settings_language: "Язык", featured_title: "Рекомендуем", featured_pin: "Закрепить", featured_unpin: "Открепить", featured_pinned: "Сервер закреплён!", featured_unpinned: "Сервер откреплён!",
   loading: "Загрузка...", online: "Онлайн", offline: "Офлайн", players_online: "игроков онлайн",
-  vote_title: "Голосовать", vote_description: "Введите свой Minecraft ник и проголосуйте за этот сервер. Голосовать можно раз в 24 часа.", vote_nick_placeholder: "Ваш Minecraft ник", vote_nick_required: "Введите Minecraft ник", vote_nick_invalid: "Неверный ник (3-16 символов, буквы, цифры, _)", vote_submit: "Голосовать", vote_success: "Голос записан!", vote_thanks: "Спасибо за голос!", vote_next_in_24h: "Следующий голос через 24 часа.", vote_cooldown: "Вы уже голосовали за последние 24 часа.", vote_error: "Ошибка голосования", vote_count: "голосов",
+  vote_title: "Голосовать", vote_description: "Введите свой Minecraft ник и проголосуйте за этот сервер. Голосовать можно раз в 24 часа.", vote_nick_placeholder: "Ваш Minecraft ник", vote_nick_required: "Введите Minecraft ник", vote_nick_invalid: "Неверный ник (3-16 символов, буквы, цифры, _)", vote_submit: "Голосовать", vote_success: "Голос записан!", vote_thanks: "Спасибо за голос!", vote_next_in_24h: "Следующий голос через 24 часа.", vote_cooldown: "Вы уже голосовали за последние 24 часа.", vote_error: "Ошибка голосования", vote_count: "голосов", vote_submit_big: "ГОЛОСОВАТЬ ЗА СЕРВЕР", top_voters_title: "Лучшие голосующие",
   sort_label: "Сортировать по", sort_votes: "Голоса", sort_likes: "Лайки", sort_players: "Игроки",
   edit_title_1: "Редактировать", edit_title_2: "сервер", edit_subtitle: "Обновите данные вашего сервера", edit_save: "Сохранить изменения", edit_saving: "Сохраняю...", edit_save_error: "Не удалось сохранить изменения. Попробуйте снова.", edit_save_success: "Сервер обновлён!", edit_fill_required: "Заполните название и IP-адрес", edit_not_found: "Сервер не найден", edit_no_permission: "У вас нет прав для редактирования этого сервера", edit_vote_api_key: "Vote API Key", edit_vote_api_desc: "Используйте этот ключ в вашем Votifier/NuVotifier плагине для доставки наград игрокам.", edit_vote_api_copied: "API-ключ скопирован!", edit_vote_api_endpoint: "Endpoint",
   support_popup_title: "Поддержите MCServery ❤️", support_popup_desc: "MCServery — бесплатный проект. Если вам нравится, поддержите нас на Ko-fi!", support_popup_btn: "Поддержать на Ko-fi", support_popup_close: "Не сейчас, спасибо",
@@ -1147,7 +1159,7 @@ const uk: TranslationKeys = {
   footer_desc: "Найбільший каталог серверів Minecraft. Знайди свій ідеальний сервер або поділись своїм.", footer_nav: "Навігація", footer_legal: "Правова інформація", footer_terms: "Умови використання", footer_privacy: "Політика конфіденційності", footer_copyright: "MCServery. Усі права захищені. Не пов'язано з Mojang Studios.", footer_contact: "Контакт", footer_support: "Підтримати нас",
   settings_language: "Мова", featured_title: "Рекомендуємо", featured_pin: "Закріпити", featured_unpin: "Відкріпити", featured_pinned: "Сервер закріплено!", featured_unpinned: "Сервер відкріплено!",
   loading: "Завантаження...", online: "Онлайн", offline: "Офлайн", players_online: "гравців онлайн",
-  vote_title: "Голосувати", vote_description: "Введіть свій Minecraft нік і проголосуйте за цей сервер. Голосувати можна раз на 24 години.", vote_nick_placeholder: "Ваш Minecraft нік", vote_nick_required: "Введіть Minecraft нік", vote_nick_invalid: "Невірний нік (3-16 символів, літери, цифри, _)", vote_submit: "Голосувати", vote_success: "Голос записано!", vote_thanks: "Дякуємо за голос!", vote_next_in_24h: "Наступний голос через 24 години.", vote_cooldown: "Ви вже голосували за останні 24 години.", vote_error: "Помилка голосування", vote_count: "голосів",
+  vote_title: "Голосувати", vote_description: "Введіть свій Minecraft нік і проголосуйте за цей сервер. Голосувати можна раз на 24 години.", vote_nick_placeholder: "Ваш Minecraft нік", vote_nick_required: "Введіть Minecraft нік", vote_nick_invalid: "Невірний нік (3-16 символів, літери, цифри, _)", vote_submit: "Голосувати", vote_success: "Голос записано!", vote_thanks: "Дякуємо за голос!", vote_next_in_24h: "Наступний голос через 24 години.", vote_cooldown: "Ви вже голосували за останні 24 години.", vote_error: "Помилка голосування", vote_count: "голосів", vote_submit_big: "ГОЛОСУВАТИ ЗА СЕРВЕР", top_voters_title: "Найкращі голосуючі",
   sort_label: "Сортувати за", sort_votes: "Голоси", sort_likes: "Лайки", sort_players: "Гравці",
   edit_title_1: "Редагувати", edit_title_2: "сервер", edit_subtitle: "Оновіть дані вашого сервера", edit_save: "Зберегти зміни", edit_saving: "Зберігаю...", edit_save_error: "Не вдалося зберегти зміни. Спробуйте ще раз.", edit_save_success: "Сервер оновлено!", edit_fill_required: "Заповніть назву та IP-адресу", edit_not_found: "Сервер не знайдено", edit_no_permission: "У вас немає дозволу редагувати цей сервер", edit_vote_api_key: "Vote API Key", edit_vote_api_desc: "Використовуйте цей ключ у вашому Votifier/NuVotifier плагіні для доставки нагород гравцям.", edit_vote_api_copied: "API-ключ скопійовано!", edit_vote_api_endpoint: "Endpoint",
   support_popup_title: "Підтримайте MCServery ❤️", support_popup_desc: "MCServery — безкоштовний проект. Якщо вам подобається, підтримайте нас на Ko-fi!", support_popup_btn: "Підтримати на Ko-fi", support_popup_close: "Не зараз, дякую",

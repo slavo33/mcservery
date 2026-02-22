@@ -8,3 +8,6 @@ verify_jwt = false
 
 [functions.get-pending-votes]
 verify_jwt = false
+
+[functions.get-top-voters]
+verify_jwt = false
