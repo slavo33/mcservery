@@ -40,6 +40,9 @@ const EditServer = () => {
    const [submitting, setSubmitting] = useState(false);
    const [voteApiKey, setVoteApiKey] = useState<string | null>(null);
    const [apiKeyCopied, setApiKeyCopied] = useState(false);
+   const [votifierIp, setVotifierIp] = useState("");
+   const [votifierPort, setVotifierPort] = useState("");
+   const [votifierPublicKey, setVotifierPublicKey] = useState("");
 
   useEffect(() => {
     if (!id) return;
@@ -73,13 +76,16 @@ const EditServer = () => {
       setYoutubeUrl(data.youtube_url || "");
       setTwitterUrl(data.twitter_url || "");
 
-      // Fetch vote API key from server_secrets (owner-only access)
+      // Fetch vote API key and votifier config from server_secrets (owner-only access)
       const { data: secrets } = await supabase
         .from("server_secrets" as any)
-        .select("vote_api_key")
+        .select("vote_api_key, votifier_ip, votifier_port, votifier_public_key")
         .eq("server_id", id)
-        .maybeSingle() as { data: { vote_api_key: string | null } | null };
+        .maybeSingle() as { data: { vote_api_key: string | null; votifier_ip: string | null; votifier_port: number | null; votifier_public_key: string | null } | null };
       setVoteApiKey(secrets?.vote_api_key || null);
+      setVotifierIp(secrets?.votifier_ip || "");
+      setVotifierPort(secrets?.votifier_port?.toString() || "");
+      setVotifierPublicKey(secrets?.votifier_public_key || "");
       
       setLoading(false);
     };
@@ -130,6 +136,16 @@ const EditServer = () => {
       logError("Server update error:", error);
       toast.error(t("edit_save_error"));
     } else {
+      // Save votifier config to server_secrets
+      await supabase
+        .from("server_secrets" as any)
+        .update({
+          votifier_ip: votifierIp.trim() || null,
+          votifier_port: votifierPort ? parseInt(votifierPort, 10) : null,
+          votifier_public_key: votifierPublicKey.trim() || null,
+        } as any)
+        .eq("server_id", id);
+
       toast.success(t("edit_save_success"));
       navigate(`/server/${id}`);
     }
@@ -271,6 +287,48 @@ const EditServer = () => {
             onImagesChange={setServerImages}
             serverId={id}
           />
+
+          {/* Votifier / NuVotifier Configuration */}
+          <div className="rounded-md border border-border bg-secondary/30 p-4 space-y-4">
+            <div>
+              <p className="text-sm font-semibold text-foreground">{t("edit_votifier_title")}</p>
+              <p className="text-xs text-muted-foreground mt-1">{t("edit_votifier_desc")}</p>
+            </div>
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+              <div>
+                <label className="text-xs text-muted-foreground mb-1 block">{t("edit_votifier_ip")}</label>
+                <input
+                  type="text"
+                  value={votifierIp}
+                  onChange={(e) => setVotifierIp(e.target.value)}
+                  placeholder={t("edit_votifier_ip_placeholder")}
+                  className={inputClass}
+                />
+              </div>
+              <div>
+                <label className="text-xs text-muted-foreground mb-1 block">{t("edit_votifier_port")}</label>
+                <input
+                  type="number"
+                  value={votifierPort}
+                  onChange={(e) => setVotifierPort(e.target.value)}
+                  placeholder={t("edit_votifier_port_placeholder")}
+                  className={inputClass}
+                  min={1}
+                  max={65535}
+                />
+              </div>
+            </div>
+            <div>
+              <label className="text-xs text-muted-foreground mb-1 block">{t("edit_votifier_key")}</label>
+              <textarea
+                rows={4}
+                value={votifierPublicKey}
+                onChange={(e) => setVotifierPublicKey(e.target.value)}
+                placeholder={t("edit_votifier_key_placeholder")}
+                className={`${inputClass} resize-none font-mono text-xs`}
+              />
+            </div>
+          </div>
 
           {voteApiKey && (
             <div className="rounded-md border border-border bg-secondary/30 p-4 space-y-2">

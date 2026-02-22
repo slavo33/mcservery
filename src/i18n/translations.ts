@@ -209,6 +209,16 @@ type TranslationKeys = {
   edit_vote_api_desc: string;
   edit_vote_api_copied: string;
   edit_vote_api_endpoint: string;
+  // Votifier config
+  edit_votifier_title: string;
+  edit_votifier_desc: string;
+  edit_votifier_ip: string;
+  edit_votifier_ip_placeholder: string;
+  edit_votifier_port: string;
+  edit_votifier_port_placeholder: string;
+  edit_votifier_key: string;
+  edit_votifier_key_placeholder: string;
+  edit_votifier_saved: string;
   // Support popup
   support_popup_title: string;
   support_popup_desc: string;
@@ -425,6 +435,15 @@ const sk: TranslationKeys = {
   edit_vote_api_desc: "Použi tento kľúč vo svojom Votifier/NuVotifier plugine na doručovanie odmien hráčom.",
   edit_vote_api_copied: "API kľúč skopírovaný!",
   edit_vote_api_endpoint: "Endpoint",
+  edit_votifier_title: "Votifier / NuVotifier nastavenia",
+  edit_votifier_desc: "Zadaj údaje z tvojho Votifier/NuVotifier pluginu pre prepojenie hlasovania s Minecraft serverom.",
+  edit_votifier_ip: "Votifier IP",
+  edit_votifier_ip_placeholder: "napr. play.mojserver.sk",
+  edit_votifier_port: "Votifier Port",
+  edit_votifier_port_placeholder: "napr. 8192",
+  edit_votifier_key: "Votifier Public Key",
+  edit_votifier_key_placeholder: "Vlož RSA public key z config.yml...",
+  edit_votifier_saved: "Votifier nastavenia uložené!",
   support_popup_title: "Podpor MCServery ❤️",
   support_popup_desc: "MCServery je bezplatný projekt. Ak sa ti páči, môžeš nás podporiť cez Ko-fi. Každá podpora nám pomáha!",
   support_popup_btn: "Podporiť na Ko-fi",
@@ -780,6 +799,15 @@ const en: TranslationKeys = {
   edit_vote_api_desc: "Use this key in your Votifier/NuVotifier plugin to deliver rewards to players.",
   edit_vote_api_copied: "API key copied!",
   edit_vote_api_endpoint: "Endpoint",
+  edit_votifier_title: "Votifier / NuVotifier Settings",
+  edit_votifier_desc: "Enter your Votifier/NuVotifier plugin details to connect voting with your Minecraft server.",
+  edit_votifier_ip: "Votifier IP",
+  edit_votifier_ip_placeholder: "e.g. play.myserver.com",
+  edit_votifier_port: "Votifier Port",
+  edit_votifier_port_placeholder: "e.g. 8192",
+  edit_votifier_key: "Votifier Public Key",
+  edit_votifier_key_placeholder: "Paste RSA public key from config.yml...",
+  edit_votifier_saved: "Votifier settings saved!",
   support_popup_title: "Support MCServery ❤️",
   support_popup_desc: "MCServery is a free project. If you enjoy it, you can support us on Ko-fi. Every contribution helps!",
   support_popup_btn: "Support on Ko-fi",
