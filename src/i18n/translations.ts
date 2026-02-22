@@ -219,6 +219,9 @@ type TranslationKeys = {
   edit_votifier_key: string;
   edit_votifier_key_placeholder: string;
   edit_votifier_saved: string;
+  edit_votifier_ip_no_port: string;
+  edit_votifier_port_invalid: string;
+  edit_votifier_key_invalid: string;
   // Support popup
   support_popup_title: string;
   support_popup_desc: string;
@@ -444,6 +447,9 @@ const sk: TranslationKeys = {
   edit_votifier_key: "Votifier Public Key",
   edit_votifier_key_placeholder: "Vlož RSA public key z config.yml...",
   edit_votifier_saved: "Votifier nastavenia uložené!",
+  edit_votifier_ip_no_port: "Votifier IP nesmie obsahovať port (napr. :8192). Zadaj iba IP adresu.",
+  edit_votifier_port_invalid: "Votifier port musí byť číslo medzi 1 a 65535.",
+  edit_votifier_key_invalid: "Votifier Public Key musí začínať na -----BEGIN PUBLIC KEY-----",
   support_popup_title: "Podpor MCServery ❤️",
   support_popup_desc: "MCServery je bezplatný projekt. Ak sa ti páči, môžeš nás podporiť cez Ko-fi. Každá podpora nám pomáha!",
   support_popup_btn: "Podporiť na Ko-fi",
@@ -808,6 +814,9 @@ const en: TranslationKeys = {
   edit_votifier_key: "Votifier Public Key",
   edit_votifier_key_placeholder: "Paste RSA public key from config.yml...",
   edit_votifier_saved: "Votifier settings saved!",
+  edit_votifier_ip_no_port: "Votifier IP must not contain a port (e.g. :8192). Enter the IP address only.",
+  edit_votifier_port_invalid: "Votifier port must be a number between 1 and 65535.",
+  edit_votifier_key_invalid: "Votifier Public Key must start with -----BEGIN PUBLIC KEY-----",
   support_popup_title: "Support MCServery ❤️",
   support_popup_desc: "MCServery is a free project. If you enjoy it, you can support us on Ko-fi. Every contribution helps!",
   support_popup_btn: "Support on Ko-fi",

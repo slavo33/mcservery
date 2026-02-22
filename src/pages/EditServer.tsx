@@ -110,6 +110,23 @@ const EditServer = () => {
       return;
     }
 
+    // Votifier validation
+    if (votifierIp.trim() && /:\d+/.test(votifierIp.trim())) {
+      toast.error(t("edit_votifier_ip_no_port"));
+      return;
+    }
+    if (votifierPort) {
+      const port = parseInt(votifierPort, 10);
+      if (isNaN(port) || port < 1 || port > 65535) {
+        toast.error(t("edit_votifier_port_invalid"));
+        return;
+      }
+    }
+    if (votifierPublicKey.trim() && !votifierPublicKey.trim().startsWith("-----BEGIN PUBLIC KEY-----")) {
+      toast.error(t("edit_votifier_key_invalid"));
+      return;
+    }
+
     setSubmitting(true);
     const { error } = await supabase.from("servers").update({
       name: name.trim(),
