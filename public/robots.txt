@@ -13,4 +13,4 @@ Allow: /
 User-agent: *
 Allow: /
 
-Sitemap: https://mcservery.lovable.app/sitemap.xml
+Sitemap: https://mcservery.one/sitemap.xml
