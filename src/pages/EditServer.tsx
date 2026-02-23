@@ -4,7 +4,7 @@ import Footer from "@/components/Footer";
 import { Button } from "@/components/ui/button";
 import { Switch } from "@/components/ui/switch";
 import { softwareOptions, versions, minigameOptions, proxyOptions } from "@/lib/mockData";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import { Save, Key, Copy, Check } from "lucide-react";
 import ServerImageUpload from "@/components/ServerImageUpload";
 import { supabase } from "@/integrations/supabase/client";
@@ -44,8 +44,10 @@ const EditServer = () => {
    const [votifierPort, setVotifierPort] = useState("");
    const [votifierPublicKey, setVotifierPublicKey] = useState("");
 
+  const hasFetched = useRef(false);
+
   useEffect(() => {
-    if (!id) return;
+    if (!id || hasFetched.current) return;
     const fetchServer = async () => {
       const { data } = await supabase.from("servers").select("*").eq("id", id).single();
       if (!data) {
@@ -58,6 +60,7 @@ const EditServer = () => {
         navigate(`/server/${id}`);
         return;
       }
+      hasFetched.current = true;
       setName(data.name);
       setIp(data.ip);
       setDescription(data.description || "");

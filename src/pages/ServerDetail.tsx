@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import { useParams, Link, useNavigate } from "react-router-dom";
 import { supabase } from "@/integrations/supabase/client";
 import { useAuth } from "@/hooks/useAuth";
@@ -65,8 +65,11 @@ const ServerDetailPage = () => {
 
   const { status } = useServerStatus(server?.ip || "");
 
+  const hasFetchedServer = useRef(false);
+  const hasFetchedLike = useRef(false);
+
   useEffect(() => {
-    if (!id) return;
+    if (!id || hasFetchedServer.current) return;
     const fetchServer = async () => {
       const { data } = await supabase
         .from("servers")
@@ -74,6 +77,7 @@ const ServerDetailPage = () => {
         .eq("id", id)
         .single();
       if (data) {
+        hasFetchedServer.current = true;
         const { data: profileData } = await supabase
           .from("profiles")
           .select("nickname, avatar_url, bio")
@@ -91,12 +95,16 @@ const ServerDetailPage = () => {
       }
       setLoading(false);
     };
+    fetchServer();
+  }, [id]);
+
+  useEffect(() => {
+    if (!id || !user || hasFetchedLike.current) return;
+    hasFetchedLike.current = true;
     const checkLike = async () => {
-      if (!user) return;
       const { data } = await supabase.from("server_likes").select("id").eq("server_id", id).eq("user_id", user.id).maybeSingle();
       setLiked(!!data);
     };
-    fetchServer();
     checkLike();
   }, [id, user]);
 
