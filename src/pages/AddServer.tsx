@@ -78,6 +78,7 @@ const AddServer = () => {
       tiktok_url: tiktokUrl.trim() || null,
       youtube_url: youtubeUrl.trim() || null,
       twitter_url: twitterUrl.trim() || null,
+      images: serverImages,
     } as any);
 
     if (error) {

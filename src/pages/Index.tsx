@@ -36,23 +36,25 @@ const Index = () => {
   const [pinned, setPinned] = useState<(MinecraftServer & { is_warez?: boolean; has_whitelist?: boolean })[]>([]);
 
   useEffect(() => {
-    const fetchFeatured = async () => {
-      const { data } = await supabase
-        .from("servers")
-        .select("*")
-        .order("likes_count", { ascending: false })
-        .limit(3);
-      if (data) setFeatured(data.map(mapServer));
-    };
-    const fetchPinned = async () => {
-      const { data } = await supabase
+    const fetchData = async () => {
+      // Fetch pinned first
+      const { data: pinnedData } = await supabase
         .from("servers")
         .select("*")
         .eq("is_featured", true);
-      if (data) setPinned(data.map(mapServer));
+      const pinnedIds = new Set((pinnedData || []).map((s: any) => s.id));
+      if (pinnedData) setPinned(pinnedData.map(mapServer));
+
+      // Fetch featured excluding pinned
+      const { data: featuredData } = await supabase
+        .from("servers")
+        .select("*")
+        .eq("is_featured", false)
+        .order("likes_count", { ascending: false })
+        .limit(3);
+      if (featuredData) setFeatured(featuredData.map(mapServer));
     };
-    fetchFeatured();
-    fetchPinned();
+    fetchData();
   }, []);
 
   return (
