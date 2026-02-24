@@ -107,6 +107,7 @@ const ServerImageUpload = ({ images, onImagesChange, serverId, maxImages = 5 }: 
             )}
             <p className="text-sm text-muted-foreground">{uploading ? "Nahrávam..." : t("add_photos_hint")}</p>
             <p className="text-xs text-muted-foreground mt-1">{t("add_photos_formats")}</p>
+            <p className="text-xs text-muted-foreground/60 mt-0.5">{t("add_photos_resolution")}</p>
           </div>
         </div>
       )}

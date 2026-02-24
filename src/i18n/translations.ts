@@ -82,6 +82,7 @@ type TranslationKeys = {
   add_photos: string;
   add_photos_hint: string;
   add_photos_formats: string;
+  add_photos_resolution: string;
   add_submit: string;
   add_submitting: string;
   add_login_required: string;
@@ -319,6 +320,7 @@ const sk: TranslationKeys = {
   add_photos: "Fotky / GIF",
   add_photos_hint: "Nahraj fotky alebo GIF zo servera",
   add_photos_formats: "PNG, JPG, GIF do 5MB",
+  add_photos_resolution: "Odporúčané: 1280×720 px (16:9)",
   add_submit: "Pridať server",
   add_submitting: "Pridávam...",
   add_login_required: "Na pridanie servera sa musíš prihlásiť",
@@ -525,6 +527,7 @@ const cs: TranslationKeys = {
   add_version: "Verze",
   add_proxy_none: "Žádný",
   add_photos_hint: "Nahraj fotky nebo GIF ze serveru",
+  add_photos_resolution: "Doporučeno: 1280×720 px (16:9)",
   add_submit: "Přidat server",
   add_submitting: "Přidávám...",
   add_login_required: "Pro přidání serveru se musíš přihlásit",
@@ -698,6 +701,7 @@ const en: TranslationKeys = {
   add_photos: "Photos / GIF",
   add_photos_hint: "Upload photos or GIFs from your server",
   add_photos_formats: "PNG, JPG, GIF up to 5MB",
+  add_photos_resolution: "Recommended: 1280×720 px (16:9)",
   add_submit: "Add server",
   add_submitting: "Adding...",
   add_login_required: "You need to sign in to add a server",
@@ -910,6 +914,7 @@ const de: TranslationKeys = {
   add_minigames: "Minispiele",
   add_photos_hint: "Lade Fotos oder GIFs von deinem Server hoch",
   add_photos_formats: "PNG, JPG, GIF bis 5MB",
+  add_photos_resolution: "Empfohlen: 1280×720 px (16:9)",
   add_submit: "Server hinzufügen",
   add_submitting: "Wird hinzugefügt...",
   add_login_required: "Du musst dich anmelden, um einen Server hinzuzufügen",
@@ -1076,6 +1081,7 @@ const fr: TranslationKeys = {
   add_minigames: "Mini-jeux",
   add_photos_hint: "Télécharge des photos ou GIFs de ton serveur",
   add_photos_formats: "PNG, JPG, GIF jusqu'à 5 Mo",
+  add_photos_resolution: "Recommandé : 1280×720 px (16:9)",
   add_submit: "Ajouter le serveur",
   add_submitting: "Ajout en cours...",
   add_login_required: "Tu dois te connecter pour ajouter un serveur",
@@ -1201,7 +1207,7 @@ const ru: TranslationKeys = {
   filter_search_placeholder: "Поиск сервера по имени или IP...", filter_platform: "Платформа", filter_version: "Версия", filter_software: "ПО", filter_all: "Все",
   detail_back: "Назад к серверам", detail_added_by: "Добавил:", detail_minigames: "Мини-игры", detail_copy: "Копировать", detail_copied: "Скопировано!", detail_warez: "Пиратка", detail_original: "Лицензия", detail_whitelist: "Белый список", detail_no_whitelist: "Без белого списка",
   detail_view_profile: "Посмотреть профиль →", detail_not_found: "Сервер не найден", detail_delete_confirm: "Вы уверены, что хотите удалить этот сервер?", detail_delete_error: "Ошибка при удалении", detail_delete_success: "Сервер удалён", detail_edit_server: "Редактировать сервер", detail_delete_server: "Удалить сервер",
-  add_title_1: "Добавить", add_title_2: "сервер", add_subtitle: "Поделитесь своим Minecraft сервером с сообществом", add_name: "Название сервера", add_ip: "IP адрес", add_desc: "Описание", add_platform: "Платформа", add_version: "Версия", add_software: "ПО", add_proxy: "Прокси", add_proxy_none: "Нет", add_minigames: "Мини-игры", add_photos: "Фото / GIF", add_photos_hint: "Загрузите фото или GIF с вашего сервера", add_photos_formats: "PNG, JPG, GIF до 5МБ", add_submit: "Добавить сервер", add_submitting: "Добавляю...", add_login_required: "Для добавления сервера нужно войти", add_login_btn: "Войти", add_warez: "Пиратка разрешена", add_warez_desc: "Сервер поддерживает нелицензионные копии", add_whitelist_desc: "Игрокам нужно одобрение для входа", add_links: "Ссылки и соцсети", add_website: "Сайт",
+  add_title_1: "Добавить", add_title_2: "сервер", add_subtitle: "Поделитесь своим Minecraft сервером с сообществом", add_name: "Название сервера", add_ip: "IP адрес", add_desc: "Описание", add_platform: "Платформа", add_version: "Версия", add_software: "ПО", add_proxy: "Прокси", add_proxy_none: "Нет", add_minigames: "Мини-игры", add_photos: "Фото / GIF", add_photos_hint: "Загрузите фото или GIF с вашего сервера", add_photos_formats: "PNG, JPG, GIF до 5МБ", add_photos_resolution: "Рекомендуется: 1280×720 px (16:9)", add_submit: "Добавить сервер", add_submitting: "Добавляю...", add_login_required: "Для добавления сервера нужно войти", add_login_btn: "Войти", add_warez: "Пиратка разрешена", add_warez_desc: "Сервер поддерживает нелицензионные копии", add_whitelist_desc: "Игрокам нужно одобрение для входа", add_links: "Ссылки и соцсети", add_website: "Сайт",
   auth_login: "Войти", auth_register: "Регистрация", auth_login_title: "Вход", auth_register_title: "Регистрация", auth_login_subtitle: "С возвращением, игрок!", auth_register_subtitle: "Создай аккаунт и делись серверами", auth_nickname: "Никнейм", auth_email: "Email", auth_password: "Пароль", auth_submit_login: "Войти", auth_submit_register: "Создать аккаунт", auth_no_account: "Нет аккаунта?", auth_has_account: "Уже есть аккаунт?", auth_switch_register: "Зарегистрируйся", auth_switch_login: "Войти", auth_login_success: "Успешный вход!", auth_register_success: "Регистрация успешна! Проверьте email.", auth_nickname_required: "Введите никнейм", auth_or: "или", auth_google: "Войти через Google",
   profile_title_1: "Мой", profile_title_2: "профиль", profile_nickname: "Никнейм", profile_email: "Email", profile_save: "Сохранить", profile_saving: "Сохраняю...", profile_avatar_hint: "Нажмите для смены аватара", profile_uploading: "Загрузка...", profile_bio: "О себе", profile_bio_placeholder: "Напишите о себе...", profile_nickname_empty: "Никнейм не может быть пустым", profile_save_error: "Ошибка сохранения", profile_save_success: "Профиль сохранён!", profile_avatar_too_large: "Изображение слишком большое (макс 2МБ)", profile_avatar_error: "Ошибка загрузки", profile_avatar_success: "Аватар загружен!",
   user_profile_back: "Назад к серверам", user_profile_not_found: "Профиль не найден", user_profile_member_since: "Участник с", user_profile_servers: "Серверы", user_profile_no_servers: "Этот игрок пока не добавил серверов.",
