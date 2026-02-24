@@ -11,6 +11,48 @@ interface ServerImageUploadProps {
   maxImages?: number;
 }
 
+const TARGET_WIDTH = 1280;
+const TARGET_HEIGHT = 720;
+const QUALITY = 0.82;
+
+const resizeAndCompress = (file: File): Promise<Blob> => {
+  return new Promise((resolve, reject) => {
+    const img = new Image();
+    img.onload = () => {
+      const canvas = document.createElement("canvas");
+
+      const srcRatio = img.width / img.height;
+      const targetRatio = TARGET_WIDTH / TARGET_HEIGHT;
+
+      let sx = 0, sy = 0, sw = img.width, sh = img.height;
+      if (srcRatio > targetRatio) {
+        sw = img.height * targetRatio;
+        sx = (img.width - sw) / 2;
+      } else {
+        sh = img.width / targetRatio;
+        sy = (img.height - sh) / 2;
+      }
+
+      canvas.width = TARGET_WIDTH;
+      canvas.height = TARGET_HEIGHT;
+      const ctx = canvas.getContext("2d")!;
+      ctx.drawImage(img, sx, sy, sw, sh, 0, 0, TARGET_WIDTH, TARGET_HEIGHT);
+
+      canvas.toBlob(
+        (blob) => {
+          if (blob) resolve(blob);
+          else reject(new Error("Canvas toBlob failed"));
+        },
+        "image/webp",
+        QUALITY
+      );
+      URL.revokeObjectURL(img.src);
+    };
+    img.onerror = () => reject(new Error("Image load failed"));
+    img.src = URL.createObjectURL(file);
+  });
+};
+
 const ServerImageUpload = ({ images, onImagesChange, serverId, maxImages = 5 }: ServerImageUploadProps) => {
   const { t } = useLanguage();
   const [uploading, setUploading] = useState(false);
@@ -35,29 +77,34 @@ const ServerImageUpload = ({ images, onImagesChange, serverId, maxImages = 5 }: 
         toast.error(`${file.name} nie je obrázok`);
         continue;
       }
-      if (file.size > 5 * 1024 * 1024) {
-        toast.error(`${file.name} je príliš veľký (max 5MB)`);
+      if (file.size > 10 * 1024 * 1024) {
+        toast.error(`${file.name} je príliš veľký (max 10MB)`);
         continue;
       }
 
-      const folder = serverId || "temp-" + Date.now();
-      const ext = file.name.split(".").pop();
-      const path = `${folder}/${Date.now()}-${Math.random().toString(36).slice(2)}.${ext}`;
+      try {
+        const compressed = await resizeAndCompress(file);
 
-      const { error } = await supabase.storage
-        .from("server-images")
-        .upload(path, file);
+        const folder = serverId || "temp-" + Date.now();
+        const path = `${folder}/${Date.now()}-${Math.random().toString(36).slice(2)}.webp`;
 
-      if (error) {
-        toast.error(`Chyba pri nahrávaní ${file.name}`);
-        continue;
+        const { error } = await supabase.storage
+          .from("server-images")
+          .upload(path, compressed, { contentType: "image/webp" });
+
+        if (error) {
+          toast.error(`Chyba pri nahrávaní ${file.name}`);
+          continue;
+        }
+
+        const { data: urlData } = supabase.storage
+          .from("server-images")
+          .getPublicUrl(path);
+
+        newUrls.push(urlData.publicUrl);
+      } catch {
+        toast.error(`Chyba pri spracovaní ${file.name}`);
       }
-
-      const { data: urlData } = supabase.storage
-        .from("server-images")
-        .getPublicUrl(path);
-
-      newUrls.push(urlData.publicUrl);
     }
 
     if (newUrls.length > 0) {
