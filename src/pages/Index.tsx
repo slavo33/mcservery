@@ -44,7 +44,11 @@ const Index = () => {
         .select("*")
         .eq("is_featured", true);
       const pinnedIds = new Set((pinnedData || []).map((s: any) => s.id));
-      if (pinnedData) setPinned(pinnedData.map(mapServer));
+      if (pinnedData) {
+        const mapped = pinnedData.map(mapServer);
+        mapped.sort((a, b) => ((b as any).votes || 0) - ((a as any).votes || 0));
+        setPinned(mapped);
+      }
 
       // Fetch featured excluding pinned
       const { data: featuredData } = await supabase
