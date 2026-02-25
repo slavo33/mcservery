@@ -14,11 +14,12 @@ import { useNavigate, useParams } from "react-router-dom";
 import { useLanguage } from "@/i18n/LanguageContext";
 
 const EditServer = () => {
-  const { id } = useParams<{ id: string }>();
+  const { slug } = useParams<{ slug: string }>();
   const { user } = useAuth();
   const navigate = useNavigate();
   const { t } = useLanguage();
 
+  const [serverId, setServerId] = useState<string | null>(null);
   const [loading, setLoading] = useState(true);
   const [name, setName] = useState("");
   const [ip, setIp] = useState("");
@@ -47,9 +48,9 @@ const EditServer = () => {
   const hasFetched = useRef(false);
 
   useEffect(() => {
-    if (!id || hasFetched.current) return;
+    if (!slug || hasFetched.current) return;
     const fetchServer = async () => {
-      const { data } = await supabase.from("servers").select("*").eq("id", id).single();
+      const { data } = await supabase.from("servers").select("*").eq("slug", slug).single();
       if (!data) {
         toast.error(t("edit_not_found"));
         navigate("/servers");
@@ -57,10 +58,11 @@ const EditServer = () => {
       }
       if (user && data.owner_id !== user.id) {
         toast.error(t("edit_no_permission"));
-        navigate(`/server/${id}`);
+        navigate(`/server/${slug}`);
         return;
       }
       hasFetched.current = true;
+      setServerId(data.id);
       setName(data.name);
       setIp(data.ip);
       setDescription(data.description || "");
@@ -83,7 +85,7 @@ const EditServer = () => {
       const { data: secrets } = await supabase
         .from("server_secrets" as any)
         .select("vote_api_key, votifier_ip, votifier_port, votifier_public_key")
-        .eq("server_id", id)
+        .eq("server_id", data.id)
         .maybeSingle() as { data: { vote_api_key: string | null; votifier_ip: string | null; votifier_port: number | null; votifier_public_key: string | null } | null };
       setVoteApiKey(secrets?.vote_api_key || null);
       setVotifierIp(secrets?.votifier_ip || "");
@@ -93,7 +95,7 @@ const EditServer = () => {
       setLoading(false);
     };
     fetchServer();
-  }, [id, user]);
+  }, [slug, user]);
 
   const togglePlatform = (p: string) =>
     setSelectedPlatform((prev) =>
@@ -107,7 +109,7 @@ const EditServer = () => {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (!user || !id) return;
+    if (!user || !serverId) return;
     if (!name.trim() || !ip.trim()) {
       toast.error(t("edit_fill_required"));
       return;
@@ -150,7 +152,7 @@ const EditServer = () => {
       tiktok_url: tiktokUrl.trim() || null,
       youtube_url: youtubeUrl.trim() || null,
       twitter_url: twitterUrl.trim() || null,
-    } as any).eq("id", id);
+    } as any).eq("id", serverId);
 
     if (error) {
       logError("Server update error:", error);
@@ -164,10 +166,10 @@ const EditServer = () => {
           votifier_port: votifierPort ? parseInt(votifierPort, 10) : null,
           votifier_public_key: votifierPublicKey.trim() || null,
         } as any)
-        .eq("server_id", id);
+        .eq("server_id", serverId);
 
       toast.success(t("edit_save_success"));
-      navigate(`/server/${id}`);
+      navigate(`/server/${slug}`);
     }
     setSubmitting(false);
   };
@@ -305,7 +307,7 @@ const EditServer = () => {
           <ServerImageUpload
             images={serverImages}
             onImagesChange={setServerImages}
-            serverId={id}
+            serverId={serverId || undefined}
           />
 
           {/* Votifier / NuVotifier Configuration */}

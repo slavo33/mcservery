@@ -42,6 +42,7 @@ interface ServerDetailData {
   is_featured?: boolean;
   images?: string[];
   vote_count?: number;
+  slug?: string;
 }
 
 interface OwnerProfile {
@@ -51,7 +52,7 @@ interface OwnerProfile {
 }
 
 const ServerDetailPage = () => {
-  const { id } = useParams<{ id: string }>();
+  const { slug } = useParams<{ slug: string }>();
   const { user, isAdmin } = useAuth();
   const { t } = useLanguage();
   const [server, setServer] = useState<ServerDetailData | null>(null);
@@ -69,12 +70,12 @@ const ServerDetailPage = () => {
   const hasFetchedLike = useRef(false);
 
   useEffect(() => {
-    if (!id || hasFetchedServer.current) return;
+    if (!slug || hasFetchedServer.current) return;
     const fetchServer = async () => {
       const { data } = await supabase
         .from("servers")
         .select("*")
-        .eq("id", id)
+        .eq("slug", slug)
         .single();
       if (data) {
         hasFetchedServer.current = true;
@@ -96,27 +97,28 @@ const ServerDetailPage = () => {
       setLoading(false);
     };
     fetchServer();
-  }, [id]);
+  }, [slug]);
 
   useEffect(() => {
-    if (!id || !user || hasFetchedLike.current) return;
+    if (!server || !user || hasFetchedLike.current) return;
     hasFetchedLike.current = true;
     const checkLike = async () => {
-      const { data } = await supabase.from("server_likes").select("id").eq("server_id", id).eq("user_id", user.id).maybeSingle();
+      const { data } = await supabase.from("server_likes").select("id").eq("server_id", server.id).eq("user_id", user.id).maybeSingle();
       setLiked(!!data);
     };
     checkLike();
-  }, [id, user]);
+  }, [server, user]);
 
   const toggleLike = async () => {
     if (!user) { toast.error(t("nav_login")); return; }
-    if (!id) return;
+    if (!server) return;
+    const serverId = server.id;
     if (liked) {
-      await supabase.from("server_likes").delete().eq("server_id", id).eq("user_id", user.id);
+      await supabase.from("server_likes").delete().eq("server_id", serverId).eq("user_id", user.id);
       setLiked(false);
       setLikesCount((c) => c - 1);
     } else {
-      await supabase.from("server_likes").insert({ server_id: id, user_id: user.id });
+      await supabase.from("server_likes").insert({ server_id: serverId, user_id: user.id });
       setLiked(true);
       setLikesCount((c) => c + 1);
     }
@@ -263,7 +265,7 @@ const ServerDetailPage = () => {
                 )}
                 {user?.id === server.owner_id && (
                   <>
-                    <Link to={`/server/${server.id}/edit`} className="text-muted-foreground hover:text-primary transition-colors" title={t("detail_edit_server")}>
+                    <Link to={`/server/${server.slug || slug}/edit`} className="text-muted-foreground hover:text-primary transition-colors" title={t("detail_edit_server")}>
                       <Pencil className="h-5 w-5" />
                     </Link>
                     <button onClick={handleDeleteServer} className="text-muted-foreground hover:text-destructive transition-colors" title={t("detail_delete_server")}>

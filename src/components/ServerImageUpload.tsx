@@ -15,28 +15,19 @@ const TARGET_WIDTH = 1280;
 const TARGET_HEIGHT = 720;
 const QUALITY = 0.82;
 
+const isGif = (file: File): boolean => file.type === "image/gif";
+
 const resizeAndCompress = (file: File): Promise<Blob> => {
   return new Promise((resolve, reject) => {
     const img = new Image();
     img.onload = () => {
       const canvas = document.createElement("canvas");
 
-      const srcRatio = img.width / img.height;
-      const targetRatio = TARGET_WIDTH / TARGET_HEIGHT;
-
-      let sx = 0, sy = 0, sw = img.width, sh = img.height;
-      if (srcRatio > targetRatio) {
-        sw = img.height * targetRatio;
-        sx = (img.width - sw) / 2;
-      } else {
-        sh = img.width / targetRatio;
-        sy = (img.height - sh) / 2;
-      }
-
       canvas.width = TARGET_WIDTH;
       canvas.height = TARGET_HEIGHT;
       const ctx = canvas.getContext("2d")!;
-      ctx.drawImage(img, sx, sy, sw, sh, 0, 0, TARGET_WIDTH, TARGET_HEIGHT);
+      // Stretch the entire image to target dimensions (no crop)
+      ctx.drawImage(img, 0, 0, TARGET_WIDTH, TARGET_HEIGHT);
 
       canvas.toBlob(
         (blob) => {
@@ -83,9 +74,28 @@ const ServerImageUpload = ({ images, onImagesChange, serverId, maxImages = 5 }: 
       }
 
       try {
-        const compressed = await resizeAndCompress(file);
-
         const folder = serverId || "temp-" + Date.now();
+
+        // GIFs are uploaded as-is to preserve animation
+        if (isGif(file)) {
+          const path = `${folder}/${Date.now()}-${Math.random().toString(36).slice(2)}.gif`;
+          const { error } = await supabase.storage
+            .from("server-images")
+            .upload(path, file, { contentType: "image/gif" });
+
+          if (error) {
+            toast.error(`Chyba pri nahrávaní ${file.name}`);
+            continue;
+          }
+
+          const { data: urlData } = supabase.storage
+            .from("server-images")
+            .getPublicUrl(path);
+          newUrls.push(urlData.publicUrl);
+          continue;
+        }
+
+        const compressed = await resizeAndCompress(file);
         const path = `${folder}/${Date.now()}-${Math.random().toString(36).slice(2)}.webp`;
 
         const { error } = await supabase.storage

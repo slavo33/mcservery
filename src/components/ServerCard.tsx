@@ -121,7 +121,7 @@ const ServerCard = ({ server, dbMode, dbId }: ServerCardProps) => {
   );
 
   if (dbMode && dbId) {
-    return <Link to={`/server/${dbId}`}>{cardContent}</Link>;
+    return <Link to={`/server/${(server as any).slug || dbId}`}>{cardContent}</Link>;
   }
 
   return cardContent;
