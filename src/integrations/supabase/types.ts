@@ -224,6 +224,7 @@ export type Database = {
           owner_id: string
           platform: string[]
           proxy: string | null
+          slug: string
           software: string
           tags: string[]
           tiktok_url: string | null
@@ -252,6 +253,7 @@ export type Database = {
           owner_id: string
           platform?: string[]
           proxy?: string | null
+          slug: string
           software?: string
           tags?: string[]
           tiktok_url?: string | null
@@ -280,6 +282,7 @@ export type Database = {
           owner_id?: string
           platform?: string[]
           proxy?: string | null
+          slug?: string
           software?: string
           tags?: string[]
           tiktok_url?: string | null
@@ -350,6 +353,7 @@ export type Database = {
       [_ in never]: never
     }
     Functions: {
+      generate_server_slug: { Args: { server_ip: string }; Returns: string }
       has_role: {
         Args: {
           _role: Database["public"]["Enums"]["app_role"]

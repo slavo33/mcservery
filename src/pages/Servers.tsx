@@ -45,7 +45,7 @@ const Servers = () => {
     fetch();
   }, []);
 
-  const allServers: (MinecraftServer & { dbId?: string; is_warez?: boolean; has_whitelist?: boolean })[] = useMemo(() => {
+  const allServers: (MinecraftServer & { dbId?: string; is_warez?: boolean; has_whitelist?: boolean; slug?: string })[] = useMemo(() => {
     return dbServers.map((s) => ({
       id: s.id,
       dbId: s.id,
@@ -65,6 +65,7 @@ const Servers = () => {
       isOnline: true,
       is_warez: s.is_warez,
       has_whitelist: s.has_whitelist,
+      slug: (s as any).slug,
     }));
   }, [dbServers]);
 
