@@ -44,7 +44,7 @@ const UserProfile = () => {
             name: s.name,
             description: s.description,
             ip: s.ip,
-            image: "",
+            image: s.images && s.images.length > 0 ? s.images[0] : "",
             players: { online: 0, max: s.max_players },
             version: s.version,
             platform: s.platform as ("java" | "bedrock")[],
@@ -52,10 +52,12 @@ const UserProfile = () => {
             software: s.software,
             minigames: s.minigames,
             likes: s.likes_count,
+            votes: s.vote_count || 0,
             tags: s.tags,
             isOnline: true,
             is_warez: s.is_warez,
             has_whitelist: s.has_whitelist,
+            slug: s.slug,
           }))
         );
       }

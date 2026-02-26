@@ -127,7 +127,8 @@ const EditServer = () => {
         return;
       }
     }
-    if (votifierPublicKey.trim() && !votifierPublicKey.trim().startsWith("-----BEGIN PUBLIC KEY-----")) {
+    const cleanedKey = votifierPublicKey.trim().replace(/^\s+/gm, '');
+    if (cleanedKey && !cleanedKey.startsWith("-----BEGIN PUBLIC KEY-----")) {
       toast.error(t("edit_votifier_key_invalid"));
       return;
     }
@@ -159,12 +160,13 @@ const EditServer = () => {
       toast.error(t("edit_save_error"));
     } else {
       // Save votifier config to server_secrets
+      const cleanedVotifierKey = votifierPublicKey.trim().replace(/^\s+/gm, '');
       await supabase
         .from("server_secrets" as any)
         .update({
           votifier_ip: votifierIp.trim() || null,
           votifier_port: votifierPort ? parseInt(votifierPort, 10) : null,
-          votifier_public_key: votifierPublicKey.trim() || null,
+          votifier_public_key: cleanedVotifierKey || null,
         } as any)
         .eq("server_id", serverId);
 
