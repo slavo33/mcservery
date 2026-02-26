@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect, useCallback } from "react";
 import { Vote, Clock, CheckCircle } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -11,15 +11,47 @@ interface VoteSectionProps {
   onVoted: () => void;
 }
 
+const formatTimeLeft = (ms: number): string => {
+  if (ms <= 0) return "";
+  const totalSeconds = Math.floor(ms / 1000);
+  const hours = Math.floor(totalSeconds / 3600);
+  const minutes = Math.floor((totalSeconds % 3600) / 60);
+  const seconds = totalSeconds % 60;
+  if (hours > 0) return `${hours}h ${minutes}m`;
+  if (minutes > 0) return `${minutes}m ${seconds}s`;
+  return `${seconds}s`;
+};
+
 const VoteSection = ({ serverId, voteCount, onVoted }: VoteSectionProps) => {
   const { t } = useLanguage();
   const [nick, setNick] = useState("");
   const [loading, setLoading] = useState(false);
   const [voted, setVoted] = useState(false);
   const [cooldownEnd, setCooldownEnd] = useState<string | null>(null);
+  const [timeLeft, setTimeLeft] = useState("");
 
   const trimmedNick = nick.trim();
   const isValidNick = /^[a-zA-Z0-9_]{3,16}$/.test(trimmedNick);
+
+  // Countdown timer
+  useEffect(() => {
+    if (!cooldownEnd) {
+      setTimeLeft("");
+      return;
+    }
+    const update = () => {
+      const ms = new Date(cooldownEnd).getTime() - Date.now();
+      if (ms <= 0) {
+        setCooldownEnd(null);
+        setTimeLeft("");
+      } else {
+        setTimeLeft(formatTimeLeft(ms));
+      }
+    };
+    update();
+    const interval = setInterval(update, 1000);
+    return () => clearInterval(interval);
+  }, [cooldownEnd]);
 
   const handleVote = async () => {
     if (!trimmedNick) {
@@ -86,6 +118,8 @@ const VoteSection = ({ serverId, voteCount, onVoted }: VoteSectionProps) => {
     );
   }
 
+  const isCooldown = !!cooldownEnd && !!timeLeft;
+
   return (
     <div className="rounded-lg border border-border bg-secondary/30 p-5 space-y-4">
       <div className="flex items-center justify-between">
@@ -126,32 +160,34 @@ const VoteSection = ({ serverId, voteCount, onVoted }: VoteSectionProps) => {
           placeholder={t("vote_nick_placeholder")}
           className="font-mono"
           maxLength={16}
-          disabled={loading}
+          disabled={loading || isCooldown}
           onKeyDown={(e) => e.key === "Enter" && handleVote()}
         />
       </div>
 
-      <Button
-        onClick={handleVote}
-        disabled={loading || !trimmedNick}
-        className="w-full h-12 text-base font-display font-bold tracking-wide"
-        size="lg"
-      >
-        {loading ? (
-          <Clock className="h-5 w-5 animate-spin" />
-        ) : (
-          <>
-            <Vote className="h-5 w-5 mr-2" />
-            {t("vote_submit_big")}
-          </>
-        )}
-      </Button>
-
-      {cooldownEnd && (
-        <p className="text-xs text-muted-foreground flex items-center gap-1">
-          <Clock className="h-3 w-3" />
-          {t("vote_cooldown")}
-        </p>
+      {isCooldown ? (
+        <div className="w-full h-12 rounded-md bg-muted border border-border flex items-center justify-center gap-2 text-muted-foreground">
+          <Clock className="h-5 w-5" />
+          <span className="font-display font-semibold text-sm">
+            {t("vote_cooldown_timer")} {timeLeft}
+          </span>
+        </div>
+      ) : (
+        <Button
+          onClick={handleVote}
+          disabled={loading || !trimmedNick}
+          className="w-full h-12 text-base font-display font-bold tracking-wide"
+          size="lg"
+        >
+          {loading ? (
+            <Clock className="h-5 w-5 animate-spin" />
+          ) : (
+            <>
+              <Vote className="h-5 w-5 mr-2" />
+              {t("vote_submit_big")}
+            </>
+          )}
+        </Button>
       )}
     </div>
   );

@@ -185,6 +185,7 @@ type TranslationKeys = {
   vote_thanks: string;
   vote_next_in_24h: string;
   vote_cooldown: string;
+  vote_cooldown_timer: string;
   vote_error: string;
   vote_count: string;
   vote_submit_big: string;
@@ -418,6 +419,7 @@ const sk: TranslationKeys = {
   vote_thanks: "Ďakujeme za hlas!",
   vote_next_in_24h: "Ďalší hlas môžeš dať o 24 hodín.",
   vote_cooldown: "Už si hlasoval za posledných 24 hodín.",
+  vote_cooldown_timer: "Hlasovať môžeš za",
   vote_error: "Chyba pri hlasovaní",
   vote_count: "hlasov",
   vote_submit_big: "HLASOVAŤ ZA SERVER",
@@ -605,6 +607,7 @@ const cs: TranslationKeys = {
   vote_thanks: "Děkujeme za hlas!",
   vote_next_in_24h: "Další hlas můžeš dát za 24 hodin.",
   vote_cooldown: "Už jsi hlasoval za posledních 24 hodin.",
+  vote_cooldown_timer: "Hlasovat můžeš za",
   vote_error: "Chyba při hlasování",
   vote_count: "hlasů",
   vote_submit_big: "HLASOVAT ZA SERVER",
@@ -799,6 +802,7 @@ const en: TranslationKeys = {
   vote_thanks: "Thanks for voting!",
   vote_next_in_24h: "You can vote again in 24 hours.",
   vote_cooldown: "You already voted in the last 24 hours.",
+  vote_cooldown_timer: "You can vote again in",
   vote_error: "Error while voting",
   vote_count: "votes",
   vote_submit_big: "VOTE FOR SERVER",
@@ -991,6 +995,7 @@ const de: TranslationKeys = {
   vote_thanks: "Danke für deine Stimme!",
   vote_next_in_24h: "Du kannst in 24 Stunden erneut abstimmen.",
   vote_cooldown: "Du hast bereits in den letzten 24 Stunden abgestimmt.",
+  vote_cooldown_timer: "Du kannst wieder abstimmen in",
   vote_error: "Fehler beim Abstimmen",
   vote_count: "Stimmen",
   vote_submit_big: "FÜR SERVER STIMMEN",
@@ -1158,6 +1163,7 @@ const fr: TranslationKeys = {
   vote_thanks: "Merci pour ton vote !",
   vote_next_in_24h: "Tu pourras revoter dans 24 heures.",
   vote_cooldown: "Tu as déjà voté dans les dernières 24 heures.",
+  vote_cooldown_timer: "Tu pourras revoter dans",
   vote_error: "Erreur lors du vote",
   vote_count: "votes",
   vote_submit_big: "VOTER POUR LE SERVEUR",
@@ -1215,7 +1221,7 @@ const ru: TranslationKeys = {
   footer_desc: "Крупнейший каталог серверов Minecraft. Найди свой идеальный сервер или поделись своим.", footer_nav: "Навигация", footer_legal: "Правовая информация", footer_terms: "Условия использования", footer_privacy: "Политика конфиденциальности", footer_copyright: "MCServery. Все права защищены. Не связано с Mojang Studios.", footer_contact: "Контакт", footer_support: "Поддержать нас",
   settings_language: "Язык", featured_title: "Рекомендуем", featured_pin: "Закрепить", featured_unpin: "Открепить", featured_pinned: "Сервер закреплён!", featured_unpinned: "Сервер откреплён!",
   loading: "Загрузка...", online: "Онлайн", offline: "Офлайн", players_online: "игроков онлайн",
-  vote_title: "Голосовать", vote_description: "Введите свой Minecraft ник и проголосуйте за этот сервер. Голосовать можно раз в 24 часа.", vote_nick_placeholder: "Ваш Minecraft ник", vote_nick_required: "Введите Minecraft ник", vote_nick_invalid: "Неверный ник (3-16 символов, буквы, цифры, _)", vote_submit: "Голосовать", vote_success: "Голос записан!", vote_thanks: "Спасибо за голос!", vote_next_in_24h: "Следующий голос через 24 часа.", vote_cooldown: "Вы уже голосовали за последние 24 часа.", vote_error: "Ошибка голосования", vote_count: "голосов", vote_submit_big: "ГОЛОСОВАТЬ ЗА СЕРВЕР", top_voters_title: "Лучшие голосующие",
+  vote_title: "Голосовать", vote_description: "Введите свой Minecraft ник и проголосуйте за этот сервер. Голосовать можно раз в 24 часа.", vote_nick_placeholder: "Ваш Minecraft ник", vote_nick_required: "Введите Minecraft ник", vote_nick_invalid: "Неверный ник (3-16 символов, буквы, цифры, _)", vote_submit: "Голосовать", vote_success: "Голос записан!", vote_thanks: "Спасибо за голос!", vote_next_in_24h: "Следующий голос через 24 часа.", vote_cooldown: "Вы уже голосовали за последние 24 часа.", vote_cooldown_timer: "Голосовать снова через", vote_error: "Ошибка голосования", vote_count: "голосов", vote_submit_big: "ГОЛОСОВАТЬ ЗА СЕРВЕР", top_voters_title: "Лучшие голосующие",
   sort_label: "Сортировать по", sort_votes: "Голоса", sort_likes: "Лайки", sort_players: "Игроки",
   edit_title_1: "Редактировать", edit_title_2: "сервер", edit_subtitle: "Обновите данные вашего сервера", edit_save: "Сохранить изменения", edit_saving: "Сохраняю...", edit_save_error: "Не удалось сохранить изменения. Попробуйте снова.", edit_save_success: "Сервер обновлён!", edit_fill_required: "Заполните название и IP-адрес", edit_not_found: "Сервер не найден", edit_no_permission: "У вас нет прав для редактирования этого сервера", edit_vote_api_key: "Vote API Key", edit_vote_api_desc: "Используйте этот ключ в вашем Votifier/NuVotifier плагине для доставки наград игрокам.", edit_vote_api_copied: "API-ключ скопирован!", edit_vote_api_endpoint: "Endpoint",
   edit_votifier_title: "Настройки Votifier / NuVotifier", edit_votifier_desc: "Введите данные вашего плагина Votifier/NuVotifier для подключения голосования к Minecraft серверу.", edit_votifier_ip: "Votifier IP", edit_votifier_ip_placeholder: "напр. 123.45.67.89", edit_votifier_port: "Votifier порт", edit_votifier_port_placeholder: "напр. 8192", edit_votifier_key: "Публичный ключ Votifier", edit_votifier_key_placeholder: "Вставьте RSA публичный ключ из config.yml...", edit_votifier_saved: "Настройки Votifier сохранены!", edit_votifier_ip_no_port: "Votifier IP не должен содержать порт (напр. :8192). Введите только IP-адрес.", edit_votifier_port_invalid: "Порт Votifier должен быть числом от 1 до 65535.", edit_votifier_key_invalid: "Публичный ключ Votifier должен начинаться с -----BEGIN PUBLIC KEY-----",
@@ -1239,7 +1245,7 @@ const uk: TranslationKeys = {
   footer_desc: "Найбільший каталог серверів Minecraft. Знайди свій ідеальний сервер або поділись своїм.", footer_nav: "Навігація", footer_legal: "Правова інформація", footer_terms: "Умови використання", footer_privacy: "Політика конфіденційності", footer_copyright: "MCServery. Усі права захищені. Не пов'язано з Mojang Studios.", footer_contact: "Контакт", footer_support: "Підтримати нас",
   settings_language: "Мова", featured_title: "Рекомендуємо", featured_pin: "Закріпити", featured_unpin: "Відкріпити", featured_pinned: "Сервер закріплено!", featured_unpinned: "Сервер відкріплено!",
   loading: "Завантаження...", online: "Онлайн", offline: "Офлайн", players_online: "гравців онлайн",
-  vote_title: "Голосувати", vote_description: "Введіть свій Minecraft нік і проголосуйте за цей сервер. Голосувати можна раз на 24 години.", vote_nick_placeholder: "Ваш Minecraft нік", vote_nick_required: "Введіть Minecraft нік", vote_nick_invalid: "Невірний нік (3-16 символів, літери, цифри, _)", vote_submit: "Голосувати", vote_success: "Голос записано!", vote_thanks: "Дякуємо за голос!", vote_next_in_24h: "Наступний голос через 24 години.", vote_cooldown: "Ви вже голосували за останні 24 години.", vote_error: "Помилка голосування", vote_count: "голосів", vote_submit_big: "ГОЛОСУВАТИ ЗА СЕРВЕР", top_voters_title: "Найкращі голосуючі",
+  vote_title: "Голосувати", vote_description: "Введіть свій Minecraft нік і проголосуйте за цей сервер. Голосувати можна раз на 24 години.", vote_nick_placeholder: "Ваш Minecraft нік", vote_nick_required: "Введіть Minecraft нік", vote_nick_invalid: "Невірний нік (3-16 символів, літери, цифри, _)", vote_submit: "Голосувати", vote_success: "Голос записано!", vote_thanks: "Дякуємо за голос!", vote_next_in_24h: "Наступний голос через 24 години.", vote_cooldown: "Ви вже голосували за останні 24 години.", vote_cooldown_timer: "Голосувати знову через", vote_error: "Помилка голосування", vote_count: "голосів", vote_submit_big: "ГОЛОСУВАТИ ЗА СЕРВЕР", top_voters_title: "Найкращі голосуючі",
   sort_label: "Сортувати за", sort_votes: "Голоси", sort_likes: "Лайки", sort_players: "Гравці",
   edit_title_1: "Редагувати", edit_title_2: "сервер", edit_subtitle: "Оновіть дані вашого сервера", edit_save: "Зберегти зміни", edit_saving: "Зберігаю...", edit_save_error: "Не вдалося зберегти зміни. Спробуйте ще раз.", edit_save_success: "Сервер оновлено!", edit_fill_required: "Заповніть назву та IP-адресу", edit_not_found: "Сервер не знайдено", edit_no_permission: "У вас немає дозволу редагувати цей сервер", edit_vote_api_key: "Vote API Key", edit_vote_api_desc: "Використовуйте цей ключ у вашому Votifier/NuVotifier плагіні для доставки нагород гравцям.", edit_vote_api_copied: "API-ключ скопійовано!", edit_vote_api_endpoint: "Endpoint",
   edit_votifier_title: "Налаштування Votifier / NuVotifier", edit_votifier_desc: "Введіть дані вашого плагіна Votifier/NuVotifier для підключення голосування до Minecraft сервера.", edit_votifier_ip: "Votifier IP", edit_votifier_ip_placeholder: "напр. 123.45.67.89", edit_votifier_port: "Votifier порт", edit_votifier_port_placeholder: "напр. 8192", edit_votifier_key: "Публічний ключ Votifier", edit_votifier_key_placeholder: "Вставте RSA публічний ключ з config.yml...", edit_votifier_saved: "Налаштування Votifier збережено!", edit_votifier_ip_no_port: "Votifier IP не повинен містити порт (напр. :8192). Введіть лише IP-адресу.", edit_votifier_port_invalid: "Порт Votifier має бути числом від 1 до 65535.", edit_votifier_key_invalid: "Публічний ключ Votifier має починатися з -----BEGIN PUBLIC KEY-----",
@@ -1263,7 +1269,7 @@ const es: TranslationKeys = {
   footer_desc: "El mayor catálogo de servidores de Minecraft.", footer_terms: "Términos de uso", footer_privacy: "Política de privacidad", footer_copyright: "MCServery. Todos los derechos reservados. No afiliado a Mojang Studios.", footer_contact: "Contacto", footer_support: "Apóyanos",
   settings_language: "Idioma", featured_title: "Recomendamos", featured_pin: "Fijar", featured_unpin: "Desfijar", featured_pinned: "¡Servidor fijado!", featured_unpinned: "¡Servidor desfijado!",
   loading: "Cargando...", online: "En línea", offline: "Fuera de línea", players_online: "jugadores en línea",
-  vote_title: "Votar", vote_description: "Ingresa tu nick de Minecraft y vota por este servidor. Puedes votar una vez cada 24 horas.", vote_nick_placeholder: "Tu nick de Minecraft", vote_nick_required: "Ingresa tu nick de Minecraft", vote_nick_invalid: "Nick inválido (3-16 caracteres, letras, números, _)", vote_submit: "Votar", vote_success: "¡Voto registrado!", vote_thanks: "¡Gracias por votar!", vote_next_in_24h: "Podrás votar de nuevo en 24 horas.", vote_cooldown: "Ya votaste en las últimas 24 horas.", vote_error: "Error al votar", vote_count: "votos",
+  vote_title: "Votar", vote_description: "Ingresa tu nick de Minecraft y vota por este servidor. Puedes votar una vez cada 24 horas.", vote_nick_placeholder: "Tu nick de Minecraft", vote_nick_required: "Ingresa tu nick de Minecraft", vote_nick_invalid: "Nick inválido (3-16 caracteres, letras, números, _)", vote_submit: "Votar", vote_success: "¡Voto registrado!", vote_thanks: "¡Gracias por votar!", vote_next_in_24h: "Podrás votar de nuevo en 24 horas.", vote_cooldown: "Ya votaste en las últimas 24 horas.", vote_cooldown_timer: "Puedes votar de nuevo en", vote_error: "Error al votar", vote_count: "votos",
   sort_label: "Ordenar por", sort_votes: "Votos", sort_likes: "Likes", sort_players: "Jugadores",
   edit_title_1: "Editar", edit_title_2: "servidor", edit_subtitle: "Actualiza los datos de tu servidor", edit_save: "Guardar cambios", edit_saving: "Guardando...", edit_save_error: "No se pudieron guardar los cambios. Inténtalo de nuevo.", edit_save_success: "¡Servidor actualizado!", edit_fill_required: "Completa el nombre y la dirección IP", edit_not_found: "Servidor no encontrado", edit_no_permission: "No tienes permiso para editar este servidor", edit_vote_api_key: "Vote API Key", edit_vote_api_desc: "Usa esta clave en tu plugin Votifier/NuVotifier para entregar recompensas a los jugadores.", edit_vote_api_copied: "¡Clave API copiada!", edit_vote_api_endpoint: "Endpoint",
   edit_votifier_title: "Configuración Votifier / NuVotifier", edit_votifier_desc: "Introduce los datos de tu plugin Votifier/NuVotifier para conectar las votaciones con tu servidor de Minecraft.", edit_votifier_ip: "IP de Votifier", edit_votifier_ip_placeholder: "ej. 123.45.67.89", edit_votifier_port: "Puerto de Votifier", edit_votifier_port_placeholder: "ej. 8192", edit_votifier_key: "Clave pública de Votifier", edit_votifier_key_placeholder: "Pega la clave pública RSA de config.yml...", edit_votifier_saved: "¡Configuración de Votifier guardada!", edit_votifier_ip_no_port: "La IP de Votifier no debe contener un puerto (ej. :8192). Introduce solo la dirección IP.", edit_votifier_port_invalid: "El puerto de Votifier debe ser un número entre 1 y 65535.", edit_votifier_key_invalid: "La clave pública de Votifier debe comenzar con -----BEGIN PUBLIC KEY-----",
@@ -1285,7 +1291,7 @@ const pt: TranslationKeys = {
   loading: "A carregar...", players_online: "jogadores online",
   footer_contact: "Contacto",
   footer_support: "Apoie-nos",
-  vote_title: "Votar", vote_description: "Digite seu nick do Minecraft e vote neste servidor. Você pode votar uma vez a cada 24 horas.", vote_nick_placeholder: "Seu nick do Minecraft", vote_nick_required: "Digite seu nick do Minecraft", vote_nick_invalid: "Nick inválido (3-16 caracteres, letras, números, _)", vote_submit: "Votar", vote_success: "Voto registrado!", vote_thanks: "Obrigado pelo voto!", vote_next_in_24h: "Você poderá votar novamente em 24 horas.", vote_cooldown: "Você já votou nas últimas 24 horas.", vote_error: "Erro ao votar", vote_count: "votos",
+  vote_title: "Votar", vote_description: "Digite seu nick do Minecraft e vote neste servidor. Você pode votar uma vez a cada 24 horas.", vote_nick_placeholder: "Seu nick do Minecraft", vote_nick_required: "Digite seu nick do Minecraft", vote_nick_invalid: "Nick inválido (3-16 caracteres, letras, números, _)", vote_submit: "Votar", vote_success: "Voto registrado!", vote_thanks: "Obrigado pelo voto!", vote_next_in_24h: "Você poderá votar novamente em 24 horas.", vote_cooldown: "Você já votou nas últimas 24 horas.", vote_cooldown_timer: "Pode votar novamente em", vote_error: "Erro ao votar", vote_count: "votos",
   sort_label: "Ordenar por", sort_votes: "Votos", sort_likes: "Likes", sort_players: "Jogadores",
   edit_title_1: "Editar", edit_title_2: "servidor", edit_subtitle: "Atualize os dados do seu servidor", edit_save: "Salvar alterações", edit_saving: "Salvando...", edit_save_error: "Não foi possível salvar as alterações. Tente novamente.", edit_save_success: "Servidor atualizado!", edit_fill_required: "Preencha o nome e o endereço IP", edit_not_found: "Servidor não encontrado", edit_no_permission: "Você não tem permissão para editar este servidor", edit_vote_api_key: "Vote API Key", edit_vote_api_desc: "Use esta chave no seu plugin Votifier/NuVotifier para entregar recompensas aos jogadores.", edit_vote_api_copied: "Chave API copiada!", edit_vote_api_endpoint: "Endpoint",
   edit_votifier_title: "Configurações Votifier / NuVotifier", edit_votifier_desc: "Insira os dados do seu plugin Votifier/NuVotifier para conectar as votações ao seu servidor Minecraft.", edit_votifier_ip: "IP do Votifier", edit_votifier_ip_placeholder: "ex. 123.45.67.89", edit_votifier_port: "Porta do Votifier", edit_votifier_port_placeholder: "ex. 8192", edit_votifier_key: "Chave pública do Votifier", edit_votifier_key_placeholder: "Cole a chave pública RSA do config.yml...", edit_votifier_saved: "Configurações do Votifier salvas!", edit_votifier_ip_no_port: "O IP do Votifier não deve conter porta (ex. :8192). Insira apenas o endereço IP.", edit_votifier_port_invalid: "A porta do Votifier deve ser um número entre 1 e 65535.", edit_votifier_key_invalid: "A chave pública do Votifier deve começar com -----BEGIN PUBLIC KEY-----",
