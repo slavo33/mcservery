@@ -107,6 +107,12 @@ const EditServer = () => {
       prev.includes(m) ? prev.filter((x) => x !== m) : [...prev, m]
     );
 
+  const normalizeVotifierPublicKey = (value: string) =>
+    value.replace(/\r/g, "").trim().replace(/^\uFEFF/, "");
+
+  const hasSupportedVotifierPublicKeyHeader = (value: string) =>
+    /^-----BEGIN (?:RSA )?PUBLIC KEY-----/.test(value);
+
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!user || !serverId) return;
@@ -127,8 +133,8 @@ const EditServer = () => {
         return;
       }
     }
-    const cleanedKey = votifierPublicKey.trim().replace(/^\s+/gm, '');
-    if (cleanedKey && !cleanedKey.startsWith("-----BEGIN PUBLIC KEY-----")) {
+    const cleanedKey = normalizeVotifierPublicKey(votifierPublicKey);
+    if (cleanedKey && !hasSupportedVotifierPublicKeyHeader(cleanedKey)) {
       toast.error(t("edit_votifier_key_invalid"));
       return;
     }
@@ -160,7 +166,7 @@ const EditServer = () => {
       toast.error(t("edit_save_error"));
     } else {
       // Save votifier config to server_secrets
-      const cleanedVotifierKey = votifierPublicKey.trim().replace(/^\s+/gm, '');
+      const cleanedVotifierKey = normalizeVotifierPublicKey(votifierPublicKey);
       await supabase
         .from("server_secrets" as any)
         .update({

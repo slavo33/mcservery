@@ -1,8 +1,70 @@
 import { createClient } from "https://esm.sh/@supabase/supabase-js@2";
+import { Buffer } from "node:buffer";
+import { constants, publicEncrypt } from "node:crypto";
 
 const corsHeaders = {
   "Access-Control-Allow-Origin": "*",
   "Access-Control-Allow-Headers": "authorization, x-client-info, apikey, content-type, x-supabase-client-platform, x-supabase-client-platform-version, x-supabase-client-runtime, x-supabase-client-runtime-version",
+};
+
+const normalizePublicKey = (raw: string): string => {
+  const cleaned = raw.replace(/\r/g, "").trim().replace(/^\uFEFF/, "");
+
+  if (/-----BEGIN (?:RSA )?PUBLIC KEY-----/.test(cleaned)) {
+    return cleaned;
+  }
+
+  // Allow bare base64 keys by wrapping as PEM
+  const base64Only = cleaned.replace(/\s+/g, "");
+  if (/^[A-Za-z0-9+/=]+$/.test(base64Only) && base64Only.length > 200) {
+    const chunks = base64Only.match(/.{1,64}/g) ?? [];
+    return `-----BEGIN PUBLIC KEY-----\n${chunks.join("\n")}\n-----END PUBLIC KEY-----`;
+  }
+
+  return cleaned;
+};
+
+const hasSupportedPublicKeyHeader = (pem: string) =>
+  /^-----BEGIN (?:RSA )?PUBLIC KEY-----/.test(pem);
+
+const sendVotifierVote = async ({
+  host,
+  port,
+  publicKey,
+  minecraftNick,
+  voterIp,
+}: {
+  host: string;
+  port: number;
+  publicKey: string;
+  minecraftNick: string;
+  voterIp: string;
+}) => {
+  const conn = await Deno.connect({ hostname: host, port });
+  const encoder = new TextEncoder();
+
+  try {
+    // Read handshake banner (e.g. "VOTIFIER 2")
+    const handshakeBuffer = new Uint8Array(512);
+    await conn.read(handshakeBuffer);
+
+    const votePacket = `VOTE\nMCServery\n${minecraftNick}\n${voterIp}\n${Math.floor(Date.now() / 1000)}\n`;
+    const voteBytes = encoder.encode(votePacket);
+    const block = new Uint8Array(256);
+    block.set(voteBytes.slice(0, 256));
+
+    const encrypted = publicEncrypt(
+      {
+        key: publicKey,
+        padding: constants.RSA_PKCS1_PADDING,
+      },
+      Buffer.from(block),
+    );
+
+    await conn.write(encrypted);
+  } finally {
+    conn.close();
+  }
 };
 
 Deno.serve(async (req) => {
@@ -24,11 +86,11 @@ Deno.serve(async (req) => {
     }
 
     // Get voter IP for rate limiting
-    const voterIp = req.headers.get("x-forwarded-for")?.split(",")[0]?.trim() || req.headers.get("cf-connecting-ip") || "unknown";
+    const voterIp = req.headers.get("x-forwarded-for")?.split(",")[0]?.trim() || req.headers.get("cf-connecting-ip") || "127.0.0.1";
 
     const supabase = createClient(
       Deno.env.get("SUPABASE_URL")!,
-      Deno.env.get("SUPABASE_SERVICE_ROLE_KEY")!
+      Deno.env.get("SUPABASE_SERVICE_ROLE_KEY")!,
     );
 
     // Check server exists
@@ -66,16 +128,52 @@ Deno.serve(async (req) => {
       return new Response(JSON.stringify({ error: "cooldown_ip" }), { status: 429, headers: { ...corsHeaders, "Content-Type": "application/json" } });
     }
 
-    // Insert vote
-    const { error: insertError } = await supabase.from("votes").insert({
-      server_id,
-      minecraft_nick: minecraft_nick.toLowerCase(),
-      voter_ip: voterIp,
-    });
+    // Store vote first (with rollback if Votifier dispatch fails)
+    const { data: insertedVote, error: insertError } = await supabase
+      .from("votes")
+      .insert({
+        server_id,
+        minecraft_nick: minecraft_nick.toLowerCase(),
+        voter_ip: voterIp,
+      })
+      .select("id")
+      .single();
 
-    if (insertError) {
+    if (insertError || !insertedVote) {
       console.error("Vote insert error:", insertError);
       return new Response(JSON.stringify({ error: "insert_failed" }), { status: 500, headers: { ...corsHeaders, "Content-Type": "application/json" } });
+    }
+
+    // Attempt Votifier dispatch when fully configured
+    const { data: secret } = await supabase
+      .from("server_secrets")
+      .select("votifier_ip, votifier_port, votifier_public_key")
+      .eq("server_id", server_id)
+      .maybeSingle();
+
+    const hasVotifierConfig = !!(secret?.votifier_ip && secret?.votifier_port && secret?.votifier_public_key);
+
+    if (hasVotifierConfig) {
+      const normalizedKey = normalizePublicKey(secret!.votifier_public_key as string);
+
+      if (!hasSupportedPublicKeyHeader(normalizedKey)) {
+        await supabase.from("votes").delete().eq("id", insertedVote.id);
+        return new Response(JSON.stringify({ error: "votifier_public_key_invalid" }), { status: 400, headers: { ...corsHeaders, "Content-Type": "application/json" } });
+      }
+
+      try {
+        await sendVotifierVote({
+          host: secret!.votifier_ip as string,
+          port: secret!.votifier_port as number,
+          publicKey: normalizedKey,
+          minecraftNick: minecraft_nick,
+          voterIp,
+        });
+      } catch (votifierError) {
+        console.error("Votifier send error:", votifierError);
+        await supabase.from("votes").delete().eq("id", insertedVote.id);
+        return new Response(JSON.stringify({ error: "votifier_delivery_failed" }), { status: 502, headers: { ...corsHeaders, "Content-Type": "application/json" } });
+      }
     }
 
     return new Response(JSON.stringify({ success: true }), { status: 200, headers: { ...corsHeaders, "Content-Type": "application/json" } });
