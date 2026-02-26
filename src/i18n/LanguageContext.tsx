@@ -7,6 +7,7 @@ interface LanguageContextType {
   t: (key: string) => string;
 }
 
+
 const LanguageContext = createContext<LanguageContextType | null>(null);
 
 export const LanguageProvider = ({ children }: { children: ReactNode }) => {
