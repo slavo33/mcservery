@@ -107,11 +107,46 @@ const EditServer = () => {
       prev.includes(m) ? prev.filter((x) => x !== m) : [...prev, m]
     );
 
-  const normalizeVotifierPublicKey = (value: string) =>
-    value.replace(/\r/g, "").trim().replace(/^\uFEFF/, "");
+  const normalizeVotifierPublicKey = (value: string) => {
+    const cleaned = value.replace(/\r/g, "").replace(/^\uFEFF/, "").trim();
+    if (!cleaned) return "";
+
+    const withRealNewLines = cleaned.replace(/\\n/g, "\n");
+
+    const normalizePemBlock = (input: string, label: "PUBLIC KEY" | "RSA PUBLIC KEY") => {
+      const begin = `-----BEGIN ${label}-----`;
+      const end = `-----END ${label}-----`;
+      const start = input.indexOf(begin);
+      const finish = input.indexOf(end);
+      if (start === -1 || finish === -1 || finish <= start) return null;
+
+      const body = input
+        .slice(start + begin.length, finish)
+        .replace(/\s+/g, "");
+
+      if (!body) return null;
+
+      const chunks = body.match(/.{1,64}/g) ?? [];
+      return `${begin}\n${chunks.join("\n")}\n${end}`;
+    };
+
+    const rsaPem = normalizePemBlock(withRealNewLines, "RSA PUBLIC KEY");
+    if (rsaPem) return rsaPem;
+
+    const publicPem = normalizePemBlock(withRealNewLines, "PUBLIC KEY");
+    if (publicPem) return publicPem;
+
+    const base64Only = withRealNewLines.replace(/\s+/g, "");
+    if (/^[A-Za-z0-9+/=]+$/.test(base64Only) && base64Only.length > 200) {
+      const chunks = base64Only.match(/.{1,64}/g) ?? [];
+      return `-----BEGIN PUBLIC KEY-----\n${chunks.join("\n")}\n-----END PUBLIC KEY-----`;
+    }
+
+    return withRealNewLines;
+  };
 
   const hasSupportedVotifierPublicKeyHeader = (value: string) =>
-    /^-----BEGIN (?:RSA )?PUBLIC KEY-----/.test(value);
+    /^-----BEGIN (?:RSA )?PUBLIC KEY-----/.test(value) && /-----END (?:RSA )?PUBLIC KEY-----\s*$/.test(value);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();

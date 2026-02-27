@@ -283,7 +283,7 @@ const ServerDetailPage = () => {
               </div>
             </div>
 
-            <p className="text-foreground/90">{server.description}</p>
+            <p className="text-foreground/90 whitespace-pre-line leading-relaxed break-words">{server.description}</p>
 
             {/* Tags + badges */}
             <div className="flex flex-wrap gap-2">

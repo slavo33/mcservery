@@ -8,24 +8,48 @@ const corsHeaders = {
 };
 
 const normalizePublicKey = (raw: string): string => {
-  const cleaned = raw.replace(/\r/g, "").trim().replace(/^\uFEFF/, "");
+  const cleaned = raw.replace(/\r/g, "").replace(/^\uFEFF/, "").trim();
+  if (!cleaned) return "";
 
-  if (/-----BEGIN (?:RSA )?PUBLIC KEY-----/.test(cleaned)) {
-    return cleaned;
-  }
+  // Handle keys pasted with escaped new lines ("\\n")
+  const withRealNewLines = cleaned.replace(/\\n/g, "\n");
+
+  const normalizePemBlock = (value: string, label: "PUBLIC KEY" | "RSA PUBLIC KEY") => {
+    const begin = `-----BEGIN ${label}-----`;
+    const end = `-----END ${label}-----`;
+    const start = value.indexOf(begin);
+    const finish = value.indexOf(end);
+
+    if (start === -1 || finish === -1 || finish <= start) return null;
+
+    const body = value
+      .slice(start + begin.length, finish)
+      .replace(/\s+/g, "");
+
+    if (!body) return null;
+
+    const chunks = body.match(/.{1,64}/g) ?? [];
+    return `${begin}\n${chunks.join("\n")}\n${end}`;
+  };
+
+  const rsaPem = normalizePemBlock(withRealNewLines, "RSA PUBLIC KEY");
+  if (rsaPem) return rsaPem;
+
+  const publicPem = normalizePemBlock(withRealNewLines, "PUBLIC KEY");
+  if (publicPem) return publicPem;
 
   // Allow bare base64 keys by wrapping as PEM
-  const base64Only = cleaned.replace(/\s+/g, "");
+  const base64Only = withRealNewLines.replace(/\s+/g, "");
   if (/^[A-Za-z0-9+/=]+$/.test(base64Only) && base64Only.length > 200) {
     const chunks = base64Only.match(/.{1,64}/g) ?? [];
     return `-----BEGIN PUBLIC KEY-----\n${chunks.join("\n")}\n-----END PUBLIC KEY-----`;
   }
 
-  return cleaned;
+  return withRealNewLines;
 };
 
 const hasSupportedPublicKeyHeader = (pem: string) =>
-  /^-----BEGIN (?:RSA )?PUBLIC KEY-----/.test(pem);
+  /^-----BEGIN (?:RSA )?PUBLIC KEY-----/.test(pem) && /-----END (?:RSA )?PUBLIC KEY-----\s*$/.test(pem);
 
 const sendVotifierVote = async ({
   host,
