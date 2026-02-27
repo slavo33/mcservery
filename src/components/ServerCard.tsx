@@ -40,7 +40,7 @@ const ServerCard = ({ server, dbMode, dbId }: ServerCardProps) => {
       <div className="relative h-40 overflow-hidden bg-secondary">
         <div className="absolute inset-0 gradient-hero z-10" />
         {server.image ? (
-          <img src={server.image} alt={server.name} className="absolute inset-0 w-full h-full object-cover object-center" loading="lazy" />
+          <img src={server.image} alt={server.name} className="absolute inset-0 w-full h-full object-cover object-center" loading="lazy" decoding="async" />
         ) : (
           <div className="absolute inset-0 flex items-center justify-center text-muted-foreground font-display text-2xl tracking-widest opacity-30">
             {server.name}

@@ -22,7 +22,7 @@ const HeroSection = () => {
 
   return (
     <section className="relative min-h-[70vh] flex items-center justify-center overflow-hidden">
-      <img src={heroBg} alt="Minecraft nether landscape" className="absolute inset-0 w-full h-full object-cover" loading="eager" />
+      <img src={heroBg} alt="Minecraft nether landscape" className="absolute inset-0 w-full h-full object-cover" loading="eager" fetchPriority="high" decoding="async" />
       <div className="absolute inset-0 gradient-hero" />
       <div className="absolute inset-0" style={{ background: "var(--gradient-red-glow)" }} />
 
