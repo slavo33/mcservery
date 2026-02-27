@@ -5,19 +5,28 @@ import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { AuthProvider } from "@/hooks/useAuth";
 import { LanguageProvider } from "@/i18n/LanguageContext";
+import { lazy, Suspense } from "react";
 import Index from "./pages/Index";
-import Servers from "./pages/Servers";
-import AddServer from "./pages/AddServer";
-import ServerDetail from "./pages/ServerDetail";
-import EditServer from "./pages/EditServer";
-import Auth from "./pages/Auth";
-import Profile from "./pages/Profile";
-import UserProfile from "./pages/UserProfile";
-import NotFound from "./pages/NotFound";
-import AdminPanel from "./pages/AdminPanel";
 import SupportPopup from "./components/SupportPopup";
 
+// Lazy load non-critical routes
+const Servers = lazy(() => import("./pages/Servers"));
+const AddServer = lazy(() => import("./pages/AddServer"));
+const ServerDetail = lazy(() => import("./pages/ServerDetail"));
+const EditServer = lazy(() => import("./pages/EditServer"));
+const Auth = lazy(() => import("./pages/Auth"));
+const Profile = lazy(() => import("./pages/Profile"));
+const UserProfile = lazy(() => import("./pages/UserProfile"));
+const AdminPanel = lazy(() => import("./pages/AdminPanel"));
+const NotFound = lazy(() => import("./pages/NotFound"));
+
 const queryClient = new QueryClient();
+
+const PageFallback = () => (
+  <div className="min-h-screen flex items-center justify-center bg-background">
+    <div className="h-8 w-8 animate-spin rounded-full border-4 border-primary border-t-transparent" />
+  </div>
+);
 
 const App = () => (
   <QueryClientProvider client={queryClient}>
@@ -27,18 +36,20 @@ const App = () => (
         <Sonner />
         <BrowserRouter>
           <AuthProvider>
-            <Routes>
-              <Route path="/" element={<Index />} />
-              <Route path="/servers" element={<Servers />} />
-              <Route path="/server/:slug" element={<ServerDetail />} />
-              <Route path="/server/:slug/edit" element={<EditServer />} />
-              <Route path="/add-server" element={<AddServer />} />
-              <Route path="/auth" element={<Auth />} />
-              <Route path="/profile" element={<Profile />} />
-              <Route path="/user/:userId" element={<UserProfile />} />
-              <Route path="/admin" element={<AdminPanel />} />
-              <Route path="*" element={<NotFound />} />
-            </Routes>
+            <Suspense fallback={<PageFallback />}>
+              <Routes>
+                <Route path="/" element={<Index />} />
+                <Route path="/servers" element={<Servers />} />
+                <Route path="/server/:slug" element={<ServerDetail />} />
+                <Route path="/server/:slug/edit" element={<EditServer />} />
+                <Route path="/add-server" element={<AddServer />} />
+                <Route path="/auth" element={<Auth />} />
+                <Route path="/profile" element={<Profile />} />
+                <Route path="/user/:userId" element={<UserProfile />} />
+                <Route path="/admin" element={<AdminPanel />} />
+                <Route path="*" element={<NotFound />} />
+              </Routes>
+            </Suspense>
             <SupportPopup />
           </AuthProvider>
         </BrowserRouter>
