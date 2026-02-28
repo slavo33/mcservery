@@ -93,6 +93,18 @@ const VoteSection = ({ serverId, voteCount, onVoted }: VoteSectionProps) => {
         return;
       }
 
+      if (result?.error === "votifier_public_key_invalid") {
+        toast.error(t("vote_error_votifier_key"));
+        setLoading(false);
+        return;
+      }
+
+      if (result?.error === "votifier_delivery_failed") {
+        toast.error(t("vote_error_votifier_connection"));
+        setLoading(false);
+        return;
+      }
+
       if (result?.error) {
         toast.error(t("vote_error"));
         setLoading(false);

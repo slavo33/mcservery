@@ -187,6 +187,8 @@ type TranslationKeys = {
   vote_cooldown: string;
   vote_cooldown_timer: string;
   vote_error: string;
+  vote_error_votifier_key: string;
+  vote_error_votifier_connection: string;
   vote_count: string;
   vote_submit_big: string;
   top_voters_title: string;
@@ -421,6 +423,8 @@ const sk: TranslationKeys = {
   vote_cooldown: "Už si hlasoval za posledných 24 hodín.",
   vote_cooldown_timer: "Hlasovať môžeš za",
   vote_error: "Chyba pri hlasovaní",
+  vote_error_votifier_key: "Votifier kľúč servera je neplatný. Kontaktujte majiteľa servera.",
+  vote_error_votifier_connection: "Nepodarilo sa spojiť s Minecraft serverom. Skúste to neskôr.",
   vote_count: "hlasov",
   vote_submit_big: "HLASOVAŤ ZA SERVER",
   top_voters_title: "Top hlasujúci",
@@ -609,6 +613,8 @@ const cs: TranslationKeys = {
   vote_cooldown: "Už jsi hlasoval za posledních 24 hodin.",
   vote_cooldown_timer: "Hlasovat můžeš za",
   vote_error: "Chyba při hlasování",
+  vote_error_votifier_key: "Votifier klíč serveru je neplatný. Kontaktujte majitele serveru.",
+  vote_error_votifier_connection: "Nepodařilo se spojit s Minecraft serverem. Zkuste to později.",
   vote_count: "hlasů",
   vote_submit_big: "HLASOVAT ZA SERVER",
   top_voters_title: "Top hlasující",
@@ -804,6 +810,8 @@ const en: TranslationKeys = {
   vote_cooldown: "You already voted in the last 24 hours.",
   vote_cooldown_timer: "You can vote again in",
   vote_error: "Error while voting",
+  vote_error_votifier_key: "Server's Votifier key is invalid. Contact the server owner.",
+  vote_error_votifier_connection: "Could not connect to the Minecraft server. Try again later.",
   vote_count: "votes",
   vote_submit_big: "VOTE FOR SERVER",
   top_voters_title: "Top Voters",
@@ -997,6 +1005,8 @@ const de: TranslationKeys = {
   vote_cooldown: "Du hast bereits in den letzten 24 Stunden abgestimmt.",
   vote_cooldown_timer: "Du kannst wieder abstimmen in",
   vote_error: "Fehler beim Abstimmen",
+  vote_error_votifier_key: "Der Votifier-Schlüssel des Servers ist ungültig. Kontaktiere den Serverbesitzer.",
+  vote_error_votifier_connection: "Verbindung zum Minecraft-Server fehlgeschlagen. Versuche es später erneut.",
   vote_count: "Stimmen",
   vote_submit_big: "FÜR SERVER STIMMEN",
   top_voters_title: "Top-Wähler",
@@ -1165,6 +1175,8 @@ const fr: TranslationKeys = {
   vote_cooldown: "Tu as déjà voté dans les dernières 24 heures.",
   vote_cooldown_timer: "Tu pourras revoter dans",
   vote_error: "Erreur lors du vote",
+  vote_error_votifier_key: "La clé Votifier du serveur est invalide. Contactez le propriétaire du serveur.",
+  vote_error_votifier_connection: "Impossible de se connecter au serveur Minecraft. Réessayez plus tard.",
   vote_count: "votes",
   vote_submit_big: "VOTER POUR LE SERVEUR",
   top_voters_title: "Meilleurs votants",
