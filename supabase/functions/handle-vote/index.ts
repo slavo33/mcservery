@@ -8,12 +8,13 @@ const corsHeaders = {
 };
 
 // Takes raw base64 key (no PEM headers) from DB and wraps it into PEM format for crypto
+// A valid RSA public key (DER-encoded SPKI) in base64 is at least ~176 chars for 1024-bit
 const wrapKeyAsPem = (raw: string): string => {
   const stripped = raw
     .replace(/-----BEGIN (?:RSA )?PUBLIC KEY-----/g, "")
     .replace(/-----END (?:RSA )?PUBLIC KEY-----/g, "")
     .replace(/\s+/g, "");
-  if (!stripped || !/^[A-Za-z0-9+/=]+$/.test(stripped)) return "";
+  if (!stripped || !/^[A-Za-z0-9+/=]+$/.test(stripped) || stripped.length < 100) return "";
   const chunks = stripped.match(/.{1,64}/g) ?? [];
   return `-----BEGIN PUBLIC KEY-----\n${chunks.join("\n")}\n-----END PUBLIC KEY-----`;
 };
