@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import { Trophy, Crown } from "lucide-react";
 import { useLanguage } from "@/i18n/LanguageContext";
+import { supabase } from "@/integrations/supabase/client";
 
 interface TopVoter {
   nick: string;
@@ -20,17 +21,15 @@ const TopVoters = ({ serverId, refreshKey }: TopVotersProps) => {
   useEffect(() => {
     const fetchTopVoters = async () => {
       try {
-        const res = await fetch(
-          `${import.meta.env.VITE_SUPABASE_URL}/functions/v1/get-top-voters?server_id=${serverId}&limit=5`,
-          {
-            headers: {
-              apikey: import.meta.env.VITE_SUPABASE_PUBLISHABLE_KEY,
-              Authorization: `Bearer ${import.meta.env.VITE_SUPABASE_PUBLISHABLE_KEY}`,
-            },
-          }
-        );
-        const data = await res.json();
-        setVoters(data.voters || []);
+        const { data, error } = await supabase.rpc("get_top_voters", {
+          p_server_id: serverId,
+          p_limit: 5,
+        });
+        if (!error && data) {
+          setVoters(
+            (data as any[]).map((r) => ({ nick: r.nick, count: Number(r.vote_count) }))
+          );
+        }
       } catch {
         // silently fail
       }

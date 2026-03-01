@@ -354,6 +354,13 @@ export type Database = {
     }
     Functions: {
       generate_server_slug: { Args: { server_ip: string }; Returns: string }
+      get_top_voters: {
+        Args: { p_limit?: number; p_server_id: string }
+        Returns: {
+          nick: string
+          vote_count: number
+        }[]
+      }
       has_role: {
         Args: {
           _role: Database["public"]["Enums"]["app_role"]
