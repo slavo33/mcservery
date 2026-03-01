@@ -4,8 +4,8 @@ import Footer from "@/components/Footer";
 import { Button } from "@/components/ui/button";
 import { Switch } from "@/components/ui/switch";
 import { softwareOptions, versions, minigameOptions, proxyOptions } from "@/lib/mockData";
-import { useState, useEffect, useRef } from "react";
-import { Save, Key, Copy, Check } from "lucide-react";
+import { useState, useEffect, useRef, useMemo } from "react";
+import { Save, Key, Copy, Check, Wifi, WifiOff, Loader2 } from "lucide-react";
 import ServerImageUpload from "@/components/ServerImageUpload";
 import { supabase } from "@/integrations/supabase/client";
 import { useAuth } from "@/hooks/useAuth";
@@ -44,6 +44,7 @@ const EditServer = () => {
    const [votifierIp, setVotifierIp] = useState("");
    const [votifierPort, setVotifierPort] = useState("");
    const [votifierPublicKey, setVotifierPublicKey] = useState("");
+   const [testingVotifier, setTestingVotifier] = useState(false);
 
   const hasFetched = useRef(false);
 
@@ -367,7 +368,74 @@ const EditServer = () => {
                 placeholder={t("edit_votifier_key_placeholder")}
                 className={`${inputClass} resize-none font-mono text-xs`}
               />
+              {/* Key validation indicator */}
+              {(() => {
+                const cleaned = normalizeVotifierPublicKey(votifierPublicKey);
+                if (!cleaned) return null;
+                const valid = isValidBase64Key(cleaned);
+                return (
+                  <p className={`text-xs mt-1 font-medium ${valid ? "text-green-500" : "text-destructive"}`}>
+                    {valid ? t("edit_votifier_key_valid") : t("edit_votifier_key_invalid_format")}
+                  </p>
+                );
+              })()}
             </div>
+            {/* Test Votifier connection button */}
+            <Button
+              type="button"
+              variant="outline"
+              size="sm"
+              disabled={testingVotifier || !votifierIp.trim() || !votifierPort || !normalizeVotifierPublicKey(votifierPublicKey)}
+              onClick={async () => {
+                const cleaned = normalizeVotifierPublicKey(votifierPublicKey);
+                if (!votifierIp.trim() || !votifierPort || !cleaned) {
+                  toast.error(t("edit_votifier_test_fill"));
+                  return;
+                }
+                // Save config first, then test
+                setTestingVotifier(true);
+                try {
+                  await supabase
+                    .from("server_secrets" as any)
+                    .update({
+                      votifier_ip: votifierIp.trim() || null,
+                      votifier_port: votifierPort ? parseInt(votifierPort, 10) : null,
+                      votifier_public_key: cleaned || null,
+                    } as any)
+                    .eq("server_id", serverId);
+
+                  const session = await supabase.auth.getSession();
+                  const res = await fetch(
+                    `${import.meta.env.VITE_SUPABASE_URL}/functions/v1/test-votifier`,
+                    {
+                      method: "POST",
+                      headers: {
+                        "Content-Type": "application/json",
+                        apikey: import.meta.env.VITE_SUPABASE_PUBLISHABLE_KEY,
+                        Authorization: `Bearer ${session.data.session?.access_token || import.meta.env.VITE_SUPABASE_PUBLISHABLE_KEY}`,
+                      },
+                      body: JSON.stringify({ server_id: serverId }),
+                    }
+                  );
+                  const data = await res.json();
+                  if (data.success) {
+                    toast.success(`${t("edit_votifier_test_success")} (${data.banner || "OK"})`);
+                  } else {
+                    toast.error(`${t("edit_votifier_test_fail")}: ${data.message || data.error}`);
+                  }
+                } catch {
+                  toast.error(t("edit_votifier_test_fail"));
+                }
+                setTestingVotifier(false);
+              }}
+              className="gap-2"
+            >
+              {testingVotifier ? (
+                <><Loader2 className="h-4 w-4 animate-spin" /> {t("edit_votifier_testing")}</>
+              ) : (
+                <><Wifi className="h-4 w-4" /> {t("edit_votifier_test")}</>
+              )}
+            </Button>
           </div>
 
           {voteApiKey && (

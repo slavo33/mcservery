@@ -32,13 +32,20 @@ const sendVotifierVote = async ({
   minecraftNick: string;
   voterIp: string;
 }) => {
-  const conn = await Deno.connect({ hostname: host, port });
+  // Connect with 10s timeout
+  const conn = await Promise.race([
+    Deno.connect({ hostname: host, port }),
+    new Promise<never>((_, reject) => setTimeout(() => reject(new Error("Connection timeout")), 10000)),
+  ]);
   const encoder = new TextEncoder();
 
   try {
-    // Read handshake banner (e.g. "VOTIFIER 2")
+    // Read handshake banner with timeout
     const handshakeBuffer = new Uint8Array(512);
-    await conn.read(handshakeBuffer);
+    await Promise.race([
+      conn.read(handshakeBuffer),
+      new Promise<never>((_, reject) => setTimeout(() => reject(new Error("Handshake timeout")), 10000)),
+    ]);
 
     const votePacket = `VOTE\nMCServery\n${minecraftNick}\n${voterIp}\n${Math.floor(Date.now() / 1000)}\n`;
     const voteBytes = encoder.encode(votePacket);

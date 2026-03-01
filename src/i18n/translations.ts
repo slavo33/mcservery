@@ -226,6 +226,13 @@ type TranslationKeys = {
   edit_votifier_ip_no_port: string;
   edit_votifier_port_invalid: string;
   edit_votifier_key_invalid: string;
+  edit_votifier_key_valid: string;
+  edit_votifier_key_invalid_format: string;
+  edit_votifier_test: string;
+  edit_votifier_testing: string;
+  edit_votifier_test_success: string;
+  edit_votifier_test_fail: string;
+  edit_votifier_test_fill: string;
   // Support popup
   support_popup_title: string;
   support_popup_desc: string;
@@ -458,6 +465,13 @@ const sk: TranslationKeys = {
   edit_votifier_ip_no_port: "Votifier IP nesmie obsahovať port (napr. :8192). Zadaj iba IP adresu.",
   edit_votifier_port_invalid: "Votifier port musí byť číslo medzi 1 a 65535.",
   edit_votifier_key_invalid: "Votifier Public Key musí začínať na -----BEGIN PUBLIC KEY-----",
+  edit_votifier_key_valid: "✓ Platný RSA kľúč",
+  edit_votifier_key_invalid_format: "✗ Neplatný formát kľúča (príliš krátky alebo zlý base64)",
+  edit_votifier_test: "Test Votifier spojenia",
+  edit_votifier_testing: "Testujem...",
+  edit_votifier_test_success: "Votifier spojenie úspešné! Server odpovedal.",
+  edit_votifier_test_fail: "Votifier spojenie zlyhalo",
+  edit_votifier_test_fill: "Vyplň IP, port a kľúč pred testovaním.",
   support_popup_title: "Podpor MCServery ❤️",
   support_popup_desc: "MCServery je bezplatný projekt. Ak sa ti páči, môžeš nás podporiť cez Ko-fi. Každá podpora nám pomáha!",
   support_popup_btn: "Podporiť na Ko-fi",
@@ -648,6 +662,13 @@ const cs: TranslationKeys = {
   edit_votifier_ip_no_port: "Votifier IP nesmí obsahovat port (např. :8192). Zadej pouze IP adresu.",
   edit_votifier_port_invalid: "Votifier port musí být číslo mezi 1 a 65535.",
   edit_votifier_key_invalid: "Votifier Public Key musí začínat na -----BEGIN PUBLIC KEY-----",
+  edit_votifier_key_valid: "✓ Platný RSA klíč",
+  edit_votifier_key_invalid_format: "✗ Neplatný formát klíče (příliš krátký nebo špatný base64)",
+  edit_votifier_test: "Test Votifier spojení",
+  edit_votifier_testing: "Testuji...",
+  edit_votifier_test_success: "Votifier spojení úspěšné! Server odpověděl.",
+  edit_votifier_test_fail: "Votifier spojení selhalo",
+  edit_votifier_test_fill: "Vyplň IP, port a klíč před testováním.",
   support_popup_title: "Podpoř MCServery ❤️",
   support_popup_desc: "MCServery je bezplatný projekt. Pokud se ti líbí, můžeš nás podpořit přes Ko-fi. Každá podpora nám pomáhá!",
   support_popup_btn: "Podpořit na Ko-fi",
@@ -845,6 +866,13 @@ const en: TranslationKeys = {
   edit_votifier_ip_no_port: "Votifier IP must not contain a port (e.g. :8192). Enter the IP address only.",
   edit_votifier_port_invalid: "Votifier port must be a number between 1 and 65535.",
   edit_votifier_key_invalid: "Votifier Public Key must start with -----BEGIN PUBLIC KEY-----",
+  edit_votifier_key_valid: "✓ Valid RSA key",
+  edit_votifier_key_invalid_format: "✗ Invalid key format (too short or bad base64)",
+  edit_votifier_test: "Test Votifier Connection",
+  edit_votifier_testing: "Testing...",
+  edit_votifier_test_success: "Votifier connection successful! Server responded.",
+  edit_votifier_test_fail: "Votifier connection failed",
+  edit_votifier_test_fill: "Fill in IP, port and key before testing.",
   support_popup_title: "Support MCServery ❤️",
   support_popup_desc: "MCServery is a free project. If you enjoy it, you can support us on Ko-fi. Every contribution helps!",
   support_popup_btn: "Support on Ko-fi",
@@ -1040,6 +1068,13 @@ const de: TranslationKeys = {
   edit_votifier_ip_no_port: "Votifier IP darf keinen Port enthalten (z.B. :8192). Gib nur die IP-Adresse ein.",
   edit_votifier_port_invalid: "Votifier Port muss eine Zahl zwischen 1 und 65535 sein.",
   edit_votifier_key_invalid: "Votifier Public Key muss mit -----BEGIN PUBLIC KEY----- beginnen",
+  edit_votifier_key_valid: "✓ Gültiger RSA-Schlüssel",
+  edit_votifier_key_invalid_format: "✗ Ungültiges Schlüsselformat (zu kurz oder ungültiges base64)",
+  edit_votifier_test: "Votifier-Verbindung testen",
+  edit_votifier_testing: "Teste...",
+  edit_votifier_test_success: "Votifier-Verbindung erfolgreich! Server hat geantwortet.",
+  edit_votifier_test_fail: "Votifier-Verbindung fehlgeschlagen",
+  edit_votifier_test_fill: "Fülle IP, Port und Schlüssel vor dem Testen aus.",
   support_popup_title: "Unterstütze MCServery ❤️",
   support_popup_desc: "MCServery ist ein kostenloses Projekt. Wenn es dir gefällt, kannst du uns auf Ko-fi unterstützen!",
   support_popup_btn: "Auf Ko-fi unterstützen",
@@ -1210,6 +1245,13 @@ const fr: TranslationKeys = {
   edit_votifier_ip_no_port: "L'IP Votifier ne doit pas contenir de port (ex. :8192). Entre uniquement l'adresse IP.",
   edit_votifier_port_invalid: "Le port Votifier doit être un nombre entre 1 et 65535.",
   edit_votifier_key_invalid: "La clé publique Votifier doit commencer par -----BEGIN PUBLIC KEY-----",
+  edit_votifier_key_valid: "✓ Clé RSA valide",
+  edit_votifier_key_invalid_format: "✗ Format de clé invalide (trop court ou base64 invalide)",
+  edit_votifier_test: "Tester la connexion Votifier",
+  edit_votifier_testing: "Test en cours...",
+  edit_votifier_test_success: "Connexion Votifier réussie ! Le serveur a répondu.",
+  edit_votifier_test_fail: "Échec de la connexion Votifier",
+  edit_votifier_test_fill: "Remplis IP, port et clé avant de tester.",
   support_popup_title: "Soutiens MCServery ❤️",
   support_popup_desc: "MCServery est un projet gratuit. Si tu l'apprécies, tu peux nous soutenir sur Ko-fi !",
   support_popup_btn: "Soutenir sur Ko-fi",

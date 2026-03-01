@@ -55,7 +55,7 @@ const Index = () => {
         .from("servers")
         .select("*")
         .eq("is_featured", false)
-        .order("likes_count", { ascending: false })
+        .order("vote_count", { ascending: false })
         .limit(3);
       if (featuredData) setFeatured(featuredData.map(mapServer));
     };
