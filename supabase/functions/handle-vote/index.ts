@@ -14,7 +14,7 @@ const wrapKeyAsPem = (raw: string): string => {
     .replace(/-----BEGIN (?:RSA )?PUBLIC KEY-----/g, "")
     .replace(/-----END (?:RSA )?PUBLIC KEY-----/g, "")
     .replace(/\s+/g, "");
-  if (!stripped || !/^[A-Za-z0-9+/=]+$/.test(stripped) || stripped.length < 100) return "";
+  if (!stripped || !/^[A-Za-z0-9+/=]+$/.test(stripped) || stripped.length < 16) return "";
   const chunks = stripped.match(/.{1,64}/g) ?? [];
   return `-----BEGIN PUBLIC KEY-----\n${chunks.join("\n")}\n-----END PUBLIC KEY-----`;
 };

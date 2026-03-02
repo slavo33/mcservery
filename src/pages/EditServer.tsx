@@ -122,7 +122,7 @@ const EditServer = () => {
   };
 
   const isValidBase64Key = (value: string) =>
-    /^[A-Za-z0-9+/=]+$/.test(value) && value.length >= 100;
+    /^[A-Za-z0-9+/=]+$/.test(value) && value.length >= 16;
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
