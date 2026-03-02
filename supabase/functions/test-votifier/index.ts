@@ -1,4 +1,5 @@
 import { createClient } from "https://esm.sh/@supabase/supabase-js@2";
+import { createHmac } from "node:crypto";
 
 const corsHeaders = {
   "Access-Control-Allow-Origin": "*",
@@ -20,7 +21,6 @@ Deno.serve(async (req) => {
       });
     }
 
-    // Verify auth - only owner can test
     const authHeader = req.headers.get("authorization");
     if (!authHeader) {
       return new Response(JSON.stringify({ error: "unauthorized" }), {
@@ -34,7 +34,6 @@ Deno.serve(async (req) => {
       Deno.env.get("SUPABASE_SERVICE_ROLE_KEY")!,
     );
 
-    // Verify JWT and get user
     const token = authHeader.replace("Bearer ", "");
     const { data: { user }, error: authError } = await supabase.auth.getUser(token);
     if (authError || !user) {
@@ -44,12 +43,8 @@ Deno.serve(async (req) => {
       });
     }
 
-    // Check ownership
     const { data: server } = await supabase
-      .from("servers")
-      .select("id, owner_id")
-      .eq("id", server_id)
-      .single();
+      .from("servers").select("id, owner_id").eq("id", server_id).single();
 
     if (!server || server.owner_id !== user.id) {
       return new Response(JSON.stringify({ error: "forbidden" }), {
@@ -58,10 +53,9 @@ Deno.serve(async (req) => {
       });
     }
 
-    // Get votifier config
     const { data: secret } = await supabase
       .from("server_secrets")
-      .select("votifier_ip, votifier_port, votifier_public_key")
+      .select("votifier_ip, votifier_port, votifier_public_key, votifier_token")
       .eq("server_id", server_id)
       .maybeSingle();
 
@@ -72,7 +66,10 @@ Deno.serve(async (req) => {
       });
     }
 
-    // Try TCP connection and read handshake
+    // Determine protocol
+    const hasToken = !!secret.votifier_token;
+    const hasKey = !!secret.votifier_public_key;
+
     try {
       const conn = await Promise.race([
         Deno.connect({ hostname: secret.votifier_ip, port: secret.votifier_port }),
@@ -87,9 +84,70 @@ Deno.serve(async (req) => {
         ]);
 
         const banner = new TextDecoder().decode(buf.subarray(0, n || 0)).trim();
+        const parts = banner.split(" ");
+        const isV2Compatible = parts.length >= 3 && parts[0] === "VOTIFIER";
+
+        let protocol = "unknown";
+        let v2TestResult = null;
+
+        if (hasToken && isV2Compatible) {
+          // Test v2 handshake with a dummy vote
+          protocol = "v2";
+          try {
+            const challenge = parts[2];
+            const vote = {
+              username: "MCServery_Test",
+              address: "127.0.0.1",
+              timestamp: Date.now(),
+              serviceName: "MCServery",
+              challenge,
+            };
+            const payload = JSON.stringify(vote);
+            const hmac = createHmac("sha256", secret.votifier_token!);
+            hmac.update(payload);
+            const signature = hmac.digest("base64");
+
+            const message = JSON.stringify({ payload, signature });
+            const encoder = new TextEncoder();
+            const messageBytes = encoder.encode(message);
+            const messageBuffer = new Uint8Array(messageBytes.length + 4);
+            messageBuffer[0] = 0x73;
+            messageBuffer[1] = 0x3a;
+            messageBuffer[2] = (messageBytes.length >> 8) & 0xff;
+            messageBuffer[3] = messageBytes.length & 0xff;
+            messageBuffer.set(messageBytes, 4);
+
+            await conn.write(messageBuffer);
+
+            const respBuf = new Uint8Array(1024);
+            const rn = await Promise.race([
+              conn.read(respBuf),
+              new Promise<never>((_, reject) => setTimeout(() => reject(new Error("Response timeout")), 5000)),
+            ]);
+
+            const respStr = new TextDecoder().decode(respBuf.subarray(0, rn || 0)).trim();
+            try {
+              const resp = JSON.parse(respStr);
+              v2TestResult = resp.status === "ok" ? "ok" : `error: ${resp.cause || resp.errorMessage || "unknown"}`;
+            } catch {
+              v2TestResult = respStr ? "response_received" : "no_response";
+            }
+          } catch (v2Err) {
+            v2TestResult = v2Err instanceof Error ? v2Err.message : "unknown error";
+          }
+        } else if (hasKey) {
+          protocol = "v1";
+        }
+
         conn.close();
 
-        return new Response(JSON.stringify({ success: true, banner }), {
+        return new Response(JSON.stringify({
+          success: true,
+          banner,
+          protocol,
+          v2_compatible: isV2Compatible,
+          v2_test_result: v2TestResult,
+        }), {
           status: 200,
           headers: { ...corsHeaders, "Content-Type": "application/json" },
         });
