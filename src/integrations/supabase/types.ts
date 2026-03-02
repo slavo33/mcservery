@@ -178,6 +178,7 @@ export type Database = {
           votifier_ip: string | null
           votifier_port: number | null
           votifier_public_key: string | null
+          votifier_token: string | null
         }
         Insert: {
           id?: string
@@ -186,6 +187,7 @@ export type Database = {
           votifier_ip?: string | null
           votifier_port?: number | null
           votifier_public_key?: string | null
+          votifier_token?: string | null
         }
         Update: {
           id?: string
@@ -194,6 +196,7 @@ export type Database = {
           votifier_ip?: string | null
           votifier_port?: number | null
           votifier_public_key?: string | null
+          votifier_token?: string | null
         }
         Relationships: [
           {

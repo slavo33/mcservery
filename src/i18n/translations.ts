@@ -233,6 +233,10 @@ type TranslationKeys = {
   edit_votifier_test_success: string;
   edit_votifier_test_fail: string;
   edit_votifier_test_fill: string;
+  edit_votifier_token_placeholder: string;
+  edit_votifier_v2_recommended: string;
+  edit_votifier_v2_active: string;
+  filter_or: string;
   // Support popup
   support_popup_title: string;
   support_popup_desc: string;
@@ -471,7 +475,11 @@ const sk: TranslationKeys = {
   edit_votifier_testing: "Testujem...",
   edit_votifier_test_success: "Votifier spojenie úspešné! Server odpovedal.",
   edit_votifier_test_fail: "Votifier spojenie zlyhalo",
-  edit_votifier_test_fill: "Vyplň IP, port a kľúč pred testovaním.",
+  edit_votifier_test_fill: "Vyplň IP, port a kľúč/token pred testovaním.",
+  edit_votifier_token_placeholder: "Token z config.yml NuVotifier pluginu",
+  edit_votifier_v2_recommended: "odporúčané",
+  edit_votifier_v2_active: "bude použitý",
+  filter_or: "alebo",
   support_popup_title: "Podpor MCServery ❤️",
   support_popup_desc: "MCServery je bezplatný projekt. Ak sa ti páči, môžeš nás podporiť cez Ko-fi. Každá podpora nám pomáha!",
   support_popup_btn: "Podporiť na Ko-fi",
@@ -668,7 +676,11 @@ const cs: TranslationKeys = {
   edit_votifier_testing: "Testuji...",
   edit_votifier_test_success: "Votifier spojení úspěšné! Server odpověděl.",
   edit_votifier_test_fail: "Votifier spojení selhalo",
-  edit_votifier_test_fill: "Vyplň IP, port a klíč před testováním.",
+  edit_votifier_test_fill: "Vyplň IP, port a klíč/token před testováním.",
+  edit_votifier_token_placeholder: "Token z config.yml NuVotifier pluginu",
+  edit_votifier_v2_recommended: "doporučeno",
+  edit_votifier_v2_active: "bude použit",
+  filter_or: "nebo",
   support_popup_title: "Podpoř MCServery ❤️",
   support_popup_desc: "MCServery je bezplatný projekt. Pokud se ti líbí, můžeš nás podpořit přes Ko-fi. Každá podpora nám pomáhá!",
   support_popup_btn: "Podpořit na Ko-fi",
@@ -872,7 +884,11 @@ const en: TranslationKeys = {
   edit_votifier_testing: "Testing...",
   edit_votifier_test_success: "Votifier connection successful! Server responded.",
   edit_votifier_test_fail: "Votifier connection failed",
-  edit_votifier_test_fill: "Fill in IP, port and key before testing.",
+  edit_votifier_test_fill: "Fill in IP, port and key/token before testing.",
+  edit_votifier_token_placeholder: "Token from NuVotifier plugin config.yml",
+  edit_votifier_v2_recommended: "recommended",
+  edit_votifier_v2_active: "will be used",
+  filter_or: "or",
   support_popup_title: "Support MCServery ❤️",
   support_popup_desc: "MCServery is a free project. If you enjoy it, you can support us on Ko-fi. Every contribution helps!",
   support_popup_btn: "Support on Ko-fi",
@@ -1074,7 +1090,11 @@ const de: TranslationKeys = {
   edit_votifier_testing: "Teste...",
   edit_votifier_test_success: "Votifier-Verbindung erfolgreich! Server hat geantwortet.",
   edit_votifier_test_fail: "Votifier-Verbindung fehlgeschlagen",
-  edit_votifier_test_fill: "Fülle IP, Port und Schlüssel vor dem Testen aus.",
+  edit_votifier_test_fill: "Fülle IP, Port und Schlüssel/Token vor dem Testen aus.",
+  edit_votifier_token_placeholder: "Token aus NuVotifier Plugin config.yml",
+  edit_votifier_v2_recommended: "empfohlen",
+  edit_votifier_v2_active: "wird verwendet",
+  filter_or: "oder",
   support_popup_title: "Unterstütze MCServery ❤️",
   support_popup_desc: "MCServery ist ein kostenloses Projekt. Wenn es dir gefällt, kannst du uns auf Ko-fi unterstützen!",
   support_popup_btn: "Auf Ko-fi unterstützen",
@@ -1251,7 +1271,11 @@ const fr: TranslationKeys = {
   edit_votifier_testing: "Test en cours...",
   edit_votifier_test_success: "Connexion Votifier réussie ! Le serveur a répondu.",
   edit_votifier_test_fail: "Échec de la connexion Votifier",
-  edit_votifier_test_fill: "Remplis IP, port et clé avant de tester.",
+  edit_votifier_test_fill: "Remplis IP, port et clé/token avant de tester.",
+  edit_votifier_token_placeholder: "Token du plugin NuVotifier config.yml",
+  edit_votifier_v2_recommended: "recommandé",
+  edit_votifier_v2_active: "sera utilisé",
+  filter_or: "ou",
   support_popup_title: "Soutiens MCServery ❤️",
   support_popup_desc: "MCServery est un projet gratuit. Si tu l'apprécies, tu peux nous soutenir sur Ko-fi !",
   support_popup_btn: "Soutenir sur Ko-fi",

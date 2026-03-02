@@ -44,6 +44,7 @@ const EditServer = () => {
    const [votifierIp, setVotifierIp] = useState("");
    const [votifierPort, setVotifierPort] = useState("");
    const [votifierPublicKey, setVotifierPublicKey] = useState("");
+   const [votifierToken, setVotifierToken] = useState("");
    const [testingVotifier, setTestingVotifier] = useState(false);
 
   const hasFetched = useRef(false);
@@ -85,13 +86,14 @@ const EditServer = () => {
       // Fetch vote API key and votifier config from server_secrets (owner-only access)
       const { data: secrets } = await supabase
         .from("server_secrets" as any)
-        .select("vote_api_key, votifier_ip, votifier_port, votifier_public_key")
+        .select("vote_api_key, votifier_ip, votifier_port, votifier_public_key, votifier_token")
         .eq("server_id", data.id)
-        .maybeSingle() as { data: { vote_api_key: string | null; votifier_ip: string | null; votifier_port: number | null; votifier_public_key: string | null } | null };
+        .maybeSingle() as { data: { vote_api_key: string | null; votifier_ip: string | null; votifier_port: number | null; votifier_public_key: string | null; votifier_token: string | null } | null };
       setVoteApiKey(secrets?.vote_api_key || null);
       setVotifierIp(secrets?.votifier_ip || "");
       setVotifierPort(secrets?.votifier_port?.toString() || "");
       setVotifierPublicKey(secrets?.votifier_public_key || "");
+      setVotifierToken(secrets?.votifier_token || "");
       
       setLoading(false);
     };
@@ -184,6 +186,7 @@ const EditServer = () => {
           votifier_ip: votifierIp.trim() || null,
           votifier_port: votifierPort ? parseInt(votifierPort, 10) : null,
           votifier_public_key: cleanedVotifierKey || null,
+          votifier_token: votifierToken.trim() || null,
         } as any)
         .eq("server_id", serverId);
 
@@ -360,12 +363,11 @@ const EditServer = () => {
               </div>
             </div>
             <div>
-              <label className="text-xs text-muted-foreground mb-1 block">{t("edit_votifier_key")}</label>
+              <label className="text-xs text-muted-foreground mb-1 block">Votifier Public Key <span className="text-muted-foreground/60">(v1 - RSA)</span></label>
               <textarea
                 rows={4}
                 value={votifierPublicKey}
                 onChange={(e) => {
-                  // Auto-strip PEM headers on paste/input
                   const raw = e.target.value
                     .replace(/-----BEGIN (?:RSA )?PUBLIC KEY-----/g, "")
                     .replace(/-----END (?:RSA )?PUBLIC KEY-----/g, "")
@@ -376,7 +378,6 @@ const EditServer = () => {
                 placeholder="MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCg..."
                 className={`${inputClass} resize-none font-mono text-xs`}
               />
-              {/* Key validation indicator */}
               {(() => {
                 const cleaned = normalizeVotifierPublicKey(votifierPublicKey);
                 if (!cleaned) return null;
@@ -388,19 +389,40 @@ const EditServer = () => {
                 );
               })()}
             </div>
+            <div className="relative">
+              <div className="absolute inset-x-0 top-0 flex items-center">
+                <div className="flex-1 border-t border-border" />
+                <span className="px-3 text-xs text-muted-foreground bg-secondary/30">{t("filter_or") || "alebo"}</span>
+                <div className="flex-1 border-t border-border" />
+              </div>
+            </div>
+            <div className="pt-2">
+              <label className="text-xs text-muted-foreground mb-1 block">NuVotifier Token <span className="text-muted-foreground/60">(v2 - {t("edit_votifier_v2_recommended") || "odporúčané"})</span></label>
+              <input
+                type="text"
+                value={votifierToken}
+                onChange={(e) => setVotifierToken(e.target.value)}
+                placeholder={t("edit_votifier_token_placeholder") || "Token z config.yml NuVotifier pluginu"}
+                className={`${inputClass} font-mono text-xs`}
+              />
+              {votifierToken.trim() && (
+                <p className="text-xs mt-1 font-medium text-green-500">
+                  ✓ NuVotifier v2 token {t("edit_votifier_v2_active") || "bude použitý"}
+                </p>
+              )}
+            </div>
             {/* Test Votifier connection button */}
             <Button
               type="button"
               variant="outline"
               size="sm"
-              disabled={testingVotifier || !votifierIp.trim() || !votifierPort || !normalizeVotifierPublicKey(votifierPublicKey)}
+              disabled={testingVotifier || !votifierIp.trim() || !votifierPort || (!normalizeVotifierPublicKey(votifierPublicKey) && !votifierToken.trim())}
               onClick={async () => {
                 const cleaned = normalizeVotifierPublicKey(votifierPublicKey);
-                if (!votifierIp.trim() || !votifierPort || !cleaned) {
+                if (!votifierIp.trim() || !votifierPort || (!cleaned && !votifierToken.trim())) {
                   toast.error(t("edit_votifier_test_fill"));
                   return;
                 }
-                // Save config first, then test
                 setTestingVotifier(true);
                 try {
                   await supabase
@@ -409,6 +431,7 @@ const EditServer = () => {
                       votifier_ip: votifierIp.trim() || null,
                       votifier_port: votifierPort ? parseInt(votifierPort, 10) : null,
                       votifier_public_key: cleaned || null,
+                      votifier_token: votifierToken.trim() || null,
                     } as any)
                     .eq("server_id", serverId);
 
@@ -427,7 +450,10 @@ const EditServer = () => {
                   );
                   const data = await res.json();
                   if (data.success) {
-                    toast.success(`${t("edit_votifier_test_success")} (${data.banner || "OK"})`);
+                    const protocolInfo = data.protocol === "v2"
+                      ? `NuVotifier v2 - ${data.v2_test_result || "OK"}`
+                      : `Votifier v1`;
+                    toast.success(`${t("edit_votifier_test_success")} (${protocolInfo}, ${data.banner || "OK"})`);
                   } else {
                     toast.error(`${t("edit_votifier_test_fail")}: ${data.message || data.error}`);
                   }
