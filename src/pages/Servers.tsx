@@ -7,6 +7,7 @@ import { ArrowUpDown } from "lucide-react";
 import type { MinecraftServer } from "@/lib/mockData";
 import { supabase } from "@/integrations/supabase/client";
 import { useLanguage } from "@/i18n/LanguageContext";
+import { useMultiServerStatus } from "@/hooks/useMultiServerStatus";
 
 interface DbServer {
   id: string;
@@ -69,6 +70,9 @@ const Servers = () => {
     }));
   }, [dbServers]);
 
+  const serverIps = useMemo(() => allServers.map((s) => s.ip), [allServers]);
+  const { statuses } = useMultiServerStatus(serverIps);
+
   const filtered = useMemo(() => {
     let result = allServers.filter((s) => {
       if (search) {
@@ -89,12 +93,15 @@ const Servers = () => {
       let valA = 0, valB = 0;
       if (sortBy === "votes") { valA = (a as any).votes || 0; valB = (b as any).votes || 0; }
       else if (sortBy === "likes") { valA = a.likes; valB = b.likes; }
-      else if (sortBy === "players") { valA = a.players.online; valB = b.players.online; }
+      else if (sortBy === "players") {
+        valA = statuses[a.ip]?.players.online ?? a.players.online;
+        valB = statuses[b.ip]?.players.online ?? b.players.online;
+      }
       return sortDir === "desc" ? valB - valA : valA - valB;
     });
 
     return result;
-  }, [search, platform, version, software, allServers, sortBy, sortDir]);
+  }, [search, platform, version, software, allServers, sortBy, sortDir, statuses]);
 
   return (
     <div className="min-h-screen flex flex-col bg-background">
