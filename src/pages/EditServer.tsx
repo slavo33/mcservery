@@ -364,8 +364,16 @@ const EditServer = () => {
               <textarea
                 rows={4}
                 value={votifierPublicKey}
-                onChange={(e) => setVotifierPublicKey(e.target.value)}
-                placeholder={t("edit_votifier_key_placeholder")}
+                onChange={(e) => {
+                  // Auto-strip PEM headers on paste/input
+                  const raw = e.target.value
+                    .replace(/-----BEGIN (?:RSA )?PUBLIC KEY-----/g, "")
+                    .replace(/-----END (?:RSA )?PUBLIC KEY-----/g, "")
+                    .replace(/\r/g, "")
+                    .trim();
+                  setVotifierPublicKey(raw);
+                }}
+                placeholder="MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCg..."
                 className={`${inputClass} resize-none font-mono text-xs`}
               />
               {/* Key validation indicator */}
