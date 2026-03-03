@@ -214,8 +214,8 @@ const Profile = () => {
   return (
     <div className="min-h-screen flex flex-col bg-background">
       <Header />
-      <main className="flex-1 container mx-auto px-4 py-10 max-w-lg">
-        <h1 className="font-display text-4xl font-bold text-foreground mb-8">
+      <main className="flex-1 container mx-auto px-4 py-10 max-w-3xl">
+        <h1 className="font-display text-3xl sm:text-4xl font-bold text-foreground mb-8">
           {t("profile_title_1")} <span className="text-gradient">{t("profile_title_2")}</span>
         </h1>
 
