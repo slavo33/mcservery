@@ -4,6 +4,7 @@ import { supabase } from "@/integrations/supabase/client";
 import { useAuth } from "@/hooks/useAuth";
 import { toast } from "sonner";
 import { Send, User, Trash2, Flag } from "lucide-react";
+import { Link } from "react-router-dom";
 import ReportDialog from "./ReportDialog";
 import CommentReactions from "./CommentReactions";
 import { useLanguage } from "@/i18n/LanguageContext";
@@ -155,19 +156,19 @@ const CommentSection = ({ serverId }: CommentSectionProps) => {
           {comments.map((comment) => (
             <div key={comment.id} className="rounded-md border border-border bg-secondary/30 p-3">
               <div className="flex items-start justify-between gap-2">
-                <div className="flex items-center gap-2 mb-1">
-                  <div className="h-7 w-7 rounded-full bg-secondary border border-border overflow-hidden flex items-center justify-center shrink-0">
-                    {comment.profile?.avatar_url ? (
-                      <img src={comment.profile.avatar_url} alt="" className="h-full w-full object-cover" />
-                    ) : (
-                      <User className="h-3.5 w-3.5 text-muted-foreground" />
-                    )}
-                  </div>
-                  <span className="text-sm font-semibold text-foreground">
-                    {comment.profile?.nickname || t("comments_player")}
-                  </span>
-                  <span className="text-xs text-muted-foreground">{formatDate(comment.created_at)}</span>
-                </div>
+                  <Link to={`/user/${comment.user_id}`} className="flex items-center gap-2 mb-1 group">
+                    <div className="h-7 w-7 rounded-full bg-secondary border border-border overflow-hidden flex items-center justify-center shrink-0 group-hover:border-primary/50 transition-colors">
+                      {comment.profile?.avatar_url ? (
+                        <img src={comment.profile.avatar_url} alt="" className="h-full w-full object-cover" />
+                      ) : (
+                        <User className="h-3.5 w-3.5 text-muted-foreground" />
+                      )}
+                    </div>
+                    <span className="text-sm font-semibold text-foreground group-hover:text-primary transition-colors">
+                      {comment.profile?.nickname || t("comments_player")}
+                    </span>
+                    <span className="text-xs text-muted-foreground">{formatDate(comment.created_at)}</span>
+                  </Link>
                 {user?.id === comment.user_id && (
                   <button onClick={() => handleDelete(comment.id)} className="text-muted-foreground hover:text-destructive transition-colors">
                     <Trash2 className="h-3.5 w-3.5" />
