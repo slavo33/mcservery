@@ -39,7 +39,7 @@ interface ServerDetailData {
   ownerNickname?: string;
   ownerAvatar?: string | null;
   ownerBio?: string;
-  is_featured?: boolean;
+  vip_expires_at?: string | null;
   images?: string[];
   vote_count?: number;
   slug?: string;
