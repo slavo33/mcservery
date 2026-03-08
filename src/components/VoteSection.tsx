@@ -55,6 +55,14 @@ const VoteSection = ({ serverId, voteCount, cooldownHours = 24, onVoted }: VoteS
     return () => clearInterval(interval);
   }, [cooldownEnd]);
 
+  useEffect(() => {
+    setEffectiveCooldownHours(cooldownHours);
+  }, [cooldownHours]);
+
+  const dynamicVoteDescription = t("vote_description").replace(/\b24\b/g, String(effectiveCooldownHours));
+  const dynamicVoteCooldownText = t("vote_cooldown").replace(/\b24\b/g, String(effectiveCooldownHours));
+  const dynamicVoteNextText = t("vote_next_in_24h").replace(/\b24\b/g, String(effectiveCooldownHours));
+
   const handleVote = async () => {
     if (!trimmedNick) {
       toast.error(t("vote_nick_required"));
