@@ -65,6 +65,11 @@ const ServerCard = ({ server, dbMode, dbId }: ServerCardProps) => {
               <Shield className="h-3 w-3 mr-1" /> WL
             </span>
           )}
+          {isVip && (
+            <span className="badge-platform text-xs" style={{ background: "hsla(45, 93%, 47%, 0.2)", color: "hsl(45 93% 55%)", borderColor: "hsla(45, 93%, 47%, 0.3)" }}>
+              <Crown className="h-3 w-3 mr-1" /> VIP
+            </span>
+          )}
         </div>
         <div className="absolute top-3 right-3 z-20">
           <span className="inline-flex items-center gap-1.5 rounded-full bg-background/60 backdrop-blur-sm px-2.5 py-1 text-xs font-medium text-foreground">
