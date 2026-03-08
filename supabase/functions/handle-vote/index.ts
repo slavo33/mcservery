@@ -166,33 +166,88 @@ Deno.serve(async (req) => {
       Deno.env.get("SUPABASE_SERVICE_ROLE_KEY")!,
     );
 
-    const { data: server } = await supabase.from("servers").select("id, vote_cooldown_hours").eq("id", server_id).single();
+    const { data: server } = await supabase
+      .from("servers")
+      .select("id, vote_cooldown_hours, vip_expires_at")
+      .eq("id", server_id)
+      .single();
+
     if (!server) {
-      return new Response(JSON.stringify({ error: "server_not_found" }), { status: 404, headers: { ...corsHeaders, "Content-Type": "application/json" } });
+      return new Response(JSON.stringify({ error: "server_not_found" }), {
+        status: 404,
+        headers: { ...corsHeaders, "Content-Type": "application/json" },
+      });
     }
 
-    // Dynamic cooldown based on VIP tier
-    const cooldownHours = server.vote_cooldown_hours || 24;
+    const now = Date.now();
+    const nowIso = new Date(now).toISOString();
+    const vipActive = !!server.vip_expires_at && new Date(server.vip_expires_at).getTime() > now;
+
+    // Effective cooldown: non-VIP = 24h, VIP = 8/4/2h by active tier
+    let cooldownHours = 24;
+
+    if (vipActive) {
+      cooldownHours =
+        server.vote_cooldown_hours && server.vote_cooldown_hours < 24
+          ? server.vote_cooldown_hours
+          : 8;
+
+      const { data: activeVipPurchase } = await supabase
+        .from("vip_purchases")
+        .select("tier")
+        .eq("server_id", server_id)
+        .gt("expires_at", nowIso)
+        .order("expires_at", { ascending: false })
+        .limit(1)
+        .maybeSingle();
+
+      const tierCooldown = VIP_TIER_COOLDOWN_HOURS[(activeVipPurchase?.tier || "").toLowerCase()];
+      if (tierCooldown) {
+        cooldownHours = tierCooldown;
+      }
+    }
+
     const cooldownMs = cooldownHours * 60 * 60 * 1000;
-    const cooldownAgo = new Date(Date.now() - cooldownMs).toISOString();
+    const cooldownAgo = new Date(now - cooldownMs).toISOString();
 
     const { data: recentByNick } = await supabase
-      .from("votes").select("id, created_at")
-      .eq("server_id", server_id).eq("minecraft_nick", minecraft_nick.toLowerCase())
-      .gte("created_at", cooldownAgo).limit(1);
+      .from("votes")
+      .select("id, created_at")
+      .eq("server_id", server_id)
+      .eq("minecraft_nick", minecraft_nick.toLowerCase())
+      .gte("created_at", cooldownAgo)
+      .limit(1);
 
     if (recentByNick && recentByNick.length > 0) {
       const nextVote = new Date(new Date(recentByNick[0].created_at).getTime() + cooldownMs);
-      return new Response(JSON.stringify({ error: "cooldown", next_vote: nextVote.toISOString() }), { status: 429, headers: { ...corsHeaders, "Content-Type": "application/json" } });
+      return new Response(
+        JSON.stringify({
+          error: "cooldown",
+          next_vote: nextVote.toISOString(),
+          cooldown_hours: cooldownHours,
+        }),
+        { status: 429, headers: { ...corsHeaders, "Content-Type": "application/json" } },
+      );
     }
 
     const { data: recentByIp } = await supabase
-      .from("votes").select("id")
-      .eq("server_id", server_id).eq("voter_ip", voterIp)
-      .gte("created_at", cooldownAgo).limit(1);
+      .from("votes")
+      .select("id, created_at")
+      .eq("server_id", server_id)
+      .eq("voter_ip", voterIp)
+      .gte("created_at", cooldownAgo)
+      .limit(1);
 
     if (recentByIp && recentByIp.length > 0) {
-      return new Response(JSON.stringify({ error: "cooldown_ip" }), { status: 429, headers: { ...corsHeaders, "Content-Type": "application/json" } });
+      const nextVote = new Date(new Date(recentByIp[0].created_at).getTime() + cooldownMs);
+      return new Response(
+        JSON.stringify({
+          error: "cooldown_ip",
+          next_vote: nextVote.toISOString(),
+          cooldown_hours: cooldownHours,
+        }),
+        { status: 429, headers: { ...corsHeaders, "Content-Type": "application/json" } },
+      );
     }
 
     // Insert vote
