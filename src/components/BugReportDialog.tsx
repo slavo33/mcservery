@@ -7,7 +7,11 @@ import { useAuth } from "@/hooks/useAuth";
 import { useLanguage } from "@/i18n/LanguageContext";
 import { toast } from "sonner";
 
-const BugReportDialog = () => {
+interface BugReportDialogProps {
+  mobile?: boolean;
+}
+
+const BugReportDialog = ({ mobile }: BugReportDialogProps = {}) => {
   const { user } = useAuth();
   const { t } = useLanguage();
   const [open, setOpen] = useState(false);
@@ -85,12 +89,19 @@ const BugReportDialog = () => {
   return (
     <Dialog open={open} onOpenChange={setOpen}>
       <DialogTrigger asChild>
-        <button
-          className="rounded-md p-2 text-muted-foreground hover:bg-secondary hover:text-foreground transition-colors"
-          title={t("bug_report_title")}
-        >
-          <Bug className="h-4 w-4" />
-        </button>
+        {mobile ? (
+          <button className="rounded-md px-4 py-3 text-left text-sm font-medium text-muted-foreground hover:bg-secondary hover:text-foreground flex items-center gap-2 w-full">
+            <Bug className="h-4 w-4" />
+            {t("bug_report_title")}
+          </button>
+        ) : (
+          <button
+            className="rounded-md p-2 text-muted-foreground hover:bg-secondary hover:text-foreground transition-colors"
+            title={t("bug_report_title")}
+          >
+            <Bug className="h-4 w-4" />
+          </button>
+        )}
       </DialogTrigger>
       <DialogContent className="sm:max-w-md">
         <DialogHeader>
