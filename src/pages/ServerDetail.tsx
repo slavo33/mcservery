@@ -124,15 +124,16 @@ const ServerDetailPage = () => {
     }
   };
 
-  const toggleFeatured = async () => {
+  const toggleVip = async () => {
     if (!server || !user || !isAdmin) return;
-    const newVal = !server.is_featured;
-    const { error } = await supabase.from("servers").update({ is_featured: newVal } as any).eq("id", server.id);
+    const isCurrentlyVip = server.vip_expires_at && new Date(server.vip_expires_at) > new Date();
+    const newVipExpires = isCurrentlyVip ? null : new Date(Date.now() + 7 * 24 * 60 * 60 * 1000).toISOString();
+    const { error } = await supabase.from("servers").update({ vip_expires_at: newVipExpires } as any).eq("id", server.id);
     if (error) {
       toast.error("Error");
     } else {
-      setServer({ ...server, is_featured: newVal });
-      toast.success(newVal ? t("featured_pinned") : t("featured_unpinned"));
+      setServer({ ...server, vip_expires_at: newVipExpires });
+      toast.success(newVipExpires ? t("featured_pinned") : t("featured_unpinned"));
     }
   };
 
