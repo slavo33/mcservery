@@ -257,11 +257,11 @@ const ServerDetailPage = () => {
               <div className="flex items-center gap-3">
                 {isAdmin && (
                   <button
-                    onClick={toggleFeatured}
-                    className={`transition-colors ${server.is_featured ? "text-primary" : "text-muted-foreground hover:text-primary"}`}
-                    title={server.is_featured ? t("featured_unpin") : t("featured_pin")}
+                    onClick={toggleVip}
+                    className={`transition-colors ${server.vip_expires_at && new Date(server.vip_expires_at) > new Date() ? "text-yellow-500" : "text-muted-foreground hover:text-yellow-500"}`}
+                    title={server.vip_expires_at && new Date(server.vip_expires_at) > new Date() ? t("featured_unpin") : t("featured_pin")}
                   >
-                    <Pin className={`h-5 w-5 ${server.is_featured ? "fill-primary" : ""}`} />
+                    <Crown className={`h-5 w-5 ${server.vip_expires_at && new Date(server.vip_expires_at) > new Date() ? "fill-yellow-500" : ""}`} />
                   </button>
                 )}
                 {user?.id === server.owner_id && (
