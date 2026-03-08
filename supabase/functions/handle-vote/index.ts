@@ -183,7 +183,7 @@ Deno.serve(async (req) => {
     const { data: recentByIp } = await supabase
       .from("votes").select("id")
       .eq("server_id", server_id).eq("voter_ip", voterIp)
-      .gte("created_at", twentyFourHoursAgo).limit(1);
+      .gte("created_at", cooldownAgo).limit(1);
 
     if (recentByIp && recentByIp.length > 0) {
       return new Response(JSON.stringify({ error: "cooldown_ip" }), { status: 429, headers: { ...corsHeaders, "Content-Type": "application/json" } });
