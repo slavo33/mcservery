@@ -7,6 +7,12 @@ const corsHeaders = {
   "Access-Control-Allow-Headers": "authorization, x-client-info, apikey, content-type, x-supabase-client-platform, x-supabase-client-platform-version, x-supabase-client-runtime, x-supabase-client-runtime-version",
 };
 
+const VIP_TIER_COOLDOWN_HOURS: Record<string, number> = {
+  basic: 8,
+  pro: 4,
+  max: 2,
+};
+
 // Takes raw base64 key (no PEM headers) from DB and wraps it into PEM format for crypto
 const wrapKeyAsPem = (raw: string): string => {
   const stripped = raw
