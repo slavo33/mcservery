@@ -11,3 +11,9 @@ verify_jwt = false
 
 [functions.get-top-voters]
 verify_jwt = false
+
+[functions.create-vip-checkout]
+verify_jwt = false
+
+[functions.verify-vip-payment]
+verify_jwt = false

@@ -3,7 +3,7 @@ import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import ServerCard from "@/components/ServerCard";
 import ServerFilters from "@/components/ServerFilters";
-import { ArrowUpDown } from "lucide-react";
+import { ArrowUpDown, Crown } from "lucide-react";
 import type { MinecraftServer } from "@/lib/mockData";
 import { supabase } from "@/integrations/supabase/client";
 import { useLanguage } from "@/i18n/LanguageContext";
@@ -36,6 +36,7 @@ const Servers = () => {
   const [software, setSoftware] = useState("");
   const [sortBy, setSortBy] = useState<"votes" | "likes" | "players">("votes");
   const [sortDir, setSortDir] = useState<"desc" | "asc">("desc");
+  const [showVipOnly, setShowVipOnly] = useState(false);
   const [dbServers, setDbServers] = useState<DbServer[]>([]);
 
   useEffect(() => {
@@ -67,6 +68,7 @@ const Servers = () => {
       is_warez: s.is_warez,
       has_whitelist: s.has_whitelist,
       slug: (s as any).slug,
+      vip_expires_at: (s as any).vip_expires_at,
     }));
   }, [dbServers]);
 
@@ -75,6 +77,10 @@ const Servers = () => {
 
   const filtered = useMemo(() => {
     let result = allServers.filter((s) => {
+      if (showVipOnly) {
+        const vipExpires = (s as any).vip_expires_at;
+        if (!vipExpires || new Date(vipExpires) < new Date()) return false;
+      }
       if (search) {
         const q = search.toLowerCase();
         if (!s.name.toLowerCase().includes(q) && !s.ip.toLowerCase().includes(q)) return false;
@@ -101,7 +107,7 @@ const Servers = () => {
     });
 
     return result;
-  }, [search, platform, version, software, allServers, sortBy, sortDir, statuses]);
+  }, [search, platform, version, software, allServers, sortBy, sortDir, statuses, showVipOnly]);
 
   return (
     <div className="min-h-screen flex flex-col bg-background">
@@ -119,8 +125,16 @@ const Servers = () => {
           selectedSoftware={software} onSoftwareChange={setSoftware}
         />
 
-        {/* Sorting */}
+        {/* Sorting + VIP filter */}
         <div className="flex items-center gap-2 mb-6 flex-wrap">
+          <button
+            onClick={() => setShowVipOnly(!showVipOnly)}
+            className={`text-sm px-3 py-1 rounded-full border transition-colors flex items-center gap-1.5 ${showVipOnly ? "border-amber-500 bg-amber-500/10 text-amber-400 font-bold" : "border-border text-muted-foreground hover:border-amber-500/40"}`}
+          >
+            <Crown className="h-3.5 w-3.5" />
+            {t("filter_vip")}
+          </button>
+          <span className="text-muted-foreground/40">|</span>
           <span className="text-sm text-muted-foreground flex items-center gap-1">
             <ArrowUpDown className="h-4 w-4" /> {t("sort_label")}:
           </span>

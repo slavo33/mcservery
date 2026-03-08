@@ -29,8 +29,8 @@ const Footer = () => {
           <div>
             <h4 className="font-display text-sm font-semibold uppercase tracking-wider text-foreground mb-3">{t("footer_legal")}</h4>
             <nav className="flex flex-col gap-2">
-              <span className="text-sm text-muted-foreground">{t("footer_terms")}</span>
-              <span className="text-sm text-muted-foreground">{t("footer_privacy")}</span>
+              <Link to="/terms" className="text-sm text-muted-foreground hover:text-foreground transition-colors">{t("footer_terms")}</Link>
+              <Link to="/privacy" className="text-sm text-muted-foreground hover:text-foreground transition-colors">{t("footer_privacy")}</Link>
             </nav>
           </div>
           <div>

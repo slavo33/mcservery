@@ -276,6 +276,56 @@ type TranslationKeys = {
   online: string;
   offline: string;
   players_online: string;
+  // VIP
+  nav_vip: string;
+  vip_title_1: string;
+  vip_title_2: string;
+  vip_subtitle: string;
+  vip_tier_basic: string;
+  vip_tier_pro: string;
+  vip_tier_max: string;
+  vip_most_popular: string;
+  vip_duration_prefix: string;
+  vip_days: string;
+  vip_feature_pinned: string;
+  vip_feature_vote_cooldown: string;
+  vip_feature_badge: string;
+  vip_feature_priority: string;
+  vip_buy_now: string;
+  vip_select_server_label: string;
+  vip_select_server: string;
+  vip_login_required: string;
+  vip_discount_code: string;
+  vip_discount_placeholder: string;
+  vip_discount_hint: string;
+  vip_invalid_code: string;
+  vip_code_expired: string;
+  vip_error: string;
+  vip_payment_methods: string;
+  vip_verifying: string;
+  vip_success_title: string;
+  vip_success_desc: string;
+  vip_try_again: string;
+  filter_vip: string;
+  // Terms & Privacy
+  terms_section_1_title: string;
+  terms_section_1_text: string;
+  terms_section_2_title: string;
+  terms_section_2_text: string;
+  terms_section_3_title: string;
+  terms_section_3_text: string;
+  terms_section_4_title: string;
+  terms_section_4_text: string;
+  terms_section_5_title: string;
+  terms_section_5_text: string;
+  privacy_section_1_title: string;
+  privacy_section_1_text: string;
+  privacy_section_2_title: string;
+  privacy_section_2_text: string;
+  privacy_section_3_title: string;
+  privacy_section_3_text: string;
+  privacy_section_4_title: string;
+  privacy_section_4_text: string;
 };
 
 const sk: TranslationKeys = {
@@ -512,6 +562,56 @@ const sk: TranslationKeys = {
   admin_status_pending: "Čakajúce",
   admin_status_resolved: "Vyriešené",
   admin_status_dismissed: "Zamietnuté",
+  // VIP
+  nav_vip: "VIP",
+  vip_title_1: "Získaj",
+  vip_title_2: "VIP",
+  vip_subtitle: "Pripni svoj server do sekcie odporúčaných a získaj výhody pre hlasujúcich hráčov.",
+  vip_tier_basic: "Basic",
+  vip_tier_pro: "Pro",
+  vip_tier_max: "Max",
+  vip_most_popular: "Najobľúbenejší",
+  vip_duration_prefix: "na",
+  vip_days: "dní",
+  vip_feature_pinned: "Server pripnutý v odporúčaných na hlavnej stránke",
+  vip_feature_vote_cooldown: "Vote za server každých",
+  vip_feature_badge: "VIP odznak pri serveri",
+  vip_feature_priority: "Prioritné zobrazenie podľa hlasov",
+  vip_buy_now: "Kúpiť teraz",
+  vip_select_server_label: "Vyber server pre VIP",
+  vip_select_server: "Vyber server",
+  vip_login_required: "Na kúpu VIP sa musíš prihlásiť",
+  vip_discount_code: "Zľavový kód",
+  vip_discount_placeholder: "Zadaj zľavový kód...",
+  vip_discount_hint: "Ak máš zľavový kód, zadaj ho pred kúpou pre 15% zľavu.",
+  vip_invalid_code: "Neplatný zľavový kód",
+  vip_code_expired: "Zľavový kód bol už vyčerpaný",
+  vip_error: "Chyba pri spracovaní platby",
+  vip_payment_methods: "Akceptujeme nasledovné platobné metódy:",
+  vip_verifying: "Overujem platbu...",
+  vip_success_title: "VIP aktivované!",
+  vip_success_desc: "Tvoj server bol úspešne pripnutý do odporúčaných. Ďakujeme za podporu!",
+  vip_try_again: "Skúsiť znova",
+  filter_vip: "VIP servery",
+  // Terms & Privacy
+  terms_section_1_title: "1. Úvod",
+  terms_section_1_text: "Tieto podmienky používania upravujú používanie webu MCServery.sk. Používaním tohto webu súhlasíte s týmito podmienkami. MCServery je katalóg Minecraft serverov a nie je spojený s Mojang Studios ani Microsoft.",
+  terms_section_2_title: "2. Používateľský účet",
+  terms_section_2_text: "Na pridanie servera, komentovanie a hlasovanie je potrebná registrácia. Ste zodpovední za bezpečnosť svojho účtu. Zdieľanie účtu nie je povolené. Vyhradzujeme si právo zmazať účty, ktoré porušujú tieto podmienky.",
+  terms_section_3_title: "3. Obsah a servery",
+  terms_section_3_text: "Pridaním servera zaručujete, že máte oprávnenie ho zdieľať. Zakazuje sa pridávať servery s nelegálnym obsahom, podvodné servery alebo servery šíriace malware. Vyhradzujeme si právo odstrániť akýkoľvek server bez predchádzajúceho upozornenia.",
+  terms_section_4_title: "4. VIP služby",
+  terms_section_4_text: "VIP služby sú jednorazové platby za časovo obmedzené výhody. Platba je nevratná po aktivácii služby. Po uplynutí doby sa server automaticky odopne z odporúčaných, ale zostáva na webe. Zľavové kódy sú jednorázové a nemožno ich kombinovať.",
+  terms_section_5_title: "5. Zodpovednosť",
+  terms_section_5_text: "MCServery nezodpovedá za obsah serverov ani za škody spôsobené ich používaním. Neposkytujeme žiadne záruky ohľadom dostupnosti alebo kvality serverov v katalógu. Používanie webu je na vlastné riziko.",
+  privacy_section_1_title: "1. Zhromažďované údaje",
+  privacy_section_1_text: "Zhromažďujeme: email a prezývku pri registrácii, IP adresu pri hlasovaní (na prevenciu zneužitia), údaje o serveroch ktoré pridáte a informácie o platbách za VIP služby. Nezhromažďujeme citlivé osobné údaje nad rámec nevyhnutný pre fungovanie služby.",
+  privacy_section_2_title: "2. Použitie údajov",
+  privacy_section_2_text: "Vaše údaje používame výhradne na prevádzku služby: autentifikáciu, zobrazenie serverov, spracovanie hlasov a platby za VIP. IP adresy hlasujúcich sú viditeľné iba pre majiteľa servera. Údaje nepredávame tretím stranám.",
+  privacy_section_3_title: "3. Cookies a úložisko",
+  privacy_section_3_text: "Používame lokálne úložisko prehliadača na zapamätanie jazykových preferencií a prihlásenia. Nepoužívame sledovacie cookies tretích strán. Platby spracováva Stripe, ktorý má vlastnú politiku ochrany súkromia.",
+  privacy_section_4_title: "4. Vaše práva",
+  privacy_section_4_text: "Máte právo na prístup, opravu alebo vymazanie svojich údajov. Pre vymazanie účtu nás kontaktujte. Po vymazaní účtu budú vaše údaje odstránené, servery a komentáre budú zmazané. Údaje o platbách sú uchovávané v súlade so zákonom.",
 };
 
 const cs: TranslationKeys = {
@@ -921,6 +1021,56 @@ const en: TranslationKeys = {
   admin_status_pending: "Pending",
   admin_status_resolved: "Resolved",
   admin_status_dismissed: "Dismissed",
+  // VIP
+  nav_vip: "VIP",
+  vip_title_1: "Get",
+  vip_title_2: "VIP",
+  vip_subtitle: "Pin your server to the recommended section and unlock voting benefits for your players.",
+  vip_tier_basic: "Basic",
+  vip_tier_pro: "Pro",
+  vip_tier_max: "Max",
+  vip_most_popular: "Most Popular",
+  vip_duration_prefix: "for",
+  vip_days: "days",
+  vip_feature_pinned: "Server pinned in recommended on the homepage",
+  vip_feature_vote_cooldown: "Vote for server every",
+  vip_feature_badge: "VIP badge on server",
+  vip_feature_priority: "Priority display by votes",
+  vip_buy_now: "Buy Now",
+  vip_select_server_label: "Select server for VIP",
+  vip_select_server: "Select server",
+  vip_login_required: "You need to sign in to purchase VIP",
+  vip_discount_code: "Discount Code",
+  vip_discount_placeholder: "Enter discount code...",
+  vip_discount_hint: "If you have a discount code, enter it before purchase for 15% off.",
+  vip_invalid_code: "Invalid discount code",
+  vip_code_expired: "Discount code has been used up",
+  vip_error: "Error processing payment",
+  vip_payment_methods: "We accept the following payment methods:",
+  vip_verifying: "Verifying payment...",
+  vip_success_title: "VIP Activated!",
+  vip_success_desc: "Your server has been successfully pinned to recommended. Thank you for your support!",
+  vip_try_again: "Try again",
+  filter_vip: "VIP Servers",
+  // Terms & Privacy
+  terms_section_1_title: "1. Introduction",
+  terms_section_1_text: "These terms of service govern the use of MCServery. By using this website, you agree to these terms. MCServery is a Minecraft server catalog and is not affiliated with Mojang Studios or Microsoft.",
+  terms_section_2_title: "2. User Account",
+  terms_section_2_text: "Registration is required to add a server, comment, and vote. You are responsible for the security of your account. Account sharing is not permitted. We reserve the right to delete accounts that violate these terms.",
+  terms_section_3_title: "3. Content & Servers",
+  terms_section_3_text: "By adding a server, you guarantee that you have permission to share it. It is prohibited to add servers with illegal content, fraudulent servers, or servers distributing malware. We reserve the right to remove any server without prior notice.",
+  terms_section_4_title: "4. VIP Services",
+  terms_section_4_text: "VIP services are one-time payments for time-limited benefits. Payment is non-refundable after service activation. After the period expires, the server is automatically unpinned from recommended but remains on the website. Discount codes are single-use and cannot be combined.",
+  terms_section_5_title: "5. Liability",
+  terms_section_5_text: "MCServery is not responsible for server content or damages caused by their use. We provide no guarantees regarding availability or quality of servers in the catalog. Use of the website is at your own risk.",
+  privacy_section_1_title: "1. Data Collected",
+  privacy_section_1_text: "We collect: email and nickname during registration, IP address during voting (to prevent abuse), server data you add, and payment information for VIP services. We do not collect sensitive personal data beyond what is necessary for service operation.",
+  privacy_section_2_title: "2. Data Usage",
+  privacy_section_2_text: "Your data is used exclusively for service operation: authentication, server display, vote processing, and VIP payments. Voter IP addresses are visible only to the server owner. We do not sell data to third parties.",
+  privacy_section_3_title: "3. Cookies & Storage",
+  privacy_section_3_text: "We use browser local storage to remember language preferences and login. We do not use third-party tracking cookies. Payments are processed by Stripe, which has its own privacy policy.",
+  privacy_section_4_title: "4. Your Rights",
+  privacy_section_4_text: "You have the right to access, correct, or delete your data. Contact us for account deletion. After deletion, your data will be removed, servers and comments will be deleted. Payment data is retained in accordance with the law.",
 };
 
 const de: TranslationKeys = {
