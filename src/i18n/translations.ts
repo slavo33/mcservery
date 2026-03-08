@@ -293,6 +293,31 @@ type TranslationKeys = {
   dc_deactivate_error: string;
   dc_code_required: string;
   dc_percent_invalid: string;
+  // Bug reports
+  bug_report_title: string;
+  bug_title_label: string;
+  bug_title_placeholder: string;
+  bug_desc_label: string;
+  bug_desc_placeholder: string;
+  bug_screenshot_label: string;
+  bug_screenshot_upload: string;
+  bug_screenshot_hint: string;
+  bug_screenshot_too_large: string;
+  bug_fill_required: string;
+  bug_upload_error: string;
+  bug_submit_error: string;
+  bug_submit_success: string;
+  bug_submitting: string;
+  bug_submit: string;
+  bug_admin_title: string;
+  bug_admin_empty: string;
+  bug_admin_resolved: string;
+  bug_admin_dismissed: string;
+  bug_admin_deleted: string;
+  bug_admin_view_screenshot: string;
+  bug_admin_resolve: string;
+  bug_admin_delete: string;
+  bug_status_open: string;
   // Common
   loading: string;
   online: string;
@@ -605,6 +630,31 @@ const sk: TranslationKeys = {
   dc_deactivate_error: "Chyba pri deaktivácii",
   dc_code_required: "Zadaj kód",
   dc_percent_invalid: "Percentá musia byť 1-100",
+  // Bug reports
+  bug_report_title: "Nahlásiť chybu",
+  bug_title_label: "Názov",
+  bug_title_placeholder: "Krátky popis problému",
+  bug_desc_label: "Popis",
+  bug_desc_placeholder: "Opíš podrobne čo sa stalo a kde...",
+  bug_screenshot_label: "Screenshot (voliteľné)",
+  bug_screenshot_upload: "Nahrať obrázok",
+  bug_screenshot_hint: "Max 5 MB, JPG/PNG/WebP",
+  bug_screenshot_too_large: "Obrázok je príliš veľký (max 5 MB)",
+  bug_fill_required: "Vyplň názov a popis",
+  bug_upload_error: "Chyba pri nahrávaní obrázku",
+  bug_submit_error: "Chyba pri odosielaní hlásenia",
+  bug_submit_success: "Hlásenie odoslané, ďakujeme!",
+  bug_submitting: "Odosielam...",
+  bug_submit: "Odoslať hlásenie",
+  bug_admin_title: "Hlásenia chýb",
+  bug_admin_empty: "Žiadne hlásenia",
+  bug_admin_resolved: "Hlásenie vyriešené",
+  bug_admin_dismissed: "Hlásenie zamietnuté",
+  bug_admin_deleted: "Hlásenie zmazané",
+  bug_admin_view_screenshot: "Zobraziť screenshot",
+  bug_admin_resolve: "Vyriešiť",
+  bug_admin_delete: "Zmazať",
+  bug_status_open: "Otvorené",
   // VIP
   nav_vip: "VIP",
   vip_title_1: "Získaj",
@@ -1130,6 +1180,31 @@ const en: TranslationKeys = {
   dc_deactivate_error: "Error deactivating code",
   dc_code_required: "Enter a code",
   dc_percent_invalid: "Percent must be 1-100",
+  // Bug reports
+  bug_report_title: "Report a Bug",
+  bug_title_label: "Title",
+  bug_title_placeholder: "Brief description of the issue",
+  bug_desc_label: "Description",
+  bug_desc_placeholder: "Describe in detail what happened and where...",
+  bug_screenshot_label: "Screenshot (optional)",
+  bug_screenshot_upload: "Upload image",
+  bug_screenshot_hint: "Max 5 MB, JPG/PNG/WebP",
+  bug_screenshot_too_large: "Image is too large (max 5 MB)",
+  bug_fill_required: "Fill in title and description",
+  bug_upload_error: "Error uploading image",
+  bug_submit_error: "Error submitting report",
+  bug_submit_success: "Report submitted, thank you!",
+  bug_submitting: "Submitting...",
+  bug_submit: "Submit Report",
+  bug_admin_title: "Bug Reports",
+  bug_admin_empty: "No bug reports",
+  bug_admin_resolved: "Report resolved",
+  bug_admin_dismissed: "Report dismissed",
+  bug_admin_deleted: "Report deleted",
+  bug_admin_view_screenshot: "View screenshot",
+  bug_admin_resolve: "Resolve",
+  bug_admin_delete: "Delete",
+  bug_status_open: "Open",
   // VIP
   nav_vip: "VIP",
   vip_title_1: "Get",

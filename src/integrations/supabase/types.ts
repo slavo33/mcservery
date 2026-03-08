@@ -14,6 +14,42 @@ export type Database = {
   }
   public: {
     Tables: {
+      bug_reports: {
+        Row: {
+          admin_note: string | null
+          created_at: string
+          description: string
+          id: string
+          reporter_id: string
+          resolved_at: string | null
+          screenshot_url: string | null
+          status: string
+          title: string
+        }
+        Insert: {
+          admin_note?: string | null
+          created_at?: string
+          description: string
+          id?: string
+          reporter_id: string
+          resolved_at?: string | null
+          screenshot_url?: string | null
+          status?: string
+          title: string
+        }
+        Update: {
+          admin_note?: string | null
+          created_at?: string
+          description?: string
+          id?: string
+          reporter_id?: string
+          resolved_at?: string | null
+          screenshot_url?: string | null
+          status?: string
+          title?: string
+        }
+        Relationships: []
+      }
       comments: {
         Row: {
           content: string

@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { Link } from "react-router-dom";
 import { Menu, X, Gamepad2, User, LogOut, Shield, Crown } from "lucide-react";
+import BugReportDialog from "@/components/BugReportDialog";
 import { Button } from "@/components/ui/button";
 import { useAuth } from "@/hooks/useAuth";
 import { useLanguage } from "@/i18n/LanguageContext";
@@ -59,6 +60,7 @@ const Header = () => {
                 </div>
                 <span>{profile?.nickname || t("nav_profile")}</span>
               </Link>
+              <BugReportDialog />
               <button
                 onClick={signOut}
                 className="rounded-md p-2 text-muted-foreground hover:bg-secondary hover:text-foreground transition-colors"
