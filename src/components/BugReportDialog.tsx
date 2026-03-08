@@ -7,7 +7,11 @@ import { useAuth } from "@/hooks/useAuth";
 import { useLanguage } from "@/i18n/LanguageContext";
 import { toast } from "sonner";
 
-const BugReportDialog = () => {
+interface BugReportDialogProps {
+  mobile?: boolean;
+}
+
+const BugReportDialog = ({ mobile }: BugReportDialogProps = {}) => {
   const { user } = useAuth();
   const { t } = useLanguage();
   const [open, setOpen] = useState(false);
