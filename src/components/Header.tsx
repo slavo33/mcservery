@@ -15,6 +15,7 @@ const Header = () => {
     { label: t("nav_home"), to: "/" },
     { label: t("nav_servers"), to: "/servers" },
     { label: t("nav_add_server"), to: "/add-server" },
+    { label: t("nav_vip"), to: "/vip", isVip: true },
   ];
 
   return (
