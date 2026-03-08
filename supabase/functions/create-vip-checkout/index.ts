@@ -13,6 +13,11 @@ const VIP_TIERS: Record<string, { price_id: string; days: number; cooldown: numb
   max:   { price_id: "price_1T8gFUH8BEd7vCRGf1wiQNir", days: 90, cooldown: 2 },
 };
 
+const logStep = (step: string, details?: any) => {
+  const detailsStr = details ? ` - ${JSON.stringify(details)}` : '';
+  console.log(`[CREATE-VIP-CHECKOUT] ${step}${detailsStr}`);
+};
+
 serve(async (req) => {
   if (req.method === "OPTIONS") {
     return new Response(null, { headers: corsHeaders });
@@ -35,15 +40,18 @@ serve(async (req) => {
     const { data } = await supabaseClient.auth.getUser(token);
     const user = data.user;
     if (!user?.email) throw new Error("Not authenticated");
+    logStep("User authenticated", { userId: user.id, email: user.email });
 
     const { tier, server_id, discount_code } = await req.json();
     const tierConfig = VIP_TIERS[tier];
     if (!tierConfig) throw new Error("Invalid tier");
+    logStep("Tier selected", { tier, server_id });
 
     // Verify server ownership
     const { data: server } = await supabaseAdmin
       .from("servers").select("id, owner_id").eq("id", server_id).single();
     if (!server || server.owner_id !== user.id) throw new Error("Not your server");
+    logStep("Server ownership verified");
 
     const stripe = new Stripe(Deno.env.get("STRIPE_SECRET_KEY") || "", {
       apiVersion: "2025-08-27.basil",
@@ -60,7 +68,13 @@ serve(async (req) => {
         .eq("is_active", true)
         .maybeSingle();
 
-      if (!dc) throw new Error("invalid_discount_code");
+      if (!dc) {
+        logStep("Invalid discount code", { code: discount_code });
+        return new Response(JSON.stringify({ error: "invalid_discount_code" }), {
+          headers: { ...corsHeaders, "Content-Type": "application/json" },
+          status: 200,
+        });
+      }
 
       // Check max uses
       if (dc.max_uses) {
@@ -68,7 +82,13 @@ serve(async (req) => {
           .from("discount_code_usage")
           .select("*", { count: "exact", head: true })
           .eq("discount_code_id", dc.id);
-        if ((count || 0) >= dc.max_uses) throw new Error("discount_code_expired");
+        if ((count || 0) >= dc.max_uses) {
+          logStep("Discount code expired", { code: discount_code });
+          return new Response(JSON.stringify({ error: "discount_code_expired" }), {
+            headers: { ...corsHeaders, "Content-Type": "application/json" },
+            status: 200,
+          });
+        }
       }
 
       discountCodeId = dc.id;
@@ -80,12 +100,14 @@ serve(async (req) => {
         name: `MCServery ${dc.code}`,
       });
       stripeCouponId = coupon.id;
+      logStep("Discount coupon created", { couponId: coupon.id, percentOff: dc.percent_off });
     }
 
     // Check existing Stripe customer
     const customers = await stripe.customers.list({ email: user.email, limit: 1 });
     let customerId: string | undefined;
     if (customers.data.length > 0) customerId = customers.data[0].id;
+    logStep("Stripe customer check", { customerId: customerId || "new" });
 
     const origin = req.headers.get("origin") || "https://mcservery.lovable.app";
     const expiresAt = new Date(Date.now() + tierConfig.days * 24 * 60 * 60 * 1000).toISOString();
@@ -103,6 +125,7 @@ serve(async (req) => {
         user_id: user.id,
         expires_at: expiresAt,
         cooldown: tierConfig.cooldown.toString(),
+        price_id: tierConfig.price_id,
         discount_code_id: discountCodeId || "",
       },
     };
@@ -112,6 +135,7 @@ serve(async (req) => {
     }
 
     const session = await stripe.checkout.sessions.create(sessionParams);
+    logStep("Checkout session created", { sessionId: session.id, url: session.url });
 
     return new Response(JSON.stringify({ url: session.url }), {
       headers: { ...corsHeaders, "Content-Type": "application/json" },
@@ -119,6 +143,7 @@ serve(async (req) => {
     });
   } catch (error) {
     const msg = error instanceof Error ? error.message : "Unknown error";
+    logStep("ERROR", { message: msg });
     return new Response(JSON.stringify({ error: msg }), {
       headers: { ...corsHeaders, "Content-Type": "application/json" },
       status: 500,
