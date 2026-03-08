@@ -5,7 +5,7 @@ import HeroSection from "@/components/HeroSection";
 import ServerCard from "@/components/ServerCard";
 import { supabase } from "@/integrations/supabase/client";
 import { Link } from "react-router-dom";
-import { ArrowRight, Pin } from "lucide-react";
+import { ArrowRight, Crown } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { useLanguage } from "@/i18n/LanguageContext";
 import type { MinecraftServer } from "@/lib/mockData";
