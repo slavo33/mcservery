@@ -1566,6 +1566,8 @@ const fr: TranslationKeys = {
   privacy_section_4_title: "4. Vos droits",
   privacy_section_4_text: "Vous avez le droit d'accéder, de corriger ou de supprimer vos données. Contactez-nous pour la suppression de votre compte. Après suppression, vos données seront supprimées, les serveurs et commentaires seront effacés. Les données de paiement sont conservées conformément à la loi.",
 };
+
+const ru: TranslationKeys = {
   ...en,
   nav_home: "Главная", nav_servers: "Серверы", nav_add_server: "Добавить сервер", nav_login: "Войти", nav_profile: "Мой профиль", nav_logout: "Выйти",
   hero_title_1: "Найди свой", hero_subtitle: "Открывай сотни серверов, делись своим и присоединяйся к сообществу игроков.", hero_browse: "Обзор серверов", hero_add: "Добавить сервер",
