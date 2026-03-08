@@ -1320,6 +1320,25 @@ const de: TranslationKeys = {
   vip_success_desc: "Dein Server wurde erfolgreich in den Empfehlungen angeheftet. Danke für deine Unterstützung!",
   vip_try_again: "Erneut versuchen",
   filter_vip: "VIP-Server",
+  // Terms & Privacy
+  terms_section_1_title: "1. Einleitung",
+  terms_section_1_text: "Diese Nutzungsbedingungen regeln die Nutzung von mcservery.one. Durch die Nutzung dieser Website stimmen Sie diesen Bedingungen zu. MCServery ist ein Minecraft-Serverkatalog und steht nicht in Verbindung mit Mojang Studios oder Microsoft.",
+  terms_section_2_title: "2. Benutzerkonto",
+  terms_section_2_text: "Zum Hinzufügen eines Servers, Kommentieren und Abstimmen ist eine Registrierung erforderlich. Sie sind für die Sicherheit Ihres Kontos verantwortlich. Das Teilen von Konten ist nicht gestattet. Wir behalten uns das Recht vor, Konten zu löschen, die gegen diese Bedingungen verstoßen.",
+  terms_section_3_title: "3. Inhalte & Server",
+  terms_section_3_text: "Durch das Hinzufügen eines Servers garantieren Sie, dass Sie die Berechtigung haben, ihn zu teilen. Es ist verboten, Server mit illegalen Inhalten, betrügerische Server oder Server die Malware verbreiten hinzuzufügen. Wir behalten uns das Recht vor, jeden Server ohne vorherige Ankündigung zu entfernen.",
+  terms_section_4_title: "4. VIP-Dienste",
+  terms_section_4_text: "VIP-Dienste sind einmalige Zahlungen für zeitlich begrenzte Vorteile. Die Zahlung ist nach Aktivierung des Dienstes nicht erstattungsfähig. Nach Ablauf des Zeitraums wird der Server automatisch von den Empfehlungen entfernt, bleibt aber auf der Website. Rabattcodes sind einmalig und können nicht kombiniert werden.",
+  terms_section_5_title: "5. Haftung",
+  terms_section_5_text: "MCServery ist nicht verantwortlich für Serverinhalte oder durch deren Nutzung verursachte Schäden. Wir geben keine Garantien hinsichtlich Verfügbarkeit oder Qualität der Server im Katalog. Die Nutzung der Website erfolgt auf eigenes Risiko.",
+  privacy_section_1_title: "1. Erhobene Daten",
+  privacy_section_1_text: "Wir erheben: E-Mail und Spitzname bei der Registrierung, IP-Adresse bei der Abstimmung (zur Missbrauchsprävention), Serverdaten die Sie hinzufügen und Zahlungsinformationen für VIP-Dienste. Wir erheben keine sensiblen personenbezogenen Daten über das für den Betrieb des Dienstes notwendige Maß hinaus.",
+  privacy_section_2_title: "2. Datenverwendung",
+  privacy_section_2_text: "Ihre Daten werden ausschließlich für den Betrieb des Dienstes verwendet: Authentifizierung, Serveranzeige, Abstimmungsverarbeitung und VIP-Zahlungen. IP-Adressen der Abstimmenden sind nur für den Serverbesitzer sichtbar. Wir verkaufen keine Daten an Dritte.",
+  privacy_section_3_title: "3. Cookies & Speicher",
+  privacy_section_3_text: "Wir verwenden den lokalen Speicher des Browsers, um Spracheinstellungen und Anmeldung zu speichern. Wir verwenden keine Tracking-Cookies von Dritten. Zahlungen werden von Stripe verarbeitet, das eine eigene Datenschutzrichtlinie hat.",
+  privacy_section_4_title: "4. Ihre Rechte",
+  privacy_section_4_text: "Sie haben das Recht auf Zugang, Berichtigung oder Löschung Ihrer Daten. Kontaktieren Sie uns zur Kontolöschung. Nach der Löschung werden Ihre Daten entfernt, Server und Kommentare gelöscht. Zahlungsdaten werden gemäß den gesetzlichen Bestimmungen aufbewahrt.",
 };
 
 const fr: TranslationKeys = {
