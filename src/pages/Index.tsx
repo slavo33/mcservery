@@ -5,12 +5,12 @@ import HeroSection from "@/components/HeroSection";
 import ServerCard from "@/components/ServerCard";
 import { supabase } from "@/integrations/supabase/client";
 import { Link } from "react-router-dom";
-import { ArrowRight, Pin } from "lucide-react";
+import { ArrowRight, Crown } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { useLanguage } from "@/i18n/LanguageContext";
 import type { MinecraftServer } from "@/lib/mockData";
 
-const mapServer = (s: any): MinecraftServer & { is_warez?: boolean; has_whitelist?: boolean; votes?: number; slug?: string } => ({
+const mapServer = (s: any): MinecraftServer & { is_warez?: boolean; has_whitelist?: boolean; votes?: number; slug?: string; vip_expires_at?: string | null } => ({
   id: s.id,
   name: s.name,
   description: s.description,
@@ -29,35 +29,37 @@ const mapServer = (s: any): MinecraftServer & { is_warez?: boolean; has_whitelis
   has_whitelist: s.has_whitelist,
   votes: s.vote_count || 0,
   slug: s.slug,
+  vip_expires_at: s.vip_expires_at,
 });
 
 const Index = () => {
   const { t } = useLanguage();
-  const [featured, setFeatured] = useState<(MinecraftServer & { is_warez?: boolean; has_whitelist?: boolean })[]>([]);
-  const [pinned, setPinned] = useState<(MinecraftServer & { is_warez?: boolean; has_whitelist?: boolean })[]>([]);
+  const [featured, setFeatured] = useState<(MinecraftServer & { is_warez?: boolean; has_whitelist?: boolean; vip_expires_at?: string | null })[]>([]);
+  const [vipServers, setVipServers] = useState<(MinecraftServer & { is_warez?: boolean; has_whitelist?: boolean; vip_expires_at?: string | null })[]>([]);
 
   useEffect(() => {
     const fetchData = async () => {
-      // Fetch pinned first
-      const { data: pinnedData } = await supabase
+      // Fetch VIP servers (active vip_expires_at)
+      const { data: vipData } = await supabase
         .from("servers")
         .select("*")
-        .eq("is_featured", true);
-      const pinnedIds = new Set((pinnedData || []).map((s: any) => s.id));
-      if (pinnedData) {
-        const mapped = pinnedData.map(mapServer);
-        mapped.sort((a, b) => ((b as any).votes || 0) - ((a as any).votes || 0));
-        setPinned(mapped);
+        .gt("vip_expires_at", new Date().toISOString())
+        .order("vote_count", { ascending: false });
+      const vipIds = new Set((vipData || []).map((s: any) => s.id));
+      if (vipData) {
+        setVipServers(vipData.map(mapServer));
       }
 
-      // Fetch featured excluding pinned
+      // Fetch top servers excluding VIP
       const { data: featuredData } = await supabase
         .from("servers")
         .select("*")
-        .eq("is_featured", false)
         .order("vote_count", { ascending: false })
-        .limit(3);
-      if (featuredData) setFeatured(featuredData.map(mapServer));
+        .limit(20);
+      if (featuredData) {
+        const filtered = featuredData.filter((s: any) => !vipIds.has(s.id)).slice(0, 3);
+        setFeatured(filtered.map(mapServer));
+      }
     };
     fetchData();
   }, []);
@@ -68,18 +70,18 @@ const Index = () => {
       <main className="flex-1">
         <HeroSection />
 
-        {/* Reserve min-height to prevent CLS when data loads */}
-        <section className="container mx-auto px-4 py-16" style={{ minHeight: pinned.length > 0 ? undefined : '400px' }}>
-          {pinned.length > 0 && (
+        {/* VIP servers section */}
+        <section className="container mx-auto px-4 py-16" style={{ minHeight: vipServers.length > 0 ? undefined : '400px' }}>
+          {vipServers.length > 0 && (
             <>
               <div className="flex items-center gap-2 mb-8">
-                <Pin className="h-5 w-5 text-primary fill-primary" />
+                <Crown className="h-5 w-5" style={{ color: "hsl(45 93% 55%)" }} />
                 <h2 className="font-display text-3xl font-bold text-foreground">
                   {t("featured_title")}
                 </h2>
               </div>
               <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
-                {pinned.map((server) => (
+                {vipServers.map((server) => (
                   <ServerCard key={server.id} server={server} dbMode dbId={server.id} />
                 ))}
               </div>

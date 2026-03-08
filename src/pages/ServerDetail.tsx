@@ -7,7 +7,7 @@ import Footer from "@/components/Footer";
 import CommentSection from "@/components/CommentSection";
 import VoteSection from "@/components/VoteSection";
 import TopVoters from "@/components/TopVoters";
-import { Heart, Users, Copy, ArrowLeft, Shield, ShieldOff, ExternalLink, Trash2, Pencil, User, Pin } from "lucide-react";
+import { Heart, Users, Copy, ArrowLeft, Shield, ShieldOff, ExternalLink, Trash2, Pencil, User, Crown } from "lucide-react";
 import ReportDialog from "@/components/ReportDialog";
 import { toast } from "sonner";
 import { useLanguage } from "@/i18n/LanguageContext";
@@ -39,7 +39,7 @@ interface ServerDetailData {
   ownerNickname?: string;
   ownerAvatar?: string | null;
   ownerBio?: string;
-  is_featured?: boolean;
+  vip_expires_at?: string | null;
   images?: string[];
   vote_count?: number;
   slug?: string;
@@ -124,15 +124,16 @@ const ServerDetailPage = () => {
     }
   };
 
-  const toggleFeatured = async () => {
+  const toggleVip = async () => {
     if (!server || !user || !isAdmin) return;
-    const newVal = !server.is_featured;
-    const { error } = await supabase.from("servers").update({ is_featured: newVal } as any).eq("id", server.id);
+    const isCurrentlyVip = server.vip_expires_at && new Date(server.vip_expires_at) > new Date();
+    const newVipExpires = isCurrentlyVip ? null : new Date(Date.now() + 7 * 24 * 60 * 60 * 1000).toISOString();
+    const { error } = await supabase.from("servers").update({ vip_expires_at: newVipExpires } as any).eq("id", server.id);
     if (error) {
       toast.error("Error");
     } else {
-      setServer({ ...server, is_featured: newVal });
-      toast.success(newVal ? t("featured_pinned") : t("featured_unpinned"));
+      setServer({ ...server, vip_expires_at: newVipExpires });
+      toast.success(newVipExpires ? t("featured_pinned") : t("featured_unpinned"));
     }
   };
 
@@ -256,11 +257,11 @@ const ServerDetailPage = () => {
               <div className="flex items-center gap-3">
                 {isAdmin && (
                   <button
-                    onClick={toggleFeatured}
-                    className={`transition-colors ${server.is_featured ? "text-primary" : "text-muted-foreground hover:text-primary"}`}
-                    title={server.is_featured ? t("featured_unpin") : t("featured_pin")}
+                    onClick={toggleVip}
+                    className={`transition-colors ${server.vip_expires_at && new Date(server.vip_expires_at) > new Date() ? "text-yellow-500" : "text-muted-foreground hover:text-yellow-500"}`}
+                    title={server.vip_expires_at && new Date(server.vip_expires_at) > new Date() ? t("featured_unpin") : t("featured_pin")}
                   >
-                    <Pin className={`h-5 w-5 ${server.is_featured ? "fill-primary" : ""}`} />
+                    <Crown className={`h-5 w-5 ${server.vip_expires_at && new Date(server.vip_expires_at) > new Date() ? "fill-yellow-500" : ""}`} />
                   </button>
                 )}
                 {user?.id === server.owner_id && (
