@@ -1819,6 +1819,25 @@ const pt: TranslationKeys = {
   vip_success_desc: "O teu servidor foi fixado nos recomendados. Obrigado pelo apoio!",
   vip_try_again: "Tentar novamente",
   filter_vip: "Servidores VIP",
+  // Terms & Privacy
+  terms_section_1_title: "1. Introdução",
+  terms_section_1_text: "Estes termos de utilização regulam o uso de mcservery.one. Ao utilizar este site, concorda com estes termos. MCServery é um catálogo de servidores Minecraft e não é afiliado à Mojang Studios nem à Microsoft.",
+  terms_section_2_title: "2. Conta de utilizador",
+  terms_section_2_text: "É necessário registar-se para adicionar um servidor, comentar e votar. É responsável pela segurança da sua conta. A partilha de contas não é permitida. Reservamo-nos o direito de eliminar contas que violem estes termos.",
+  terms_section_3_title: "3. Conteúdo e servidores",
+  terms_section_3_text: "Ao adicionar um servidor, garante que tem autorização para o partilhar. É proibido adicionar servidores com conteúdo ilegal, servidores fraudulentos ou servidores que distribuam malware. Reservamo-nos o direito de remover qualquer servidor sem aviso prévio.",
+  terms_section_4_title: "4. Serviços VIP",
+  terms_section_4_text: "Os serviços VIP são pagamentos únicos por benefícios limitados no tempo. O pagamento não é reembolsável após a ativação do serviço. Após a expiração, o servidor é automaticamente removido dos recomendados mas permanece no site. Os códigos de desconto são de utilização única e não podem ser combinados.",
+  terms_section_5_title: "5. Responsabilidade",
+  terms_section_5_text: "MCServery não é responsável pelo conteúdo dos servidores nem por danos causados pela sua utilização. Não fornecemos garantias quanto à disponibilidade ou qualidade dos servidores no catálogo. A utilização do site é por sua conta e risco.",
+  privacy_section_1_title: "1. Dados recolhidos",
+  privacy_section_1_text: "Recolhemos: email e nome de utilizador durante o registo, endereço IP durante a votação (para prevenir abusos), dados dos servidores que adiciona e informações de pagamento para serviços VIP. Não recolhemos dados pessoais sensíveis para além do necessário para o funcionamento do serviço.",
+  privacy_section_2_title: "2. Utilização dos dados",
+  privacy_section_2_text: "Os seus dados são utilizados exclusivamente para o funcionamento do serviço: autenticação, exibição de servidores, processamento de votos e pagamentos VIP. Os endereços IP dos votantes são visíveis apenas para o proprietário do servidor. Não vendemos dados a terceiros.",
+  privacy_section_3_title: "3. Cookies e armazenamento",
+  privacy_section_3_text: "Utilizamos o armazenamento local do navegador para memorizar preferências de idioma e sessão. Não utilizamos cookies de rastreamento de terceiros. Os pagamentos são processados pelo Stripe, que tem a sua própria política de privacidade.",
+  privacy_section_4_title: "4. Os seus direitos",
+  privacy_section_4_text: "Tem o direito de aceder, corrigir ou eliminar os seus dados. Contacte-nos para eliminação da conta. Após a eliminação, os seus dados serão removidos, servidores e comentários serão apagados. Os dados de pagamento são mantidos de acordo com a lei.",
 };
 
 const br: TranslationKeys = {
