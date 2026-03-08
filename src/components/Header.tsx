@@ -113,6 +113,9 @@ const Header = () => {
                     {t("nav_admin_panel")}
                   </Link>
                 )}
+                <div className="px-4 py-2">
+                  <BugReportDialog />
+                </div>
                 <Link to="/profile" onClick={() => setMobileOpen(false)} className="rounded-md px-4 py-3 text-sm font-medium text-muted-foreground hover:bg-secondary hover:text-foreground">
                   {t("nav_profile")}
                 </Link>
