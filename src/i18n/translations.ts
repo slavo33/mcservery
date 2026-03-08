@@ -276,6 +276,56 @@ type TranslationKeys = {
   online: string;
   offline: string;
   players_online: string;
+  // VIP
+  nav_vip: string;
+  vip_title_1: string;
+  vip_title_2: string;
+  vip_subtitle: string;
+  vip_tier_basic: string;
+  vip_tier_pro: string;
+  vip_tier_max: string;
+  vip_most_popular: string;
+  vip_duration_prefix: string;
+  vip_days: string;
+  vip_feature_pinned: string;
+  vip_feature_vote_cooldown: string;
+  vip_feature_badge: string;
+  vip_feature_priority: string;
+  vip_buy_now: string;
+  vip_select_server_label: string;
+  vip_select_server: string;
+  vip_login_required: string;
+  vip_discount_code: string;
+  vip_discount_placeholder: string;
+  vip_discount_hint: string;
+  vip_invalid_code: string;
+  vip_code_expired: string;
+  vip_error: string;
+  vip_payment_methods: string;
+  vip_verifying: string;
+  vip_success_title: string;
+  vip_success_desc: string;
+  vip_try_again: string;
+  filter_vip: string;
+  // Terms & Privacy
+  terms_section_1_title: string;
+  terms_section_1_text: string;
+  terms_section_2_title: string;
+  terms_section_2_text: string;
+  terms_section_3_title: string;
+  terms_section_3_text: string;
+  terms_section_4_title: string;
+  terms_section_4_text: string;
+  terms_section_5_title: string;
+  terms_section_5_text: string;
+  privacy_section_1_title: string;
+  privacy_section_1_text: string;
+  privacy_section_2_title: string;
+  privacy_section_2_text: string;
+  privacy_section_3_title: string;
+  privacy_section_3_text: string;
+  privacy_section_4_title: string;
+  privacy_section_4_text: string;
 };
 
 const sk: TranslationKeys = {
