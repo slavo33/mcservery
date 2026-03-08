@@ -1,4 +1,4 @@
-import { Heart, Users, Wifi, WifiOff, Copy, Shield, ShieldOff, Vote } from "lucide-react";
+import { Heart, Users, Wifi, WifiOff, Copy, Shield, ShieldOff, Vote, Crown } from "lucide-react";
 import type { MinecraftServer } from "@/lib/mockData";
 import { useState } from "react";
 import { Link } from "react-router-dom";
@@ -6,7 +6,7 @@ import { useLanguage } from "@/i18n/LanguageContext";
 import { useServerStatus } from "@/hooks/useServerStatus";
 
 interface ServerCardProps {
-  server: MinecraftServer & { is_warez?: boolean; has_whitelist?: boolean; votes?: number };
+  server: MinecraftServer & { is_warez?: boolean; has_whitelist?: boolean; votes?: number; vip_expires_at?: string | null };
   dbMode?: boolean;
   dbId?: string;
 }
@@ -16,6 +16,7 @@ const ServerCard = ({ server, dbMode, dbId }: ServerCardProps) => {
   const [copied, setCopied] = useState(false);
   const { t } = useLanguage();
   const { status } = useServerStatus(server.ip);
+  const isVip = server.vip_expires_at && new Date(server.vip_expires_at) > new Date();
 
   const isOnline = status ? status.online : server.isOnline;
   const onlinePlayers = status ? status.players.online : server.players.online;
@@ -62,6 +63,11 @@ const ServerCard = ({ server, dbMode, dbId }: ServerCardProps) => {
           {server.has_whitelist && (
             <span className="badge-platform text-xs">
               <Shield className="h-3 w-3 mr-1" /> WL
+            </span>
+          )}
+          {isVip && (
+            <span className="badge-platform text-xs" style={{ background: "hsla(45, 93%, 47%, 0.2)", color: "hsl(45 93% 55%)", borderColor: "hsla(45, 93%, 47%, 0.3)" }}>
+              <Crown className="h-3 w-3 mr-1" /> VIP
             </span>
           )}
         </div>
