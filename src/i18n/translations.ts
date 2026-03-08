@@ -595,7 +595,7 @@ const sk: TranslationKeys = {
   filter_vip: "VIP servery",
   // Terms & Privacy
   terms_section_1_title: "1. Úvod",
-  terms_section_1_text: "Tieto podmienky používania upravujú používanie webu MCServery.sk. Používaním tohto webu súhlasíte s týmito podmienkami. MCServery je katalóg Minecraft serverov a nie je spojený s Mojang Studios ani Microsoft.",
+  terms_section_1_text: "Tieto podmienky používania upravujú používanie webu mcservery.one. Používaním tohto webu súhlasíte s týmito podmienkami. MCServery je katalóg Minecraft serverov a nie je spojený s Mojang Studios ani Microsoft.",
   terms_section_2_title: "2. Používateľský účet",
   terms_section_2_text: "Na pridanie servera, komentovanie a hlasovanie je potrebná registrácia. Ste zodpovední za bezpečnosť svojho účtu. Zdieľanie účtu nie je povolené. Vyhradzujeme si právo zmazať účty, ktoré porušujú tieto podmienky.",
   terms_section_3_title: "3. Obsah a servery",
