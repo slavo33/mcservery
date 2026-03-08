@@ -1,4 +1,4 @@
-import { Heart, Users, Wifi, WifiOff, Copy, Shield, ShieldOff, Vote } from "lucide-react";
+import { Heart, Users, Wifi, WifiOff, Copy, Shield, ShieldOff, Vote, Crown } from "lucide-react";
 import type { MinecraftServer } from "@/lib/mockData";
 import { useState } from "react";
 import { Link } from "react-router-dom";
