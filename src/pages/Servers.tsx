@@ -106,7 +106,7 @@ const Servers = () => {
     });
 
     return result;
-  }, [search, platform, version, software, allServers, sortBy, sortDir, statuses]);
+  }, [search, platform, version, software, allServers, sortBy, sortDir, statuses, showVipOnly]);
 
   return (
     <div className="min-h-screen flex flex-col bg-background">
