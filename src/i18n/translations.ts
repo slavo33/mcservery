@@ -811,6 +811,25 @@ const cs: TranslationKeys = {
   vip_success_desc: "Tvůj server byl úspěšně připnut do doporučených. Děkujeme za podporu!",
   vip_try_again: "Zkusit znovu",
   filter_vip: "VIP servery",
+  // Terms & Privacy
+  terms_section_1_title: "1. Úvod",
+  terms_section_1_text: "Tyto podmínky používání upravují používání webu mcservery.one. Používáním tohoto webu souhlasíte s těmito podmínkami. MCServery je katalog Minecraft serverů a není spojen s Mojang Studios ani Microsoft.",
+  terms_section_2_title: "2. Uživatelský účet",
+  terms_section_2_text: "K přidání serveru, komentování a hlasování je nutná registrace. Jste zodpovědní za bezpečnost svého účtu. Sdílení účtu není povoleno. Vyhrazujeme si právo smazat účty, které porušují tyto podmínky.",
+  terms_section_3_title: "3. Obsah a servery",
+  terms_section_3_text: "Přidáním serveru zaručujete, že máte oprávnění ho sdílet. Je zakázáno přidávat servery s nelegálním obsahem, podvodné servery nebo servery šířící malware. Vyhrazujeme si právo odstranit jakýkoliv server bez předchozího upozornění.",
+  terms_section_4_title: "4. VIP služby",
+  terms_section_4_text: "VIP služby jsou jednorázové platby za časově omezené výhody. Platba je nevratná po aktivaci služby. Po uplynutí doby se server automaticky odepne z doporučených, ale zůstává na webu. Slevové kódy jsou jednorázové a nelze je kombinovat.",
+  terms_section_5_title: "5. Odpovědnost",
+  terms_section_5_text: "MCServery neodpovídá za obsah serverů ani za škody způsobené jejich používáním. Neposkytujeme žádné záruky ohledně dostupnosti nebo kvality serverů v katalogu. Používání webu je na vlastní riziko.",
+  privacy_section_1_title: "1. Shromažďované údaje",
+  privacy_section_1_text: "Shromažďujeme: email a přezdívku při registraci, IP adresu při hlasování (k prevenci zneužití), údaje o serverech které přidáte a informace o platbách za VIP služby. Neshromažďujeme citlivé osobní údaje nad rámec nezbytný pro fungování služby.",
+  privacy_section_2_title: "2. Použití údajů",
+  privacy_section_2_text: "Vaše údaje používáme výhradně k provozu služby: autentifikaci, zobrazení serverů, zpracování hlasů a platby za VIP. IP adresy hlasujících jsou viditelné pouze pro majitele serveru. Údaje neprodáváme třetím stranám.",
+  privacy_section_3_title: "3. Cookies a úložiště",
+  privacy_section_3_text: "Používáme lokální úložiště prohlížeče k zapamatování jazykových preferencí a přihlášení. Nepoužíváme sledovací cookies třetích stran. Platby zpracovává Stripe, který má vlastní politiku ochrany soukromí.",
+  privacy_section_4_title: "4. Vaše práva",
+  privacy_section_4_text: "Máte právo na přístup, opravu nebo vymazání svých údajů. Pro vymazání účtu nás kontaktujte. Po vymazání účtu budou vaše údaje odstraněny, servery a komentáře budou smazány. Údaje o platbách jsou uchovávány v souladu se zákonem.",
 };
 
 const en: TranslationKeys = {
