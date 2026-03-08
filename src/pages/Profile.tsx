@@ -63,6 +63,7 @@ const Profile = () => {
               isOnline: true,
               is_warez: s.is_warez,
               has_whitelist: s.has_whitelist,
+              slug: s.slug,
             }))
           );
         }
@@ -105,6 +106,7 @@ const Profile = () => {
             isOnline: true,
             is_warez: s.is_warez,
             has_whitelist: s.has_whitelist,
+            slug: s.slug,
           }))
         );
       } else {
