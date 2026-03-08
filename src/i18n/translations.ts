@@ -1546,9 +1546,26 @@ const fr: TranslationKeys = {
   vip_success_desc: "Ton serveur a été épinglé dans les recommandés. Merci pour ton soutien !",
   vip_try_again: "Réessayer",
   filter_vip: "Serveurs VIP",
+  // Terms & Privacy
+  terms_section_1_title: "1. Introduction",
+  terms_section_1_text: "Ces conditions d'utilisation régissent l'utilisation de mcservery.one. En utilisant ce site, vous acceptez ces conditions. MCServery est un catalogue de serveurs Minecraft et n'est pas affilié à Mojang Studios ni à Microsoft.",
+  terms_section_2_title: "2. Compte utilisateur",
+  terms_section_2_text: "L'inscription est nécessaire pour ajouter un serveur, commenter et voter. Vous êtes responsable de la sécurité de votre compte. Le partage de compte n'est pas autorisé. Nous nous réservons le droit de supprimer les comptes qui enfreignent ces conditions.",
+  terms_section_3_title: "3. Contenu et serveurs",
+  terms_section_3_text: "En ajoutant un serveur, vous garantissez que vous avez l'autorisation de le partager. Il est interdit d'ajouter des serveurs avec du contenu illégal, des serveurs frauduleux ou des serveurs diffusant des malwares. Nous nous réservons le droit de supprimer tout serveur sans préavis.",
+  terms_section_4_title: "4. Services VIP",
+  terms_section_4_text: "Les services VIP sont des paiements uniques pour des avantages limités dans le temps. Le paiement n'est pas remboursable après l'activation du service. Après expiration, le serveur est automatiquement retiré des recommandés mais reste sur le site. Les codes de réduction sont à usage unique et ne peuvent pas être combinés.",
+  terms_section_5_title: "5. Responsabilité",
+  terms_section_5_text: "MCServery n'est pas responsable du contenu des serveurs ni des dommages causés par leur utilisation. Nous ne fournissons aucune garantie concernant la disponibilité ou la qualité des serveurs du catalogue. L'utilisation du site est à vos propres risques.",
+  privacy_section_1_title: "1. Données collectées",
+  privacy_section_1_text: "Nous collectons : email et pseudo lors de l'inscription, adresse IP lors du vote (pour prévenir les abus), données des serveurs que vous ajoutez et informations de paiement pour les services VIP. Nous ne collectons pas de données personnelles sensibles au-delà de ce qui est nécessaire au fonctionnement du service.",
+  privacy_section_2_title: "2. Utilisation des données",
+  privacy_section_2_text: "Vos données sont utilisées exclusivement pour le fonctionnement du service : authentification, affichage des serveurs, traitement des votes et paiements VIP. Les adresses IP des votants ne sont visibles que par le propriétaire du serveur. Nous ne vendons pas vos données à des tiers.",
+  privacy_section_3_title: "3. Cookies et stockage",
+  privacy_section_3_text: "Nous utilisons le stockage local du navigateur pour mémoriser les préférences linguistiques et la connexion. Nous n'utilisons pas de cookies de suivi tiers. Les paiements sont traités par Stripe, qui a sa propre politique de confidentialité.",
+  privacy_section_4_title: "4. Vos droits",
+  privacy_section_4_text: "Vous avez le droit d'accéder, de corriger ou de supprimer vos données. Contactez-nous pour la suppression de votre compte. Après suppression, vos données seront supprimées, les serveurs et commentaires seront effacés. Les données de paiement sont conservées conformément à la loi.",
 };
-
-const ru: TranslationKeys = {
   ...en,
   nav_home: "Главная", nav_servers: "Серверы", nav_add_server: "Добавить сервер", nav_login: "Войти", nav_profile: "Мой профиль", nav_logout: "Выйти",
   hero_title_1: "Найди свой", hero_subtitle: "Открывай сотни серверов, делись своим и присоединяйся к сообществу игроков.", hero_browse: "Обзор серверов", hero_add: "Добавить сервер",
