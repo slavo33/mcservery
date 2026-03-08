@@ -30,6 +30,7 @@ const VoteSection = ({ serverId, voteCount, cooldownHours = 24, onVoted }: VoteS
   const [voted, setVoted] = useState(false);
   const [cooldownEnd, setCooldownEnd] = useState<string | null>(null);
   const [timeLeft, setTimeLeft] = useState("");
+  const [effectiveCooldownHours, setEffectiveCooldownHours] = useState(cooldownHours);
 
   const trimmedNick = nick.trim();
   const isValidNick = /^[a-zA-Z0-9_]{3,16}$/.test(trimmedNick);
