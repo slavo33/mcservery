@@ -36,6 +36,7 @@ const Servers = () => {
   const [software, setSoftware] = useState("");
   const [sortBy, setSortBy] = useState<"votes" | "likes" | "players">("votes");
   const [sortDir, setSortDir] = useState<"desc" | "asc">("desc");
+  const [showVipOnly, setShowVipOnly] = useState(false);
   const [dbServers, setDbServers] = useState<DbServer[]>([]);
 
   useEffect(() => {
