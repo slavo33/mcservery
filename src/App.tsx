@@ -51,6 +51,10 @@ const App = () => (
                 <Route path="/profile" element={<Profile />} />
                 <Route path="/user/:userId" element={<UserProfile />} />
                 <Route path="/admin" element={<AdminPanel />} />
+                <Route path="/vip" element={<VipPage />} />
+                <Route path="/vip-success" element={<VipSuccess />} />
+                <Route path="/terms" element={<Terms />} />
+                <Route path="/privacy" element={<Privacy />} />
                 <Route path="*" element={<NotFound />} />
               </Routes>
             </Suspense>

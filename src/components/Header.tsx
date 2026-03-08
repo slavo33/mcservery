@@ -92,13 +92,14 @@ const Header = () => {
       {mobileOpen && (
         <div className="border-t border-border bg-background px-4 pb-4 md:hidden animate-slide-up">
           <nav className="flex flex-col gap-1 pt-2">
-            {navItems.map((item) => (
+            {navItems.map((item: any) => (
               <Link
                 key={item.to}
                 to={item.to}
                 onClick={() => setMobileOpen(false)}
-                className="rounded-md px-4 py-3 text-sm font-medium text-muted-foreground transition-colors hover:bg-secondary hover:text-foreground"
+                className={`rounded-md px-4 py-3 text-sm font-medium transition-colors ${item.isVip ? "text-amber-400 hover:bg-amber-500/10 flex items-center gap-1.5 font-bold" : "text-muted-foreground hover:bg-secondary hover:text-foreground"}`}
               >
+                {item.isVip && <Crown className="h-4 w-4" />}
                 {item.label}
               </Link>
             ))}
