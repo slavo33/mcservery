@@ -16,6 +16,7 @@ const ServerCard = ({ server, dbMode, dbId }: ServerCardProps) => {
   const [copied, setCopied] = useState(false);
   const { t } = useLanguage();
   const { status } = useServerStatus(server.ip);
+  const isVip = server.vip_expires_at && new Date(server.vip_expires_at) > new Date();
 
   const isOnline = status ? status.online : server.isOnline;
   const onlinePlayers = status ? status.players.online : server.players.online;
