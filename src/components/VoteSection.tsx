@@ -1,4 +1,4 @@
-import { useState, useEffect, useCallback } from "react";
+import { useState, useEffect } from "react";
 import { Vote, Clock, CheckCircle } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -30,6 +30,7 @@ const VoteSection = ({ serverId, voteCount, cooldownHours = 24, onVoted }: VoteS
   const [voted, setVoted] = useState(false);
   const [cooldownEnd, setCooldownEnd] = useState<string | null>(null);
   const [timeLeft, setTimeLeft] = useState("");
+  const [effectiveCooldownHours, setEffectiveCooldownHours] = useState(cooldownHours);
 
   const trimmedNick = nick.trim();
   const isValidNick = /^[a-zA-Z0-9_]{3,16}$/.test(trimmedNick);
@@ -53,6 +54,14 @@ const VoteSection = ({ serverId, voteCount, cooldownHours = 24, onVoted }: VoteS
     const interval = setInterval(update, 1000);
     return () => clearInterval(interval);
   }, [cooldownEnd]);
+
+  useEffect(() => {
+    setEffectiveCooldownHours(cooldownHours);
+  }, [cooldownHours]);
+
+  const dynamicVoteDescription = t("vote_description").replace(/\b24\b/g, String(effectiveCooldownHours));
+  const dynamicVoteCooldownText = t("vote_cooldown").replace(/\b24\b/g, String(effectiveCooldownHours));
+  const dynamicVoteNextText = t("vote_next_in_24h").replace(/\b24\b/g, String(effectiveCooldownHours));
 
   const handleVote = async () => {
     if (!trimmedNick) {
@@ -81,9 +90,20 @@ const VoteSection = ({ serverId, voteCount, cooldownHours = 24, onVoted }: VoteS
 
       const result = await res.json();
 
+      if (typeof result?.cooldown_hours === "number" && result.cooldown_hours > 0) {
+        setEffectiveCooldownHours(result.cooldown_hours);
+      }
+
       if (result?.error === "cooldown" || result?.error === "cooldown_ip") {
         setCooldownEnd(result.next_vote || null);
-        toast.error(t("vote_cooldown"));
+
+        if (result?.next_vote) {
+          const ms = new Date(result.next_vote).getTime() - Date.now();
+          toast.error(`${t("vote_cooldown_timer")} ${formatTimeLeft(ms)}`);
+        } else {
+          toast.error(dynamicVoteCooldownText);
+        }
+
         setLoading(false);
         return;
       }
@@ -126,11 +146,7 @@ const VoteSection = ({ serverId, voteCount, cooldownHours = 24, onVoted }: VoteS
       <div className="rounded-lg border border-primary/30 bg-primary/5 p-6 text-center">
         <CheckCircle className="h-10 w-10 text-primary mx-auto mb-3" />
         <p className="font-display font-bold text-lg text-foreground">{t("vote_thanks")}</p>
-        <p className="text-sm text-muted-foreground mt-1">
-          {cooldownHours >= 24
-            ? t("vote_next_in_24h")
-            : t("vote_cooldown_timer") + " " + cooldownHours + "h"}
-        </p>
+        <p className="text-sm text-muted-foreground mt-1">{dynamicVoteNextText}</p>
       </div>
     );
   }
@@ -149,7 +165,7 @@ const VoteSection = ({ serverId, voteCount, cooldownHours = 24, onVoted }: VoteS
         </span>
       </div>
 
-      <p className="text-sm text-muted-foreground">{t("vote_description")}</p>
+      <p className="text-sm text-muted-foreground">{dynamicVoteDescription}</p>
 
       <div className="flex items-center gap-3">
         {/* MC head preview */}
