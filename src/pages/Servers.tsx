@@ -76,6 +76,10 @@ const Servers = () => {
 
   const filtered = useMemo(() => {
     let result = allServers.filter((s) => {
+      if (showVipOnly) {
+        const vipExpires = (s as any).vip_expires_at;
+        if (!vipExpires || new Date(vipExpires) < new Date()) return false;
+      }
       if (search) {
         const q = search.toLowerCase();
         if (!s.name.toLowerCase().includes(q) && !s.ip.toLowerCase().includes(q)) return false;
