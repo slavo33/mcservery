@@ -293,6 +293,31 @@ type TranslationKeys = {
   dc_deactivate_error: string;
   dc_code_required: string;
   dc_percent_invalid: string;
+  // Bug reports
+  bug_report_title: string;
+  bug_title_label: string;
+  bug_title_placeholder: string;
+  bug_desc_label: string;
+  bug_desc_placeholder: string;
+  bug_screenshot_label: string;
+  bug_screenshot_upload: string;
+  bug_screenshot_hint: string;
+  bug_screenshot_too_large: string;
+  bug_fill_required: string;
+  bug_upload_error: string;
+  bug_submit_error: string;
+  bug_submit_success: string;
+  bug_submitting: string;
+  bug_submit: string;
+  bug_admin_title: string;
+  bug_admin_empty: string;
+  bug_admin_resolved: string;
+  bug_admin_dismissed: string;
+  bug_admin_deleted: string;
+  bug_admin_view_screenshot: string;
+  bug_admin_resolve: string;
+  bug_admin_delete: string;
+  bug_status_open: string;
   // Common
   loading: string;
   online: string;
