@@ -1893,6 +1893,25 @@ const zh: TranslationKeys = {
   vip_success_desc: "你的服务器已成功固定在推荐中。感谢你的支持！",
   vip_try_again: "重试",
   filter_vip: "VIP服务器",
+  // Terms & Privacy
+  terms_section_1_title: "1. 简介",
+  terms_section_1_text: "本使用条款规范 mcservery.one 的使用。使用本网站即表示您同意这些条款。MCServery 是一个 Minecraft 服务器目录，与 Mojang Studios 或 Microsoft 无关。",
+  terms_section_2_title: "2. 用户账户",
+  terms_section_2_text: "添加服务器、评论和投票需要注册。您有责任确保账户安全。禁止共享账户。我们保留删除违反这些条款的账户的权利。",
+  terms_section_3_title: "3. 内容与服务器",
+  terms_section_3_text: "添加服务器即表示您保证有权分享该服务器。禁止添加包含非法内容的服务器、欺诈服务器或传播恶意软件的服务器。我们保留在不事先通知的情况下删除任何服务器的权利。",
+  terms_section_4_title: "4. VIP 服务",
+  terms_section_4_text: "VIP 服务是限时福利的一次性付款。服务激活后不可退款。到期后，服务器将自动从推荐中移除，但仍保留在网站上。折扣码为一次性使用，不可叠加。",
+  terms_section_5_title: "5. 责任",
+  terms_section_5_text: "MCServery 不对服务器内容或因使用而造成的损害负责。我们不对目录中服务器的可用性或质量提供任何保证。使用本网站风险自负。",
+  privacy_section_1_title: "1. 收集的数据",
+  privacy_section_1_text: "我们收集：注册时的电子邮件和昵称、投票时的 IP 地址（防止滥用）、您添加的服务器数据以及 VIP 服务的支付信息。我们不会收集超出服务运营所需的敏感个人数据。",
+  privacy_section_2_title: "2. 数据使用",
+  privacy_section_2_text: "您的数据仅用于服务运营：身份验证、服务器显示、投票处理和 VIP 支付。投票者的 IP 地址仅对服务器所有者可见。我们不会将数据出售给第三方。",
+  privacy_section_3_title: "3. Cookies 和存储",
+  privacy_section_3_text: "我们使用浏览器本地存储来记住语言偏好和登录状态。我们不使用第三方跟踪 cookies。支付由 Stripe 处理，其有自己的隐私政策。",
+  privacy_section_4_title: "4. 您的权利",
+  privacy_section_4_text: "您有权访问、更正或删除您的数据。请联系我们删除账户。删除后，您的数据将被移除，服务器和评论将被删除。支付数据将根据法律规定保留。",
 };
 
 const ja: TranslationKeys = {
