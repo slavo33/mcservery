@@ -42,6 +42,7 @@ interface ServerDetailData {
   vip_expires_at?: string | null;
   images?: string[];
   vote_count?: number;
+  vote_cooldown_hours?: number;
   slug?: string;
 }
 
