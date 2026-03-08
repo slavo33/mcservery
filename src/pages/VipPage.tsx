@@ -91,7 +91,12 @@ const VipPage = () => {
         },
       });
 
-      if (error) throw error;
+      if (error) {
+        console.error("VIP checkout error:", error);
+        toast.error(t("vip_error"));
+        setLoading(null);
+        return;
+      }
       if (data?.error === "invalid_discount_code") {
         toast.error(t("vip_invalid_code"));
         setLoading(null);
@@ -102,9 +107,17 @@ const VipPage = () => {
         setLoading(null);
         return;
       }
-      if (data?.error) throw new Error(data.error);
-      if (data?.url) window.open(data.url, "_blank");
-    } catch {
+      if (data?.error) {
+        console.error("VIP checkout error:", data.error);
+        toast.error(t("vip_error"));
+        setLoading(null);
+        return;
+      }
+      if (data?.url) {
+        window.location.href = data.url;
+      }
+    } catch (e) {
+      console.error("VIP checkout exception:", e);
       toast.error(t("vip_error"));
     }
     setLoading(null);
