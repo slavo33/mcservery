@@ -350,6 +350,7 @@ const ServerDetailPage = () => {
               <VoteSection
                 serverId={server.id}
                 voteCount={voteCount}
+                cooldownHours={(server as any).vote_cooldown_hours || 24}
                 onVoted={() => {
                   setVoteCount((c) => c + 1);
                   setVoteRefreshKey((k) => k + 1);
