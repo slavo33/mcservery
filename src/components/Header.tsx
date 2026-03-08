@@ -60,6 +60,7 @@ const Header = () => {
                 </div>
                 <span>{profile?.nickname || t("nav_profile")}</span>
               </Link>
+              <BugReportDialog />
               <button
                 onClick={signOut}
                 className="rounded-md p-2 text-muted-foreground hover:bg-secondary hover:text-foreground transition-colors"
