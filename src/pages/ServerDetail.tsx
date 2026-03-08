@@ -132,12 +132,12 @@ const ServerDetailPage = () => {
     const newCooldownHours = isCurrentlyVip ? 24 : 8;
     const { error } = await supabase
       .from("servers")
-      .update({ vip_expires_at: newVipExpires, vote_cooldown_hours: newCooldownHours } as any)
+      .update({ vip_expires_at: newVipExpires, vote_cooldown_hours: newCooldownHours })
       .eq("id", server.id);
     if (error) {
       toast.error("Error");
     } else {
-      setServer({ ...server, vip_expires_at: newVipExpires, vote_cooldown_hours: newCooldownHours } as any);
+      setServer({ ...server, vip_expires_at: newVipExpires, vote_cooldown_hours: newCooldownHours });
       toast.success(newVipExpires ? t("featured_pinned") : t("featured_unpinned"));
     }
   };
