@@ -23,7 +23,7 @@ const formatTimeLeft = (ms: number): string => {
   return `${seconds}s`;
 };
 
-const VoteSection = ({ serverId, voteCount, onVoted }: VoteSectionProps) => {
+const VoteSection = ({ serverId, voteCount, cooldownHours = 24, onVoted }: VoteSectionProps) => {
   const { t } = useLanguage();
   const [nick, setNick] = useState("");
   const [loading, setLoading] = useState(false);
