@@ -241,6 +241,8 @@ const AdminPanel = () => {
             ))}
           </div>
         )}
+
+        <DiscountCodesAdmin />
       </main>
       <Footer />
     </div>
