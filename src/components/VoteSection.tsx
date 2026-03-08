@@ -126,7 +126,11 @@ const VoteSection = ({ serverId, voteCount, cooldownHours = 24, onVoted }: VoteS
       <div className="rounded-lg border border-primary/30 bg-primary/5 p-6 text-center">
         <CheckCircle className="h-10 w-10 text-primary mx-auto mb-3" />
         <p className="font-display font-bold text-lg text-foreground">{t("vote_thanks")}</p>
-        <p className="text-sm text-muted-foreground mt-1">{t("vote_next_in_24h")}</p>
+        <p className="text-sm text-muted-foreground mt-1">
+          {cooldownHours >= 24
+            ? t("vote_next_in_24h")
+            : t("vote_cooldown_timer") + " " + cooldownHours + "h"}
+        </p>
       </div>
     );
   }
