@@ -68,6 +68,7 @@ const Servers = () => {
       is_warez: s.is_warez,
       has_whitelist: s.has_whitelist,
       slug: (s as any).slug,
+      vip_expires_at: (s as any).vip_expires_at,
     }));
   }, [dbServers]);
 
