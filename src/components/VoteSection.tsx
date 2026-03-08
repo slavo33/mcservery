@@ -8,6 +8,7 @@ import { toast } from "sonner";
 interface VoteSectionProps {
   serverId: string;
   voteCount: number;
+  cooldownHours?: number;
   onVoted: () => void;
 }
 
