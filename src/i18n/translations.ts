@@ -1961,6 +1961,25 @@ const ja: TranslationKeys = {
   vip_success_desc: "サーバーがおすすめに固定されました。ご支援ありがとうございます！",
   vip_try_again: "もう一度試す",
   filter_vip: "VIPサーバー",
+  // Terms & Privacy
+  terms_section_1_title: "1. はじめに",
+  terms_section_1_text: "この利用規約は mcservery.one の利用を規定するものです。本ウェブサイトを利用することにより、これらの規約に同意したものとみなされます。MCServery は Minecraft サーバーカタログであり、Mojang Studios または Microsoft とは一切関係ありません。",
+  terms_section_2_title: "2. ユーザーアカウント",
+  terms_section_2_text: "サーバーの追加、コメント、投票には登録が必要です。アカウントのセキュリティはお客様の責任です。アカウントの共有は禁止されています。これらの規約に違反するアカウントを削除する権利を留保します。",
+  terms_section_3_title: "3. コンテンツとサーバー",
+  terms_section_3_text: "サーバーを追加することにより、それを共有する権限があることを保証します。違法なコンテンツを含むサーバー、詐欺的なサーバー、マルウェアを配布するサーバーの追加は禁止されています。事前の通知なしにサーバーを削除する権利を留保します。",
+  terms_section_4_title: "4. VIPサービス",
+  terms_section_4_text: "VIPサービスは期間限定の特典に対する一回限りの支払いです。サービス有効化後の返金はできません。期間終了後、サーバーはおすすめから自動的に外されますが、サイトには残ります。割引コードは1回限りの使用で、併用はできません。",
+  terms_section_5_title: "5. 責任",
+  terms_section_5_text: "MCServery はサーバーのコンテンツやその使用により生じた損害について責任を負いません。カタログ内のサーバーの可用性や品質について一切の保証をしません。ウェブサイトの使用はお客様自身の責任で行ってください。",
+  privacy_section_1_title: "1. 収集するデータ",
+  privacy_section_1_text: "登録時のメールアドレスとニックネーム、投票時のIPアドレス（不正防止のため）、追加されたサーバーデータ、VIPサービスの支払い情報を収集します。サービス運営に必要な範囲を超えた機密個人データは収集しません。",
+  privacy_section_2_title: "2. データの使用",
+  privacy_section_2_text: "お客様のデータはサービス運営にのみ使用されます：認証、サーバー表示、投票処理、VIP支払い。投票者のIPアドレスはサーバーオーナーのみに表示されます。第三者にデータを販売することはありません。",
+  privacy_section_3_title: "3. Cookieとストレージ",
+  privacy_section_3_text: "言語設定とログインを記憶するためにブラウザのローカルストレージを使用しています。第三者のトラッキングCookieは使用していません。支払いはStripeが処理しており、独自のプライバシーポリシーがあります。",
+  privacy_section_4_title: "4. あなたの権利",
+  privacy_section_4_text: "お客様にはデータへのアクセス、訂正、削除の権利があります。アカウント削除についてはお問い合わせください。削除後、お客様のデータは削除され、サーバーとコメントも削除されます。支払いデータは法律に従って保持されます。",
 };
 
 export const translations: Record<Locale, TranslationKeys> = { sk, cs, en, de, fr, ru, uk, es, pt, br, zh, ja };
