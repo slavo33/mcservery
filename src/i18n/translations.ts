@@ -1054,7 +1054,7 @@ const en: TranslationKeys = {
   filter_vip: "VIP Servers",
   // Terms & Privacy
   terms_section_1_title: "1. Introduction",
-  terms_section_1_text: "These terms of service govern the use of MCServery. By using this website, you agree to these terms. MCServery is a Minecraft server catalog and is not affiliated with Mojang Studios or Microsoft.",
+  terms_section_1_text: "These terms of service govern the use of mcservery.one. By using this website, you agree to these terms. MCServery is a Minecraft server catalog and is not affiliated with Mojang Studios or Microsoft.",
   terms_section_2_title: "2. User Account",
   terms_section_2_text: "Registration is required to add a server, comment, and vote. You are responsible for the security of your account. Account sharing is not permitted. We reserve the right to delete accounts that violate these terms.",
   terms_section_3_title: "3. Content & Servers",
