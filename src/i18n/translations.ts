@@ -271,6 +271,28 @@ type TranslationKeys = {
   admin_status_pending: string;
   admin_status_resolved: string;
   admin_status_dismissed: string;
+  // Discount codes admin
+  dc_title: string;
+  dc_create_new: string;
+  dc_code_placeholder: string;
+  dc_single_use: string;
+  dc_unlimited: string;
+  dc_create: string;
+  dc_no_codes: string;
+  dc_uses: string;
+  dc_unlimited_short: string;
+  dc_active: string;
+  dc_inactive: string;
+  dc_deactivate: string;
+  dc_copy: string;
+  dc_copied: string;
+  dc_created: string;
+  dc_create_error: string;
+  dc_duplicate: string;
+  dc_deactivated: string;
+  dc_deactivate_error: string;
+  dc_code_required: string;
+  dc_percent_invalid: string;
   // Common
   loading: string;
   online: string;
