@@ -90,9 +90,20 @@ const VoteSection = ({ serverId, voteCount, cooldownHours = 24, onVoted }: VoteS
 
       const result = await res.json();
 
+      if (typeof result?.cooldown_hours === "number" && result.cooldown_hours > 0) {
+        setEffectiveCooldownHours(result.cooldown_hours);
+      }
+
       if (result?.error === "cooldown" || result?.error === "cooldown_ip") {
         setCooldownEnd(result.next_vote || null);
-        toast.error(t("vote_cooldown"));
+
+        if (result?.next_vote) {
+          const ms = new Date(result.next_vote).getTime() - Date.now();
+          toast.error(`${t("vote_cooldown_timer")} ${formatTimeLeft(ms)}`);
+        } else {
+          toast.error(dynamicVoteCooldownText);
+        }
+
         setLoading(false);
         return;
       }
