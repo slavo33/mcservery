@@ -3,7 +3,7 @@ import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import ServerCard from "@/components/ServerCard";
 import ServerFilters from "@/components/ServerFilters";
-import { ArrowUpDown } from "lucide-react";
+import { ArrowUpDown, Crown } from "lucide-react";
 import type { MinecraftServer } from "@/lib/mockData";
 import { supabase } from "@/integrations/supabase/client";
 import { useLanguage } from "@/i18n/LanguageContext";
