@@ -125,8 +125,16 @@ const Servers = () => {
           selectedSoftware={software} onSoftwareChange={setSoftware}
         />
 
-        {/* Sorting */}
+        {/* Sorting + VIP filter */}
         <div className="flex items-center gap-2 mb-6 flex-wrap">
+          <button
+            onClick={() => setShowVipOnly(!showVipOnly)}
+            className={`text-sm px-3 py-1 rounded-full border transition-colors flex items-center gap-1.5 ${showVipOnly ? "border-amber-500 bg-amber-500/10 text-amber-400 font-bold" : "border-border text-muted-foreground hover:border-amber-500/40"}`}
+          >
+            <Crown className="h-3.5 w-3.5" />
+            {t("filter_vip")}
+          </button>
+          <span className="text-muted-foreground/40">|</span>
           <span className="text-sm text-muted-foreground flex items-center gap-1">
             <ArrowUpDown className="h-4 w-4" /> {t("sort_label")}:
           </span>
