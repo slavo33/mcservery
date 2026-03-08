@@ -46,6 +46,75 @@ export type Database = {
           },
         ]
       }
+      discount_code_usage: {
+        Row: {
+          created_at: string
+          discount_code_id: string
+          id: string
+          tier: string
+          user_id: string
+          vip_purchase_id: string | null
+        }
+        Insert: {
+          created_at?: string
+          discount_code_id: string
+          id?: string
+          tier: string
+          user_id: string
+          vip_purchase_id?: string | null
+        }
+        Update: {
+          created_at?: string
+          discount_code_id?: string
+          id?: string
+          tier?: string
+          user_id?: string
+          vip_purchase_id?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "discount_code_usage_discount_code_id_fkey"
+            columns: ["discount_code_id"]
+            isOneToOne: false
+            referencedRelation: "discount_codes"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "discount_code_usage_vip_purchase_id_fkey"
+            columns: ["vip_purchase_id"]
+            isOneToOne: false
+            referencedRelation: "vip_purchases"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      discount_codes: {
+        Row: {
+          code: string
+          created_at: string
+          id: string
+          is_active: boolean
+          max_uses: number | null
+          percent_off: number
+        }
+        Insert: {
+          code: string
+          created_at?: string
+          id?: string
+          is_active?: boolean
+          max_uses?: number | null
+          percent_off?: number
+        }
+        Update: {
+          code?: string
+          created_at?: string
+          id?: string
+          is_active?: boolean
+          max_uses?: number | null
+          percent_off?: number
+        }
+        Relationships: []
+      }
       profiles: {
         Row: {
           avatar_url: string | null
@@ -234,6 +303,8 @@ export type Database = {
           twitter_url: string | null
           updated_at: string
           version: string
+          vip_expires_at: string | null
+          vote_cooldown_hours: number
           vote_count: number
           website_url: string | null
           youtube_url: string | null
@@ -263,6 +334,8 @@ export type Database = {
           twitter_url?: string | null
           updated_at?: string
           version?: string
+          vip_expires_at?: string | null
+          vote_cooldown_hours?: number
           vote_count?: number
           website_url?: string | null
           youtube_url?: string | null
@@ -292,6 +365,8 @@ export type Database = {
           twitter_url?: string | null
           updated_at?: string
           version?: string
+          vip_expires_at?: string | null
+          vote_cooldown_hours?: number
           vote_count?: number
           website_url?: string | null
           youtube_url?: string | null
@@ -315,6 +390,56 @@ export type Database = {
           user_id?: string
         }
         Relationships: []
+      }
+      vip_purchases: {
+        Row: {
+          amount_paid: number
+          created_at: string
+          discount_code_id: string | null
+          expires_at: string
+          id: string
+          price_id: string
+          server_id: string
+          starts_at: string
+          stripe_session_id: string | null
+          tier: string
+          user_id: string
+        }
+        Insert: {
+          amount_paid?: number
+          created_at?: string
+          discount_code_id?: string | null
+          expires_at: string
+          id?: string
+          price_id: string
+          server_id: string
+          starts_at?: string
+          stripe_session_id?: string | null
+          tier: string
+          user_id: string
+        }
+        Update: {
+          amount_paid?: number
+          created_at?: string
+          discount_code_id?: string | null
+          expires_at?: string
+          id?: string
+          price_id?: string
+          server_id?: string
+          starts_at?: string
+          stripe_session_id?: string | null
+          tier?: string
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "vip_purchases_server_id_fkey"
+            columns: ["server_id"]
+            isOneToOne: false
+            referencedRelation: "servers"
+            referencedColumns: ["id"]
+          },
+        ]
       }
       votes: {
         Row: {
