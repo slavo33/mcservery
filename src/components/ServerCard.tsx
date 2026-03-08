@@ -6,7 +6,7 @@ import { useLanguage } from "@/i18n/LanguageContext";
 import { useServerStatus } from "@/hooks/useServerStatus";
 
 interface ServerCardProps {
-  server: MinecraftServer & { is_warez?: boolean; has_whitelist?: boolean; votes?: number };
+  server: MinecraftServer & { is_warez?: boolean; has_whitelist?: boolean; votes?: number; vip_expires_at?: string | null };
   dbMode?: boolean;
   dbId?: string;
 }
