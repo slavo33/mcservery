@@ -128,11 +128,15 @@ const ServerDetailPage = () => {
     if (!server || !user || !isAdmin) return;
     const isCurrentlyVip = server.vip_expires_at && new Date(server.vip_expires_at) > new Date();
     const newVipExpires = isCurrentlyVip ? null : new Date(Date.now() + 7 * 24 * 60 * 60 * 1000).toISOString();
-    const { error } = await supabase.from("servers").update({ vip_expires_at: newVipExpires } as any).eq("id", server.id);
+    const newCooldownHours = isCurrentlyVip ? 24 : 8;
+    const { error } = await supabase
+      .from("servers")
+      .update({ vip_expires_at: newVipExpires, vote_cooldown_hours: newCooldownHours } as any)
+      .eq("id", server.id);
     if (error) {
       toast.error("Error");
     } else {
-      setServer({ ...server, vip_expires_at: newVipExpires });
+      setServer({ ...server, vip_expires_at: newVipExpires, vote_cooldown_hours: newCooldownHours } as any);
       toast.success(newVipExpires ? t("featured_pinned") : t("featured_unpinned"));
     }
   };

@@ -165,7 +165,7 @@ const VoteSection = ({ serverId, voteCount, cooldownHours = 24, onVoted }: VoteS
         </span>
       </div>
 
-      <p className="text-sm text-muted-foreground">{t("vote_description")}</p>
+      <p className="text-sm text-muted-foreground">{dynamicVoteDescription}</p>
 
       <div className="flex items-center gap-3">
         {/* MC head preview */}

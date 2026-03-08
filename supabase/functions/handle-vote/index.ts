@@ -308,7 +308,7 @@ Deno.serve(async (req) => {
     }
     // If neither config is set, vote is still counted (no Votifier reward delivery)
 
-    return new Response(JSON.stringify({ success: true }), { status: 200, headers: { ...corsHeaders, "Content-Type": "application/json" } });
+    return new Response(JSON.stringify({ success: true, cooldown_hours: cooldownHours }), { status: 200, headers: { ...corsHeaders, "Content-Type": "application/json" } });
   } catch (err) {
     console.error("Vote handler error:", err);
     return new Response(JSON.stringify({ error: "internal_error" }), { status: 500, headers: { ...corsHeaders, "Content-Type": "application/json" } });
