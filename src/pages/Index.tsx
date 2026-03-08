@@ -69,17 +69,17 @@ const Index = () => {
         <HeroSection />
 
         {/* Reserve min-height to prevent CLS when data loads */}
-        <section className="container mx-auto px-4 py-16" style={{ minHeight: pinned.length > 0 ? undefined : '400px' }}>
-          {pinned.length > 0 && (
+        <section className="container mx-auto px-4 py-16" style={{ minHeight: vipServers.length > 0 ? undefined : '400px' }}>
+          {vipServers.length > 0 && (
             <>
               <div className="flex items-center gap-2 mb-8">
-                <Pin className="h-5 w-5 text-primary fill-primary" />
+                <Crown className="h-5 w-5 text-yellow-500" />
                 <h2 className="font-display text-3xl font-bold text-foreground">
                   {t("featured_title")}
                 </h2>
               </div>
               <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
-                {pinned.map((server) => (
+                {vipServers.map((server) => (
                   <ServerCard key={server.id} server={server} dbMode dbId={server.id} />
                 ))}
               </div>
