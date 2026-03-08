@@ -160,21 +160,23 @@ Deno.serve(async (req) => {
       Deno.env.get("SUPABASE_SERVICE_ROLE_KEY")!,
     );
 
-    const { data: server } = await supabase.from("servers").select("id").eq("id", server_id).single();
+    const { data: server } = await supabase.from("servers").select("id, vote_cooldown_hours").eq("id", server_id).single();
     if (!server) {
       return new Response(JSON.stringify({ error: "server_not_found" }), { status: 404, headers: { ...corsHeaders, "Content-Type": "application/json" } });
     }
 
-    // Check 24h cooldown
-    const twentyFourHoursAgo = new Date(Date.now() - 24 * 60 * 60 * 1000).toISOString();
+    // Dynamic cooldown based on VIP tier
+    const cooldownHours = server.vote_cooldown_hours || 24;
+    const cooldownMs = cooldownHours * 60 * 60 * 1000;
+    const cooldownAgo = new Date(Date.now() - cooldownMs).toISOString();
 
     const { data: recentByNick } = await supabase
       .from("votes").select("id, created_at")
       .eq("server_id", server_id).eq("minecraft_nick", minecraft_nick.toLowerCase())
-      .gte("created_at", twentyFourHoursAgo).limit(1);
+      .gte("created_at", cooldownAgo).limit(1);
 
     if (recentByNick && recentByNick.length > 0) {
-      const nextVote = new Date(new Date(recentByNick[0].created_at).getTime() + 24 * 60 * 60 * 1000);
+      const nextVote = new Date(new Date(recentByNick[0].created_at).getTime() + cooldownMs);
       return new Response(JSON.stringify({ error: "cooldown", next_vote: nextVote.toISOString() }), { status: 429, headers: { ...corsHeaders, "Content-Type": "application/json" } });
     }
 
