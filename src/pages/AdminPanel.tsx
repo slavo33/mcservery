@@ -7,6 +7,7 @@ import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import { toast } from "sonner";
 import { Shield, Eye, Trash2, XCircle, MessageSquare, Server } from "lucide-react";
+import DiscountCodesAdmin from "@/components/DiscountCodesAdmin";
 import { Button } from "@/components/ui/button";
 
 interface Report {
@@ -240,6 +241,8 @@ const AdminPanel = () => {
             ))}
           </div>
         )}
+
+        <DiscountCodesAdmin />
       </main>
       <Footer />
     </div>

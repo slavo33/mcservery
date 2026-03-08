@@ -271,6 +271,28 @@ type TranslationKeys = {
   admin_status_pending: string;
   admin_status_resolved: string;
   admin_status_dismissed: string;
+  // Discount codes admin
+  dc_title: string;
+  dc_create_new: string;
+  dc_code_placeholder: string;
+  dc_single_use: string;
+  dc_unlimited: string;
+  dc_create: string;
+  dc_no_codes: string;
+  dc_uses: string;
+  dc_unlimited_short: string;
+  dc_active: string;
+  dc_inactive: string;
+  dc_deactivate: string;
+  dc_copy: string;
+  dc_copied: string;
+  dc_created: string;
+  dc_create_error: string;
+  dc_duplicate: string;
+  dc_deactivated: string;
+  dc_deactivate_error: string;
+  dc_code_required: string;
+  dc_percent_invalid: string;
   // Common
   loading: string;
   online: string;
@@ -562,6 +584,27 @@ const sk: TranslationKeys = {
   admin_status_pending: "Čakajúce",
   admin_status_resolved: "Vyriešené",
   admin_status_dismissed: "Zamietnuté",
+  dc_title: "Zľavové kódy",
+  dc_create_new: "Vytvoriť nový kód",
+  dc_code_placeholder: "Kód napr. LETO2026",
+  dc_single_use: "Jednorazový",
+  dc_unlimited: "Neobmedzený",
+  dc_create: "Vytvoriť",
+  dc_no_codes: "Žiadne zľavové kódy",
+  dc_uses: "Použitia",
+  dc_unlimited_short: "∞",
+  dc_active: "Aktívny",
+  dc_inactive: "Neaktívny",
+  dc_deactivate: "Deaktivovať",
+  dc_copy: "Kopírovať kód",
+  dc_copied: "Kód skopírovaný!",
+  dc_created: "Zľavový kód vytvorený!",
+  dc_create_error: "Chyba pri vytváraní kódu",
+  dc_duplicate: "Kód s týmto názvom už existuje",
+  dc_deactivated: "Kód deaktivovaný",
+  dc_deactivate_error: "Chyba pri deaktivácii",
+  dc_code_required: "Zadaj kód",
+  dc_percent_invalid: "Percentá musia byť 1-100",
   // VIP
   nav_vip: "VIP",
   vip_title_1: "Získaj",
@@ -1066,6 +1109,27 @@ const en: TranslationKeys = {
   admin_status_pending: "Pending",
   admin_status_resolved: "Resolved",
   admin_status_dismissed: "Dismissed",
+  dc_title: "Discount Codes",
+  dc_create_new: "Create new code",
+  dc_code_placeholder: "Code e.g. SUMMER2026",
+  dc_single_use: "Single use",
+  dc_unlimited: "Unlimited",
+  dc_create: "Create",
+  dc_no_codes: "No discount codes",
+  dc_uses: "Uses",
+  dc_unlimited_short: "∞",
+  dc_active: "Active",
+  dc_inactive: "Inactive",
+  dc_deactivate: "Deactivate",
+  dc_copy: "Copy code",
+  dc_copied: "Code copied!",
+  dc_created: "Discount code created!",
+  dc_create_error: "Error creating code",
+  dc_duplicate: "A code with this name already exists",
+  dc_deactivated: "Code deactivated",
+  dc_deactivate_error: "Error deactivating code",
+  dc_code_required: "Enter a code",
+  dc_percent_invalid: "Percent must be 1-100",
   // VIP
   nav_vip: "VIP",
   vip_title_1: "Get",
