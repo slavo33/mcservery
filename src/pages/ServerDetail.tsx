@@ -98,7 +98,15 @@ const ServerDetailPage = () => {
             .order("created_at", { ascending: false })
             .limit(1)
             .maybeSingle();
-          vipTier = vipData?.tier || null;
+          if (vipData?.tier) {
+            vipTier = vipData.tier;
+          } else {
+            // Fallback: derive tier from cooldown hours (admin-set VIP)
+            const ch = data.vote_cooldown_hours || 24;
+            if (ch <= 2) vipTier = "max";
+            else if (ch <= 4) vipTier = "pro";
+            else vipTier = "basic";
+          }
         }
 
         setServer({
