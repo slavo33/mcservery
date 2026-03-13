@@ -268,6 +268,26 @@ const ServerDetailPage = () => {
               </div>
             </Link>
 
+            {/* VIP Tier Badge */}
+            {server.vip_expires_at && new Date(server.vip_expires_at) > new Date() && server.vip_tier && (() => {
+              const tier = server.vip_tier.toLowerCase();
+              const cooldown = tier === "max" ? 2 : tier === "pro" ? 4 : 8;
+              const tierStyles: Record<string, string> = {
+                basic: "from-blue-500 to-blue-600 shadow-blue-500/25",
+                pro: "from-purple-500 to-purple-600 shadow-purple-500/25",
+                max: "from-amber-500 to-amber-600 shadow-amber-500/25",
+              };
+              return (
+                <div className={`flex items-center gap-2 rounded-lg bg-gradient-to-r ${tierStyles[tier] || tierStyles.basic} px-4 py-2.5 text-white shadow-lg`}>
+                  <Crown className="h-5 w-5 fill-white/30" />
+                  <div>
+                    <span className="font-bold text-sm">VIP {server.vip_tier.toUpperCase()}</span>
+                    <span className="text-xs opacity-80 ml-2">• {t("vote_description").includes("24") ? `Cooldown ${cooldown}h` : `Cooldown ${cooldown}h`}</span>
+                  </div>
+                </div>
+              );
+            })()}
+
             <div className="flex items-start justify-between">
               <div>
                 <h1 className="font-display text-3xl font-bold text-foreground">{server.name}</h1>
