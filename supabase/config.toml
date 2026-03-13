@@ -17,3 +17,6 @@ verify_jwt = false
 
 [functions.verify-vip-payment]
 verify_jwt = false
+
+[functions.cleanup-expired-vip]
+verify_jwt = false
