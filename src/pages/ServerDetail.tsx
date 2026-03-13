@@ -87,11 +87,26 @@ const ServerDetailPage = () => {
           .eq("id", data.owner_id)
           .single();
         const p = profileData as OwnerProfile | null;
+        // Fetch active VIP tier
+        let vipTier: string | null = null;
+        if (data.vip_expires_at && new Date(data.vip_expires_at) > new Date()) {
+          const { data: vipData } = await supabase
+            .from("vip_purchases")
+            .select("tier")
+            .eq("server_id", data.id)
+            .gt("expires_at", new Date().toISOString())
+            .order("created_at", { ascending: false })
+            .limit(1)
+            .maybeSingle();
+          vipTier = vipData?.tier || null;
+        }
+
         setServer({
           ...(data as unknown as ServerDetailData),
           ownerNickname: p?.nickname || "Hráč",
           ownerAvatar: p?.avatar_url || null,
           ownerBio: p?.bio || "",
+          vip_tier: vipTier,
         });
         setLikesCount(data.likes_count);
         setVoteCount((data as any).vote_count || 0);
