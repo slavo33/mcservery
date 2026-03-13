@@ -44,6 +44,7 @@ interface ServerDetailData {
   vote_count?: number;
   vote_cooldown_hours?: number;
   slug?: string;
+  vip_tier?: string | null;
 }
 
 interface OwnerProfile {
