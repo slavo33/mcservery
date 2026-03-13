@@ -44,6 +44,7 @@ interface ServerDetailData {
   vote_count?: number;
   vote_cooldown_hours?: number;
   slug?: string;
+  vip_tier?: string | null;
 }
 
 interface OwnerProfile {
@@ -86,11 +87,26 @@ const ServerDetailPage = () => {
           .eq("id", data.owner_id)
           .single();
         const p = profileData as OwnerProfile | null;
+        // Fetch active VIP tier
+        let vipTier: string | null = null;
+        if (data.vip_expires_at && new Date(data.vip_expires_at) > new Date()) {
+          const { data: vipData } = await supabase
+            .from("vip_purchases")
+            .select("tier")
+            .eq("server_id", data.id)
+            .gt("expires_at", new Date().toISOString())
+            .order("created_at", { ascending: false })
+            .limit(1)
+            .maybeSingle();
+          vipTier = vipData?.tier || null;
+        }
+
         setServer({
           ...(data as unknown as ServerDetailData),
           ownerNickname: p?.nickname || "Hráč",
           ownerAvatar: p?.avatar_url || null,
           ownerBio: p?.bio || "",
+          vip_tier: vipTier,
         });
         setLikesCount(data.likes_count);
         setVoteCount((data as any).vote_count || 0);
@@ -251,6 +267,26 @@ const ServerDetailPage = () => {
                 <p className="text-xs text-primary/70 mt-0.5">{t("detail_view_profile")}</p>
               </div>
             </Link>
+
+            {/* VIP Tier Badge */}
+            {server.vip_expires_at && new Date(server.vip_expires_at) > new Date() && server.vip_tier && (() => {
+              const tier = server.vip_tier.toLowerCase();
+              const cooldown = tier === "max" ? 2 : tier === "pro" ? 4 : 8;
+              const tierStyles: Record<string, string> = {
+                basic: "from-blue-500 to-blue-600 shadow-blue-500/25",
+                pro: "from-purple-500 to-purple-600 shadow-purple-500/25",
+                max: "from-amber-500 to-amber-600 shadow-amber-500/25",
+              };
+              return (
+                <div className={`flex items-center gap-2 rounded-lg bg-gradient-to-r ${tierStyles[tier] || tierStyles.basic} px-4 py-2.5 text-white shadow-lg`}>
+                  <Crown className="h-5 w-5 fill-white/30" />
+                  <div>
+                    <span className="font-bold text-sm">VIP {server.vip_tier.toUpperCase()}</span>
+                    <span className="text-xs opacity-80 ml-2">• {t("vote_description").includes("24") ? `Cooldown ${cooldown}h` : `Cooldown ${cooldown}h`}</span>
+                  </div>
+                </div>
+              );
+            })()}
 
             <div className="flex items-start justify-between">
               <div>
