@@ -244,6 +244,7 @@ const AdminPanel = () => {
           </div>
         )}
 
+        <VipPurchasesAdmin />
         <DiscountCodesAdmin />
         <BugReportsAdmin />
       </main>
