@@ -9,6 +9,7 @@ import { toast } from "sonner";
 import { Shield, Eye, Trash2, XCircle, MessageSquare, Server } from "lucide-react";
 import DiscountCodesAdmin from "@/components/DiscountCodesAdmin";
 import VipPurchasesAdmin from "@/components/VipPurchasesAdmin";
+import VipManagementAdmin from "@/components/VipManagementAdmin";
 import BugReportsAdmin from "@/components/BugReportsAdmin";
 import { Button } from "@/components/ui/button";
 
