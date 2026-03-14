@@ -10,7 +10,7 @@ import { Button } from "@/components/ui/button";
 import { useLanguage } from "@/i18n/LanguageContext";
 import type { MinecraftServer } from "@/lib/mockData";
 
-const mapServer = (s: any): MinecraftServer & { is_warez?: boolean; has_whitelist?: boolean; votes?: number; slug?: string; vip_expires_at?: string | null } => ({
+const mapServer = (s: any): MinecraftServer & { is_warez?: boolean; has_whitelist?: boolean; votes?: number; slug?: string; vip_expires_at?: string | null; vote_cooldown_hours?: number } => ({
   id: s.id,
   name: s.name,
   description: s.description,
@@ -30,6 +30,7 @@ const mapServer = (s: any): MinecraftServer & { is_warez?: boolean; has_whitelis
   votes: s.vote_count || 0,
   slug: s.slug,
   vip_expires_at: s.vip_expires_at,
+  vote_cooldown_hours: s.vote_cooldown_hours,
 });
 
 const Index = () => {

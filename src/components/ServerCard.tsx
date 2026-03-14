@@ -6,7 +6,7 @@ import { useLanguage } from "@/i18n/LanguageContext";
 import { useServerStatus } from "@/hooks/useServerStatus";
 
 interface ServerCardProps {
-  server: MinecraftServer & { is_warez?: boolean; has_whitelist?: boolean; votes?: number; vip_expires_at?: string | null };
+  server: MinecraftServer & { is_warez?: boolean; has_whitelist?: boolean; votes?: number; vip_expires_at?: string | null; vote_cooldown_hours?: number };
   dbMode?: boolean;
   dbId?: string;
 }
@@ -65,11 +65,21 @@ const ServerCard = ({ server, dbMode, dbId }: ServerCardProps) => {
               <Shield className="h-3 w-3 mr-1" /> WL
             </span>
           )}
-          {isVip && (
-            <span className="badge-platform text-xs" style={{ background: "hsla(45, 93%, 47%, 0.2)", color: "hsl(45 93% 55%)", borderColor: "hsla(45, 93%, 47%, 0.3)" }}>
-              <Crown className="h-3 w-3 mr-1" /> VIP
-            </span>
-          )}
+          {isVip && (() => {
+            const ch = server.vote_cooldown_hours || 24;
+            const tier = ch <= 2 ? "max" : ch <= 4 ? "pro" : "basic";
+            const styles: Record<string, { bg: string; color: string; border: string }> = {
+              basic: { bg: "hsla(210, 100%, 56%, 0.2)", color: "hsl(210 100% 65%)", border: "hsla(210, 100%, 56%, 0.3)" },
+              pro: { bg: "hsla(270, 70%, 55%, 0.2)", color: "hsl(270 70% 65%)", border: "hsla(270, 70%, 55%, 0.3)" },
+              max: { bg: "hsla(45, 93%, 47%, 0.2)", color: "hsl(45 93% 55%)", border: "hsla(45, 93%, 47%, 0.3)" },
+            };
+            const s = styles[tier];
+            return (
+              <span className="badge-platform text-xs" style={{ background: s.bg, color: s.color, borderColor: s.border }}>
+                <Crown className="h-3 w-3 mr-1" /> VIP {tier.toUpperCase()}
+              </span>
+            );
+          })()}
         </div>
         <div className="absolute top-3 right-3 z-20">
           <span className="inline-flex items-center gap-1.5 rounded-full bg-background/60 backdrop-blur-sm px-2.5 py-1 text-xs font-medium text-foreground">
