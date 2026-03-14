@@ -69,6 +69,7 @@ const Servers = () => {
       has_whitelist: s.has_whitelist,
       slug: (s as any).slug,
       vip_expires_at: (s as any).vip_expires_at,
+      vote_cooldown_hours: (s as any).vote_cooldown_hours,
     }));
   }, [dbServers]);
 
