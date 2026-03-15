@@ -126,6 +126,51 @@ serve(async (req) => {
       // fallback also failed
     }
 
+    // Last resort: resolve SRV record via mcsrvstat debug and try direct TCP check
+    // Some servers (especially Velocity proxies) don't respond to standard status pings
+    // but are actually online and accepting connections
+    try {
+      // First try to get the real host:port from mcsrvstat (it resolves SRV records)
+      let checkHost = host;
+      let checkPort = port ? Number(port) : 25565;
+
+      try {
+        const srvRes = await fetch(`https://api.mcsrvstat.us/3/${address}`, {
+          headers: { "Accept": "application/json" },
+          signal: AbortSignal.timeout(5000),
+        });
+        if (srvRes.ok) {
+          const srvData = await srvRes.json();
+          if (srvData.ip) checkHost = srvData.ip;
+          if (srvData.port) checkPort = srvData.port;
+        }
+      } catch {
+        // ignore SRV resolution failure
+      }
+
+      // Try TCP connect to verify server is at least reachable
+      const conn = await Deno.connect({
+        hostname: checkHost,
+        port: checkPort,
+        transport: "tcp",
+      });
+      conn.close();
+
+      // Port is open - server is running but doesn't respond to standard pings
+      return new Response(
+        JSON.stringify({
+          online: true,
+          players: { online: 0, max: 0 },
+          version: null,
+          motd: null,
+          icon: null,
+        }),
+        { headers: { ...corsHeaders, "Content-Type": "application/json" } }
+      );
+    } catch {
+      // TCP connect also failed - server is truly offline
+    }
+
     return new Response(
       JSON.stringify({ online: false, players: { online: 0, max: 0 } }),
       { headers: { ...corsHeaders, "Content-Type": "application/json" } }
