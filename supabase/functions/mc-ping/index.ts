@@ -144,9 +144,11 @@ serve(async (req) => {
           if (srvData.ip) checkHost = srvData.ip;
           if (srvData.port) checkPort = srvData.port;
         }
-      } catch {
-        // ignore SRV resolution failure
+      } catch (e) {
+        console.log("SRV resolution failed:", e);
       }
+
+      console.log(`TCP fallback: trying ${checkHost}:${checkPort}`);
 
       // Try TCP connect to verify server is at least reachable
       const conn = await Deno.connect({
@@ -155,6 +157,7 @@ serve(async (req) => {
         transport: "tcp",
       });
       conn.close();
+      console.log("TCP connect succeeded!");
 
       // Port is open - server is running but doesn't respond to standard pings
       return new Response(
@@ -167,8 +170,8 @@ serve(async (req) => {
         }),
         { headers: { ...corsHeaders, "Content-Type": "application/json" } }
       );
-    } catch {
-      // TCP connect also failed - server is truly offline
+    } catch (e) {
+      console.log("TCP fallback failed:", e);
     }
 
     return new Response(
