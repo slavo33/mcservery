@@ -23,6 +23,7 @@ interface Report {
   created_at: string;
   reporterNickname?: string;
   targetName?: string;
+  targetSlug?: string;
 }
 
 const AdminPanel = () => {
