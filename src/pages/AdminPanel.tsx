@@ -85,6 +85,7 @@ const AdminPanel = () => {
       targetName: r.report_type === "server"
         ? serverMap.get(r.target_id) || t("detail_not_found")
         : commentMap.get(r.target_id) || t("comments_deleted"),
+      targetSlug: r.report_type === "server" ? slugMap?.get(r.target_id) : undefined,
     })));
     setLoading(false);
   };
