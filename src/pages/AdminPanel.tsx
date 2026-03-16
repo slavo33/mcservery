@@ -65,9 +65,9 @@ const AdminPanel = () => {
     // Fetch server names for server reports
     const serverIds = reportsList.filter(r => r.report_type === "server").map(r => r.target_id);
     const serverMap = new Map<string, string>();
+    const slugMap = new Map<string, string>();
     if (serverIds.length > 0) {
       const { data: servers } = await supabase.from("servers").select("id, name, slug").in("id", serverIds);
-      const slugMap = new Map<string, string>();
       if (servers) servers.forEach(s => { serverMap.set(s.id, s.name); slugMap.set(s.id, s.slug); });
     }
 
