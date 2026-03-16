@@ -23,6 +23,7 @@ interface Report {
   created_at: string;
   reporterNickname?: string;
   targetName?: string;
+  targetSlug?: string;
 }
 
 const AdminPanel = () => {
@@ -64,9 +65,10 @@ const AdminPanel = () => {
     // Fetch server names for server reports
     const serverIds = reportsList.filter(r => r.report_type === "server").map(r => r.target_id);
     const serverMap = new Map<string, string>();
+    const slugMap = new Map<string, string>();
     if (serverIds.length > 0) {
-      const { data: servers } = await supabase.from("servers").select("id, name").in("id", serverIds);
-      if (servers) servers.forEach(s => serverMap.set(s.id, s.name));
+      const { data: servers } = await supabase.from("servers").select("id, name, slug").in("id", serverIds);
+      if (servers) servers.forEach(s => { serverMap.set(s.id, s.name); slugMap.set(s.id, s.slug); });
     }
 
     // Fetch comment content for comment reports
@@ -83,6 +85,7 @@ const AdminPanel = () => {
       targetName: r.report_type === "server"
         ? serverMap.get(r.target_id) || t("detail_not_found")
         : commentMap.get(r.target_id) || t("comments_deleted"),
+      targetSlug: r.report_type === "server" ? slugMap?.get(r.target_id) : undefined,
     })));
     setLoading(false);
   };
@@ -220,7 +223,7 @@ const AdminPanel = () => {
                   <div className="flex gap-2 flex-wrap pt-1">
                     {report.report_type === "server" && (
                       <>
-                        <Link to={`/server/${report.target_id}`}>
+                        <Link to={`/server/${report.targetSlug || report.target_id}`}>
                           <Button variant="outline" size="sm" className="gap-1.5">
                             <Eye className="h-3.5 w-3.5" /> {t("admin_view_server")}
                           </Button>
