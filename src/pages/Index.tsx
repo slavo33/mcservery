@@ -71,24 +71,21 @@ const Index = () => {
       <main className="flex-1">
         <HeroSection />
 
-        {/* VIP servers section */}
-        <section className="container mx-auto px-4 py-16" style={{ minHeight: vipServers.length > 0 ? undefined : '400px' }}>
-          {vipServers.length > 0 && (
-            <>
-              <div className="flex items-center gap-2 mb-8">
-                <Crown className="h-5 w-5" style={{ color: "hsl(45 93% 55%)" }} />
-                <h2 className="font-display text-3xl font-bold text-foreground">
-                  {t("featured_title")}
-                </h2>
-              </div>
-              <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
-                {vipServers.map((server) => (
-                  <ServerCard key={server.id} server={server} dbMode dbId={server.id} />
-                ))}
-              </div>
-            </>
-          )}
-        </section>
+        {vipServers.length > 0 && (
+          <section className="container mx-auto px-4 py-16">
+            <div className="flex items-center gap-2 mb-8">
+              <Crown className="h-5 w-5" style={{ color: "hsl(45 93% 55%)" }} />
+              <h2 className="font-display text-3xl font-bold text-foreground">
+                {t("featured_title")}
+              </h2>
+            </div>
+            <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+              {vipServers.map((server) => (
+                <ServerCard key={server.id} server={server} dbMode dbId={server.id} />
+              ))}
+            </div>
+          </section>
+        )}
 
         <section className="container mx-auto px-4 py-16" style={{ minHeight: '400px' }}>
           <div className="flex items-end justify-between mb-8">
