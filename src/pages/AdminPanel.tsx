@@ -223,7 +223,7 @@ const AdminPanel = () => {
                   <div className="flex gap-2 flex-wrap pt-1">
                     {report.report_type === "server" && (
                       <>
-                        <Link to={`/server/${report.target_id}`}>
+                        <Link to={`/server/${report.targetSlug || report.target_id}`}>
                           <Button variant="outline" size="sm" className="gap-1.5">
                             <Eye className="h-3.5 w-3.5" /> {t("admin_view_server")}
                           </Button>
