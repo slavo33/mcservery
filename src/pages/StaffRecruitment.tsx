@@ -75,25 +75,36 @@ const StaffRecruitment = () => {
       .order("created_at", { ascending: false });
 
     if (data && data.length > 0) {
-      // Fetch server names and owner profiles
       const serverIds = [...new Set(data.map(p => p.server_id))];
       const ownerIds = [...new Set(data.map(p => p.owner_id))];
+      const postIds = data.map(p => p.id);
 
-      const [serversRes, profilesRes] = await Promise.all([
-        supabase.from("servers").select("id, name, likes_count, vip_expires_at").in("id", serverIds),
+      const fetchPromises: Promise<any>[] = [
+        supabase.from("servers").select("id, name, vip_expires_at").in("id", serverIds),
         supabase.from("profiles").select("id, nickname, avatar_url").in("id", ownerIds),
-      ]);
+      ];
 
-      const serverMap = new Map(serversRes.data?.map(s => [s.id, { name: s.name, likes_count: s.likes_count, is_vip: s.vip_expires_at ? new Date(s.vip_expires_at) > new Date() : false }]) || []);
-      const profileMap = new Map(profilesRes.data?.map(p => [p.id, p]) || []);
+      // Fetch user's likes if logged in
+      if (user) {
+        fetchPromises.push(
+          supabase.from("staff_post_likes").select("staff_post_id").eq("user_id", user.id).in("staff_post_id", postIds)
+        );
+      }
+
+      const [serversRes, profilesRes, myLikesRes] = await Promise.all(fetchPromises);
+
+      const serverMap = new Map(serversRes.data?.map((s: any) => [s.id, { name: s.name, is_vip: s.vip_expires_at ? new Date(s.vip_expires_at) > new Date() : false }]) || []);
+      const profileMap = new Map(profilesRes.data?.map((p: any) => [p.id, p]) || []);
+      const myLikedIds = new Set(myLikesRes?.data?.map((l: any) => l.staff_post_id) || []);
 
       setPosts(data.map(p => ({
         ...p,
+        likes_count: (p as any).likes_count || 0,
         server_name: serverMap.get(p.server_id)?.name || "Unknown",
-        server_likes_count: serverMap.get(p.server_id)?.likes_count || 0,
         is_vip: serverMap.get(p.server_id)?.is_vip || false,
         owner_nickname: profileMap.get(p.owner_id)?.nickname || "Unknown",
         owner_avatar: profileMap.get(p.owner_id)?.avatar_url,
+        liked_by_me: myLikedIds.has(p.id),
       })));
     } else {
       setPosts([]);
