@@ -193,7 +193,27 @@ const StaffRecruitment = () => {
         </div>
 
         {/* Actions */}
-        <div className="flex flex-wrap items-center gap-3 mb-6">
+        <div className="flex flex-wrap items-center gap-3 mb-4">
+          {/* Position filter chips */}
+          {availablePositions.length > 1 && (
+            <div className="flex flex-wrap gap-1.5 w-full mb-2">
+              <button
+                onClick={() => setFilterPosition("all")}
+                className={`rounded-full px-3 py-1 text-xs font-medium transition-colors ${filterPosition === "all" ? "bg-primary text-primary-foreground" : "bg-secondary text-muted-foreground hover:text-foreground"}`}
+              >
+                Všetky
+              </button>
+              {availablePositions.map(pos => (
+                <button
+                  key={pos}
+                  onClick={() => setFilterPosition(pos)}
+                  className={`rounded-full px-3 py-1 text-xs font-medium transition-colors ${filterPosition === pos ? "bg-primary text-primary-foreground" : "bg-secondary text-muted-foreground hover:text-foreground"}`}
+                >
+                  {pos}
+                </button>
+              ))}
+            </div>
+          )}
           {user && myServers.length > 0 && (
             <Dialog open={dialogOpen} onOpenChange={setDialogOpen}>
               <DialogTrigger asChild>
