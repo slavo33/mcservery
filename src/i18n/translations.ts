@@ -408,6 +408,8 @@ type TranslationKeys = {
   staff_my_posts: string;
   staff_sort_newest: string;
   staff_sort_oldest: string;
+  staff_sort_most_liked: string;
+  staff_sort_vip_first: string;
 };
 
 const sk: TranslationKeys = {
@@ -774,6 +776,8 @@ const sk: TranslationKeys = {
   staff_my_posts: "Moje inzeráty",
   staff_sort_newest: "Od najnovšieho",
   staff_sort_oldest: "Od najstaršieho",
+  staff_sort_most_liked: "Najviac lajkované",
+  staff_sort_vip_first: "VIP ako prvé",
 };
 
 const cs: TranslationKeys = {
@@ -1026,6 +1030,8 @@ const cs: TranslationKeys = {
   staff_my_posts: "Moje inzeráty",
   staff_sort_newest: "Od nejnovějšího",
   staff_sort_oldest: "Od nejstaršího",
+  staff_sort_most_liked: "Nejvíce oblíbené",
+  staff_sort_vip_first: "VIP jako první",
 };
 
 const en: TranslationKeys = {
@@ -1392,6 +1398,8 @@ const en: TranslationKeys = {
   staff_my_posts: "My listings",
   staff_sort_newest: "Newest first",
   staff_sort_oldest: "Oldest first",
+  staff_sort_most_liked: "Most liked",
+  staff_sort_vip_first: "VIP first",
 };
 
 const de: TranslationKeys = {
@@ -1649,6 +1657,8 @@ const de: TranslationKeys = {
   staff_my_posts: "Meine Inserate",
   staff_sort_newest: "Neueste zuerst",
   staff_sort_oldest: "Älteste zuerst",
+  staff_sort_most_liked: "Beliebteste",
+  staff_sort_vip_first: "VIP zuerst",
 };
 
 const fr: TranslationKeys = {
@@ -1909,6 +1919,8 @@ const fr: TranslationKeys = {
   staff_my_posts: "Mes annonces",
   staff_sort_newest: "Plus récentes",
   staff_sort_oldest: "Plus anciennes",
+  staff_sort_most_liked: "Plus aimées",
+  staff_sort_vip_first: "VIP en premier",
 };
 
 const ru: TranslationKeys = {
@@ -2014,6 +2026,8 @@ const ru: TranslationKeys = {
   staff_my_posts: "Мои объявления",
   staff_sort_newest: "Сначала новые",
   staff_sort_oldest: "Сначала старые",
+  staff_sort_most_liked: "Самые популярные",
+  staff_sort_vip_first: "VIP первыми",
 };
 
 const uk: TranslationKeys = {
@@ -2117,6 +2131,8 @@ const uk: TranslationKeys = {
   staff_my_posts: "Мої оголошення",
   staff_sort_newest: "Спочатку нові",
   staff_sort_oldest: "Спочатку старі",
+  staff_sort_most_liked: "Найпопулярніші",
+  staff_sort_vip_first: "VIP спочатку",
 };
 
 const es: TranslationKeys = {
@@ -2219,6 +2235,8 @@ const es: TranslationKeys = {
   staff_my_posts: "Mis anuncios",
   staff_sort_newest: "Más recientes",
   staff_sort_oldest: "Más antiguos",
+  staff_sort_most_liked: "Más gustados",
+  staff_sort_vip_first: "VIP primero",
 };
 
 const pt: TranslationKeys = {
@@ -2320,6 +2338,8 @@ const pt: TranslationKeys = {
   staff_my_posts: "Meus anúncios",
   staff_sort_newest: "Mais recentes",
   staff_sort_oldest: "Mais antigos",
+  staff_sort_most_liked: "Mais curtidos",
+  staff_sort_vip_first: "VIP primeiro",
 };
 
 const br: TranslationKeys = {
@@ -2428,6 +2448,8 @@ const zh: TranslationKeys = {
   staff_my_posts: "我的招聘",
   staff_sort_newest: "最新优先",
   staff_sort_oldest: "最早优先",
+  staff_sort_most_liked: "最受欢迎",
+  staff_sort_vip_first: "VIP优先",
 };
 
 const ja: TranslationKeys = {
@@ -2530,6 +2552,8 @@ const ja: TranslationKeys = {
   staff_my_posts: "自分の募集",
   staff_sort_newest: "新しい順",
   staff_sort_oldest: "古い順",
+  staff_sort_most_liked: "人気順",
+  staff_sort_vip_first: "VIP優先",
 };
 
 export const translations: Record<Locale, TranslationKeys> = { sk, cs, en, de, fr, ru, uk, es, pt, br, zh, ja };

@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
-import { Users, Plus, Trash2, Eye, EyeOff, RefreshCw, ExternalLink, Globe, MessageSquare } from "lucide-react";
+import { Users, Plus, Trash2, Eye, EyeOff, RefreshCw, ExternalLink, Globe, MessageSquare, Crown, Heart } from "lucide-react";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import { Button } from "@/components/ui/button";
@@ -34,6 +34,8 @@ interface StaffPost {
   server_name?: string;
   owner_nickname?: string;
   owner_avatar?: string | null;
+  server_likes_count?: number;
+  is_vip?: boolean;
 }
 
 const POSITION_OPTIONS = [
@@ -50,7 +52,8 @@ const StaffRecruitment = () => {
   const [dialogOpen, setDialogOpen] = useState(false);
   const [showMyPosts, setShowMyPosts] = useState(false);
   const [filterPosition, setFilterPosition] = useState<string>("all");
-  const [sortOrder, setSortOrder] = useState<"newest" | "oldest">("newest");
+  const [sortOrder, setSortOrder] = useState<"newest" | "oldest" | "most_liked" | "vip_first">("newest");
+  const [filterVip, setFilterVip] = useState(false);
   const [searchQuery, setSearchQuery] = useState("");
   const [submitting, setSubmitting] = useState(false);
 
@@ -76,16 +79,18 @@ const StaffRecruitment = () => {
       const ownerIds = [...new Set(data.map(p => p.owner_id))];
 
       const [serversRes, profilesRes] = await Promise.all([
-        supabase.from("servers").select("id, name").in("id", serverIds),
+        supabase.from("servers").select("id, name, likes_count, vip_expires_at").in("id", serverIds),
         supabase.from("profiles").select("id, nickname, avatar_url").in("id", ownerIds),
       ]);
 
-      const serverMap = new Map(serversRes.data?.map(s => [s.id, s.name]) || []);
+      const serverMap = new Map(serversRes.data?.map(s => [s.id, { name: s.name, likes_count: s.likes_count, is_vip: s.vip_expires_at ? new Date(s.vip_expires_at) > new Date() : false }]) || []);
       const profileMap = new Map(profilesRes.data?.map(p => [p.id, p]) || []);
 
       setPosts(data.map(p => ({
         ...p,
-        server_name: serverMap.get(p.server_id) || "Unknown",
+        server_name: serverMap.get(p.server_id)?.name || "Unknown",
+        server_likes_count: serverMap.get(p.server_id)?.likes_count || 0,
+        is_vip: serverMap.get(p.server_id)?.is_vip || false,
         owner_nickname: profileMap.get(p.owner_id)?.nickname || "Unknown",
         owner_avatar: profileMap.get(p.owner_id)?.avatar_url,
       })));
@@ -185,11 +190,22 @@ const StaffRecruitment = () => {
   const displayedPosts = posts
     .filter(p => !showMyPosts || !user || p.owner_id === user.id)
     .filter(p => filterPosition === "all" || p.position === filterPosition)
+    .filter(p => !filterVip || p.is_vip)
     .filter(p => !q || (p.server_name?.toLowerCase().includes(q) || p.server_ip.toLowerCase().includes(q)))
-    .sort((a, b) => sortOrder === "newest"
-      ? new Date(b.created_at).getTime() - new Date(a.created_at).getTime()
-      : new Date(a.created_at).getTime() - new Date(b.created_at).getTime()
-    );
+    .sort((a, b) => {
+      // VIP always first when sorting by vip_first
+      if (sortOrder === "vip_first") {
+        if (a.is_vip && !b.is_vip) return -1;
+        if (!a.is_vip && b.is_vip) return 1;
+        return new Date(b.created_at).getTime() - new Date(a.created_at).getTime();
+      }
+      if (sortOrder === "most_liked") {
+        return (b.server_likes_count || 0) - (a.server_likes_count || 0);
+      }
+      return sortOrder === "newest"
+        ? new Date(b.created_at).getTime() - new Date(a.created_at).getTime()
+        : new Date(a.created_at).getTime() - new Date(b.created_at).getTime();
+    });
 
   return (
     <div className="min-h-screen bg-background">
@@ -212,15 +228,23 @@ const StaffRecruitment = () => {
             onChange={e => setSearchQuery(e.target.value)}
             className="sm:max-w-xs"
           />
-          <Select value={sortOrder} onValueChange={(v) => setSortOrder(v as "newest" | "oldest")}>
+          <Select value={sortOrder} onValueChange={(v) => setSortOrder(v as typeof sortOrder)}>
             <SelectTrigger className="sm:w-48">
               <SelectValue />
             </SelectTrigger>
             <SelectContent>
               <SelectItem value="newest">{t("staff_sort_newest")}</SelectItem>
               <SelectItem value="oldest">{t("staff_sort_oldest")}</SelectItem>
+              <SelectItem value="most_liked">{t("staff_sort_most_liked")}</SelectItem>
+              <SelectItem value="vip_first">{t("staff_sort_vip_first")}</SelectItem>
             </SelectContent>
           </Select>
+          <button
+            onClick={() => setFilterVip(!filterVip)}
+            className={`rounded-full px-3 py-1.5 text-xs font-medium transition-colors flex items-center gap-1 ${filterVip ? "bg-yellow-500/20 text-yellow-600 border border-yellow-500/30" : "bg-secondary text-muted-foreground hover:text-foreground"}`}
+          >
+            <Crown className="h-3 w-3" /> VIP
+          </button>
         </div>
 
         {/* Actions */}
@@ -379,7 +403,7 @@ const StaffRecruitment = () => {
           <div className="grid gap-4 sm:grid-cols-2">
             {displayedPosts.map(post => (
               <Link key={post.id} to={`/staff/${post.id}`} className="block">
-              <Card className="overflow-hidden border-border/60 hover:border-primary/30 transition-colors cursor-pointer">
+              <Card className={`overflow-hidden transition-colors cursor-pointer ${post.is_vip ? "border-yellow-500/40 hover:border-yellow-500/60 ring-1 ring-yellow-500/10" : "border-border/60 hover:border-primary/30"}`}>
                 {/* Image banner */}
                 {post.images.length > 0 && (
                   <div className="aspect-[2.5/1] overflow-hidden">
@@ -395,13 +419,25 @@ const StaffRecruitment = () => {
                 <CardContent className="p-4 space-y-3">
                   {/* Position badge + server */}
                   <div className="space-y-1.5">
-                    <Badge className="bg-primary/15 text-primary border-primary/25">
-                      {post.position}
-                    </Badge>
+                    <div className="flex items-center gap-1.5 flex-wrap">
+                      <Badge className="bg-primary/15 text-primary border-primary/25">
+                        {post.position}
+                      </Badge>
+                      {post.is_vip && (
+                        <Badge className="bg-yellow-500/15 text-yellow-600 border-yellow-500/25 gap-1">
+                          <Crown className="h-3 w-3" /> VIP
+                        </Badge>
+                      )}
+                    </div>
                     <p className="text-lg font-bold text-foreground leading-tight">
                       {post.server_name}
                     </p>
-                    <p className="text-xs text-muted-foreground font-mono">{post.server_ip}</p>
+                    <div className="flex items-center gap-3">
+                      <p className="text-xs text-muted-foreground font-mono">{post.server_ip}</p>
+                      <span className="inline-flex items-center gap-1 text-xs text-muted-foreground">
+                        <Heart className="h-3 w-3" /> {post.server_likes_count || 0}
+                      </span>
+                    </div>
                   </div>
 
                   {/* Description */}
