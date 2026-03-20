@@ -50,6 +50,7 @@ const StaffRecruitment = () => {
   const [dialogOpen, setDialogOpen] = useState(false);
   const [showMyPosts, setShowMyPosts] = useState(false);
   const [filterPosition, setFilterPosition] = useState<string>("all");
+  const [searchQuery, setSearchQuery] = useState("");
   const [submitting, setSubmitting] = useState(false);
 
   // Form state
@@ -175,9 +176,11 @@ const StaffRecruitment = () => {
 
   const availablePositions = [...new Set(posts.map(p => p.position))].sort();
 
+  const q = searchQuery.toLowerCase().trim();
   const displayedPosts = posts
     .filter(p => !showMyPosts || !user || p.owner_id === user.id)
-    .filter(p => filterPosition === "all" || p.position === filterPosition);
+    .filter(p => filterPosition === "all" || p.position === filterPosition)
+    .filter(p => !q || (p.server_name?.toLowerCase().includes(q) || p.server_ip.toLowerCase().includes(q)));
 
   return (
     <div className="min-h-screen bg-background">
@@ -190,6 +193,16 @@ const StaffRecruitment = () => {
             <span className="text-gradient">{t("staff_title_2")}</span>
           </h1>
           <p className="mt-2 text-muted-foreground">{t("staff_subtitle")}</p>
+        </div>
+
+        {/* Search */}
+        <div className="mb-4">
+          <Input
+            placeholder={t("filter_search_placeholder")}
+            value={searchQuery}
+            onChange={e => setSearchQuery(e.target.value)}
+            className="max-w-md"
+          />
         </div>
 
         {/* Actions */}
