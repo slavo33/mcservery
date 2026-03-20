@@ -99,10 +99,10 @@ const StaffPostDetail = () => {
 
   // Check if current user liked this post
   useEffect(() => {
-    if (!user || !id) return;
-    supabase.from("staff_post_likes").select("id").eq("staff_post_id", id).eq("user_id", user.id).maybeSingle()
+    if (!user || !post) return;
+    supabase.from("staff_post_likes").select("id").eq("staff_post_id", post.id).eq("user_id", user.id).maybeSingle()
       .then(({ data }) => setLikedByMe(!!data));
-  }, [user, id]);
+  }, [user, post?.id]);
 
   const toggleLike = async () => {
     if (!user || !post) {
