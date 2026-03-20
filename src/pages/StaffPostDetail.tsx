@@ -32,6 +32,7 @@ interface StaffPost {
   images: string[];
   is_active: boolean;
   created_at: string;
+  likes_count: number;
 }
 
 const StaffPostDetail = () => {
