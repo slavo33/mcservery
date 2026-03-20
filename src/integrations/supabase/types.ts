@@ -485,6 +485,8 @@ export type Database = {
           server_id: string
           server_ip: string
           updated_at: string
+          vip_expires_at: string | null
+          vip_tier: string | null
           website_url: string | null
         }
         Insert: {
@@ -501,6 +503,8 @@ export type Database = {
           server_id: string
           server_ip?: string
           updated_at?: string
+          vip_expires_at?: string | null
+          vip_tier?: string | null
           website_url?: string | null
         }
         Update: {
@@ -517,6 +521,8 @@ export type Database = {
           server_id?: string
           server_ip?: string
           updated_at?: string
+          vip_expires_at?: string | null
+          vip_tier?: string | null
           website_url?: string | null
         }
         Relationships: [
