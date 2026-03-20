@@ -400,12 +400,13 @@ const StaffRecruitment = () => {
                   )}
 
                   {/* Social links */}
-                  <div className="flex items-center gap-2 flex-wrap">
+                  <div className="flex items-center gap-2 flex-wrap" onClick={e => e.preventDefault()}>
                     {post.discord_url && (
                       <a
                         href={sanitizeHref(post.discord_url)}
                         target="_blank"
                         rel="noopener noreferrer"
+                        onClick={e => e.stopPropagation()}
                         className="inline-flex items-center gap-1 text-xs text-muted-foreground hover:text-foreground transition-colors"
                       >
                         <MessageSquare className="h-3.5 w-3.5" /> Discord
@@ -416,6 +417,7 @@ const StaffRecruitment = () => {
                         href={sanitizeHref(post.website_url)}
                         target="_blank"
                         rel="noopener noreferrer"
+                        onClick={e => e.stopPropagation()}
                         className="inline-flex items-center gap-1 text-xs text-muted-foreground hover:text-foreground transition-colors"
                       >
                         <Globe className="h-3.5 w-3.5" /> Web
