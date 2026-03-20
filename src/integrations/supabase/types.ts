@@ -441,6 +441,35 @@ export type Database = {
           },
         ]
       }
+      staff_post_likes: {
+        Row: {
+          created_at: string
+          id: string
+          staff_post_id: string
+          user_id: string
+        }
+        Insert: {
+          created_at?: string
+          id?: string
+          staff_post_id: string
+          user_id: string
+        }
+        Update: {
+          created_at?: string
+          id?: string
+          staff_post_id?: string
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "staff_post_likes_staff_post_id_fkey"
+            columns: ["staff_post_id"]
+            isOneToOne: false
+            referencedRelation: "staff_posts"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       staff_posts: {
         Row: {
           created_at: string
@@ -449,6 +478,7 @@ export type Database = {
           id: string
           images: string[]
           is_active: boolean
+          likes_count: number
           owner_id: string
           position: string
           requirements: string
@@ -464,6 +494,7 @@ export type Database = {
           id?: string
           images?: string[]
           is_active?: boolean
+          likes_count?: number
           owner_id: string
           position: string
           requirements?: string
@@ -479,6 +510,7 @@ export type Database = {
           id?: string
           images?: string[]
           is_active?: boolean
+          likes_count?: number
           owner_id?: string
           position?: string
           requirements?: string

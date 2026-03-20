@@ -31,11 +31,12 @@ interface StaffPost {
   images: string[];
   is_active: boolean;
   created_at: string;
+  likes_count: number;
   server_name?: string;
   owner_nickname?: string;
   owner_avatar?: string | null;
-  server_likes_count?: number;
   is_vip?: boolean;
+  liked_by_me?: boolean;
 }
 
 const POSITION_OPTIONS = [
@@ -74,25 +75,29 @@ const StaffRecruitment = () => {
       .order("created_at", { ascending: false });
 
     if (data && data.length > 0) {
-      // Fetch server names and owner profiles
       const serverIds = [...new Set(data.map(p => p.server_id))];
       const ownerIds = [...new Set(data.map(p => p.owner_id))];
+      const postIds = data.map(p => p.id);
 
-      const [serversRes, profilesRes] = await Promise.all([
-        supabase.from("servers").select("id, name, likes_count, vip_expires_at").in("id", serverIds),
-        supabase.from("profiles").select("id, nickname, avatar_url").in("id", ownerIds),
-      ]);
+      const serversRes = await supabase.from("servers").select("id, name, vip_expires_at").in("id", serverIds);
+      const profilesRes = await supabase.from("profiles").select("id, nickname, avatar_url").in("id", ownerIds);
+      let myLikesRes: { data: any[] | null } = { data: null };
+      if (user) {
+        myLikesRes = await supabase.from("staff_post_likes").select("staff_post_id").eq("user_id", user.id).in("staff_post_id", postIds);
+      }
 
-      const serverMap = new Map(serversRes.data?.map(s => [s.id, { name: s.name, likes_count: s.likes_count, is_vip: s.vip_expires_at ? new Date(s.vip_expires_at) > new Date() : false }]) || []);
-      const profileMap = new Map(profilesRes.data?.map(p => [p.id, p]) || []);
+      const serverMap = new Map(serversRes.data?.map((s: any) => [s.id, { name: s.name, is_vip: s.vip_expires_at ? new Date(s.vip_expires_at) > new Date() : false }]) || []);
+      const profileMap = new Map(profilesRes.data?.map((p: any) => [p.id, p]) || []);
+      const myLikedIds = new Set(myLikesRes?.data?.map((l: any) => l.staff_post_id) || []);
 
       setPosts(data.map(p => ({
         ...p,
+        likes_count: (p as any).likes_count || 0,
         server_name: serverMap.get(p.server_id)?.name || "Unknown",
-        server_likes_count: serverMap.get(p.server_id)?.likes_count || 0,
         is_vip: serverMap.get(p.server_id)?.is_vip || false,
         owner_nickname: profileMap.get(p.owner_id)?.nickname || "Unknown",
         owner_avatar: profileMap.get(p.owner_id)?.avatar_url,
+        liked_by_me: myLikedIds.has(p.id),
       })));
     } else {
       setPosts([]);
@@ -169,6 +174,26 @@ const StaffRecruitment = () => {
     }
   };
 
+  const toggleLike = async (e: React.MouseEvent, postId: string, currentlyLiked: boolean) => {
+    e.preventDefault();
+    e.stopPropagation();
+    if (!user) {
+      toast.error(t("staff_login_required"));
+      return;
+    }
+    if (currentlyLiked) {
+      await supabase.from("staff_post_likes").delete().eq("staff_post_id", postId).eq("user_id", user.id);
+    } else {
+      await supabase.from("staff_post_likes").insert({ staff_post_id: postId, user_id: user.id });
+    }
+    // Optimistic update
+    setPosts(prev => prev.map(p => p.id === postId ? {
+      ...p,
+      liked_by_me: !currentlyLiked,
+      likes_count: p.likes_count + (currentlyLiked ? -1 : 1),
+    } : p));
+  };
+
   const toggleActive = async (id: string, currentActive: boolean) => {
     const { error } = await supabase
       .from("staff_posts")
@@ -200,7 +225,7 @@ const StaffRecruitment = () => {
         return new Date(b.created_at).getTime() - new Date(a.created_at).getTime();
       }
       if (sortOrder === "most_liked") {
-        return (b.server_likes_count || 0) - (a.server_likes_count || 0);
+        return (b.likes_count || 0) - (a.likes_count || 0);
       }
       return sortOrder === "newest"
         ? new Date(b.created_at).getTime() - new Date(a.created_at).getTime()
@@ -434,9 +459,12 @@ const StaffRecruitment = () => {
                     </p>
                     <div className="flex items-center gap-3">
                       <p className="text-xs text-muted-foreground font-mono">{post.server_ip}</p>
-                      <span className="inline-flex items-center gap-1 text-xs text-muted-foreground">
-                        <Heart className="h-3 w-3" /> {post.server_likes_count || 0}
-                      </span>
+                      <button
+                        onClick={(e) => toggleLike(e, post.id, !!post.liked_by_me)}
+                        className={`inline-flex items-center gap-1 text-xs transition-colors ${post.liked_by_me ? "text-red-500" : "text-muted-foreground hover:text-red-500"}`}
+                      >
+                        <Heart className={`h-3 w-3 ${post.liked_by_me ? "fill-current" : ""}`} /> {post.likes_count || 0}
+                      </button>
                     </div>
                   </div>
 

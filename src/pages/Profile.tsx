@@ -7,7 +7,7 @@ import Footer from "@/components/Footer";
 import ServerCard from "@/components/ServerCard";
 import { Button } from "@/components/ui/button";
 import { toast } from "sonner";
-import { Camera, User, Heart, Settings, Server } from "lucide-react";
+import { Camera, User, Heart, Settings, Server, Users } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import { useLanguage } from "@/i18n/LanguageContext";
 import type { MinecraftServer } from "@/lib/mockData";
@@ -21,9 +21,11 @@ const Profile = () => {
   const [saving, setSaving] = useState(false);
   const [tab, setTab] = useState<"settings" | "favorites" | "my_servers">("settings");
   const [likedServers, setLikedServers] = useState<(MinecraftServer & { dbId: string; is_warez: boolean; has_whitelist: boolean })[]>([]);
+  const [likedPosts, setLikedPosts] = useState<any[]>([]);
   const [myServers, setMyServers] = useState<(MinecraftServer & { dbId: string; is_warez: boolean; has_whitelist: boolean })[]>([]);
   const [loadingFavorites, setLoadingFavorites] = useState(false);
   const [loadingMyServers, setLoadingMyServers] = useState(false);
+  const [favSubTab, setFavSubTab] = useState<"servers" | "posts">("servers");
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -70,6 +72,36 @@ const Profile = () => {
       } else {
         setLikedServers([]);
       }
+
+      // Fetch liked staff posts
+      const { data: postLikes } = await supabase
+        .from("staff_post_likes")
+        .select("staff_post_id")
+        .eq("user_id", user.id);
+
+      if (postLikes && postLikes.length > 0) {
+        const postIds = postLikes.map(l => l.staff_post_id);
+        const { data: staffPosts } = await supabase
+          .from("staff_posts")
+          .select("*")
+          .in("id", postIds);
+
+        if (staffPosts) {
+          const serverIds = [...new Set(staffPosts.map(p => p.server_id))];
+          const { data: servers } = await supabase.from("servers").select("id, name").in("id", serverIds);
+          const serverMap = new Map(servers?.map(s => [s.id, s.name]) || []);
+
+          setLikedPosts(staffPosts.map(p => ({
+            ...p,
+            server_name: serverMap.get(p.server_id) || "Unknown",
+          })));
+        } else {
+          setLikedPosts([]);
+        }
+      } else {
+        setLikedPosts([]);
+      }
+
       setLoadingFavorites(false);
     };
     fetchLiked();
@@ -330,16 +362,55 @@ const Profile = () => {
 
         {tab === "favorites" && (
           <div>
+            {/* Sub-tabs */}
+            <div className="flex gap-2 mb-4">
+              <button
+                onClick={() => setFavSubTab("servers")}
+                className={`rounded-full px-3 py-1 text-xs font-medium transition-colors ${favSubTab === "servers" ? "bg-primary text-primary-foreground" : "bg-secondary text-muted-foreground hover:text-foreground"}`}
+              >
+                {t("profile_fav_servers")}
+              </button>
+              <button
+                onClick={() => setFavSubTab("posts")}
+                className={`rounded-full px-3 py-1 text-xs font-medium transition-colors ${favSubTab === "posts" ? "bg-primary text-primary-foreground" : "bg-secondary text-muted-foreground hover:text-foreground"}`}
+              >
+                {t("profile_fav_posts")}
+              </button>
+            </div>
+
             {loadingFavorites ? (
               <p className="text-muted-foreground text-sm">{t("loading")}</p>
-            ) : likedServers.length > 0 ? (
-              <div className="grid gap-6 sm:grid-cols-2">
-                {likedServers.map((server) => (
-                  <ServerCard key={server.id} server={server} dbMode dbId={server.dbId} />
-                ))}
-              </div>
+            ) : favSubTab === "servers" ? (
+              likedServers.length > 0 ? (
+                <div className="grid gap-6 sm:grid-cols-2">
+                  {likedServers.map((server) => (
+                    <ServerCard key={server.id} server={server} dbMode dbId={server.dbId} />
+                  ))}
+                </div>
+              ) : (
+                <p className="text-muted-foreground text-sm">{t("profile_favorites_empty")}</p>
+              )
             ) : (
-              <p className="text-muted-foreground text-sm">{t("profile_favorites_empty")}</p>
+              likedPosts.length > 0 ? (
+                <div className="grid gap-4 sm:grid-cols-2">
+                  {likedPosts.map((post: any) => (
+                    <a key={post.id} href={`/staff/${post.id}`} className="block">
+                      <div className="gradient-card rounded-lg border border-border p-4 hover:border-primary/30 transition-colors">
+                        <div className="flex items-center gap-2 mb-2">
+                          <span className="rounded-full bg-primary/15 text-primary border border-primary/25 px-2 py-0.5 text-xs font-medium">
+                            {post.position}
+                          </span>
+                        </div>
+                        <p className="font-bold text-foreground">{post.server_name}</p>
+                        <p className="text-xs text-muted-foreground font-mono">{post.server_ip}</p>
+                        <p className="text-sm text-muted-foreground mt-2 line-clamp-2">{post.description}</p>
+                      </div>
+                    </a>
+                  ))}
+                </div>
+              ) : (
+                <p className="text-muted-foreground text-sm">{t("profile_fav_posts_empty")}</p>
+              )
             )}
           </div>
         )}

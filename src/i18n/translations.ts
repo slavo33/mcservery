@@ -167,6 +167,9 @@ type TranslationKeys = {
   profile_tab_favorites: string;
   profile_tab_my_servers: string;
   profile_favorites_empty: string;
+  profile_fav_servers: string;
+  profile_fav_posts: string;
+  profile_fav_posts_empty: string;
   profile_my_servers_empty: string;
   // Featured
   featured_title: string;
@@ -546,6 +549,9 @@ const sk: TranslationKeys = {
   profile_tab_favorites: "Obľúbené",
   profile_tab_my_servers: "Moje servery",
   profile_favorites_empty: "Zatiaľ si nedal like žiadnemu serveru.",
+  profile_fav_servers: "Servery",
+  profile_fav_posts: "Príspevky",
+  profile_fav_posts_empty: "Zatiaľ si nedal like žiadnemu príspevku.",
   profile_my_servers_empty: "Zatiaľ si nepridal žiadny server.",
   featured_title: "Odporúčame",
   featured_pin: "Pripnúť do odporúčaných",
@@ -1168,6 +1174,9 @@ const en: TranslationKeys = {
   profile_tab_favorites: "Favorites",
   profile_tab_my_servers: "My Servers",
   profile_favorites_empty: "You haven't liked any servers yet.",
+  profile_fav_servers: "Servers",
+  profile_fav_posts: "Posts",
+  profile_fav_posts_empty: "You haven't liked any posts yet.",
   profile_my_servers_empty: "You haven't added any servers yet.",
   featured_title: "We Recommend",
   featured_pin: "Pin to featured",
