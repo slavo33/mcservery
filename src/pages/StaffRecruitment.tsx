@@ -49,6 +49,7 @@ const StaffRecruitment = () => {
   const [loading, setLoading] = useState(true);
   const [dialogOpen, setDialogOpen] = useState(false);
   const [showMyPosts, setShowMyPosts] = useState(false);
+  const [filterPosition, setFilterPosition] = useState<string>("all");
   const [submitting, setSubmitting] = useState(false);
 
   // Form state
@@ -172,9 +173,11 @@ const StaffRecruitment = () => {
     }
   };
 
-  const displayedPosts = showMyPosts && user
-    ? posts.filter(p => p.owner_id === user.id)
-    : posts;
+  const availablePositions = [...new Set(posts.map(p => p.position))].sort();
+
+  const displayedPosts = posts
+    .filter(p => !showMyPosts || !user || p.owner_id === user.id)
+    .filter(p => filterPosition === "all" || p.position === filterPosition);
 
   return (
     <div className="min-h-screen bg-background">
@@ -190,7 +193,27 @@ const StaffRecruitment = () => {
         </div>
 
         {/* Actions */}
-        <div className="flex flex-wrap items-center gap-3 mb-6">
+        <div className="flex flex-wrap items-center gap-3 mb-4">
+          {/* Position filter chips */}
+          {availablePositions.length > 1 && (
+            <div className="flex flex-wrap gap-1.5 w-full mb-2">
+              <button
+                onClick={() => setFilterPosition("all")}
+                className={`rounded-full px-3 py-1 text-xs font-medium transition-colors ${filterPosition === "all" ? "bg-primary text-primary-foreground" : "bg-secondary text-muted-foreground hover:text-foreground"}`}
+              >
+                Všetky
+              </button>
+              {availablePositions.map(pos => (
+                <button
+                  key={pos}
+                  onClick={() => setFilterPosition(pos)}
+                  className={`rounded-full px-3 py-1 text-xs font-medium transition-colors ${filterPosition === pos ? "bg-primary text-primary-foreground" : "bg-secondary text-muted-foreground hover:text-foreground"}`}
+                >
+                  {pos}
+                </button>
+              ))}
+            </div>
+          )}
           {user && myServers.length > 0 && (
             <Dialog open={dialogOpen} onOpenChange={setDialogOpen}>
               <DialogTrigger asChild>
