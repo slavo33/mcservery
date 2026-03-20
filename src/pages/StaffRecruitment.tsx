@@ -50,6 +50,7 @@ const StaffRecruitment = () => {
   const [dialogOpen, setDialogOpen] = useState(false);
   const [showMyPosts, setShowMyPosts] = useState(false);
   const [filterPosition, setFilterPosition] = useState<string>("all");
+  const [filterDate, setFilterDate] = useState<string>("all");
   const [searchQuery, setSearchQuery] = useState("");
   const [submitting, setSubmitting] = useState(false);
 
@@ -176,11 +177,22 @@ const StaffRecruitment = () => {
 
   const availablePositions = [...new Set(posts.map(p => p.position))].sort();
 
+  const getDateThreshold = () => {
+    if (filterDate === "all") return null;
+    const now = new Date();
+    if (filterDate === "today") return new Date(now.setHours(0, 0, 0, 0)).toISOString();
+    if (filterDate === "week") return new Date(now.getTime() - 7 * 24 * 60 * 60 * 1000).toISOString();
+    if (filterDate === "month") return new Date(now.getTime() - 30 * 24 * 60 * 60 * 1000).toISOString();
+    return null;
+  };
+
   const q = searchQuery.toLowerCase().trim();
+  const dateThreshold = getDateThreshold();
   const displayedPosts = posts
     .filter(p => !showMyPosts || !user || p.owner_id === user.id)
     .filter(p => filterPosition === "all" || p.position === filterPosition)
-    .filter(p => !q || (p.server_name?.toLowerCase().includes(q) || p.server_ip.toLowerCase().includes(q)));
+    .filter(p => !q || (p.server_name?.toLowerCase().includes(q) || p.server_ip.toLowerCase().includes(q)))
+    .filter(p => !dateThreshold || p.created_at >= dateThreshold);
 
   return (
     <div className="min-h-screen bg-background">
@@ -195,14 +207,25 @@ const StaffRecruitment = () => {
           <p className="mt-2 text-muted-foreground">{t("staff_subtitle")}</p>
         </div>
 
-        {/* Search */}
-        <div className="mb-4">
+        {/* Filters */}
+        <div className="flex flex-col sm:flex-row gap-3 mb-4">
           <Input
             placeholder={t("filter_search_placeholder")}
             value={searchQuery}
             onChange={e => setSearchQuery(e.target.value)}
-            className="max-w-md"
+            className="sm:max-w-xs"
           />
+          <Select value={filterDate} onValueChange={setFilterDate}>
+            <SelectTrigger className="sm:w-44">
+              <SelectValue />
+            </SelectTrigger>
+            <SelectContent>
+              <SelectItem value="all">Všetky dátumy</SelectItem>
+              <SelectItem value="today">Dnes</SelectItem>
+              <SelectItem value="week">Posledný týždeň</SelectItem>
+              <SelectItem value="month">Posledný mesiac</SelectItem>
+            </SelectContent>
+          </Select>
         </div>
 
         {/* Actions */}

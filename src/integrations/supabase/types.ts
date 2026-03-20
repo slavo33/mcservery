@@ -497,6 +497,38 @@ export type Database = {
           },
         ]
       }
+      staff_reactions: {
+        Row: {
+          created_at: string
+          id: string
+          reaction: string
+          staff_comment_id: string
+          user_id: string
+        }
+        Insert: {
+          created_at?: string
+          id?: string
+          reaction: string
+          staff_comment_id: string
+          user_id: string
+        }
+        Update: {
+          created_at?: string
+          id?: string
+          reaction?: string
+          staff_comment_id?: string
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "staff_reactions_staff_comment_id_fkey"
+            columns: ["staff_comment_id"]
+            isOneToOne: false
+            referencedRelation: "staff_comments"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       user_roles: {
         Row: {
           id: string
@@ -631,7 +663,7 @@ export type Database = {
         | "fire"
         | "sad"
       report_status: "pending" | "resolved" | "dismissed"
-      report_type: "server" | "comment"
+      report_type: "server" | "comment" | "staff_post"
     }
     CompositeTypes: {
       [_ in never]: never
@@ -769,7 +801,7 @@ export const Constants = {
         "sad",
       ],
       report_status: ["pending", "resolved", "dismissed"],
-      report_type: ["server", "comment"],
+      report_type: ["server", "comment", "staff_post"],
     },
   },
 } as const

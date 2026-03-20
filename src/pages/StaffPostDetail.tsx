@@ -1,11 +1,12 @@
 import { useState, useEffect } from "react";
 import { useParams, Link, useNavigate } from "react-router-dom";
-import { ArrowLeft, Users, Globe, MessageSquare, Trash2, EyeOff, Eye } from "lucide-react";
+import { ArrowLeft, Users, Globe, MessageSquare, Trash2, EyeOff, Eye, Flag } from "lucide-react";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import StaffCommentSection from "@/components/StaffCommentSection";
+import ReportDialog from "@/components/ReportDialog";
 import { supabase } from "@/integrations/supabase/client";
 import { useAuth } from "@/hooks/useAuth";
 import { useLanguage } from "@/i18n/LanguageContext";
@@ -183,19 +184,28 @@ const StaffPostDetail = () => {
             <span className="text-xs text-muted-foreground">{formatDate(post.created_at)}</span>
           </div>
 
-          {/* Owner actions */}
-          {isOwner && (
-            <div className="flex gap-2 mt-4">
-              <Button size="sm" variant="outline" onClick={toggleActive} className="gap-1.5">
-                {post.is_active ? <EyeOff className="h-4 w-4" /> : <Eye className="h-4 w-4" />}
-                {post.is_active ? t("staff_close") : t("staff_reopen")}
-              </Button>
-              <Button size="sm" variant="destructive" onClick={handleDelete} className="gap-1.5">
-                <Trash2 className="h-4 w-4" />
-                {t("staff_delete")}
-              </Button>
-            </div>
-          )}
+          {/* Actions */}
+          <div className="flex flex-wrap gap-2 mt-4">
+            {isOwner && (
+              <>
+                <Button size="sm" variant="outline" onClick={toggleActive} className="gap-1.5">
+                  {post.is_active ? <EyeOff className="h-4 w-4" /> : <Eye className="h-4 w-4" />}
+                  {post.is_active ? t("staff_close") : t("staff_reopen")}
+                </Button>
+                <Button size="sm" variant="destructive" onClick={handleDelete} className="gap-1.5">
+                  <Trash2 className="h-4 w-4" />
+                  {t("staff_delete")}
+                </Button>
+              </>
+            )}
+            {user && !isOwner && (
+              <ReportDialog
+                targetId={post.id}
+                reportType="staff_post"
+                triggerClassName="inline-flex items-center gap-1.5 text-sm text-muted-foreground hover:text-destructive transition-colors border border-border rounded-md px-3 py-1.5"
+              />
+            )}
+          </div>
         </div>
 
         {/* Description */}

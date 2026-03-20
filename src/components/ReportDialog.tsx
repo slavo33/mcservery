@@ -15,7 +15,7 @@ import { Button } from "@/components/ui/button";
 
 interface ReportDialogProps {
   targetId: string;
-  reportType: "server" | "comment";
+  reportType: "server" | "comment" | "staff_post";
   triggerClassName?: string;
 }
 
