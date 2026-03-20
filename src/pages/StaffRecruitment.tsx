@@ -222,13 +222,13 @@ const StaffRecruitment = () => {
         {/* Actions */}
         <div className="flex flex-wrap items-center gap-3 mb-4">
           {/* Position filter chips */}
-          {availablePositions.length > 1 && (
+          {availablePositions.length > 0 && (
             <div className="flex flex-wrap gap-1.5 w-full mb-2">
               <button
                 onClick={() => setFilterPosition("all")}
                 className={`rounded-full px-3 py-1 text-xs font-medium transition-colors ${filterPosition === "all" ? "bg-primary text-primary-foreground" : "bg-secondary text-muted-foreground hover:text-foreground"}`}
               >
-                Všetky
+                {t("filter_all")}
               </button>
               {availablePositions.map(pos => (
                 <button
