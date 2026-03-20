@@ -61,6 +61,7 @@ const StaffPostDetail = () => {
       ]);
 
       setServerName(serverRes.data?.name || "Unknown");
+      setServerSlug(serverRes.data?.slug || "");
       setOwnerNickname(profileRes.data?.nickname || "Unknown");
       setOwnerAvatar(profileRes.data?.avatar_url || null);
       setLoading(false);
