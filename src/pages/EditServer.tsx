@@ -1,4 +1,5 @@
 import { logError } from "@/lib/logger";
+import { findInvalidUrl } from "@/lib/urlValidation";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import { Button } from "@/components/ui/button";
@@ -149,6 +150,19 @@ const EditServer = () => {
     const cleanedKey = normalizeVotifierPublicKey(votifierPublicKey);
     if (cleanedKey && !isValidBase64Key(cleanedKey)) {
       toast.error(t("edit_votifier_key_invalid"));
+      return;
+    }
+
+    const invalidUrl = findInvalidUrl([
+      { label: "Discord", value: discordUrl },
+      { label: "Website", value: websiteUrl },
+      { label: "Instagram", value: instagramUrl },
+      { label: "TikTok", value: tiktokUrl },
+      { label: "YouTube", value: youtubeUrl },
+      { label: "Twitter/X", value: twitterUrl },
+    ]);
+    if (invalidUrl) {
+      toast.error(`${invalidUrl}: Povolené sú iba HTTP a HTTPS odkazy`);
       return;
     }
 

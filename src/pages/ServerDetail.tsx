@@ -13,6 +13,7 @@ import { toast } from "sonner";
 import { useLanguage } from "@/i18n/LanguageContext";
 import { useServerStatus } from "@/hooks/useServerStatus";
 import { Avatar, AvatarImage, AvatarFallback } from "@/components/ui/avatar";
+import { sanitizeHref } from "@/lib/urlValidation";
 
 interface ServerDetailData {
   id: string;
@@ -374,7 +375,7 @@ const ServerDetailPage = () => {
                   {links.map((link) => (
                     <a
                       key={link.label}
-                      href={link.url!}
+                      href={sanitizeHref(link.url)}
                       target="_blank"
                       rel="noopener noreferrer"
                       className="inline-flex items-center gap-1.5 rounded-md border border-border bg-secondary/50 px-3 py-1.5 text-sm text-muted-foreground hover:text-foreground hover:border-primary/40 transition-colors"
