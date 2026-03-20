@@ -2318,6 +2318,8 @@ const pt: TranslationKeys = {
   staff_looking_for: "Procuramos",
   staff_posted_by: "Publicado por",
   staff_my_posts: "Meus anúncios",
+  staff_sort_newest: "Mais recentes",
+  staff_sort_oldest: "Mais antigos",
 };
 
 const br: TranslationKeys = {
