@@ -2426,6 +2426,8 @@ const zh: TranslationKeys = {
   staff_looking_for: "招募",
   staff_posted_by: "发布者",
   staff_my_posts: "我的招聘",
+  staff_sort_newest: "最新优先",
+  staff_sort_oldest: "最早优先",
 };
 
 const ja: TranslationKeys = {
