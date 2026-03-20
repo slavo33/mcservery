@@ -312,13 +312,13 @@ const StaffPostDetail = () => {
                 </DropdownMenuTrigger>
                 <DropdownMenuContent>
                   <DropdownMenuItem onClick={() => assignVip("basic")} className={vipTier === "basic" ? "bg-blue-500/10" : ""}>
-                    VIP Basic (30 dní)
-                  </DropdownMenuItem>
-                  <DropdownMenuItem onClick={() => assignVip("pro")} className={vipTier === "pro" ? "bg-purple-500/10" : ""}>
-                    VIP Pro (30 dní)
-                  </DropdownMenuItem>
-                  <DropdownMenuItem onClick={() => assignVip("max")} className={vipTier === "max" ? "bg-amber-500/10" : ""}>
-                    VIP Max (30 dní)
+                     VIP Basic (7 dní)
+                   </DropdownMenuItem>
+                   <DropdownMenuItem onClick={() => assignVip("pro")} className={vipTier === "pro" ? "bg-purple-500/10" : ""}>
+                     VIP Pro (30 dní)
+                   </DropdownMenuItem>
+                   <DropdownMenuItem onClick={() => assignVip("max")} className={vipTier === "max" ? "bg-amber-500/10" : ""}>
+                     VIP Max (90 dní)
                   </DropdownMenuItem>
                   {isVip && (
                     <DropdownMenuItem onClick={() => assignVip(null)} className="text-destructive">
