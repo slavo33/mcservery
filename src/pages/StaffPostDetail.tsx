@@ -302,6 +302,31 @@ const StaffPostDetail = () => {
 
           {/* Actions */}
           <div className="flex flex-wrap gap-2 mt-4">
+            {isAdmin && (
+              <DropdownMenu>
+                <DropdownMenuTrigger asChild>
+                  <Button size="sm" variant="outline" className={`gap-1.5 ${isVip ? "border-amber-500/50 text-amber-500" : ""}`}>
+                    <Crown className="h-4 w-4" />
+                  </Button>
+                </DropdownMenuTrigger>
+                <DropdownMenuContent>
+                  <DropdownMenuItem onClick={() => assignVip("basic")} className={vipTier === "basic" ? "bg-blue-500/10" : ""}>
+                    VIP Basic (30 dní)
+                  </DropdownMenuItem>
+                  <DropdownMenuItem onClick={() => assignVip("pro")} className={vipTier === "pro" ? "bg-purple-500/10" : ""}>
+                    VIP Pro (30 dní)
+                  </DropdownMenuItem>
+                  <DropdownMenuItem onClick={() => assignVip("max")} className={vipTier === "max" ? "bg-amber-500/10" : ""}>
+                    VIP Max (30 dní)
+                  </DropdownMenuItem>
+                  {isVip && (
+                    <DropdownMenuItem onClick={() => assignVip(null)} className="text-destructive">
+                      Zrušiť VIP
+                    </DropdownMenuItem>
+                  )}
+                </DropdownMenuContent>
+              </DropdownMenu>
+            )}
             {(isOwner || isAdmin) && (
               <>
                 <Button size="sm" variant="outline" onClick={openEdit} className="gap-1.5" title={t("edit_server") || "Upraviť"}>
