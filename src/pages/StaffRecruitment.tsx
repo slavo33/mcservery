@@ -36,6 +36,7 @@ interface StaffPost {
   owner_nickname?: string;
   owner_avatar?: string | null;
   is_vip?: boolean;
+  vip_tier?: "basic" | "pro" | "max" | null;
   liked_by_me?: boolean;
 }
 
@@ -79,14 +80,24 @@ const StaffRecruitment = () => {
       const ownerIds = [...new Set(data.map(p => p.owner_id))];
       const postIds = data.map(p => p.id);
 
-      const serversRes = await supabase.from("servers").select("id, name, vip_expires_at").in("id", serverIds);
+      const serversRes = await supabase.from("servers").select("id, name, vip_expires_at, vote_cooldown_hours").in("id", serverIds);
       const profilesRes = await supabase.from("profiles").select("id, nickname, avatar_url").in("id", ownerIds);
       let myLikesRes: { data: any[] | null } = { data: null };
       if (user) {
         myLikesRes = await supabase.from("staff_post_likes").select("staff_post_id").eq("user_id", user.id).in("staff_post_id", postIds);
       }
 
-      const serverMap = new Map(serversRes.data?.map((s: any) => [s.id, { name: s.name, is_vip: s.vip_expires_at ? new Date(s.vip_expires_at) > new Date() : false }]) || []);
+      const getVipTier = (cooldown: number): "basic" | "pro" | "max" | null => {
+        if (cooldown <= 2) return "max";
+        if (cooldown <= 4) return "pro";
+        if (cooldown <= 8) return "basic";
+        return null;
+      };
+
+      const serverMap = new Map(serversRes.data?.map((s: any) => {
+        const isVip = s.vip_expires_at ? new Date(s.vip_expires_at) > new Date() : false;
+        return [s.id, { name: s.name, is_vip: isVip, vip_tier: isVip ? getVipTier(s.vote_cooldown_hours) : null }];
+      }) || []);
       const profileMap = new Map(profilesRes.data?.map((p: any) => [p.id, p]) || []);
       const myLikedIds = new Set(myLikesRes?.data?.map((l: any) => l.staff_post_id) || []);
 
@@ -95,6 +106,7 @@ const StaffRecruitment = () => {
         likes_count: (p as any).likes_count || 0,
         server_name: serverMap.get(p.server_id)?.name || "Unknown",
         is_vip: serverMap.get(p.server_id)?.is_vip || false,
+        vip_tier: serverMap.get(p.server_id)?.vip_tier || null,
         owner_nickname: profileMap.get(p.owner_id)?.nickname || "Unknown",
         owner_avatar: profileMap.get(p.owner_id)?.avatar_url,
         liked_by_me: myLikedIds.has(p.id),
@@ -428,7 +440,11 @@ const StaffRecruitment = () => {
           <div className="grid gap-4 sm:grid-cols-2">
             {displayedPosts.map(post => (
               <Link key={post.id} to={`/staff/${post.id}`} className="block">
-              <Card className={`overflow-hidden transition-colors cursor-pointer ${post.is_vip ? "border-yellow-500/40 hover:border-yellow-500/60 ring-1 ring-yellow-500/10" : "border-border/60 hover:border-primary/30"}`}>
+              <Card className={`overflow-hidden transition-colors cursor-pointer ${post.is_vip ? (
+                post.vip_tier === "max" ? "border-amber-500/40 hover:border-amber-500/60 ring-1 ring-amber-500/10" :
+                post.vip_tier === "pro" ? "border-purple-500/40 hover:border-purple-500/60 ring-1 ring-purple-500/10" :
+                "border-blue-500/40 hover:border-blue-500/60 ring-1 ring-blue-500/10"
+              ) : "border-border/60 hover:border-primary/30"}`}>
                 {/* Image banner */}
                 {post.images.length > 0 && (
                   <div className="aspect-[2.5/1] overflow-hidden">
@@ -448,9 +464,13 @@ const StaffRecruitment = () => {
                       <Badge className="bg-primary/15 text-primary border-primary/25">
                         {post.position}
                       </Badge>
-                      {post.is_vip && (
-                        <Badge className="bg-yellow-500/15 text-yellow-600 border-yellow-500/25 gap-1">
-                          <Crown className="h-3 w-3" /> VIP
+                      {post.is_vip && post.vip_tier && (
+                        <Badge className={`gap-1 ${
+                          post.vip_tier === "max" ? "bg-amber-500/15 text-amber-500 border-amber-500/25" :
+                          post.vip_tier === "pro" ? "bg-purple-500/15 text-purple-500 border-purple-500/25" :
+                          "bg-blue-500/15 text-blue-500 border-blue-500/25"
+                        }`}>
+                          <Crown className="h-3 w-3" /> {post.vip_tier === "max" ? "VIP Max" : post.vip_tier === "pro" ? "VIP Pro" : "VIP Basic"}
                         </Badge>
                       )}
                     </div>

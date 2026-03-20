@@ -47,6 +47,7 @@ const StaffPostDetail = () => {
   const [ownerAvatar, setOwnerAvatar] = useState<string | null>(null);
   const [loading, setLoading] = useState(true);
   const [isVip, setIsVip] = useState(false);
+  const [vipTier, setVipTier] = useState<"basic" | "pro" | "max" | null>(null);
   const [likedByMe, setLikedByMe] = useState(false);
   const [likesCount, setLikesCount] = useState(0);
   const [editOpen, setEditOpen] = useState(false);
@@ -79,13 +80,20 @@ const StaffPostDetail = () => {
       setLikesCount((data as any).likes_count || 0);
 
       const [serverRes, profileRes] = await Promise.all([
-        supabase.from("servers").select("name, slug, vip_expires_at").eq("id", data.server_id).maybeSingle(),
+        supabase.from("servers").select("name, slug, vip_expires_at, vote_cooldown_hours").eq("id", data.server_id).maybeSingle(),
         supabase.from("profiles").select("nickname, avatar_url").eq("id", data.owner_id).maybeSingle(),
       ]);
 
       setServerName(serverRes.data?.name || "Unknown");
       setServerSlug(serverRes.data?.slug || "");
-      setIsVip(serverRes.data?.vip_expires_at ? new Date(serverRes.data.vip_expires_at) > new Date() : false);
+      const serverIsVip = serverRes.data?.vip_expires_at ? new Date(serverRes.data.vip_expires_at) > new Date() : false;
+      setIsVip(serverIsVip);
+      if (serverIsVip) {
+        const cooldown = serverRes.data?.vote_cooldown_hours || 24;
+        setVipTier(cooldown <= 2 ? "max" : cooldown <= 4 ? "pro" : cooldown <= 8 ? "basic" : null);
+      } else {
+        setVipTier(null);
+      }
       setOwnerNickname(profileRes.data?.nickname || "Unknown");
       setOwnerAvatar(profileRes.data?.avatar_url || null);
       setLoading(false);
@@ -239,9 +247,13 @@ const StaffPostDetail = () => {
             <Badge className="bg-primary/15 text-primary border-primary/25 text-sm">
               {post.position}
             </Badge>
-            {isVip && (
-              <Badge className="bg-yellow-500/15 text-yellow-600 border-yellow-500/25 gap-1">
-                <Crown className="h-3 w-3" /> VIP
+            {isVip && vipTier && (
+              <Badge className={`gap-1 ${
+                vipTier === "max" ? "bg-amber-500/15 text-amber-500 border-amber-500/25" :
+                vipTier === "pro" ? "bg-purple-500/15 text-purple-500 border-purple-500/25" :
+                "bg-blue-500/15 text-blue-500 border-blue-500/25"
+              }`}>
+                <Crown className="h-3 w-3" /> {vipTier === "max" ? "VIP Max" : vipTier === "pro" ? "VIP Pro" : "VIP Basic"}
               </Badge>
             )}
             {!post.is_active && (
