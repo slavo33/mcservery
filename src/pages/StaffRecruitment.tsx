@@ -36,6 +36,7 @@ interface StaffPost {
   owner_nickname?: string;
   owner_avatar?: string | null;
   is_vip?: boolean;
+  vip_tier?: "basic" | "pro" | "max" | null;
   liked_by_me?: boolean;
 }
 
