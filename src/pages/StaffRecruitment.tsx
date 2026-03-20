@@ -50,6 +50,7 @@ const StaffRecruitment = () => {
   const [dialogOpen, setDialogOpen] = useState(false);
   const [showMyPosts, setShowMyPosts] = useState(false);
   const [filterPosition, setFilterPosition] = useState<string>("all");
+  const [filterDate, setFilterDate] = useState<string>("all");
   const [searchQuery, setSearchQuery] = useState("");
   const [submitting, setSubmitting] = useState(false);
 
