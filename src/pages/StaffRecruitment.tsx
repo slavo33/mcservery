@@ -1,0 +1,441 @@
+import { useState, useEffect } from "react";
+import { Link } from "react-router-dom";
+import { Users, Plus, Trash2, Eye, EyeOff, RefreshCw, ExternalLink, Globe, MessageSquare } from "lucide-react";
+import Header from "@/components/Header";
+import Footer from "@/components/Footer";
+import { Button } from "@/components/ui/button";
+import { Card, CardContent } from "@/components/ui/card";
+import { Input } from "@/components/ui/input";
+import { Textarea } from "@/components/ui/textarea";
+import { Label } from "@/components/ui/label";
+import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+import { Badge } from "@/components/ui/badge";
+import ServerImageUpload from "@/components/ServerImageUpload";
+import { supabase } from "@/integrations/supabase/client";
+import { useAuth } from "@/hooks/useAuth";
+import { useLanguage } from "@/i18n/LanguageContext";
+import { toast } from "sonner";
+import { sanitizeHref } from "@/lib/urlValidation";
+
+interface StaffPost {
+  id: string;
+  server_id: string;
+  owner_id: string;
+  position: string;
+  description: string;
+  requirements: string;
+  server_ip: string;
+  discord_url: string | null;
+  website_url: string | null;
+  images: string[];
+  is_active: boolean;
+  created_at: string;
+  server_name?: string;
+  owner_nickname?: string;
+  owner_avatar?: string | null;
+}
+
+const POSITION_OPTIONS = [
+  "Builder", "Helper", "Moderátor", "Admin", "Developer",
+  "Eventer", "Designer", "YouTuber", "Tester", "Support"
+];
+
+const StaffRecruitment = () => {
+  const { t } = useLanguage();
+  const { user } = useAuth();
+  const [posts, setPosts] = useState<StaffPost[]>([]);
+  const [myServers, setMyServers] = useState<{ id: string; name: string; ip: string; discord_url: string | null; website_url: string | null }[]>([]);
+  const [loading, setLoading] = useState(true);
+  const [dialogOpen, setDialogOpen] = useState(false);
+  const [showMyPosts, setShowMyPosts] = useState(false);
+  const [submitting, setSubmitting] = useState(false);
+
+  // Form state
+  const [selectedServer, setSelectedServer] = useState("");
+  const [position, setPosition] = useState("");
+  const [customPosition, setCustomPosition] = useState("");
+  const [description, setDescription] = useState("");
+  const [requirements, setRequirements] = useState("");
+  const [images, setImages] = useState<string[]>([]);
+
+  const fetchPosts = async () => {
+    setLoading(true);
+    const { data } = await supabase
+      .from("staff_posts")
+      .select("*")
+      .eq("is_active", true)
+      .order("created_at", { ascending: false });
+
+    if (data && data.length > 0) {
+      // Fetch server names and owner profiles
+      const serverIds = [...new Set(data.map(p => p.server_id))];
+      const ownerIds = [...new Set(data.map(p => p.owner_id))];
+
+      const [serversRes, profilesRes] = await Promise.all([
+        supabase.from("servers").select("id, name").in("id", serverIds),
+        supabase.from("profiles").select("id, nickname, avatar_url").in("id", ownerIds),
+      ]);
+
+      const serverMap = new Map(serversRes.data?.map(s => [s.id, s.name]) || []);
+      const profileMap = new Map(profilesRes.data?.map(p => [p.id, p]) || []);
+
+      setPosts(data.map(p => ({
+        ...p,
+        server_name: serverMap.get(p.server_id) || "Unknown",
+        owner_nickname: profileMap.get(p.owner_id)?.nickname || "Unknown",
+        owner_avatar: profileMap.get(p.owner_id)?.avatar_url,
+      })));
+    } else {
+      setPosts([]);
+    }
+    setLoading(false);
+  };
+
+  const fetchMyServers = async () => {
+    if (!user) return;
+    const { data } = await supabase
+      .from("servers")
+      .select("id, name, ip, discord_url, website_url")
+      .eq("owner_id", user.id);
+    setMyServers(data || []);
+  };
+
+  useEffect(() => {
+    fetchPosts();
+  }, []);
+
+  useEffect(() => {
+    if (user) fetchMyServers();
+  }, [user]);
+
+  const handleSubmit = async () => {
+    if (!user) return;
+    const finalPosition = position === "custom" ? customPosition : position;
+    if (!selectedServer || !finalPosition || !description) {
+      toast.error("Vyplňte všetky povinné polia");
+      return;
+    }
+
+    const server = myServers.find(s => s.id === selectedServer);
+    if (!server) return;
+
+    setSubmitting(true);
+    const { error } = await supabase.from("staff_posts").insert({
+      server_id: selectedServer,
+      owner_id: user.id,
+      position: finalPosition,
+      description,
+      requirements,
+      server_ip: server.ip,
+      discord_url: server.discord_url,
+      website_url: server.website_url,
+      images,
+    });
+
+    if (error) {
+      toast.error(t("staff_error"));
+    } else {
+      toast.success(t("staff_success"));
+      setDialogOpen(false);
+      resetForm();
+      fetchPosts();
+    }
+    setSubmitting(false);
+  };
+
+  const resetForm = () => {
+    setSelectedServer("");
+    setPosition("");
+    setCustomPosition("");
+    setDescription("");
+    setRequirements("");
+    setImages([]);
+  };
+
+  const handleDelete = async (id: string) => {
+    const { error } = await supabase.from("staff_posts").delete().eq("id", id);
+    if (!error) {
+      toast.success(t("staff_deleted"));
+      fetchPosts();
+    }
+  };
+
+  const toggleActive = async (id: string, currentActive: boolean) => {
+    const { error } = await supabase
+      .from("staff_posts")
+      .update({ is_active: !currentActive })
+      .eq("id", id);
+    if (!error) {
+      toast.success(currentActive ? t("staff_closed") : t("staff_reopened"));
+      fetchPosts();
+    }
+  };
+
+  const displayedPosts = showMyPosts && user
+    ? posts.filter(p => p.owner_id === user.id)
+    : posts;
+
+  return (
+    <div className="min-h-screen bg-background">
+      <Header />
+      <main className="container mx-auto px-4 py-8 max-w-5xl">
+        {/* Title */}
+        <div className="mb-8 text-center">
+          <h1 className="font-display text-3xl sm:text-4xl font-bold tracking-tight text-foreground">
+            {t("staff_title_1")}{" "}
+            <span className="text-gradient">{t("staff_title_2")}</span>
+          </h1>
+          <p className="mt-2 text-muted-foreground">{t("staff_subtitle")}</p>
+        </div>
+
+        {/* Actions */}
+        <div className="flex flex-wrap items-center gap-3 mb-6">
+          {user && myServers.length > 0 && (
+            <Dialog open={dialogOpen} onOpenChange={setDialogOpen}>
+              <DialogTrigger asChild>
+                <Button className="gradient-primary border-0 gap-2">
+                  <Plus className="h-4 w-4" />
+                  {t("staff_create")}
+                </Button>
+              </DialogTrigger>
+              <DialogContent className="max-w-lg max-h-[90vh] overflow-y-auto">
+                <DialogHeader>
+                  <DialogTitle>{t("staff_create_title")}</DialogTitle>
+                </DialogHeader>
+                <div className="space-y-4 mt-2">
+                  {/* Server select */}
+                  <div>
+                    <Label>{t("staff_server")}</Label>
+                    <Select value={selectedServer} onValueChange={setSelectedServer}>
+                      <SelectTrigger className="mt-1">
+                        <SelectValue placeholder={t("vip_select_server")} />
+                      </SelectTrigger>
+                      <SelectContent>
+                        {myServers.map(s => (
+                          <SelectItem key={s.id} value={s.id}>{s.name} ({s.ip})</SelectItem>
+                        ))}
+                      </SelectContent>
+                    </Select>
+                  </div>
+
+                  {/* Position */}
+                  <div>
+                    <Label>{t("staff_position")}</Label>
+                    <Select value={position} onValueChange={setPosition}>
+                      <SelectTrigger className="mt-1">
+                        <SelectValue placeholder={t("staff_position_placeholder")} />
+                      </SelectTrigger>
+                      <SelectContent>
+                        {POSITION_OPTIONS.map(p => (
+                          <SelectItem key={p} value={p}>{p}</SelectItem>
+                        ))}
+                        <SelectItem value="custom">Iná pozícia...</SelectItem>
+                      </SelectContent>
+                    </Select>
+                    {position === "custom" && (
+                      <Input
+                        className="mt-2"
+                        placeholder={t("staff_position_placeholder")}
+                        value={customPosition}
+                        onChange={e => setCustomPosition(e.target.value)}
+                        maxLength={50}
+                      />
+                    )}
+                  </div>
+
+                  {/* Description */}
+                  <div>
+                    <Label>{t("staff_description")}</Label>
+                    <Textarea
+                      className="mt-1"
+                      placeholder={t("staff_description_placeholder")}
+                      value={description}
+                      onChange={e => setDescription(e.target.value)}
+                      rows={4}
+                      maxLength={2000}
+                    />
+                  </div>
+
+                  {/* Requirements */}
+                  <div>
+                    <Label>{t("staff_requirements")}</Label>
+                    <Textarea
+                      className="mt-1"
+                      placeholder={t("staff_requirements_placeholder")}
+                      value={requirements}
+                      onChange={e => setRequirements(e.target.value)}
+                      rows={3}
+                      maxLength={1000}
+                    />
+                  </div>
+
+                  {/* Images */}
+                  <ServerImageUpload
+                    images={images}
+                    onImagesChange={setImages}
+                    maxImages={3}
+                  />
+
+                  <Button
+                    onClick={handleSubmit}
+                    disabled={submitting}
+                    className="w-full gradient-primary border-0"
+                  >
+                    {submitting ? t("staff_submitting") : t("staff_submit")}
+                  </Button>
+                </div>
+              </DialogContent>
+            </Dialog>
+          )}
+
+          {user && myServers.length === 0 && (
+            <p className="text-sm text-muted-foreground">{t("staff_no_servers")}</p>
+          )}
+
+          {!user && (
+            <Link to="/auth">
+              <Button variant="outline">{t("staff_login_required")}</Button>
+            </Link>
+          )}
+
+          {user && (
+            <Button
+              variant={showMyPosts ? "default" : "outline"}
+              size="sm"
+              onClick={() => setShowMyPosts(!showMyPosts)}
+            >
+              {t("staff_my_posts")}
+            </Button>
+          )}
+        </div>
+
+        {/* Posts grid */}
+        {loading ? (
+          <div className="flex justify-center py-16">
+            <div className="h-8 w-8 animate-spin rounded-full border-4 border-primary border-t-transparent" />
+          </div>
+        ) : displayedPosts.length === 0 ? (
+          <div className="text-center py-16">
+            <Users className="h-12 w-12 text-muted-foreground/40 mx-auto mb-3" />
+            <p className="text-muted-foreground font-medium">{t("staff_none")}</p>
+            <p className="text-sm text-muted-foreground/60 mt-1">{t("staff_none_hint")}</p>
+          </div>
+        ) : (
+          <div className="grid gap-4 sm:grid-cols-2">
+            {displayedPosts.map(post => (
+              <Card key={post.id} className="overflow-hidden border-border/60 hover:border-primary/30 transition-colors">
+                {/* Image banner */}
+                {post.images.length > 0 && (
+                  <div className="aspect-[2.5/1] overflow-hidden">
+                    <img
+                      src={post.images[0]}
+                      alt=""
+                      className="w-full h-full object-cover"
+                      loading="lazy"
+                    />
+                  </div>
+                )}
+
+                <CardContent className="p-4 space-y-3">
+                  {/* Position badge + server */}
+                  <div className="flex items-start justify-between gap-2">
+                    <div>
+                      <Badge className="bg-primary/15 text-primary border-primary/25 mb-1.5">
+                        {t("staff_looking_for")}: {post.position}
+                      </Badge>
+                      <Link
+                        to={`/server/${post.server_ip.replace(/[.:]/g, "-")}`}
+                        className="block text-lg font-bold text-foreground hover:text-primary transition-colors leading-tight"
+                      >
+                        {post.server_name}
+                      </Link>
+                      <p className="text-xs text-muted-foreground font-mono mt-0.5">{post.server_ip}</p>
+                    </div>
+                  </div>
+
+                  {/* Description */}
+                  <p className="text-sm text-muted-foreground whitespace-pre-line line-clamp-4">{post.description}</p>
+
+                  {/* Requirements */}
+                  {post.requirements && (
+                    <div className="bg-secondary/50 rounded-md p-2.5">
+                      <p className="text-xs font-semibold text-foreground mb-1">{t("staff_requirements")}</p>
+                      <p className="text-xs text-muted-foreground whitespace-pre-line">{post.requirements}</p>
+                    </div>
+                  )}
+
+                  {/* Social links */}
+                  <div className="flex items-center gap-2 flex-wrap">
+                    {post.discord_url && (
+                      <a
+                        href={sanitizeHref(post.discord_url)}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="inline-flex items-center gap-1 text-xs text-muted-foreground hover:text-foreground transition-colors"
+                      >
+                        <MessageSquare className="h-3.5 w-3.5" /> Discord
+                      </a>
+                    )}
+                    {post.website_url && (
+                      <a
+                        href={sanitizeHref(post.website_url)}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="inline-flex items-center gap-1 text-xs text-muted-foreground hover:text-foreground transition-colors"
+                      >
+                        <Globe className="h-3.5 w-3.5" /> Web
+                      </a>
+                    )}
+                  </div>
+
+                  {/* Footer: author + actions */}
+                  <div className="flex items-center justify-between pt-2 border-t border-border/40">
+                    <div className="flex items-center gap-2">
+                      <div className="h-5 w-5 rounded-full bg-secondary border border-border overflow-hidden flex items-center justify-center">
+                        {post.owner_avatar ? (
+                          <img src={post.owner_avatar} alt="" className="h-full w-full object-cover" />
+                        ) : (
+                          <Users className="h-3 w-3 text-muted-foreground" />
+                        )}
+                      </div>
+                      <span className="text-xs text-muted-foreground">{post.owner_nickname}</span>
+                      <span className="text-xs text-muted-foreground/50">·</span>
+                      <span className="text-xs text-muted-foreground/50">
+                        {new Date(post.created_at).toLocaleDateString()}
+                      </span>
+                    </div>
+
+                    {user?.id === post.owner_id && (
+                      <div className="flex items-center gap-1">
+                        <Button
+                          size="sm"
+                          variant="ghost"
+                          className="h-7 px-2 text-xs"
+                          onClick={() => toggleActive(post.id, post.is_active)}
+                        >
+                          {post.is_active ? <EyeOff className="h-3.5 w-3.5" /> : <Eye className="h-3.5 w-3.5" />}
+                        </Button>
+                        <Button
+                          size="sm"
+                          variant="ghost"
+                          className="h-7 px-2 text-xs text-destructive hover:text-destructive"
+                          onClick={() => handleDelete(post.id)}
+                        >
+                          <Trash2 className="h-3.5 w-3.5" />
+                        </Button>
+                      </div>
+                    )}
+                  </div>
+                </CardContent>
+              </Card>
+            ))}
+          </div>
+        )}
+      </main>
+      <Footer />
+    </div>
+  );
+};
+
+export default StaffRecruitment;

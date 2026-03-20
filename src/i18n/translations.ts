@@ -373,6 +373,39 @@ type TranslationKeys = {
   privacy_section_3_text: string;
   privacy_section_4_title: string;
   privacy_section_4_text: string;
+  // Staff recruitment
+  nav_staff: string;
+  staff_title_1: string;
+  staff_title_2: string;
+  staff_subtitle: string;
+  staff_create: string;
+  staff_create_title: string;
+  staff_position: string;
+  staff_position_placeholder: string;
+  staff_description: string;
+  staff_description_placeholder: string;
+  staff_requirements: string;
+  staff_requirements_placeholder: string;
+  staff_server: string;
+  staff_images: string;
+  staff_images_hint: string;
+  staff_submit: string;
+  staff_submitting: string;
+  staff_success: string;
+  staff_error: string;
+  staff_login_required: string;
+  staff_no_servers: string;
+  staff_none: string;
+  staff_none_hint: string;
+  staff_delete: string;
+  staff_deleted: string;
+  staff_close: string;
+  staff_closed: string;
+  staff_reopen: string;
+  staff_reopened: string;
+  staff_looking_for: string;
+  staff_posted_by: string;
+  staff_my_posts: string;
 };
 
 const sk: TranslationKeys = {
@@ -705,6 +738,38 @@ const sk: TranslationKeys = {
   privacy_section_3_text: "Používame lokálne úložisko prehliadača na zapamätanie jazykových preferencií a prihlásenia. Nepoužívame sledovacie cookies tretích strán. Platby spracováva Stripe, ktorý má vlastnú politiku ochrany súkromia.",
   privacy_section_4_title: "4. Vaše práva",
   privacy_section_4_text: "Máte právo na prístup, opravu alebo vymazanie svojich údajov. Pre vymazanie účtu nás kontaktujte. Po vymazaní účtu budú vaše údaje odstránené, servery a komentáre budú zmazané. Údaje o platbách sú uchovávané v súlade so zákonom.",
+  nav_staff: "Nábor",
+  staff_title_1: "Hľadáme",
+  staff_title_2: "do tímu",
+  staff_subtitle: "Servery hľadajú nových členov do admin tímu",
+  staff_create: "Vytvoriť inzerát",
+  staff_create_title: "Nový inzerát na pozíciu",
+  staff_position: "Pozícia",
+  staff_position_placeholder: "Napr. Builder, Helper, Eventer...",
+  staff_description: "Popis pozície",
+  staff_description_placeholder: "Opíšte čo bude pozícia zahŕňať, aké úlohy...",
+  staff_requirements: "Požiadavky",
+  staff_requirements_placeholder: "Napr. vek 15+, skúsenosti s WorldEdit...",
+  staff_server: "Server",
+  staff_images: "Fotky / GIFy",
+  staff_images_hint: "Nahrajte fotky servera alebo ukážky",
+  staff_submit: "Zverejniť inzerát",
+  staff_submitting: "Zverejňujem...",
+  staff_success: "Inzerát bol zverejnený!",
+  staff_error: "Chyba pri zverejnení inzerátu",
+  staff_login_required: "Pre vytvorenie inzerátu sa musíte prihlásiť",
+  staff_no_servers: "Nemáte žiadne servery. Najprv pridajte server.",
+  staff_none: "Žiadne inzeráty",
+  staff_none_hint: "Momentálne nikto nehľadá nových členov do tímu",
+  staff_delete: "Zmazať",
+  staff_deleted: "Inzerát bol zmazaný",
+  staff_close: "Zavrieť",
+  staff_closed: "Inzerát bol zatvorený",
+  staff_reopen: "Obnoviť",
+  staff_reopened: "Inzerát bol obnovený",
+  staff_looking_for: "Hľadáme",
+  staff_posted_by: "Zverejnil",
+  staff_my_posts: "Moje inzeráty",
 };
 
 const cs: TranslationKeys = {
@@ -1255,6 +1320,38 @@ const en: TranslationKeys = {
   privacy_section_3_text: "We use browser local storage to remember language preferences and login. We do not use third-party tracking cookies. Payments are processed by Stripe, which has its own privacy policy.",
   privacy_section_4_title: "4. Your Rights",
   privacy_section_4_text: "You have the right to access, correct, or delete your data. Contact us for account deletion. After deletion, your data will be removed, servers and comments will be deleted. Payment data is retained in accordance with the law.",
+  nav_staff: "Recruitment",
+  staff_title_1: "Looking for",
+  staff_title_2: "team members",
+  staff_subtitle: "Servers looking for new admin team members",
+  staff_create: "Create listing",
+  staff_create_title: "New position listing",
+  staff_position: "Position",
+  staff_position_placeholder: "E.g. Builder, Helper, Eventer...",
+  staff_description: "Position description",
+  staff_description_placeholder: "Describe what the position involves, tasks...",
+  staff_requirements: "Requirements",
+  staff_requirements_placeholder: "E.g. age 15+, experience with WorldEdit...",
+  staff_server: "Server",
+  staff_images: "Photos / GIFs",
+  staff_images_hint: "Upload server photos or previews",
+  staff_submit: "Publish listing",
+  staff_submitting: "Publishing...",
+  staff_success: "Listing published!",
+  staff_error: "Error publishing listing",
+  staff_login_required: "You must be logged in to create a listing",
+  staff_no_servers: "You don't have any servers. Add a server first.",
+  staff_none: "No listings",
+  staff_none_hint: "No one is currently looking for new team members",
+  staff_delete: "Delete",
+  staff_deleted: "Listing deleted",
+  staff_close: "Close",
+  staff_closed: "Listing closed",
+  staff_reopen: "Reopen",
+  staff_reopened: "Listing reopened",
+  staff_looking_for: "Looking for",
+  staff_posted_by: "Posted by",
+  staff_my_posts: "My listings",
 };
 
 const de: TranslationKeys = {

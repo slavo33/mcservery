@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { Link } from "react-router-dom";
-import { Menu, X, Gamepad2, User, LogOut, Shield, Crown } from "lucide-react";
+import { Menu, X, Gamepad2, User, LogOut, Shield, Crown, Users } from "lucide-react";
 import BugReportDialog from "@/components/BugReportDialog";
 import { Button } from "@/components/ui/button";
 import { useAuth } from "@/hooks/useAuth";
@@ -16,6 +16,7 @@ const Header = () => {
     { label: t("nav_home"), to: "/" },
     { label: t("nav_servers"), to: "/servers" },
     { label: t("nav_add_server"), to: "/add-server" },
+    { label: t("nav_staff"), to: "/staff", icon: Users },
     { label: t("nav_vip"), to: "/vip", isVip: true },
   ];
 
@@ -35,9 +36,10 @@ const Header = () => {
             <Link
               key={item.to}
               to={item.to}
-              className={`rounded-md px-4 py-2 text-sm font-medium transition-colors ${item.isVip ? "text-amber-400 hover:bg-amber-500/10 flex items-center gap-1.5 font-bold" : "text-muted-foreground hover:bg-secondary hover:text-foreground"}`}
+              className={`rounded-md px-4 py-2 text-sm font-medium transition-colors flex items-center gap-1.5 ${item.isVip ? "text-amber-400 hover:bg-amber-500/10 font-bold" : "text-muted-foreground hover:bg-secondary hover:text-foreground"}`}
             >
               {item.isVip && <Crown className="h-4 w-4" />}
+              {item.icon && <item.icon className="h-4 w-4" />}
               {item.label}
             </Link>
           ))}
@@ -99,9 +101,10 @@ const Header = () => {
                 key={item.to}
                 to={item.to}
                 onClick={() => setMobileOpen(false)}
-                className={`rounded-md px-4 py-3 text-sm font-medium transition-colors ${item.isVip ? "text-amber-400 hover:bg-amber-500/10 flex items-center gap-1.5 font-bold" : "text-muted-foreground hover:bg-secondary hover:text-foreground"}`}
+                className={`rounded-md px-4 py-3 text-sm font-medium transition-colors flex items-center gap-1.5 ${item.isVip ? "text-amber-400 hover:bg-amber-500/10 font-bold" : "text-muted-foreground hover:bg-secondary hover:text-foreground"}`}
               >
                 {item.isVip && <Crown className="h-4 w-4" />}
+                {item.icon && <item.icon className="h-4 w-4" />}
                 {item.label}
               </Link>
             ))}

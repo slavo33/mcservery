@@ -409,6 +409,62 @@ export type Database = {
         }
         Relationships: []
       }
+      staff_posts: {
+        Row: {
+          created_at: string
+          description: string
+          discord_url: string | null
+          id: string
+          images: string[]
+          is_active: boolean
+          owner_id: string
+          position: string
+          requirements: string
+          server_id: string
+          server_ip: string
+          updated_at: string
+          website_url: string | null
+        }
+        Insert: {
+          created_at?: string
+          description?: string
+          discord_url?: string | null
+          id?: string
+          images?: string[]
+          is_active?: boolean
+          owner_id: string
+          position: string
+          requirements?: string
+          server_id: string
+          server_ip?: string
+          updated_at?: string
+          website_url?: string | null
+        }
+        Update: {
+          created_at?: string
+          description?: string
+          discord_url?: string | null
+          id?: string
+          images?: string[]
+          is_active?: boolean
+          owner_id?: string
+          position?: string
+          requirements?: string
+          server_id?: string
+          server_ip?: string
+          updated_at?: string
+          website_url?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "staff_posts_server_id_fkey"
+            columns: ["server_id"]
+            isOneToOne: false
+            referencedRelation: "servers"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       user_roles: {
         Row: {
           id: string
