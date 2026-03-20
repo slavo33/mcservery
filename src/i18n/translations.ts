@@ -406,6 +406,8 @@ type TranslationKeys = {
   staff_looking_for: string;
   staff_posted_by: string;
   staff_my_posts: string;
+  staff_sort_newest: string;
+  staff_sort_oldest: string;
 };
 
 const sk: TranslationKeys = {
@@ -770,6 +772,8 @@ const sk: TranslationKeys = {
   staff_looking_for: "Hľadáme",
   staff_posted_by: "Zverejnil",
   staff_my_posts: "Moje inzeráty",
+  staff_sort_newest: "Od najnovšieho",
+  staff_sort_oldest: "Od najstaršieho",
 };
 
 const cs: TranslationKeys = {
@@ -1020,6 +1024,8 @@ const cs: TranslationKeys = {
   staff_looking_for: "Hledáme",
   staff_posted_by: "Zveřejnil",
   staff_my_posts: "Moje inzeráty",
+  staff_sort_newest: "Od nejnovějšího",
+  staff_sort_oldest: "Od nejstaršího",
 };
 
 const en: TranslationKeys = {
@@ -1384,6 +1390,8 @@ const en: TranslationKeys = {
   staff_looking_for: "Looking for",
   staff_posted_by: "Posted by",
   staff_my_posts: "My listings",
+  staff_sort_newest: "Newest first",
+  staff_sort_oldest: "Oldest first",
 };
 
 const de: TranslationKeys = {
@@ -1639,6 +1647,8 @@ const de: TranslationKeys = {
   staff_looking_for: "Gesucht",
   staff_posted_by: "Veröffentlicht von",
   staff_my_posts: "Meine Inserate",
+  staff_sort_newest: "Neueste zuerst",
+  staff_sort_oldest: "Älteste zuerst",
 };
 
 const fr: TranslationKeys = {
@@ -1897,6 +1907,8 @@ const fr: TranslationKeys = {
   staff_looking_for: "Recherché",
   staff_posted_by: "Publié par",
   staff_my_posts: "Mes annonces",
+  staff_sort_newest: "Plus récentes",
+  staff_sort_oldest: "Plus anciennes",
 };
 
 const ru: TranslationKeys = {
@@ -2000,6 +2012,8 @@ const ru: TranslationKeys = {
   staff_looking_for: "Ищем",
   staff_posted_by: "Опубликовал",
   staff_my_posts: "Мои объявления",
+  staff_sort_newest: "Сначала новые",
+  staff_sort_oldest: "Сначала старые",
 };
 
 const uk: TranslationKeys = {
@@ -2101,6 +2115,8 @@ const uk: TranslationKeys = {
   staff_looking_for: "Шукаємо",
   staff_posted_by: "Опублікував",
   staff_my_posts: "Мої оголошення",
+  staff_sort_newest: "Спочатку нові",
+  staff_sort_oldest: "Спочатку старі",
 };
 
 const es: TranslationKeys = {
@@ -2201,6 +2217,8 @@ const es: TranslationKeys = {
   staff_looking_for: "Buscamos",
   staff_posted_by: "Publicado por",
   staff_my_posts: "Mis anuncios",
+  staff_sort_newest: "Más recientes",
+  staff_sort_oldest: "Más antiguos",
 };
 
 const pt: TranslationKeys = {
@@ -2300,6 +2318,8 @@ const pt: TranslationKeys = {
   staff_looking_for: "Procuramos",
   staff_posted_by: "Publicado por",
   staff_my_posts: "Meus anúncios",
+  staff_sort_newest: "Mais recentes",
+  staff_sort_oldest: "Mais antigos",
 };
 
 const br: TranslationKeys = {
@@ -2406,6 +2426,8 @@ const zh: TranslationKeys = {
   staff_looking_for: "招募",
   staff_posted_by: "发布者",
   staff_my_posts: "我的招聘",
+  staff_sort_newest: "最新优先",
+  staff_sort_oldest: "最早优先",
 };
 
 const ja: TranslationKeys = {
@@ -2506,6 +2528,8 @@ const ja: TranslationKeys = {
   staff_looking_for: "募集",
   staff_posted_by: "投稿者",
   staff_my_posts: "自分の募集",
+  staff_sort_newest: "新しい順",
+  staff_sort_oldest: "古い順",
 };
 
 export const translations: Record<Locale, TranslationKeys> = { sk, cs, en, de, fr, ru, uk, es, pt, br, zh, ja };
