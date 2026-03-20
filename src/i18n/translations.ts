@@ -373,6 +373,39 @@ type TranslationKeys = {
   privacy_section_3_text: string;
   privacy_section_4_title: string;
   privacy_section_4_text: string;
+  // Staff recruitment
+  nav_staff: string;
+  staff_title_1: string;
+  staff_title_2: string;
+  staff_subtitle: string;
+  staff_create: string;
+  staff_create_title: string;
+  staff_position: string;
+  staff_position_placeholder: string;
+  staff_description: string;
+  staff_description_placeholder: string;
+  staff_requirements: string;
+  staff_requirements_placeholder: string;
+  staff_server: string;
+  staff_images: string;
+  staff_images_hint: string;
+  staff_submit: string;
+  staff_submitting: string;
+  staff_success: string;
+  staff_error: string;
+  staff_login_required: string;
+  staff_no_servers: string;
+  staff_none: string;
+  staff_none_hint: string;
+  staff_delete: string;
+  staff_deleted: string;
+  staff_close: string;
+  staff_closed: string;
+  staff_reopen: string;
+  staff_reopened: string;
+  staff_looking_for: string;
+  staff_posted_by: string;
+  staff_my_posts: string;
 };
 
 const sk: TranslationKeys = {
