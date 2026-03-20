@@ -142,7 +142,7 @@ const StaffPostDetail = () => {
     }
   };
 
-
+  const toggleActive = async () => {
     if (!post) return;
     const { error } = await supabase
       .from("staff_posts")
