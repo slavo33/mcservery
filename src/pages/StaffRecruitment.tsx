@@ -394,16 +394,14 @@ const StaffRecruitment = () => {
 
                 <CardContent className="p-4 space-y-3">
                   {/* Position badge + server */}
-                  <div className="flex items-start justify-between gap-2">
-                    <div>
-                      <Badge className="bg-primary/15 text-primary border-primary/25 mb-1.5">
-                        {post.position}
-                      </Badge>
-                      <span className="block text-lg font-bold text-foreground leading-tight">
-                        {post.server_name}
-                      </span>
-                      <p className="text-xs text-muted-foreground font-mono mt-0.5">{post.server_ip}</p>
-                    </div>
+                  <div className="space-y-1.5">
+                    <Badge className="bg-primary/15 text-primary border-primary/25">
+                      {post.position}
+                    </Badge>
+                    <p className="text-lg font-bold text-foreground leading-tight">
+                      {post.server_name}
+                    </p>
+                    <p className="text-xs text-muted-foreground font-mono">{post.server_ip}</p>
                   </div>
 
                   {/* Description */}
