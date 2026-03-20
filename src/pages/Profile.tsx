@@ -21,9 +21,11 @@ const Profile = () => {
   const [saving, setSaving] = useState(false);
   const [tab, setTab] = useState<"settings" | "favorites" | "my_servers">("settings");
   const [likedServers, setLikedServers] = useState<(MinecraftServer & { dbId: string; is_warez: boolean; has_whitelist: boolean })[]>([]);
+  const [likedPosts, setLikedPosts] = useState<any[]>([]);
   const [myServers, setMyServers] = useState<(MinecraftServer & { dbId: string; is_warez: boolean; has_whitelist: boolean })[]>([]);
   const [loadingFavorites, setLoadingFavorites] = useState(false);
   const [loadingMyServers, setLoadingMyServers] = useState(false);
+  const [favSubTab, setFavSubTab] = useState<"servers" | "posts">("servers");
   const navigate = useNavigate();
 
   useEffect(() => {
