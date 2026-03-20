@@ -37,7 +37,7 @@ interface StaffPost {
 }
 
 const StaffPostDetail = () => {
-  const { id } = useParams<{ id: string }>();
+  const { slug } = useParams<{ slug: string }>();
   const navigate = useNavigate();
   const { user, isAdmin } = useAuth();
   const { t, locale } = useLanguage();
