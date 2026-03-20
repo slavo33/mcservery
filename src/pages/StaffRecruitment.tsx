@@ -79,19 +79,12 @@ const StaffRecruitment = () => {
       const ownerIds = [...new Set(data.map(p => p.owner_id))];
       const postIds = data.map(p => p.id);
 
-      const fetchPromises: Promise<any>[] = [
-        supabase.from("servers").select("id, name, vip_expires_at").in("id", serverIds),
-        supabase.from("profiles").select("id, nickname, avatar_url").in("id", ownerIds),
-      ];
-
-      // Fetch user's likes if logged in
+      const serversRes = await supabase.from("servers").select("id, name, vip_expires_at").in("id", serverIds);
+      const profilesRes = await supabase.from("profiles").select("id, nickname, avatar_url").in("id", ownerIds);
+      let myLikesRes: { data: any[] | null } = { data: null };
       if (user) {
-        fetchPromises.push(
-          supabase.from("staff_post_likes").select("staff_post_id").eq("user_id", user.id).in("staff_post_id", postIds)
-        );
+        myLikesRes = await supabase.from("staff_post_likes").select("staff_post_id").eq("user_id", user.id).in("staff_post_id", postIds);
       }
-
-      const [serversRes, profilesRes, myLikesRes] = await Promise.all(fetchPromises);
 
       const serverMap = new Map(serversRes.data?.map((s: any) => [s.id, { name: s.name, is_vip: s.vip_expires_at ? new Date(s.vip_expires_at) > new Date() : false }]) || []);
       const profileMap = new Map(profilesRes.data?.map((p: any) => [p.id, p]) || []);
