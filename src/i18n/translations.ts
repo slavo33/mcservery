@@ -772,6 +772,8 @@ const sk: TranslationKeys = {
   staff_looking_for: "Hľadáme",
   staff_posted_by: "Zverejnil",
   staff_my_posts: "Moje inzeráty",
+  staff_sort_newest: "Od najnovšieho",
+  staff_sort_oldest: "Od najstaršieho",
 };
 
 const cs: TranslationKeys = {
