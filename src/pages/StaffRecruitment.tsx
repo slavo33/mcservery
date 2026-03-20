@@ -177,11 +177,22 @@ const StaffRecruitment = () => {
 
   const availablePositions = [...new Set(posts.map(p => p.position))].sort();
 
+  const getDateThreshold = () => {
+    if (filterDate === "all") return null;
+    const now = new Date();
+    if (filterDate === "today") return new Date(now.setHours(0, 0, 0, 0)).toISOString();
+    if (filterDate === "week") return new Date(now.getTime() - 7 * 24 * 60 * 60 * 1000).toISOString();
+    if (filterDate === "month") return new Date(now.getTime() - 30 * 24 * 60 * 60 * 1000).toISOString();
+    return null;
+  };
+
   const q = searchQuery.toLowerCase().trim();
+  const dateThreshold = getDateThreshold();
   const displayedPosts = posts
     .filter(p => !showMyPosts || !user || p.owner_id === user.id)
     .filter(p => filterPosition === "all" || p.position === filterPosition)
-    .filter(p => !q || (p.server_name?.toLowerCase().includes(q) || p.server_ip.toLowerCase().includes(q)));
+    .filter(p => !q || (p.server_name?.toLowerCase().includes(q) || p.server_ip.toLowerCase().includes(q)))
+    .filter(p => !dateThreshold || p.created_at >= dateThreshold);
 
   return (
     <div className="min-h-screen bg-background">
