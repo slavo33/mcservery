@@ -115,7 +115,7 @@ const StaffRecruitment = () => {
     if (!user) return;
     const { data } = await supabase
       .from("servers")
-      .select("id, name, ip, discord_url, website_url")
+      .select("id, name, ip, discord_url, website_url, vip_expires_at, vote_cooldown_hours")
       .eq("owner_id", user.id);
     setMyServers(data || []);
   };
