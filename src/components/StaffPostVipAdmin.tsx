@@ -236,7 +236,7 @@ const StaffPostVipAdmin = () => {
           </div>
           <DialogFooter>
             <Button variant="secondary" onClick={() => setAssignDialog(false)}>Zrušiť</Button>
-            <Button onClick={handleAssign} disabled={processing || !selectedPostId || parseInt(assignDays) < 1}>
+            <Button onClick={handleAssign} disabled={processing || !selectedPostId}>
               {processing ? "..." : "Prideliť VIP"}
             </Button>
           </DialogFooter>
