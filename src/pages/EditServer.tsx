@@ -153,6 +153,19 @@ const EditServer = () => {
       return;
     }
 
+    const invalidUrl = findInvalidUrl([
+      { label: "Discord", value: discordUrl },
+      { label: "Website", value: websiteUrl },
+      { label: "Instagram", value: instagramUrl },
+      { label: "TikTok", value: tiktokUrl },
+      { label: "YouTube", value: youtubeUrl },
+      { label: "Twitter/X", value: twitterUrl },
+    ]);
+    if (invalidUrl) {
+      toast.error(`${invalidUrl}: Povolené sú iba HTTP a HTTPS odkazy`);
+      return;
+    }
+
     setSubmitting(true);
     const { error } = await supabase.from("servers").update({
       name: name.trim(),
