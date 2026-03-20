@@ -1024,6 +1024,8 @@ const cs: TranslationKeys = {
   staff_looking_for: "Hledáme",
   staff_posted_by: "Zveřejnil",
   staff_my_posts: "Moje inzeráty",
+  staff_sort_newest: "Od nejnovějšího",
+  staff_sort_oldest: "Od nejstaršího",
 };
 
 const en: TranslationKeys = {
