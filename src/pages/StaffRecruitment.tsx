@@ -459,9 +459,12 @@ const StaffRecruitment = () => {
                     </p>
                     <div className="flex items-center gap-3">
                       <p className="text-xs text-muted-foreground font-mono">{post.server_ip}</p>
-                      <span className="inline-flex items-center gap-1 text-xs text-muted-foreground">
-                        <Heart className="h-3 w-3" /> {post.server_likes_count || 0}
-                      </span>
+                      <button
+                        onClick={(e) => toggleLike(e, post.id, !!post.liked_by_me)}
+                        className={`inline-flex items-center gap-1 text-xs transition-colors ${post.liked_by_me ? "text-red-500" : "text-muted-foreground hover:text-red-500"}`}
+                      >
+                        <Heart className={`h-3 w-3 ${post.liked_by_me ? "fill-current" : ""}`} /> {post.likes_count || 0}
+                      </button>
                     </div>
                   </div>
 
