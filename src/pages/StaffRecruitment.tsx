@@ -38,7 +38,7 @@ interface StaffPost {
 
 const POSITION_OPTIONS = [
   "Builder", "Helper", "Moderátor", "Admin", "Developer",
-  "Eventer", "Designer", "YouTuber", "Tester", "Support"
+  "Eventer", "Designer", "Content Creator", "Tester", "Support"
 ];
 
 const StaffRecruitment = () => {
