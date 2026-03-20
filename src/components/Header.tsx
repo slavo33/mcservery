@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { Link } from "react-router-dom";
-import { Menu, X, Gamepad2, User, LogOut, Shield, Crown } from "lucide-react";
+import { Menu, X, Gamepad2, User, LogOut, Shield, Crown, Users } from "lucide-react";
 import BugReportDialog from "@/components/BugReportDialog";
 import { Button } from "@/components/ui/button";
 import { useAuth } from "@/hooks/useAuth";
