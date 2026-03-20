@@ -663,7 +663,7 @@ export type Database = {
         | "fire"
         | "sad"
       report_status: "pending" | "resolved" | "dismissed"
-      report_type: "server" | "comment"
+      report_type: "server" | "comment" | "staff_post"
     }
     CompositeTypes: {
       [_ in never]: never
@@ -801,7 +801,7 @@ export const Constants = {
         "sad",
       ],
       report_status: ["pending", "resolved", "dismissed"],
-      report_type: ["server", "comment"],
+      report_type: ["server", "comment", "staff_post"],
     },
   },
 } as const
