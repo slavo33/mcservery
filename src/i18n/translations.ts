@@ -406,6 +406,8 @@ type TranslationKeys = {
   staff_looking_for: string;
   staff_posted_by: string;
   staff_my_posts: string;
+  staff_sort_newest: string;
+  staff_sort_oldest: string;
 };
 
 const sk: TranslationKeys = {
