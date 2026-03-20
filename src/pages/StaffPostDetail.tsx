@@ -1,10 +1,16 @@
 import { useState, useEffect } from "react";
 import { useParams, Link, useNavigate } from "react-router-dom";
-import { ArrowLeft, Users, Globe, MessageSquare, Trash2, EyeOff, Eye, Flag } from "lucide-react";
+import { ArrowLeft, Users, Globe, MessageSquare, Trash2, EyeOff, Eye, Flag, Pencil } from "lucide-react";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
+import { Input } from "@/components/ui/input";
+import { Textarea } from "@/components/ui/textarea";
+import { Label } from "@/components/ui/label";
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
+import ServerImageUpload from "@/components/ServerImageUpload";
 import StaffCommentSection from "@/components/StaffCommentSection";
 import ReportDialog from "@/components/ReportDialog";
 import { supabase } from "@/integrations/supabase/client";
@@ -31,7 +37,7 @@ interface StaffPost {
 const StaffPostDetail = () => {
   const { id } = useParams<{ id: string }>();
   const navigate = useNavigate();
-  const { user } = useAuth();
+  const { user, isAdmin } = useAuth();
   const { t, locale } = useLanguage();
   const [post, setPost] = useState<StaffPost | null>(null);
   const [serverName, setServerName] = useState("");
@@ -39,6 +45,17 @@ const StaffPostDetail = () => {
   const [ownerNickname, setOwnerNickname] = useState("");
   const [ownerAvatar, setOwnerAvatar] = useState<string | null>(null);
   const [loading, setLoading] = useState(true);
+  const [editOpen, setEditOpen] = useState(false);
+  const [editPosition, setEditPosition] = useState("");
+  const [editDescription, setEditDescription] = useState("");
+  const [editRequirements, setEditRequirements] = useState("");
+  const [editImages, setEditImages] = useState<string[]>([]);
+  const [editSubmitting, setEditSubmitting] = useState(false);
+
+  const POSITION_OPTIONS = [
+    "Builder", "Helper", "Moderátor", "Admin", "Developer",
+    "Eventer", "Designer", "YouTuber", "Tester", "Support"
+  ];
 
   useEffect(() => {
     const fetchPost = async () => {
@@ -89,6 +106,37 @@ const StaffPostDetail = () => {
       toast.success(post.is_active ? t("staff_closed") : t("staff_reopened"));
       setPost({ ...post, is_active: !post.is_active });
     }
+  };
+
+  const openEdit = () => {
+    if (!post) return;
+    setEditPosition(POSITION_OPTIONS.includes(post.position) ? post.position : "custom");
+    setEditDescription(post.description);
+    setEditRequirements(post.requirements);
+    setEditImages(post.images);
+    setEditOpen(true);
+  };
+
+  const handleEditSubmit = async () => {
+    if (!post) return;
+    setEditSubmitting(true);
+    const { error } = await supabase
+      .from("staff_posts")
+      .update({
+        position: editPosition,
+        description: editDescription,
+        requirements: editRequirements,
+        images: editImages,
+      })
+      .eq("id", post.id);
+    if (error) {
+      toast.error(t("staff_error"));
+    } else {
+      toast.success(t("staff_success"));
+      setPost({ ...post, position: editPosition, description: editDescription, requirements: editRequirements, images: editImages });
+      setEditOpen(false);
+    }
+    setEditSubmitting(false);
   };
 
   const localeMap: Record<string, string> = {
@@ -190,8 +238,12 @@ const StaffPostDetail = () => {
 
           {/* Actions */}
           <div className="flex flex-wrap gap-2 mt-4">
-            {isOwner && (
+            {(isOwner || isAdmin) && (
               <>
+                <Button size="sm" variant="outline" onClick={openEdit} className="gap-1.5">
+                  <Pencil className="h-4 w-4" />
+                  {t("edit_server") || "Upraviť"}
+                </Button>
                 <Button size="sm" variant="outline" onClick={toggleActive} className="gap-1.5">
                   {post.is_active ? <EyeOff className="h-4 w-4" /> : <Eye className="h-4 w-4" />}
                   {post.is_active ? t("staff_close") : t("staff_reopen")}
@@ -202,7 +254,7 @@ const StaffPostDetail = () => {
                 </Button>
               </>
             )}
-            {user && !isOwner && (
+            {user && (
               <ReportDialog
                 targetId={post.id}
                 reportType="staff_post"
@@ -251,6 +303,40 @@ const StaffPostDetail = () => {
             )}
           </div>
         )}
+
+        {/* Edit dialog */}
+        <Dialog open={editOpen} onOpenChange={setEditOpen}>
+          <DialogContent className="max-w-lg max-h-[90vh] overflow-y-auto">
+            <DialogHeader>
+              <DialogTitle>{t("edit_server") || "Upraviť inzerát"}</DialogTitle>
+            </DialogHeader>
+            <div className="space-y-4 mt-2">
+              <div>
+                <Label>{t("staff_position")}</Label>
+                <Select value={editPosition} onValueChange={setEditPosition}>
+                  <SelectTrigger className="mt-1"><SelectValue /></SelectTrigger>
+                  <SelectContent>
+                    {POSITION_OPTIONS.map(p => (
+                      <SelectItem key={p} value={p}>{p}</SelectItem>
+                    ))}
+                  </SelectContent>
+                </Select>
+              </div>
+              <div>
+                <Label>{t("staff_description")}</Label>
+                <Textarea className="mt-1" value={editDescription} onChange={e => setEditDescription(e.target.value)} rows={4} maxLength={2000} />
+              </div>
+              <div>
+                <Label>{t("staff_requirements")}</Label>
+                <Textarea className="mt-1" value={editRequirements} onChange={e => setEditRequirements(e.target.value)} rows={3} maxLength={1000} />
+              </div>
+              <ServerImageUpload images={editImages} onImagesChange={setEditImages} maxImages={3} />
+              <Button onClick={handleEditSubmit} disabled={editSubmitting} className="w-full gradient-primary border-0">
+                {editSubmitting ? t("staff_submitting") : (t("save_changes") || "Uložiť")}
+              </Button>
+            </div>
+          </DialogContent>
+        </Dialog>
 
         {/* Comments */}
         <div className="border-t border-border pt-6">

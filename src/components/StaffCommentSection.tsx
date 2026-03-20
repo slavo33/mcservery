@@ -148,14 +148,16 @@ const StaffCommentSection = ({ staffPostId }: { staffPostId: string }) => {
                   </span>
                   <span className="text-xs text-muted-foreground">{formatDate(comment.created_at)}</span>
                 </Link>
-                {user?.id === comment.user_id && (
-                  <button onClick={() => handleDelete(comment.id)} className="text-muted-foreground hover:text-destructive transition-colors">
-                    <Trash2 className="h-3.5 w-3.5" />
-                  </button>
-                )}
-                {user && user.id !== comment.user_id && (
-                  <ReportDialog targetId={comment.id} reportType="comment" triggerClassName="text-muted-foreground hover:text-destructive transition-colors p-0.5" />
-                )}
+                <div className="flex items-center gap-1">
+                  {user?.id === comment.user_id && (
+                    <button onClick={() => handleDelete(comment.id)} className="text-muted-foreground hover:text-destructive transition-colors">
+                      <Trash2 className="h-3.5 w-3.5" />
+                    </button>
+                  )}
+                  {user && (
+                    <ReportDialog targetId={comment.id} reportType="comment" triggerClassName="text-muted-foreground hover:text-destructive transition-colors p-0.5" />
+                  )}
+                </div>
               </div>
               <p className="text-sm text-foreground/90 ml-9">{comment.content}</p>
               <div className="ml-9 mt-2">
