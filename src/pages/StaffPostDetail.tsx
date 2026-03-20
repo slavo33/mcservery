@@ -46,6 +46,9 @@ const StaffPostDetail = () => {
   const [ownerNickname, setOwnerNickname] = useState("");
   const [ownerAvatar, setOwnerAvatar] = useState<string | null>(null);
   const [loading, setLoading] = useState(true);
+  const [isVip, setIsVip] = useState(false);
+  const [likedByMe, setLikedByMe] = useState(false);
+  const [likesCount, setLikesCount] = useState(0);
   const [editOpen, setEditOpen] = useState(false);
   const [editPosition, setEditPosition] = useState("");
   const [editDescription, setEditDescription] = useState("");
