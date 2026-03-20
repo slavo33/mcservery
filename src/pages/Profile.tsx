@@ -7,7 +7,7 @@ import Footer from "@/components/Footer";
 import ServerCard from "@/components/ServerCard";
 import { Button } from "@/components/ui/button";
 import { toast } from "sonner";
-import { Camera, User, Heart, Settings, Server } from "lucide-react";
+import { Camera, User, Heart, Settings, Server, Users } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import { useLanguage } from "@/i18n/LanguageContext";
 import type { MinecraftServer } from "@/lib/mockData";
