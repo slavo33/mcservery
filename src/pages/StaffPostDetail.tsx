@@ -108,6 +108,37 @@ const StaffPostDetail = () => {
     }
   };
 
+  const openEdit = () => {
+    if (!post) return;
+    setEditPosition(POSITION_OPTIONS.includes(post.position) ? post.position : "custom");
+    setEditDescription(post.description);
+    setEditRequirements(post.requirements);
+    setEditImages(post.images);
+    setEditOpen(true);
+  };
+
+  const handleEditSubmit = async () => {
+    if (!post) return;
+    setEditSubmitting(true);
+    const { error } = await supabase
+      .from("staff_posts")
+      .update({
+        position: editPosition,
+        description: editDescription,
+        requirements: editRequirements,
+        images: editImages,
+      })
+      .eq("id", post.id);
+    if (error) {
+      toast.error(t("staff_error"));
+    } else {
+      toast.success(t("staff_success"));
+      setPost({ ...post, position: editPosition, description: editDescription, requirements: editRequirements, images: editImages });
+      setEditOpen(false);
+    }
+    setEditSubmitting(false);
+  };
+
   const localeMap: Record<string, string> = {
     sk: "sk-SK", cs: "cs-CZ", en: "en-US", de: "de-DE", fr: "fr-FR",
     ru: "ru-RU", uk: "uk-UA", es: "es-ES", pt: "pt-PT", br: "pt-BR",
