@@ -1647,6 +1647,8 @@ const de: TranslationKeys = {
   staff_looking_for: "Gesucht",
   staff_posted_by: "Veröffentlicht von",
   staff_my_posts: "Meine Inserate",
+  staff_sort_newest: "Neueste zuerst",
+  staff_sort_oldest: "Älteste zuerst",
 };
 
 const fr: TranslationKeys = {
