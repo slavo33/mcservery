@@ -2235,6 +2235,8 @@ const es: TranslationKeys = {
   staff_my_posts: "Mis anuncios",
   staff_sort_newest: "Más recientes",
   staff_sort_oldest: "Más antiguos",
+  staff_sort_most_liked: "Más gustados",
+  staff_sort_vip_first: "VIP primero",
 };
 
 const pt: TranslationKeys = {
