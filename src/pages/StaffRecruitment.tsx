@@ -190,11 +190,22 @@ const StaffRecruitment = () => {
   const displayedPosts = posts
     .filter(p => !showMyPosts || !user || p.owner_id === user.id)
     .filter(p => filterPosition === "all" || p.position === filterPosition)
+    .filter(p => !filterVip || p.is_vip)
     .filter(p => !q || (p.server_name?.toLowerCase().includes(q) || p.server_ip.toLowerCase().includes(q)))
-    .sort((a, b) => sortOrder === "newest"
-      ? new Date(b.created_at).getTime() - new Date(a.created_at).getTime()
-      : new Date(a.created_at).getTime() - new Date(b.created_at).getTime()
-    );
+    .sort((a, b) => {
+      // VIP always first when sorting by vip_first
+      if (sortOrder === "vip_first") {
+        if (a.is_vip && !b.is_vip) return -1;
+        if (!a.is_vip && b.is_vip) return 1;
+        return new Date(b.created_at).getTime() - new Date(a.created_at).getTime();
+      }
+      if (sortOrder === "most_liked") {
+        return (b.server_likes_count || 0) - (a.server_likes_count || 0);
+      }
+      return sortOrder === "newest"
+        ? new Date(b.created_at).getTime() - new Date(a.created_at).getTime()
+        : new Date(a.created_at).getTime() - new Date(b.created_at).getTime();
+    });
 
   return (
     <div className="min-h-screen bg-background">
