@@ -93,6 +93,29 @@ const StaffPostDetail = () => {
     fetchPost();
   }, [id]);
 
+  // Check if current user liked this post
+  useEffect(() => {
+    if (!user || !id) return;
+    supabase.from("staff_post_likes").select("id").eq("staff_post_id", id).eq("user_id", user.id).maybeSingle()
+      .then(({ data }) => setLikedByMe(!!data));
+  }, [user, id]);
+
+  const toggleLike = async () => {
+    if (!user || !post) {
+      toast.error(t("staff_login_required"));
+      return;
+    }
+    if (likedByMe) {
+      await supabase.from("staff_post_likes").delete().eq("staff_post_id", post.id).eq("user_id", user.id);
+      setLikedByMe(false);
+      setLikesCount(prev => prev - 1);
+    } else {
+      await supabase.from("staff_post_likes").insert({ staff_post_id: post.id, user_id: user.id });
+      setLikedByMe(true);
+      setLikesCount(prev => prev + 1);
+    }
+  };
+
   const handleDelete = async () => {
     if (!post) return;
     const { error } = await supabase.from("staff_posts").delete().eq("id", post.id);
