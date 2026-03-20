@@ -31,11 +31,12 @@ interface StaffPost {
   images: string[];
   is_active: boolean;
   created_at: string;
+  likes_count: number;
   server_name?: string;
   owner_nickname?: string;
   owner_avatar?: string | null;
-  server_likes_count?: number;
   is_vip?: boolean;
+  liked_by_me?: boolean;
 }
 
 const POSITION_OPTIONS = [
