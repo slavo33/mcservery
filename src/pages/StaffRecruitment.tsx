@@ -232,7 +232,7 @@ const StaffRecruitment = () => {
                 onClick={() => setFilterPosition("all")}
                 className={`rounded-full px-3 py-1 text-xs font-medium transition-colors ${filterPosition === "all" ? "bg-primary text-primary-foreground" : "bg-secondary text-muted-foreground hover:text-foreground"}`}
               >
-                {t("filter_all")}
+                {t("filter_all")} ({posts.length})
               </button>
               {availablePositions.map(pos => (
                 <button
