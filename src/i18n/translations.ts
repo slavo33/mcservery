@@ -167,6 +167,9 @@ type TranslationKeys = {
   profile_tab_favorites: string;
   profile_tab_my_servers: string;
   profile_favorites_empty: string;
+  profile_fav_servers: string;
+  profile_fav_posts: string;
+  profile_fav_posts_empty: string;
   profile_my_servers_empty: string;
   // Featured
   featured_title: string;
