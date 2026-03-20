@@ -2026,6 +2026,8 @@ const ru: TranslationKeys = {
   staff_my_posts: "Мои объявления",
   staff_sort_newest: "Сначала новые",
   staff_sort_oldest: "Сначала старые",
+  staff_sort_most_liked: "Самые популярные",
+  staff_sort_vip_first: "VIP первыми",
 };
 
 const uk: TranslationKeys = {
