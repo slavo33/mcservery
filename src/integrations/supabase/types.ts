@@ -497,6 +497,38 @@ export type Database = {
           },
         ]
       }
+      staff_reactions: {
+        Row: {
+          created_at: string
+          id: string
+          reaction: string
+          staff_comment_id: string
+          user_id: string
+        }
+        Insert: {
+          created_at?: string
+          id?: string
+          reaction: string
+          staff_comment_id: string
+          user_id: string
+        }
+        Update: {
+          created_at?: string
+          id?: string
+          reaction?: string
+          staff_comment_id?: string
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "staff_reactions_staff_comment_id_fkey"
+            columns: ["staff_comment_id"]
+            isOneToOne: false
+            referencedRelation: "staff_comments"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       user_roles: {
         Row: {
           id: string
