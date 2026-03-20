@@ -205,16 +205,17 @@ const StaffPostDetail = () => {
         )}
 
         {/* Post header */}
-        <div className="mb-6">
-          <Badge className="bg-primary/15 text-primary border-primary/25 mb-3 text-sm">
-            {post.position}
-          </Badge>
+        <div className="mb-6 space-y-2">
+          <div className="flex flex-wrap items-center gap-2">
+            <Badge className="bg-primary/15 text-primary border-primary/25 text-sm">
+              {post.position}
+            </Badge>
+            {!post.is_active && (
+              <Badge variant="secondary">{t("staff_closed")}</Badge>
+            )}
+          </div>
 
-          {!post.is_active && (
-            <Badge variant="secondary" className="ml-2 mb-3">{t("staff_closed")}</Badge>
-          )}
-
-          <Link to={serverSlug ? `/server/${serverSlug}` : '#'} className="text-2xl sm:text-3xl font-bold text-foreground hover:text-primary transition-colors mb-1">
+          <Link to={serverSlug ? `/server/${serverSlug}` : '#'} className="block text-2xl sm:text-3xl font-bold text-foreground hover:text-primary transition-colors">
             {serverName}
           </Link>
           <p className="text-sm text-muted-foreground font-mono">{post.server_ip}</p>
