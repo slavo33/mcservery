@@ -175,6 +175,10 @@ const StaffRecruitment = () => {
     }
   };
 
+  const positionCounts = posts.reduce((acc, p) => {
+    acc[p.position] = (acc[p.position] || 0) + 1;
+    return acc;
+  }, {} as Record<string, number>);
   const availablePositions = [...new Set([...POSITION_OPTIONS, ...posts.map(p => p.position)])].sort();
 
   const q = searchQuery.toLowerCase().trim();
