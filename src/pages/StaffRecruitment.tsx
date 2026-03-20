@@ -228,15 +228,23 @@ const StaffRecruitment = () => {
             onChange={e => setSearchQuery(e.target.value)}
             className="sm:max-w-xs"
           />
-          <Select value={sortOrder} onValueChange={(v) => setSortOrder(v as "newest" | "oldest")}>
+          <Select value={sortOrder} onValueChange={(v) => setSortOrder(v as typeof sortOrder)}>
             <SelectTrigger className="sm:w-48">
               <SelectValue />
             </SelectTrigger>
             <SelectContent>
               <SelectItem value="newest">{t("staff_sort_newest")}</SelectItem>
               <SelectItem value="oldest">{t("staff_sort_oldest")}</SelectItem>
+              <SelectItem value="most_liked">{t("staff_sort_most_liked")}</SelectItem>
+              <SelectItem value="vip_first">{t("staff_sort_vip_first")}</SelectItem>
             </SelectContent>
           </Select>
+          <button
+            onClick={() => setFilterVip(!filterVip)}
+            className={`rounded-full px-3 py-1.5 text-xs font-medium transition-colors flex items-center gap-1 ${filterVip ? "bg-yellow-500/20 text-yellow-600 border border-yellow-500/30" : "bg-secondary text-muted-foreground hover:text-foreground"}`}
+          >
+            <Crown className="h-3 w-3" /> VIP
+          </button>
         </div>
 
         {/* Actions */}
