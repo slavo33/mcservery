@@ -408,6 +408,8 @@ type TranslationKeys = {
   staff_my_posts: string;
   staff_sort_newest: string;
   staff_sort_oldest: string;
+  staff_sort_most_liked: string;
+  staff_sort_vip_first: string;
 };
 
 const sk: TranslationKeys = {
