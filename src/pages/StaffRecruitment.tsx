@@ -419,13 +419,25 @@ const StaffRecruitment = () => {
                 <CardContent className="p-4 space-y-3">
                   {/* Position badge + server */}
                   <div className="space-y-1.5">
-                    <Badge className="bg-primary/15 text-primary border-primary/25">
-                      {post.position}
-                    </Badge>
+                    <div className="flex items-center gap-1.5 flex-wrap">
+                      <Badge className="bg-primary/15 text-primary border-primary/25">
+                        {post.position}
+                      </Badge>
+                      {post.is_vip && (
+                        <Badge className="bg-yellow-500/15 text-yellow-600 border-yellow-500/25 gap-1">
+                          <Crown className="h-3 w-3" /> VIP
+                        </Badge>
+                      )}
+                    </div>
                     <p className="text-lg font-bold text-foreground leading-tight">
                       {post.server_name}
                     </p>
-                    <p className="text-xs text-muted-foreground font-mono">{post.server_ip}</p>
+                    <div className="flex items-center gap-3">
+                      <p className="text-xs text-muted-foreground font-mono">{post.server_ip}</p>
+                      <span className="inline-flex items-center gap-1 text-xs text-muted-foreground">
+                        <Heart className="h-3 w-3" /> {post.server_likes_count || 0}
+                      </span>
+                    </div>
                   </div>
 
                   {/* Description */}
