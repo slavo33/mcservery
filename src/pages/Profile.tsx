@@ -72,6 +72,36 @@ const Profile = () => {
       } else {
         setLikedServers([]);
       }
+
+      // Fetch liked staff posts
+      const { data: postLikes } = await supabase
+        .from("staff_post_likes")
+        .select("staff_post_id")
+        .eq("user_id", user.id);
+
+      if (postLikes && postLikes.length > 0) {
+        const postIds = postLikes.map(l => l.staff_post_id);
+        const { data: staffPosts } = await supabase
+          .from("staff_posts")
+          .select("*")
+          .in("id", postIds);
+
+        if (staffPosts) {
+          const serverIds = [...new Set(staffPosts.map(p => p.server_id))];
+          const { data: servers } = await supabase.from("servers").select("id, name").in("id", serverIds);
+          const serverMap = new Map(servers?.map(s => [s.id, s.name]) || []);
+
+          setLikedPosts(staffPosts.map(p => ({
+            ...p,
+            server_name: serverMap.get(p.server_id) || "Unknown",
+          })));
+        } else {
+          setLikedPosts([]);
+        }
+      } else {
+        setLikedPosts([]);
+      }
+
       setLoadingFavorites(false);
     };
     fetchLiked();
