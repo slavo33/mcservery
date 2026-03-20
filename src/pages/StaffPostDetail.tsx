@@ -78,12 +78,10 @@ const StaffPostDetail = () => {
       setPost(data);
       setLikesCount((data as any).likes_count || 0);
 
-      const fetchPromises: Promise<any>[] = [
+      const [serverRes, profileRes] = await Promise.all([
         supabase.from("servers").select("name, slug, vip_expires_at").eq("id", data.server_id).maybeSingle(),
         supabase.from("profiles").select("nickname, avatar_url").eq("id", data.owner_id).maybeSingle(),
-      ];
-
-      const [serverRes, profileRes] = await Promise.all(fetchPromises);
+      ]);
 
       setServerName(serverRes.data?.name || "Unknown");
       setServerSlug(serverRes.data?.slug || "");
