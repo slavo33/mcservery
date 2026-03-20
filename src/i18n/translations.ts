@@ -1907,6 +1907,8 @@ const fr: TranslationKeys = {
   staff_looking_for: "Recherché",
   staff_posted_by: "Publié par",
   staff_my_posts: "Mes annonces",
+  staff_sort_newest: "Plus récentes",
+  staff_sort_oldest: "Plus anciennes",
 };
 
 const ru: TranslationKeys = {
