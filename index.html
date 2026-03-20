@@ -7,10 +7,22 @@
     <meta name="description" content="Databáza Minecraft serverov. Rýchlo, prehľadne, jednoducho, na jednom mieste a bez starostí. Pridaj sa do najväčšej komunity hráčov ešte dnes. Na čo ešte čakáš?">
     <meta name="author" content="Lovable" />
 
+    <!-- Inline critical CSS for instant first paint -->
+    <style>
+      :root { --background: 222.2 84% 4.9%; --foreground: 210 40% 98%; }
+      body { margin: 0; background-color: hsl(222.2, 84%, 4.9%); color: hsl(210, 40%, 98%); }
+      #root { min-height: 100vh; }
+      .initial-loader { display: flex; align-items: center; justify-content: center; min-height: 100vh; font-family: system-ui, -apple-system, sans-serif; }
+      .initial-loader-text { font-size: 1.5rem; font-weight: 700; letter-spacing: 0.05em; opacity: 0.7; }
+    </style>
+
     <!-- Preconnect to critical origins -->
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link rel="preconnect" href="https://uinrxvxfrvjtqwklbiqk.supabase.co" />
+
+    <!-- Preload hero background image (LCP element) -->
+    <link rel="preload" as="image" href="/assets/hero-bg-BAL9GxKA.jpg" fetchpriority="high" />
 
     <!-- Non-blocking font loading -->
     <link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Rajdhani:wght@400;500;600;700&family=Inter:wght@400;500;600;700&display=swap" onload="this.onload=null;this.rel='stylesheet'" />
@@ -33,7 +45,7 @@
 </head>
 
   <body>
-    <div id="root"></div>
+    <div id="root"><div class="initial-loader"><span class="initial-loader-text">MCServery</span></div></div>
     <script type="module" src="/src/main.tsx"></script>
   </body>
 </html>
