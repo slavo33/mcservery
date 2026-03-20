@@ -47,6 +47,7 @@ const StaffPostDetail = () => {
   const [ownerAvatar, setOwnerAvatar] = useState<string | null>(null);
   const [loading, setLoading] = useState(true);
   const [isVip, setIsVip] = useState(false);
+  const [vipTier, setVipTier] = useState<"basic" | "pro" | "max" | null>(null);
   const [likedByMe, setLikedByMe] = useState(false);
   const [likesCount, setLikesCount] = useState(0);
   const [editOpen, setEditOpen] = useState(false);
