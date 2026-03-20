@@ -49,6 +49,7 @@ const StaffRecruitment = () => {
   const [loading, setLoading] = useState(true);
   const [dialogOpen, setDialogOpen] = useState(false);
   const [showMyPosts, setShowMyPosts] = useState(false);
+  const [filterPosition, setFilterPosition] = useState<string>("all");
   const [submitting, setSubmitting] = useState(false);
 
   // Form state
