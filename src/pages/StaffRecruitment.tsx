@@ -208,15 +208,13 @@ const StaffRecruitment = () => {
             onChange={e => setSearchQuery(e.target.value)}
             className="sm:max-w-xs"
           />
-          <Select value={filterDate} onValueChange={setFilterDate}>
-            <SelectTrigger className="sm:w-44">
+          <Select value={sortOrder} onValueChange={(v) => setSortOrder(v as "newest" | "oldest")}>
+            <SelectTrigger className="sm:w-48">
               <SelectValue />
             </SelectTrigger>
             <SelectContent>
-              <SelectItem value="all">Všetky dátumy</SelectItem>
-              <SelectItem value="today">Dnes</SelectItem>
-              <SelectItem value="week">Posledný týždeň</SelectItem>
-              <SelectItem value="month">Posledný mesiac</SelectItem>
+              <SelectItem value="newest">Od najnovšieho</SelectItem>
+              <SelectItem value="oldest">Od najstaršieho</SelectItem>
             </SelectContent>
           </Select>
         </div>
