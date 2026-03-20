@@ -13,6 +13,7 @@ import { toast } from "sonner";
 import { useLanguage } from "@/i18n/LanguageContext";
 import { useServerStatus } from "@/hooks/useServerStatus";
 import { Avatar, AvatarImage, AvatarFallback } from "@/components/ui/avatar";
+import { sanitizeHref } from "@/lib/urlValidation";
 
 interface ServerDetailData {
   id: string;
