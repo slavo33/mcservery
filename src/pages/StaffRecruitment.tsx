@@ -32,6 +32,7 @@ interface StaffPost {
   is_active: boolean;
   created_at: string;
   likes_count: number;
+  slug?: string;
   server_name?: string;
   owner_nickname?: string;
   owner_avatar?: string | null;
