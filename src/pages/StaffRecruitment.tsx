@@ -195,6 +195,16 @@ const StaffRecruitment = () => {
           <p className="mt-2 text-muted-foreground">{t("staff_subtitle")}</p>
         </div>
 
+        {/* Search */}
+        <div className="mb-4">
+          <Input
+            placeholder={t("filter_search_placeholder")}
+            value={searchQuery}
+            onChange={e => setSearchQuery(e.target.value)}
+            className="max-w-md"
+          />
+        </div>
+
         {/* Actions */}
         <div className="flex flex-wrap items-center gap-3 mb-4">
           {/* Position filter chips */}
