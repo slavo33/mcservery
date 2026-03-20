@@ -239,6 +239,11 @@ const StaffPostDetail = () => {
             <Badge className="bg-primary/15 text-primary border-primary/25 text-sm">
               {post.position}
             </Badge>
+            {isVip && (
+              <Badge className="bg-yellow-500/15 text-yellow-600 border-yellow-500/25 gap-1">
+                <Crown className="h-3 w-3" /> VIP
+              </Badge>
+            )}
             {!post.is_active && (
               <Badge variant="secondary">{t("staff_closed")}</Badge>
             )}
@@ -247,7 +252,15 @@ const StaffPostDetail = () => {
           <Link to={serverSlug ? `/server/${serverSlug}` : '#'} className="block text-2xl sm:text-3xl font-bold text-foreground hover:text-primary transition-colors">
             {serverName}
           </Link>
-          <p className="text-sm text-muted-foreground font-mono">{post.server_ip}</p>
+          <div className="flex items-center gap-3">
+            <p className="text-sm text-muted-foreground font-mono">{post.server_ip}</p>
+            <button
+              onClick={toggleLike}
+              className={`inline-flex items-center gap-1.5 text-sm font-medium transition-colors ${likedByMe ? "text-red-500" : "text-muted-foreground hover:text-red-500"}`}
+            >
+              <Heart className={`h-4 w-4 ${likedByMe ? "fill-current" : ""}`} /> {likesCount}
+            </button>
+          </div>
 
           {/* Author + date */}
           <div className="flex items-center gap-3 mt-4">
