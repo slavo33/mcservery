@@ -229,8 +229,9 @@ const StaffPostVipAdmin = () => {
               </Select>
             </div>
             <div>
-              <label className="text-sm text-muted-foreground mb-1 block">Trvanie (dní)</label>
-              <Input type="number" min="1" value={assignDays} onChange={(e) => setAssignDays(e.target.value)} />
+              <p className="text-sm text-muted-foreground">
+                Trvanie: <span className="text-foreground font-medium">{tierDays[assignTier] || 30} dní</span>
+              </p>
             </div>
           </div>
           <DialogFooter>
