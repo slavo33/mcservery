@@ -50,7 +50,7 @@ const StaffRecruitment = () => {
   const { t } = useLanguage();
   const { user } = useAuth();
   const [posts, setPosts] = useState<StaffPost[]>([]);
-  const [myServers, setMyServers] = useState<{ id: string; name: string; ip: string; discord_url: string | null; website_url: string | null }[]>([]);
+  const [myServers, setMyServers] = useState<{ id: string; name: string; ip: string; discord_url: string | null; website_url: string | null; vip_expires_at: string | null }[]>([]);
   const [loading, setLoading] = useState(true);
   const [dialogOpen, setDialogOpen] = useState(false);
   const [showMyPosts, setShowMyPosts] = useState(false);
