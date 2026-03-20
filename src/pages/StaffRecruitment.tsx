@@ -360,7 +360,8 @@ const StaffRecruitment = () => {
         ) : (
           <div className="grid gap-4 sm:grid-cols-2">
             {displayedPosts.map(post => (
-              <Card key={post.id} className="overflow-hidden border-border/60 hover:border-primary/30 transition-colors">
+              <Link key={post.id} to={`/staff/${post.id}`} className="block">
+              <Card className="overflow-hidden border-border/60 hover:border-primary/30 transition-colors cursor-pointer">
                 {/* Image banner */}
                 {post.images.length > 0 && (
                   <div className="aspect-[2.5/1] overflow-hidden">
@@ -380,12 +381,9 @@ const StaffRecruitment = () => {
                       <Badge className="bg-primary/15 text-primary border-primary/25 mb-1.5">
                         {t("staff_looking_for")}: {post.position}
                       </Badge>
-                      <Link
-                        to={`/server/${post.server_ip.replace(/[.:]/g, "-")}`}
-                        className="block text-lg font-bold text-foreground hover:text-primary transition-colors leading-tight"
-                      >
+                      <span className="block text-lg font-bold text-foreground leading-tight">
                         {post.server_name}
-                      </Link>
+                      </span>
                       <p className="text-xs text-muted-foreground font-mono mt-0.5">{post.server_ip}</p>
                     </div>
                   </div>
@@ -402,12 +400,13 @@ const StaffRecruitment = () => {
                   )}
 
                   {/* Social links */}
-                  <div className="flex items-center gap-2 flex-wrap">
+                  <div className="flex items-center gap-2 flex-wrap" onClick={e => e.preventDefault()}>
                     {post.discord_url && (
                       <a
                         href={sanitizeHref(post.discord_url)}
                         target="_blank"
                         rel="noopener noreferrer"
+                        onClick={e => e.stopPropagation()}
                         className="inline-flex items-center gap-1 text-xs text-muted-foreground hover:text-foreground transition-colors"
                       >
                         <MessageSquare className="h-3.5 w-3.5" /> Discord
@@ -418,6 +417,7 @@ const StaffRecruitment = () => {
                         href={sanitizeHref(post.website_url)}
                         target="_blank"
                         rel="noopener noreferrer"
+                        onClick={e => e.stopPropagation()}
                         className="inline-flex items-center gap-1 text-xs text-muted-foreground hover:text-foreground transition-colors"
                       >
                         <Globe className="h-3.5 w-3.5" /> Web
@@ -448,7 +448,7 @@ const StaffRecruitment = () => {
                           size="sm"
                           variant="ghost"
                           className="h-7 px-2 text-xs"
-                          onClick={() => toggleActive(post.id, post.is_active)}
+                          onClick={(e) => { e.preventDefault(); e.stopPropagation(); toggleActive(post.id, post.is_active); }}
                         >
                           {post.is_active ? <EyeOff className="h-3.5 w-3.5" /> : <Eye className="h-3.5 w-3.5" />}
                         </Button>
@@ -456,7 +456,7 @@ const StaffRecruitment = () => {
                           size="sm"
                           variant="ghost"
                           className="h-7 px-2 text-xs text-destructive hover:text-destructive"
-                          onClick={() => handleDelete(post.id)}
+                          onClick={(e) => { e.preventDefault(); e.stopPropagation(); handleDelete(post.id); }}
                         >
                           <Trash2 className="h-3.5 w-3.5" />
                         </Button>
@@ -465,6 +465,7 @@ const StaffRecruitment = () => {
                   </div>
                 </CardContent>
               </Card>
+              </Link>
             ))}
           </div>
         )}

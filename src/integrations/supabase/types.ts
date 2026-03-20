@@ -409,6 +409,38 @@ export type Database = {
         }
         Relationships: []
       }
+      staff_comments: {
+        Row: {
+          content: string
+          created_at: string
+          id: string
+          staff_post_id: string
+          user_id: string
+        }
+        Insert: {
+          content: string
+          created_at?: string
+          id?: string
+          staff_post_id: string
+          user_id: string
+        }
+        Update: {
+          content?: string
+          created_at?: string
+          id?: string
+          staff_post_id?: string
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "staff_comments_staff_post_id_fkey"
+            columns: ["staff_post_id"]
+            isOneToOne: false
+            referencedRelation: "staff_posts"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       staff_posts: {
         Row: {
           created_at: string

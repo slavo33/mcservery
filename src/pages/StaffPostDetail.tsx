@@ -1,0 +1,251 @@
+import { useState, useEffect } from "react";
+import { useParams, Link, useNavigate } from "react-router-dom";
+import { ArrowLeft, Users, Globe, MessageSquare, Trash2, EyeOff, Eye } from "lucide-react";
+import Header from "@/components/Header";
+import Footer from "@/components/Footer";
+import { Button } from "@/components/ui/button";
+import { Badge } from "@/components/ui/badge";
+import StaffCommentSection from "@/components/StaffCommentSection";
+import { supabase } from "@/integrations/supabase/client";
+import { useAuth } from "@/hooks/useAuth";
+import { useLanguage } from "@/i18n/LanguageContext";
+import { sanitizeHref } from "@/lib/urlValidation";
+import { toast } from "sonner";
+
+interface StaffPost {
+  id: string;
+  server_id: string;
+  owner_id: string;
+  position: string;
+  description: string;
+  requirements: string;
+  server_ip: string;
+  discord_url: string | null;
+  website_url: string | null;
+  images: string[];
+  is_active: boolean;
+  created_at: string;
+}
+
+const StaffPostDetail = () => {
+  const { id } = useParams<{ id: string }>();
+  const navigate = useNavigate();
+  const { user } = useAuth();
+  const { t, locale } = useLanguage();
+  const [post, setPost] = useState<StaffPost | null>(null);
+  const [serverName, setServerName] = useState("");
+  const [ownerNickname, setOwnerNickname] = useState("");
+  const [ownerAvatar, setOwnerAvatar] = useState<string | null>(null);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    const fetchPost = async () => {
+      if (!id) return;
+      const { data } = await supabase
+        .from("staff_posts")
+        .select("*")
+        .eq("id", id)
+        .maybeSingle();
+
+      if (!data) {
+        setLoading(false);
+        return;
+      }
+
+      setPost(data);
+
+      const [serverRes, profileRes] = await Promise.all([
+        supabase.from("servers").select("name").eq("id", data.server_id).maybeSingle(),
+        supabase.from("profiles").select("nickname, avatar_url").eq("id", data.owner_id).maybeSingle(),
+      ]);
+
+      setServerName(serverRes.data?.name || "Unknown");
+      setOwnerNickname(profileRes.data?.nickname || "Unknown");
+      setOwnerAvatar(profileRes.data?.avatar_url || null);
+      setLoading(false);
+    };
+    fetchPost();
+  }, [id]);
+
+  const handleDelete = async () => {
+    if (!post) return;
+    const { error } = await supabase.from("staff_posts").delete().eq("id", post.id);
+    if (!error) {
+      toast.success(t("staff_deleted"));
+      navigate("/staff");
+    }
+  };
+
+  const toggleActive = async () => {
+    if (!post) return;
+    const { error } = await supabase
+      .from("staff_posts")
+      .update({ is_active: !post.is_active })
+      .eq("id", post.id);
+    if (!error) {
+      toast.success(post.is_active ? t("staff_closed") : t("staff_reopened"));
+      setPost({ ...post, is_active: !post.is_active });
+    }
+  };
+
+  const localeMap: Record<string, string> = {
+    sk: "sk-SK", cs: "cs-CZ", en: "en-US", de: "de-DE", fr: "fr-FR",
+    ru: "ru-RU", uk: "uk-UA", es: "es-ES", pt: "pt-PT", br: "pt-BR",
+    zh: "zh-CN", ja: "ja-JP",
+  };
+
+  const formatDate = (dateStr: string) =>
+    new Date(dateStr).toLocaleDateString(localeMap[locale] || "en-US", {
+      day: "numeric", month: "long", year: "numeric",
+    });
+
+  if (loading) {
+    return (
+      <div className="min-h-screen bg-background">
+        <Header />
+        <div className="flex items-center justify-center py-32">
+          <div className="h-8 w-8 animate-spin rounded-full border-4 border-primary border-t-transparent" />
+        </div>
+      </div>
+    );
+  }
+
+  if (!post) {
+    return (
+      <div className="min-h-screen bg-background">
+        <Header />
+        <div className="container mx-auto px-4 py-16 text-center">
+          <p className="text-muted-foreground">{t("detail_not_found")}</p>
+          <Link to="/staff" className="text-primary hover:underline mt-4 inline-block">{t("detail_back")}</Link>
+        </div>
+        <Footer />
+      </div>
+    );
+  }
+
+  const isOwner = user?.id === post.owner_id;
+
+  return (
+    <div className="min-h-screen bg-background">
+      <Header />
+      <main className="container mx-auto px-4 py-8 max-w-3xl">
+        {/* Back link */}
+        <Link to="/staff" className="inline-flex items-center gap-1.5 text-sm text-muted-foreground hover:text-foreground transition-colors mb-6">
+          <ArrowLeft className="h-4 w-4" />
+          {t("detail_back")}
+        </Link>
+
+        {/* Hero image gallery */}
+        {post.images.length > 0 && (
+          <div className="mb-6 space-y-2">
+            <div className="rounded-lg overflow-hidden aspect-video">
+              <img src={post.images[0]} alt="" className="w-full h-full object-cover" />
+            </div>
+            {post.images.length > 1 && (
+              <div className="grid grid-cols-3 gap-2">
+                {post.images.slice(1).map((img, i) => (
+                  <div key={i} className="rounded-md overflow-hidden aspect-video">
+                    <img src={img} alt="" className="w-full h-full object-cover" loading="lazy" />
+                  </div>
+                ))}
+              </div>
+            )}
+          </div>
+        )}
+
+        {/* Post header */}
+        <div className="mb-6">
+          <Badge className="bg-primary/15 text-primary border-primary/25 mb-3 text-sm">
+            {t("staff_looking_for")}: {post.position}
+          </Badge>
+
+          {!post.is_active && (
+            <Badge variant="secondary" className="ml-2 mb-3">{t("staff_closed")}</Badge>
+          )}
+
+          <h1 className="text-2xl sm:text-3xl font-bold text-foreground mb-1">{serverName}</h1>
+          <p className="text-sm text-muted-foreground font-mono">{post.server_ip}</p>
+
+          {/* Author + date */}
+          <div className="flex items-center gap-3 mt-4">
+            <Link to={`/user/${post.owner_id}`} className="flex items-center gap-2 group">
+              <div className="h-8 w-8 rounded-full bg-secondary border border-border overflow-hidden flex items-center justify-center group-hover:border-primary/50 transition-colors">
+                {ownerAvatar ? (
+                  <img src={ownerAvatar} alt="" className="h-full w-full object-cover" />
+                ) : (
+                  <Users className="h-4 w-4 text-muted-foreground" />
+                )}
+              </div>
+              <span className="text-sm font-medium text-foreground group-hover:text-primary transition-colors">
+                {ownerNickname}
+              </span>
+            </Link>
+            <span className="text-xs text-muted-foreground">{formatDate(post.created_at)}</span>
+          </div>
+
+          {/* Owner actions */}
+          {isOwner && (
+            <div className="flex gap-2 mt-4">
+              <Button size="sm" variant="outline" onClick={toggleActive} className="gap-1.5">
+                {post.is_active ? <EyeOff className="h-4 w-4" /> : <Eye className="h-4 w-4" />}
+                {post.is_active ? t("staff_close") : t("staff_reopen")}
+              </Button>
+              <Button size="sm" variant="destructive" onClick={handleDelete} className="gap-1.5">
+                <Trash2 className="h-4 w-4" />
+                {t("staff_delete")}
+              </Button>
+            </div>
+          )}
+        </div>
+
+        {/* Description */}
+        <div className="mb-6">
+          <h2 className="text-lg font-bold text-foreground mb-2">{t("staff_description")}</h2>
+          <p className="text-sm text-muted-foreground whitespace-pre-line leading-relaxed">{post.description}</p>
+        </div>
+
+        {/* Requirements */}
+        {post.requirements && (
+          <div className="mb-6 bg-secondary/50 rounded-lg p-4">
+            <h2 className="text-lg font-bold text-foreground mb-2">{t("staff_requirements")}</h2>
+            <p className="text-sm text-muted-foreground whitespace-pre-line leading-relaxed">{post.requirements}</p>
+          </div>
+        )}
+
+        {/* Social links */}
+        {(post.discord_url || post.website_url) && (
+          <div className="flex items-center gap-3 mb-8">
+            {post.discord_url && (
+              <a
+                href={sanitizeHref(post.discord_url)}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="inline-flex items-center gap-1.5 text-sm text-muted-foreground hover:text-foreground transition-colors border border-border rounded-md px-3 py-1.5"
+              >
+                <MessageSquare className="h-4 w-4" /> Discord
+              </a>
+            )}
+            {post.website_url && (
+              <a
+                href={sanitizeHref(post.website_url)}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="inline-flex items-center gap-1.5 text-sm text-muted-foreground hover:text-foreground transition-colors border border-border rounded-md px-3 py-1.5"
+              >
+                <Globe className="h-4 w-4" /> Web
+              </a>
+            )}
+          </div>
+        )}
+
+        {/* Comments */}
+        <div className="border-t border-border pt-6">
+          <StaffCommentSection staffPostId={post.id} />
+        </div>
+      </main>
+      <Footer />
+    </div>
+  );
+};
+
+export default StaffPostDetail;
