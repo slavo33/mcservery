@@ -45,6 +45,17 @@ const StaffPostDetail = () => {
   const [ownerNickname, setOwnerNickname] = useState("");
   const [ownerAvatar, setOwnerAvatar] = useState<string | null>(null);
   const [loading, setLoading] = useState(true);
+  const [editOpen, setEditOpen] = useState(false);
+  const [editPosition, setEditPosition] = useState("");
+  const [editDescription, setEditDescription] = useState("");
+  const [editRequirements, setEditRequirements] = useState("");
+  const [editImages, setEditImages] = useState<string[]>([]);
+  const [editSubmitting, setEditSubmitting] = useState(false);
+
+  const POSITION_OPTIONS = [
+    "Builder", "Helper", "Moderátor", "Admin", "Developer",
+    "Eventer", "Designer", "YouTuber", "Tester", "Support"
+  ];
 
   useEffect(() => {
     const fetchPost = async () => {
