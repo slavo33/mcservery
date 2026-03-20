@@ -460,9 +460,13 @@ const StaffRecruitment = () => {
                       <Badge className="bg-primary/15 text-primary border-primary/25">
                         {post.position}
                       </Badge>
-                      {post.is_vip && (
-                        <Badge className="bg-yellow-500/15 text-yellow-600 border-yellow-500/25 gap-1">
-                          <Crown className="h-3 w-3" /> VIP
+                      {post.is_vip && post.vip_tier && (
+                        <Badge className={`gap-1 ${
+                          post.vip_tier === "max" ? "bg-amber-500/15 text-amber-500 border-amber-500/25" :
+                          post.vip_tier === "pro" ? "bg-purple-500/15 text-purple-500 border-purple-500/25" :
+                          "bg-blue-500/15 text-blue-500 border-blue-500/25"
+                        }`}>
+                          <Crown className="h-3 w-3" /> {post.vip_tier === "max" ? "VIP Max" : post.vip_tier === "pro" ? "VIP Pro" : "VIP Basic"}
                         </Badge>
                       )}
                     </div>
