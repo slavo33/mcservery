@@ -65,11 +65,11 @@ const StaffPostDetail = () => {
 
   useEffect(() => {
     const fetchPost = async () => {
-      if (!id) return;
+      if (!slug) return;
       const { data } = await supabase
         .from("staff_posts")
         .select("*")
-        .eq("id", id)
+        .eq("slug", slug)
         .maybeSingle();
 
       if (!data) {
@@ -87,7 +87,6 @@ const StaffPostDetail = () => {
 
       setServerName(serverRes.data?.name || "Unknown");
       setServerSlug(serverRes.data?.slug || "");
-      // VIP from post's own columns
       const postVipActive = (data as any).vip_tier && (data as any).vip_expires_at && new Date((data as any).vip_expires_at) > new Date();
       setIsVip(!!postVipActive);
       setVipTier(postVipActive ? (data as any).vip_tier : null);
@@ -96,7 +95,7 @@ const StaffPostDetail = () => {
       setLoading(false);
     };
     fetchPost();
-  }, [id]);
+  }, [slug]);
 
   // Check if current user liked this post
   useEffect(() => {
