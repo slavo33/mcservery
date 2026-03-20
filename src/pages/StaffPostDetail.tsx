@@ -207,7 +207,7 @@ const StaffPostDetail = () => {
         {/* Post header */}
         <div className="mb-6">
           <Badge className="bg-primary/15 text-primary border-primary/25 mb-3 text-sm">
-            {t("staff_looking_for")}: {post.position}
+            {post.position}
           </Badge>
 
           {!post.is_active && (
@@ -240,9 +240,8 @@ const StaffPostDetail = () => {
           <div className="flex flex-wrap gap-2 mt-4">
             {(isOwner || isAdmin) && (
               <>
-                <Button size="sm" variant="outline" onClick={openEdit} className="gap-1.5">
+                <Button size="sm" variant="outline" onClick={openEdit} className="gap-1.5" title={t("edit_server") || "Upraviť"}>
                   <Pencil className="h-4 w-4" />
-                  {t("edit_server") || "Upraviť"}
                 </Button>
                 <Button size="sm" variant="outline" onClick={toggleActive} className="gap-1.5">
                   {post.is_active ? <EyeOff className="h-4 w-4" /> : <Eye className="h-4 w-4" />}

@@ -393,7 +393,7 @@ const StaffRecruitment = () => {
                   <div className="flex items-start justify-between gap-2">
                     <div>
                       <Badge className="bg-primary/15 text-primary border-primary/25 mb-1.5">
-                        {t("staff_looking_for")}: {post.position}
+                        {post.position}
                       </Badge>
                       <span className="block text-lg font-bold text-foreground leading-tight">
                         {post.server_name}
