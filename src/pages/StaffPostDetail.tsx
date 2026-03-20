@@ -81,20 +81,16 @@ const StaffPostDetail = () => {
       setLikesCount((data as any).likes_count || 0);
 
       const [serverRes, profileRes] = await Promise.all([
-        supabase.from("servers").select("name, slug, vip_expires_at, vote_cooldown_hours").eq("id", data.server_id).maybeSingle(),
+        supabase.from("servers").select("name, slug").eq("id", data.server_id).maybeSingle(),
         supabase.from("profiles").select("nickname, avatar_url").eq("id", data.owner_id).maybeSingle(),
       ]);
 
       setServerName(serverRes.data?.name || "Unknown");
       setServerSlug(serverRes.data?.slug || "");
-      const serverIsVip = serverRes.data?.vip_expires_at ? new Date(serverRes.data.vip_expires_at) > new Date() : false;
-      setIsVip(serverIsVip);
-      if (serverIsVip) {
-        const cooldown = serverRes.data?.vote_cooldown_hours || 24;
-        setVipTier(cooldown <= 2 ? "max" : cooldown <= 4 ? "pro" : cooldown <= 8 ? "basic" : null);
-      } else {
-        setVipTier(null);
-      }
+      // VIP from post's own columns
+      const postVipActive = (data as any).vip_tier && (data as any).vip_expires_at && new Date((data as any).vip_expires_at) > new Date();
+      setIsVip(!!postVipActive);
+      setVipTier(postVipActive ? (data as any).vip_tier : null);
       setOwnerNickname(profileRes.data?.nickname || "Unknown");
       setOwnerAvatar(profileRes.data?.avatar_url || null);
       setLoading(false);
