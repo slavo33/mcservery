@@ -164,7 +164,9 @@ const StaffPostDetail = () => {
             <Badge variant="secondary" className="ml-2 mb-3">{t("staff_closed")}</Badge>
           )}
 
-          <h1 className="text-2xl sm:text-3xl font-bold text-foreground mb-1">{serverName}</h1>
+          <Link to={`/server/${post.server_id}`} className="text-2xl sm:text-3xl font-bold text-foreground hover:text-primary transition-colors mb-1">
+            {serverName}
+          </Link>
           <p className="text-sm text-muted-foreground font-mono">{post.server_ip}</p>
 
           {/* Author + date */}
