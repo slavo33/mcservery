@@ -49,6 +49,15 @@ serve(async (req) => {
 
     if (updateError) throw updateError;
 
+    // Also remove VIP from staff posts of these servers
+    const { error: staffError } = await supabaseAdmin
+      .from("staff_posts")
+      .update({ vip_tier: null, vip_expires_at: null })
+      .in("server_id", ids);
+    if (staffError) {
+      console.log("[CLEANUP-VIP] Staff posts VIP cleanup error (non-fatal):", staffError);
+    }
+
     console.log(`[CLEANUP-VIP] Successfully reset ${ids.length} servers`);
     return new Response(JSON.stringify({ reset: ids.length, server_ids: ids }), {
       headers: { ...corsHeaders, "Content-Type": "application/json" },

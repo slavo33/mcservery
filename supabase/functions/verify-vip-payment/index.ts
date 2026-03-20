@@ -108,6 +108,18 @@ serve(async (req) => {
     }
     logStep("Server updated with VIP status");
 
+    // Auto-assign VIP to all staff posts for this server
+    const { error: staffError, count: staffCount } = await supabaseAdmin
+      .from("staff_posts")
+      .update({ vip_tier: tier, vip_expires_at: expiresAt })
+      .eq("server_id", serverId)
+      .eq("is_active", true);
+    if (staffError) {
+      logStep("Staff posts VIP update error (non-fatal)", { error: staffError });
+    } else {
+      logStep("Staff posts VIP updated", { count: staffCount });
+    }
+
     // Track discount code usage
     if (discountCodeId) {
       await supabaseAdmin.from("discount_code_usage").insert({
