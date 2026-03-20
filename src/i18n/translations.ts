@@ -2448,6 +2448,8 @@ const zh: TranslationKeys = {
   staff_my_posts: "我的招聘",
   staff_sort_newest: "最新优先",
   staff_sort_oldest: "最早优先",
+  staff_sort_most_liked: "最受欢迎",
+  staff_sort_vip_first: "VIP优先",
 };
 
 const ja: TranslationKeys = {
