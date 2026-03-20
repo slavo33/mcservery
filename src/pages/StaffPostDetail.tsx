@@ -207,7 +207,7 @@ const StaffPostDetail = () => {
         {/* Post header */}
         <div className="mb-6">
           <Badge className="bg-primary/15 text-primary border-primary/25 mb-3 text-sm">
-            {t("staff_looking_for")}: {post.position}
+            {post.position}
           </Badge>
 
           {!post.is_active && (
