@@ -56,7 +56,7 @@ const StaffPostDetail = () => {
       setPost(data);
 
       const [serverRes, profileRes] = await Promise.all([
-        supabase.from("servers").select("name").eq("id", data.server_id).maybeSingle(),
+        supabase.from("servers").select("name, slug").eq("id", data.server_id).maybeSingle(),
         supabase.from("profiles").select("nickname, avatar_url").eq("id", data.owner_id).maybeSingle(),
       ]);
 
