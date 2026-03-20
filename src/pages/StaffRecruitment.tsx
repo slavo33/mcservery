@@ -80,7 +80,7 @@ const StaffRecruitment = () => {
       const ownerIds = [...new Set(data.map(p => p.owner_id))];
       const postIds = data.map(p => p.id);
 
-      const serversRes = await supabase.from("servers").select("id, name, vip_expires_at, vote_cooldown_hours").in("id", serverIds);
+      const serversRes = await supabase.from("servers").select("id, name").in("id", serverIds);
       const profilesRes = await supabase.from("profiles").select("id, nickname, avatar_url").in("id", ownerIds);
       let myLikesRes: { data: any[] | null } = { data: null };
       if (user) {
