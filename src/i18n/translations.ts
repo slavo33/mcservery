@@ -2338,6 +2338,8 @@ const pt: TranslationKeys = {
   staff_my_posts: "Meus anúncios",
   staff_sort_newest: "Mais recentes",
   staff_sort_oldest: "Mais antigos",
+  staff_sort_most_liked: "Mais curtidos",
+  staff_sort_vip_first: "VIP primeiro",
 };
 
 const br: TranslationKeys = {
