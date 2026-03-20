@@ -3,8 +3,10 @@ import { supabase } from "@/integrations/supabase/client";
 import { useAuth } from "@/hooks/useAuth";
 import { useLanguage } from "@/i18n/LanguageContext";
 import { toast } from "sonner";
-import { Send, User, Trash2 } from "lucide-react";
+import { Send, User, Trash2, Flag } from "lucide-react";
 import { Link } from "react-router-dom";
+import ReportDialog from "./ReportDialog";
+import StaffCommentReactions from "./StaffCommentReactions";
 
 interface Profile {
   nickname: string;
