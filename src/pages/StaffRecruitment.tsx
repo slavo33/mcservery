@@ -360,7 +360,8 @@ const StaffRecruitment = () => {
         ) : (
           <div className="grid gap-4 sm:grid-cols-2">
             {displayedPosts.map(post => (
-              <Card key={post.id} className="overflow-hidden border-border/60 hover:border-primary/30 transition-colors">
+              <Link key={post.id} to={`/staff/${post.id}`} className="block">
+              <Card className="overflow-hidden border-border/60 hover:border-primary/30 transition-colors cursor-pointer">
                 {/* Image banner */}
                 {post.images.length > 0 && (
                   <div className="aspect-[2.5/1] overflow-hidden">
