@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import { useParams, Link, useNavigate } from "react-router-dom";
-import { ArrowLeft, Users, Globe, MessageSquare, Trash2, EyeOff, Eye, Flag, Pencil } from "lucide-react";
+import { ArrowLeft, Users, Globe, MessageSquare, Trash2, EyeOff, Eye, Flag, Pencil, Crown, Heart } from "lucide-react";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import { Button } from "@/components/ui/button";
@@ -32,6 +32,7 @@ interface StaffPost {
   images: string[];
   is_active: boolean;
   created_at: string;
+  likes_count: number;
 }
 
 const StaffPostDetail = () => {
@@ -45,6 +46,9 @@ const StaffPostDetail = () => {
   const [ownerNickname, setOwnerNickname] = useState("");
   const [ownerAvatar, setOwnerAvatar] = useState<string | null>(null);
   const [loading, setLoading] = useState(true);
+  const [isVip, setIsVip] = useState(false);
+  const [likedByMe, setLikedByMe] = useState(false);
+  const [likesCount, setLikesCount] = useState(0);
   const [editOpen, setEditOpen] = useState(false);
   const [editPosition, setEditPosition] = useState("");
   const [editDescription, setEditDescription] = useState("");
@@ -54,7 +58,7 @@ const StaffPostDetail = () => {
 
   const POSITION_OPTIONS = [
     "Builder", "Helper", "Moderátor", "Admin", "Developer",
-    "Eventer", "Designer", "YouTuber", "Tester", "Support"
+    "Eventer", "Designer", "Content Creator", "Tester", "Support"
   ];
 
   useEffect(() => {
@@ -72,20 +76,45 @@ const StaffPostDetail = () => {
       }
 
       setPost(data);
+      setLikesCount((data as any).likes_count || 0);
 
       const [serverRes, profileRes] = await Promise.all([
-        supabase.from("servers").select("name, slug").eq("id", data.server_id).maybeSingle(),
+        supabase.from("servers").select("name, slug, vip_expires_at").eq("id", data.server_id).maybeSingle(),
         supabase.from("profiles").select("nickname, avatar_url").eq("id", data.owner_id).maybeSingle(),
       ]);
 
       setServerName(serverRes.data?.name || "Unknown");
       setServerSlug(serverRes.data?.slug || "");
+      setIsVip(serverRes.data?.vip_expires_at ? new Date(serverRes.data.vip_expires_at) > new Date() : false);
       setOwnerNickname(profileRes.data?.nickname || "Unknown");
       setOwnerAvatar(profileRes.data?.avatar_url || null);
       setLoading(false);
     };
     fetchPost();
   }, [id]);
+
+  // Check if current user liked this post
+  useEffect(() => {
+    if (!user || !id) return;
+    supabase.from("staff_post_likes").select("id").eq("staff_post_id", id).eq("user_id", user.id).maybeSingle()
+      .then(({ data }) => setLikedByMe(!!data));
+  }, [user, id]);
+
+  const toggleLike = async () => {
+    if (!user || !post) {
+      toast.error(t("staff_login_required"));
+      return;
+    }
+    if (likedByMe) {
+      await supabase.from("staff_post_likes").delete().eq("staff_post_id", post.id).eq("user_id", user.id);
+      setLikedByMe(false);
+      setLikesCount(prev => prev - 1);
+    } else {
+      await supabase.from("staff_post_likes").insert({ staff_post_id: post.id, user_id: user.id });
+      setLikedByMe(true);
+      setLikesCount(prev => prev + 1);
+    }
+  };
 
   const handleDelete = async () => {
     if (!post) return;
@@ -210,6 +239,11 @@ const StaffPostDetail = () => {
             <Badge className="bg-primary/15 text-primary border-primary/25 text-sm">
               {post.position}
             </Badge>
+            {isVip && (
+              <Badge className="bg-yellow-500/15 text-yellow-600 border-yellow-500/25 gap-1">
+                <Crown className="h-3 w-3" /> VIP
+              </Badge>
+            )}
             {!post.is_active && (
               <Badge variant="secondary">{t("staff_closed")}</Badge>
             )}
@@ -218,7 +252,15 @@ const StaffPostDetail = () => {
           <Link to={serverSlug ? `/server/${serverSlug}` : '#'} className="block text-2xl sm:text-3xl font-bold text-foreground hover:text-primary transition-colors">
             {serverName}
           </Link>
-          <p className="text-sm text-muted-foreground font-mono">{post.server_ip}</p>
+          <div className="flex items-center gap-3">
+            <p className="text-sm text-muted-foreground font-mono">{post.server_ip}</p>
+            <button
+              onClick={toggleLike}
+              className={`inline-flex items-center gap-1.5 text-sm font-medium transition-colors ${likedByMe ? "text-red-500" : "text-muted-foreground hover:text-red-500"}`}
+            >
+              <Heart className={`h-4 w-4 ${likedByMe ? "fill-current" : ""}`} /> {likesCount}
+            </button>
+          </div>
 
           {/* Author + date */}
           <div className="flex items-center gap-3 mt-4">
