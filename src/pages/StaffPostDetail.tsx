@@ -35,7 +35,7 @@ const StaffPostDetail = () => {
   const { t, locale } = useLanguage();
   const [post, setPost] = useState<StaffPost | null>(null);
   const [serverName, setServerName] = useState("");
-  const [ownerNickname, setOwnerNickname] = useState("");
+  const [serverSlug, setServerSlug] = useState("");
   const [ownerAvatar, setOwnerAvatar] = useState<string | null>(null);
   const [loading, setLoading] = useState(true);
 
