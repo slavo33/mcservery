@@ -1398,6 +1398,8 @@ const en: TranslationKeys = {
   staff_my_posts: "My listings",
   staff_sort_newest: "Newest first",
   staff_sort_oldest: "Oldest first",
+  staff_sort_most_liked: "Most liked",
+  staff_sort_vip_first: "VIP first",
 };
 
 const de: TranslationKeys = {
