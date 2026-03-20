@@ -174,6 +174,26 @@ const StaffRecruitment = () => {
     }
   };
 
+  const toggleLike = async (e: React.MouseEvent, postId: string, currentlyLiked: boolean) => {
+    e.preventDefault();
+    e.stopPropagation();
+    if (!user) {
+      toast.error(t("staff_login_required"));
+      return;
+    }
+    if (currentlyLiked) {
+      await supabase.from("staff_post_likes").delete().eq("staff_post_id", postId).eq("user_id", user.id);
+    } else {
+      await supabase.from("staff_post_likes").insert({ staff_post_id: postId, user_id: user.id });
+    }
+    // Optimistic update
+    setPosts(prev => prev.map(p => p.id === postId ? {
+      ...p,
+      liked_by_me: !currentlyLiked,
+      likes_count: p.likes_count + (currentlyLiked ? -1 : 1),
+    } : p));
+  };
+
   const toggleActive = async (id: string, currentActive: boolean) => {
     const { error } = await supabase
       .from("staff_posts")
