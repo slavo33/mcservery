@@ -34,6 +34,8 @@ interface StaffPost {
   server_name?: string;
   owner_nickname?: string;
   owner_avatar?: string | null;
+  server_likes_count?: number;
+  is_vip?: boolean;
 }
 
 const POSITION_OPTIONS = [
