@@ -25,7 +25,7 @@ const StaffPostVipAdmin = () => {
   const [allPosts, setAllPosts] = useState<{ id: string; position: string; server_ip: string }[]>([]);
   const [selectedPostId, setSelectedPostId] = useState("");
   const [assignTier, setAssignTier] = useState("basic");
-  const [assignDays, setAssignDays] = useState("30");
+  const tierDays: Record<string, number> = { basic: 7, pro: 30, max: 90 };
   const [extendDialog, setExtendDialog] = useState<VipPost | null>(null);
   const [extendDays, setExtendDays] = useState("30");
   const [processing, setProcessing] = useState(false);
