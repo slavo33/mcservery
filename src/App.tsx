@@ -56,6 +56,7 @@ const App = () => (
                 <Route path="/vip" element={<VipPage />} />
                 <Route path="/vip-success" element={<VipSuccess />} />
                 <Route path="/staff" element={<StaffRecruitment />} />
+                <Route path="/staff/:id" element={<StaffPostDetail />} />
                 <Route path="/terms" element={<Terms />} />
                 <Route path="/privacy" element={<Privacy />} />
                 <Route path="*" element={<NotFound />} />
