@@ -240,7 +240,7 @@ const StaffRecruitment = () => {
                   onClick={() => setFilterPosition(pos)}
                   className={`rounded-full px-3 py-1 text-xs font-medium transition-colors ${filterPosition === pos ? "bg-primary text-primary-foreground" : "bg-secondary text-muted-foreground hover:text-foreground"}`}
                 >
-                  {pos}
+                  {pos} ({positionCounts[pos] || 0})
                 </button>
               ))}
             </div>
