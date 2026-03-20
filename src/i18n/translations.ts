@@ -1030,6 +1030,8 @@ const cs: TranslationKeys = {
   staff_my_posts: "Moje inzeráty",
   staff_sort_newest: "Od nejnovějšího",
   staff_sort_oldest: "Od nejstaršího",
+  staff_sort_most_liked: "Nejvíce oblíbené",
+  staff_sort_vip_first: "VIP jako první",
 };
 
 const en: TranslationKeys = {
