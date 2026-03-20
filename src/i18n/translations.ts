@@ -2115,6 +2115,8 @@ const uk: TranslationKeys = {
   staff_looking_for: "Шукаємо",
   staff_posted_by: "Опублікував",
   staff_my_posts: "Мої оголошення",
+  staff_sort_newest: "Спочатку нові",
+  staff_sort_oldest: "Спочатку старі",
 };
 
 const es: TranslationKeys = {
