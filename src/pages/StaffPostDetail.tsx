@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import { useParams, Link, useNavigate } from "react-router-dom";
-import { ArrowLeft, Users, Globe, MessageSquare, Trash2, EyeOff, Eye, Flag, Pencil } from "lucide-react";
+import { ArrowLeft, Users, Globe, MessageSquare, Trash2, EyeOff, Eye, Flag, Pencil, Crown, Heart } from "lucide-react";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import { Button } from "@/components/ui/button";
