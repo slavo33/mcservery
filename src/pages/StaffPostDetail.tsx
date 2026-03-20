@@ -86,7 +86,14 @@ const StaffPostDetail = () => {
 
       setServerName(serverRes.data?.name || "Unknown");
       setServerSlug(serverRes.data?.slug || "");
-      setIsVip(serverRes.data?.vip_expires_at ? new Date(serverRes.data.vip_expires_at) > new Date() : false);
+      const serverIsVip = serverRes.data?.vip_expires_at ? new Date(serverRes.data.vip_expires_at) > new Date() : false;
+      setIsVip(serverIsVip);
+      if (serverIsVip) {
+        const cooldown = serverRes.data?.vote_cooldown_hours || 24;
+        setVipTier(cooldown <= 2 ? "max" : cooldown <= 4 ? "pro" : cooldown <= 8 ? "basic" : null);
+      } else {
+        setVipTier(null);
+      }
       setOwnerNickname(profileRes.data?.nickname || "Unknown");
       setOwnerAvatar(profileRes.data?.avatar_url || null);
       setLoading(false);
