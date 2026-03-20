@@ -173,9 +173,11 @@ const StaffRecruitment = () => {
     }
   };
 
-  const displayedPosts = showMyPosts && user
-    ? posts.filter(p => p.owner_id === user.id)
-    : posts;
+  const availablePositions = [...new Set(posts.map(p => p.position))].sort();
+
+  const displayedPosts = posts
+    .filter(p => !showMyPosts || !user || p.owner_id === user.id)
+    .filter(p => filterPosition === "all" || p.position === filterPosition);
 
   return (
     <div className="min-h-screen bg-background">
