@@ -50,7 +50,7 @@ const StaffRecruitment = () => {
   const { t } = useLanguage();
   const { user } = useAuth();
   const [posts, setPosts] = useState<StaffPost[]>([]);
-  const [myServers, setMyServers] = useState<{ id: string; name: string; ip: string; discord_url: string | null; website_url: string | null }[]>([]);
+  const [myServers, setMyServers] = useState<{ id: string; name: string; ip: string; discord_url: string | null; website_url: string | null; vip_expires_at: string | null }[]>([]);
   const [loading, setLoading] = useState(true);
   const [dialogOpen, setDialogOpen] = useState(false);
   const [showMyPosts, setShowMyPosts] = useState(false);
@@ -115,7 +115,7 @@ const StaffRecruitment = () => {
     if (!user) return;
     const { data } = await supabase
       .from("servers")
-      .select("id, name, ip, discord_url, website_url")
+      .select("id, name, ip, discord_url, website_url, vip_expires_at, vote_cooldown_hours")
       .eq("owner_id", user.id);
     setMyServers(data || []);
   };
@@ -140,6 +140,18 @@ const StaffRecruitment = () => {
     if (!server) return;
 
     setSubmitting(true);
+
+    // Check if server has active VIP - auto-assign to new post
+    const serverHasVip = server.vip_expires_at && new Date(server.vip_expires_at) > new Date();
+    let vipTier: string | null = null;
+    if (serverHasVip) {
+      // Derive tier from cooldown
+      const cooldown = (server as any).vote_cooldown_hours;
+      if (cooldown === 2) vipTier = "max";
+      else if (cooldown === 4) vipTier = "pro";
+      else vipTier = "basic";
+    }
+
     const { error } = await supabase.from("staff_posts").insert({
       server_id: selectedServer,
       owner_id: user.id,
@@ -150,7 +162,8 @@ const StaffRecruitment = () => {
       discord_url: server.discord_url,
       website_url: server.website_url,
       images,
-    });
+      ...(serverHasVip ? { vip_tier: vipTier, vip_expires_at: server.vip_expires_at } : {}),
+    } as any);
 
     if (error) {
       toast.error(t("staff_error"));
