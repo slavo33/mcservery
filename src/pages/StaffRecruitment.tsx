@@ -403,7 +403,7 @@ const StaffRecruitment = () => {
           <div className="grid gap-4 sm:grid-cols-2">
             {displayedPosts.map(post => (
               <Link key={post.id} to={`/staff/${post.id}`} className="block">
-              <Card className="overflow-hidden border-border/60 hover:border-primary/30 transition-colors cursor-pointer">
+              <Card className={`overflow-hidden transition-colors cursor-pointer ${post.is_vip ? "border-yellow-500/40 hover:border-yellow-500/60 ring-1 ring-yellow-500/10" : "border-border/60 hover:border-primary/30"}`}>
                 {/* Image banner */}
                 {post.images.length > 0 && (
                   <div className="aspect-[2.5/1] overflow-hidden">
