@@ -50,7 +50,7 @@ const StaffRecruitment = () => {
   const [dialogOpen, setDialogOpen] = useState(false);
   const [showMyPosts, setShowMyPosts] = useState(false);
   const [filterPosition, setFilterPosition] = useState<string>("all");
-  const [filterDate, setFilterDate] = useState<string>("all");
+  const [sortOrder, setSortOrder] = useState<"newest" | "oldest">("newest");
   const [searchQuery, setSearchQuery] = useState("");
   const [submitting, setSubmitting] = useState(false);
 
@@ -177,22 +177,15 @@ const StaffRecruitment = () => {
 
   const availablePositions = [...new Set(posts.map(p => p.position))].sort();
 
-  const getDateThreshold = () => {
-    if (filterDate === "all") return null;
-    const now = new Date();
-    if (filterDate === "today") return new Date(now.setHours(0, 0, 0, 0)).toISOString();
-    if (filterDate === "week") return new Date(now.getTime() - 7 * 24 * 60 * 60 * 1000).toISOString();
-    if (filterDate === "month") return new Date(now.getTime() - 30 * 24 * 60 * 60 * 1000).toISOString();
-    return null;
-  };
-
   const q = searchQuery.toLowerCase().trim();
-  const dateThreshold = getDateThreshold();
   const displayedPosts = posts
     .filter(p => !showMyPosts || !user || p.owner_id === user.id)
     .filter(p => filterPosition === "all" || p.position === filterPosition)
     .filter(p => !q || (p.server_name?.toLowerCase().includes(q) || p.server_ip.toLowerCase().includes(q)))
-    .filter(p => !dateThreshold || p.created_at >= dateThreshold);
+    .sort((a, b) => sortOrder === "newest"
+      ? new Date(b.created_at).getTime() - new Date(a.created_at).getTime()
+      : new Date(a.created_at).getTime() - new Date(b.created_at).getTime()
+    );
 
   return (
     <div className="min-h-screen bg-background">
@@ -215,15 +208,13 @@ const StaffRecruitment = () => {
             onChange={e => setSearchQuery(e.target.value)}
             className="sm:max-w-xs"
           />
-          <Select value={filterDate} onValueChange={setFilterDate}>
-            <SelectTrigger className="sm:w-44">
+          <Select value={sortOrder} onValueChange={(v) => setSortOrder(v as "newest" | "oldest")}>
+            <SelectTrigger className="sm:w-48">
               <SelectValue />
             </SelectTrigger>
             <SelectContent>
-              <SelectItem value="all">Všetky dátumy</SelectItem>
-              <SelectItem value="today">Dnes</SelectItem>
-              <SelectItem value="week">Posledný týždeň</SelectItem>
-              <SelectItem value="month">Posledný mesiac</SelectItem>
+              <SelectItem value="newest">Od najnovšieho</SelectItem>
+              <SelectItem value="oldest">Od najstaršieho</SelectItem>
             </SelectContent>
           </Select>
         </div>
