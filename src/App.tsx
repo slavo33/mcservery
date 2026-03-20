@@ -22,6 +22,7 @@ const VipPage = lazy(() => import("./pages/VipPage"));
 const VipSuccess = lazy(() => import("./pages/VipSuccess"));
 const Terms = lazy(() => import("./pages/Terms"));
 const Privacy = lazy(() => import("./pages/Privacy"));
+const StaffRecruitment = lazy(() => import("./pages/StaffRecruitment"));
 const NotFound = lazy(() => import("./pages/NotFound"));
 
 const queryClient = new QueryClient();
