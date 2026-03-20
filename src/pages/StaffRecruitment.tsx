@@ -448,7 +448,7 @@ const StaffRecruitment = () => {
                           size="sm"
                           variant="ghost"
                           className="h-7 px-2 text-xs"
-                          onClick={() => toggleActive(post.id, post.is_active)}
+                          onClick={(e) => { e.preventDefault(); e.stopPropagation(); toggleActive(post.id, post.is_active); }}
                         >
                           {post.is_active ? <EyeOff className="h-3.5 w-3.5" /> : <Eye className="h-3.5 w-3.5" />}
                         </Button>
