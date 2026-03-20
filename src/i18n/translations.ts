@@ -1919,6 +1919,8 @@ const fr: TranslationKeys = {
   staff_my_posts: "Mes annonces",
   staff_sort_newest: "Plus récentes",
   staff_sort_oldest: "Plus anciennes",
+  staff_sort_most_liked: "Plus aimées",
+  staff_sort_vip_first: "VIP en premier",
 };
 
 const ru: TranslationKeys = {
