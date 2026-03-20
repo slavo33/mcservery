@@ -79,16 +79,18 @@ const StaffRecruitment = () => {
       const ownerIds = [...new Set(data.map(p => p.owner_id))];
 
       const [serversRes, profilesRes] = await Promise.all([
-        supabase.from("servers").select("id, name").in("id", serverIds),
+        supabase.from("servers").select("id, name, likes_count, vip_expires_at").in("id", serverIds),
         supabase.from("profiles").select("id, nickname, avatar_url").in("id", ownerIds),
       ]);
 
-      const serverMap = new Map(serversRes.data?.map(s => [s.id, s.name]) || []);
+      const serverMap = new Map(serversRes.data?.map(s => [s.id, { name: s.name, likes_count: s.likes_count, is_vip: s.vip_expires_at ? new Date(s.vip_expires_at) > new Date() : false }]) || []);
       const profileMap = new Map(profilesRes.data?.map(p => [p.id, p]) || []);
 
       setPosts(data.map(p => ({
         ...p,
-        server_name: serverMap.get(p.server_id) || "Unknown",
+        server_name: serverMap.get(p.server_id)?.name || "Unknown",
+        server_likes_count: serverMap.get(p.server_id)?.likes_count || 0,
+        is_vip: serverMap.get(p.server_id)?.is_vip || false,
         owner_nickname: profileMap.get(p.owner_id)?.nickname || "Unknown",
         owner_avatar: profileMap.get(p.owner_id)?.avatar_url,
       })));
