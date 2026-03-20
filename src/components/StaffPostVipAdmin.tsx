@@ -79,7 +79,7 @@ const StaffPostVipAdmin = () => {
   const handleAssign = async () => {
     if (!selectedPostId) return;
     setProcessing(true);
-    const expiry = new Date(Date.now() + parseInt(assignDays) * 86400000);
+    const expiry = new Date(Date.now() + (tierDays[assignTier] || 30) * 86400000);
     const { error } = await supabase
       .from("staff_posts")
       .update({ vip_tier: assignTier, vip_expires_at: expiry.toISOString() } as any)
