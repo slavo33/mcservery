@@ -207,8 +207,12 @@ const StaffPostDetail = () => {
 
           {/* Actions */}
           <div className="flex flex-wrap gap-2 mt-4">
-            {isOwner && (
+            {(isOwner || isAdmin) && (
               <>
+                <Button size="sm" variant="outline" onClick={openEdit} className="gap-1.5">
+                  <Pencil className="h-4 w-4" />
+                  {t("edit_server") || "Upraviť"}
+                </Button>
                 <Button size="sm" variant="outline" onClick={toggleActive} className="gap-1.5">
                   {post.is_active ? <EyeOff className="h-4 w-4" /> : <Eye className="h-4 w-4" />}
                   {post.is_active ? t("staff_close") : t("staff_reopen")}
@@ -219,7 +223,7 @@ const StaffPostDetail = () => {
                 </Button>
               </>
             )}
-            {user && !isOwner && (
+            {user && (
               <ReportDialog
                 targetId={post.id}
                 reportType="staff_post"
