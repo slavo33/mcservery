@@ -106,6 +106,7 @@ const StaffRecruitment = () => {
         likes_count: (p as any).likes_count || 0,
         server_name: serverMap.get(p.server_id)?.name || "Unknown",
         is_vip: serverMap.get(p.server_id)?.is_vip || false,
+        vip_tier: serverMap.get(p.server_id)?.vip_tier || null,
         owner_nickname: profileMap.get(p.owner_id)?.nickname || "Unknown",
         owner_avatar: profileMap.get(p.owner_id)?.avatar_url,
         liked_by_me: myLikedIds.has(p.id),
