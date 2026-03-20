@@ -36,6 +36,7 @@ const StaffPostDetail = () => {
   const [post, setPost] = useState<StaffPost | null>(null);
   const [serverName, setServerName] = useState("");
   const [serverSlug, setServerSlug] = useState("");
+  const [ownerNickname, setOwnerNickname] = useState("");
   const [ownerAvatar, setOwnerAvatar] = useState<string | null>(null);
   const [loading, setLoading] = useState(true);
 
