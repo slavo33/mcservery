@@ -381,12 +381,9 @@ const StaffRecruitment = () => {
                       <Badge className="bg-primary/15 text-primary border-primary/25 mb-1.5">
                         {t("staff_looking_for")}: {post.position}
                       </Badge>
-                      <Link
-                        to={`/server/${post.server_ip.replace(/[.:]/g, "-")}`}
-                        className="block text-lg font-bold text-foreground hover:text-primary transition-colors leading-tight"
-                      >
+                      <span className="block text-lg font-bold text-foreground leading-tight">
                         {post.server_name}
-                      </Link>
+                      </span>
                       <p className="text-xs text-muted-foreground font-mono mt-0.5">{post.server_ip}</p>
                     </div>
                   </div>
