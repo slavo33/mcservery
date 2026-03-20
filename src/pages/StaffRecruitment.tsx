@@ -175,7 +175,7 @@ const StaffRecruitment = () => {
     }
   };
 
-  const availablePositions = [...new Set(posts.map(p => p.position))].sort();
+  const availablePositions = [...new Set([...POSITION_OPTIONS, ...posts.map(p => p.position)])].sort();
 
   const q = searchQuery.toLowerCase().trim();
   const displayedPosts = posts
