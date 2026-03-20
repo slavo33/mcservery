@@ -35,6 +35,7 @@ const StaffPostDetail = () => {
   const { t, locale } = useLanguage();
   const [post, setPost] = useState<StaffPost | null>(null);
   const [serverName, setServerName] = useState("");
+  const [serverSlug, setServerSlug] = useState("");
   const [ownerNickname, setOwnerNickname] = useState("");
   const [ownerAvatar, setOwnerAvatar] = useState<string | null>(null);
   const [loading, setLoading] = useState(true);
@@ -56,11 +57,12 @@ const StaffPostDetail = () => {
       setPost(data);
 
       const [serverRes, profileRes] = await Promise.all([
-        supabase.from("servers").select("name").eq("id", data.server_id).maybeSingle(),
+        supabase.from("servers").select("name, slug").eq("id", data.server_id).maybeSingle(),
         supabase.from("profiles").select("nickname, avatar_url").eq("id", data.owner_id).maybeSingle(),
       ]);
 
       setServerName(serverRes.data?.name || "Unknown");
+      setServerSlug(serverRes.data?.slug || "");
       setOwnerNickname(profileRes.data?.nickname || "Unknown");
       setOwnerAvatar(profileRes.data?.avatar_url || null);
       setLoading(false);
@@ -164,7 +166,9 @@ const StaffPostDetail = () => {
             <Badge variant="secondary" className="ml-2 mb-3">{t("staff_closed")}</Badge>
           )}
 
-          <h1 className="text-2xl sm:text-3xl font-bold text-foreground mb-1">{serverName}</h1>
+          <Link to={serverSlug ? `/server/${serverSlug}` : '#'} className="text-2xl sm:text-3xl font-bold text-foreground hover:text-primary transition-colors mb-1">
+            {serverName}
+          </Link>
           <p className="text-sm text-muted-foreground font-mono">{post.server_ip}</p>
 
           {/* Author + date */}
