@@ -304,6 +304,40 @@ const StaffPostDetail = () => {
           </div>
         )}
 
+        {/* Edit dialog */}
+        <Dialog open={editOpen} onOpenChange={setEditOpen}>
+          <DialogContent className="max-w-lg max-h-[90vh] overflow-y-auto">
+            <DialogHeader>
+              <DialogTitle>{t("edit_server") || "Upraviť inzerát"}</DialogTitle>
+            </DialogHeader>
+            <div className="space-y-4 mt-2">
+              <div>
+                <Label>{t("staff_position")}</Label>
+                <Select value={editPosition} onValueChange={setEditPosition}>
+                  <SelectTrigger className="mt-1"><SelectValue /></SelectTrigger>
+                  <SelectContent>
+                    {POSITION_OPTIONS.map(p => (
+                      <SelectItem key={p} value={p}>{p}</SelectItem>
+                    ))}
+                  </SelectContent>
+                </Select>
+              </div>
+              <div>
+                <Label>{t("staff_description")}</Label>
+                <Textarea className="mt-1" value={editDescription} onChange={e => setEditDescription(e.target.value)} rows={4} maxLength={2000} />
+              </div>
+              <div>
+                <Label>{t("staff_requirements")}</Label>
+                <Textarea className="mt-1" value={editRequirements} onChange={e => setEditRequirements(e.target.value)} rows={3} maxLength={1000} />
+              </div>
+              <ServerImageUpload images={editImages} onImagesChange={setEditImages} maxImages={3} />
+              <Button onClick={handleEditSubmit} disabled={editSubmitting} className="w-full gradient-primary border-0">
+                {editSubmitting ? t("staff_submitting") : (t("save_changes") || "Uložiť")}
+              </Button>
+            </div>
+          </DialogContent>
+        </Dialog>
+
         {/* Comments */}
         <div className="border-t border-border pt-6">
           <StaffCommentSection staffPostId={post.id} />
