@@ -2012,6 +2012,8 @@ const ru: TranslationKeys = {
   staff_looking_for: "Ищем",
   staff_posted_by: "Опубликовал",
   staff_my_posts: "Мои объявления",
+  staff_sort_newest: "Сначала новые",
+  staff_sort_oldest: "Сначала старые",
 };
 
 const uk: TranslationKeys = {
