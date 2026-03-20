@@ -11,6 +11,7 @@ import DiscountCodesAdmin from "@/components/DiscountCodesAdmin";
 import VipPurchasesAdmin from "@/components/VipPurchasesAdmin";
 import VipManagementAdmin from "@/components/VipManagementAdmin";
 import BugReportsAdmin from "@/components/BugReportsAdmin";
+import StaffPostVipAdmin from "@/components/StaffPostVipAdmin";
 import { Button } from "@/components/ui/button";
 
 interface Report {
