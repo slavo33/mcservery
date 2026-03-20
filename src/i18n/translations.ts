@@ -776,6 +776,8 @@ const sk: TranslationKeys = {
   staff_my_posts: "Moje inzeráty",
   staff_sort_newest: "Od najnovšieho",
   staff_sort_oldest: "Od najstaršieho",
+  staff_sort_most_liked: "Najviac lajkované",
+  staff_sort_vip_first: "VIP ako prvé",
 };
 
 const cs: TranslationKeys = {
