@@ -316,6 +316,7 @@ const AdminPanel = () => {
         )}
 
         <VipManagementAdmin />
+        <StaffPostVipAdmin />
         <VipPurchasesAdmin />
         <DiscountCodesAdmin />
         <BugReportsAdmin />
