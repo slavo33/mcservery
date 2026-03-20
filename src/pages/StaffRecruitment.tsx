@@ -176,9 +176,11 @@ const StaffRecruitment = () => {
 
   const availablePositions = [...new Set(posts.map(p => p.position))].sort();
 
+  const q = searchQuery.toLowerCase().trim();
   const displayedPosts = posts
     .filter(p => !showMyPosts || !user || p.owner_id === user.id)
-    .filter(p => filterPosition === "all" || p.position === filterPosition);
+    .filter(p => filterPosition === "all" || p.position === filterPosition)
+    .filter(p => !q || (p.server_name?.toLowerCase().includes(q) || p.server_ip.toLowerCase().includes(q)));
 
   return (
     <div className="min-h-screen bg-background">
