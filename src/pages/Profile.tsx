@@ -362,16 +362,55 @@ const Profile = () => {
 
         {tab === "favorites" && (
           <div>
+            {/* Sub-tabs */}
+            <div className="flex gap-2 mb-4">
+              <button
+                onClick={() => setFavSubTab("servers")}
+                className={`rounded-full px-3 py-1 text-xs font-medium transition-colors ${favSubTab === "servers" ? "bg-primary text-primary-foreground" : "bg-secondary text-muted-foreground hover:text-foreground"}`}
+              >
+                {t("profile_fav_servers")}
+              </button>
+              <button
+                onClick={() => setFavSubTab("posts")}
+                className={`rounded-full px-3 py-1 text-xs font-medium transition-colors ${favSubTab === "posts" ? "bg-primary text-primary-foreground" : "bg-secondary text-muted-foreground hover:text-foreground"}`}
+              >
+                {t("profile_fav_posts")}
+              </button>
+            </div>
+
             {loadingFavorites ? (
               <p className="text-muted-foreground text-sm">{t("loading")}</p>
-            ) : likedServers.length > 0 ? (
-              <div className="grid gap-6 sm:grid-cols-2">
-                {likedServers.map((server) => (
-                  <ServerCard key={server.id} server={server} dbMode dbId={server.dbId} />
-                ))}
-              </div>
+            ) : favSubTab === "servers" ? (
+              likedServers.length > 0 ? (
+                <div className="grid gap-6 sm:grid-cols-2">
+                  {likedServers.map((server) => (
+                    <ServerCard key={server.id} server={server} dbMode dbId={server.dbId} />
+                  ))}
+                </div>
+              ) : (
+                <p className="text-muted-foreground text-sm">{t("profile_favorites_empty")}</p>
+              )
             ) : (
-              <p className="text-muted-foreground text-sm">{t("profile_favorites_empty")}</p>
+              likedPosts.length > 0 ? (
+                <div className="grid gap-4 sm:grid-cols-2">
+                  {likedPosts.map((post: any) => (
+                    <a key={post.id} href={`/staff/${post.id}`} className="block">
+                      <div className="gradient-card rounded-lg border border-border p-4 hover:border-primary/30 transition-colors">
+                        <div className="flex items-center gap-2 mb-2">
+                          <span className="rounded-full bg-primary/15 text-primary border border-primary/25 px-2 py-0.5 text-xs font-medium">
+                            {post.position}
+                          </span>
+                        </div>
+                        <p className="font-bold text-foreground">{post.server_name}</p>
+                        <p className="text-xs text-muted-foreground font-mono">{post.server_ip}</p>
+                        <p className="text-sm text-muted-foreground mt-2 line-clamp-2">{post.description}</p>
+                      </div>
+                    </a>
+                  ))}
+                </div>
+              ) : (
+                <p className="text-muted-foreground text-sm">{t("profile_fav_posts_empty")}</p>
+              )
             )}
           </div>
         )}
