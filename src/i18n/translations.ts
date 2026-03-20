@@ -2528,6 +2528,8 @@ const ja: TranslationKeys = {
   staff_looking_for: "募集",
   staff_posted_by: "投稿者",
   staff_my_posts: "自分の募集",
+  staff_sort_newest: "新しい順",
+  staff_sort_oldest: "古い順",
 };
 
 export const translations: Record<Locale, TranslationKeys> = { sk, cs, en, de, fr, ru, uk, es, pt, br, zh, ja };
