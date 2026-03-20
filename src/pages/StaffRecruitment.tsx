@@ -207,14 +207,25 @@ const StaffRecruitment = () => {
           <p className="mt-2 text-muted-foreground">{t("staff_subtitle")}</p>
         </div>
 
-        {/* Search */}
-        <div className="mb-4">
+        {/* Filters */}
+        <div className="flex flex-col sm:flex-row gap-3 mb-4">
           <Input
             placeholder={t("filter_search_placeholder")}
             value={searchQuery}
             onChange={e => setSearchQuery(e.target.value)}
-            className="max-w-md"
+            className="sm:max-w-xs"
           />
+          <Select value={filterDate} onValueChange={setFilterDate}>
+            <SelectTrigger className="sm:w-44">
+              <SelectValue />
+            </SelectTrigger>
+            <SelectContent>
+              <SelectItem value="all">Všetky dátumy</SelectItem>
+              <SelectItem value="today">Dnes</SelectItem>
+              <SelectItem value="week">Posledný týždeň</SelectItem>
+              <SelectItem value="month">Posledný mesiac</SelectItem>
+            </SelectContent>
+          </Select>
         </div>
 
         {/* Actions */}
