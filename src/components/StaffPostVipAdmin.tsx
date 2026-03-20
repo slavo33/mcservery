@@ -25,7 +25,7 @@ const StaffPostVipAdmin = () => {
   const [allPosts, setAllPosts] = useState<{ id: string; position: string; server_ip: string }[]>([]);
   const [selectedPostId, setSelectedPostId] = useState("");
   const [assignTier, setAssignTier] = useState("basic");
-  const [assignDays, setAssignDays] = useState("30");
+  const tierDays: Record<string, number> = { basic: 7, pro: 30, max: 90 };
   const [extendDialog, setExtendDialog] = useState<VipPost | null>(null);
   const [extendDays, setExtendDays] = useState("30");
   const [processing, setProcessing] = useState(false);
@@ -79,7 +79,7 @@ const StaffPostVipAdmin = () => {
   const handleAssign = async () => {
     if (!selectedPostId) return;
     setProcessing(true);
-    const expiry = new Date(Date.now() + parseInt(assignDays) * 86400000);
+    const expiry = new Date(Date.now() + (tierDays[assignTier] || 30) * 86400000);
     const { error } = await supabase
       .from("staff_posts")
       .update({ vip_tier: assignTier, vip_expires_at: expiry.toISOString() } as any)
@@ -229,13 +229,14 @@ const StaffPostVipAdmin = () => {
               </Select>
             </div>
             <div>
-              <label className="text-sm text-muted-foreground mb-1 block">Trvanie (dní)</label>
-              <Input type="number" min="1" value={assignDays} onChange={(e) => setAssignDays(e.target.value)} />
+              <p className="text-sm text-muted-foreground">
+                Trvanie: <span className="text-foreground font-medium">{tierDays[assignTier] || 30} dní</span>
+              </p>
             </div>
           </div>
           <DialogFooter>
             <Button variant="secondary" onClick={() => setAssignDialog(false)}>Zrušiť</Button>
-            <Button onClick={handleAssign} disabled={processing || !selectedPostId || parseInt(assignDays) < 1}>
+            <Button onClick={handleAssign} disabled={processing || !selectedPostId}>
               {processing ? "..." : "Prideliť VIP"}
             </Button>
           </DialogFooter>

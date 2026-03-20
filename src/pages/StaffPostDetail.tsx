@@ -131,8 +131,9 @@ const StaffPostDetail = () => {
   };
   const assignVip = async (tier: "basic" | "pro" | "max" | null) => {
     if (!post) return;
+    const tierDays: Record<string, number> = { basic: 7, pro: 30, max: 90 };
     const updates = tier
-      ? { vip_tier: tier, vip_expires_at: new Date(Date.now() + 30 * 86400000).toISOString() }
+      ? { vip_tier: tier, vip_expires_at: new Date(Date.now() + (tierDays[tier] || 30) * 86400000).toISOString() }
       : { vip_tier: null, vip_expires_at: null };
     const { error } = await supabase.from("staff_posts").update(updates as any).eq("id", post.id);
     if (!error) {
