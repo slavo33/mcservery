@@ -213,8 +213,8 @@ const StaffRecruitment = () => {
               <SelectValue />
             </SelectTrigger>
             <SelectContent>
-              <SelectItem value="newest">Od najnovšieho</SelectItem>
-              <SelectItem value="oldest">Od najstaršieho</SelectItem>
+              <SelectItem value="newest">{t("staff_sort_newest")}</SelectItem>
+              <SelectItem value="oldest">{t("staff_sort_oldest")}</SelectItem>
             </SelectContent>
           </Select>
         </div>
