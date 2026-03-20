@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import { useParams, Link, useNavigate } from "react-router-dom";
-import { ArrowLeft, Users, Globe, MessageSquare, Trash2, EyeOff, Eye, Flag, Pencil, Crown, Heart } from "lucide-react";
+import { ArrowLeft, Users, Globe, MessageSquare, Trash2, EyeOff, Eye, Flag, Pencil, Crown, Heart, ChevronDown } from "lucide-react";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import { Button } from "@/components/ui/button";
@@ -9,6 +9,7 @@ import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { Label } from "@/components/ui/label";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from "@/components/ui/dropdown-menu";
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
 import ServerImageUpload from "@/components/ServerImageUpload";
 import StaffCommentSection from "@/components/StaffCommentSection";
@@ -80,20 +81,16 @@ const StaffPostDetail = () => {
       setLikesCount((data as any).likes_count || 0);
 
       const [serverRes, profileRes] = await Promise.all([
-        supabase.from("servers").select("name, slug, vip_expires_at, vote_cooldown_hours").eq("id", data.server_id).maybeSingle(),
+        supabase.from("servers").select("name, slug").eq("id", data.server_id).maybeSingle(),
         supabase.from("profiles").select("nickname, avatar_url").eq("id", data.owner_id).maybeSingle(),
       ]);
 
       setServerName(serverRes.data?.name || "Unknown");
       setServerSlug(serverRes.data?.slug || "");
-      const serverIsVip = serverRes.data?.vip_expires_at ? new Date(serverRes.data.vip_expires_at) > new Date() : false;
-      setIsVip(serverIsVip);
-      if (serverIsVip) {
-        const cooldown = serverRes.data?.vote_cooldown_hours || 24;
-        setVipTier(cooldown <= 2 ? "max" : cooldown <= 4 ? "pro" : cooldown <= 8 ? "basic" : null);
-      } else {
-        setVipTier(null);
-      }
+      // VIP from post's own columns
+      const postVipActive = (data as any).vip_tier && (data as any).vip_expires_at && new Date((data as any).vip_expires_at) > new Date();
+      setIsVip(!!postVipActive);
+      setVipTier(postVipActive ? (data as any).vip_tier : null);
       setOwnerNickname(profileRes.data?.nickname || "Unknown");
       setOwnerAvatar(profileRes.data?.avatar_url || null);
       setLoading(false);
@@ -130,6 +127,18 @@ const StaffPostDetail = () => {
     if (!error) {
       toast.success(t("staff_deleted"));
       navigate("/staff");
+    }
+  };
+  const assignVip = async (tier: "basic" | "pro" | "max" | null) => {
+    if (!post) return;
+    const updates = tier
+      ? { vip_tier: tier, vip_expires_at: new Date(Date.now() + 30 * 86400000).toISOString() }
+      : { vip_tier: null, vip_expires_at: null };
+    const { error } = await supabase.from("staff_posts").update(updates as any).eq("id", post.id);
+    if (!error) {
+      setIsVip(!!tier);
+      setVipTier(tier);
+      toast.success(tier ? `VIP ${tier.toUpperCase()} pridelený` : "VIP zrušený");
     }
   };
 
@@ -293,6 +302,31 @@ const StaffPostDetail = () => {
 
           {/* Actions */}
           <div className="flex flex-wrap gap-2 mt-4">
+            {isAdmin && (
+              <DropdownMenu>
+                <DropdownMenuTrigger asChild>
+                  <Button size="sm" variant="outline" className={`gap-1.5 ${isVip ? "border-amber-500/50 text-amber-500" : ""}`}>
+                    <Crown className="h-4 w-4" />
+                  </Button>
+                </DropdownMenuTrigger>
+                <DropdownMenuContent>
+                  <DropdownMenuItem onClick={() => assignVip("basic")} className={vipTier === "basic" ? "bg-blue-500/10" : ""}>
+                    VIP Basic (30 dní)
+                  </DropdownMenuItem>
+                  <DropdownMenuItem onClick={() => assignVip("pro")} className={vipTier === "pro" ? "bg-purple-500/10" : ""}>
+                    VIP Pro (30 dní)
+                  </DropdownMenuItem>
+                  <DropdownMenuItem onClick={() => assignVip("max")} className={vipTier === "max" ? "bg-amber-500/10" : ""}>
+                    VIP Max (30 dní)
+                  </DropdownMenuItem>
+                  {isVip && (
+                    <DropdownMenuItem onClick={() => assignVip(null)} className="text-destructive">
+                      Zrušiť VIP
+                    </DropdownMenuItem>
+                  )}
+                </DropdownMenuContent>
+              </DropdownMenu>
+            )}
             {(isOwner || isAdmin) && (
               <>
                 <Button size="sm" variant="outline" onClick={openEdit} className="gap-1.5" title={t("edit_server") || "Upraviť"}>

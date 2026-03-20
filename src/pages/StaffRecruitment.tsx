@@ -80,37 +80,30 @@ const StaffRecruitment = () => {
       const ownerIds = [...new Set(data.map(p => p.owner_id))];
       const postIds = data.map(p => p.id);
 
-      const serversRes = await supabase.from("servers").select("id, name, vip_expires_at, vote_cooldown_hours").in("id", serverIds);
+      const serversRes = await supabase.from("servers").select("id, name").in("id", serverIds);
       const profilesRes = await supabase.from("profiles").select("id, nickname, avatar_url").in("id", ownerIds);
       let myLikesRes: { data: any[] | null } = { data: null };
       if (user) {
         myLikesRes = await supabase.from("staff_post_likes").select("staff_post_id").eq("user_id", user.id).in("staff_post_id", postIds);
       }
 
-      const getVipTier = (cooldown: number): "basic" | "pro" | "max" | null => {
-        if (cooldown <= 2) return "max";
-        if (cooldown <= 4) return "pro";
-        if (cooldown <= 8) return "basic";
-        return null;
-      };
-
-      const serverMap = new Map(serversRes.data?.map((s: any) => {
-        const isVip = s.vip_expires_at ? new Date(s.vip_expires_at) > new Date() : false;
-        return [s.id, { name: s.name, is_vip: isVip, vip_tier: isVip ? getVipTier(s.vote_cooldown_hours) : null }];
-      }) || []);
+      const serverMap = new Map(serversRes.data?.map((s: any) => [s.id, { name: s.name }]) || []);
       const profileMap = new Map(profilesRes.data?.map((p: any) => [p.id, p]) || []);
       const myLikedIds = new Set(myLikesRes?.data?.map((l: any) => l.staff_post_id) || []);
 
-      setPosts(data.map(p => ({
-        ...p,
-        likes_count: (p as any).likes_count || 0,
-        server_name: serverMap.get(p.server_id)?.name || "Unknown",
-        is_vip: serverMap.get(p.server_id)?.is_vip || false,
-        vip_tier: serverMap.get(p.server_id)?.vip_tier || null,
-        owner_nickname: profileMap.get(p.owner_id)?.nickname || "Unknown",
-        owner_avatar: profileMap.get(p.owner_id)?.avatar_url,
-        liked_by_me: myLikedIds.has(p.id),
-      })));
+      setPosts(data.map(p => {
+        const postVipActive = (p as any).vip_tier && (p as any).vip_expires_at && new Date((p as any).vip_expires_at) > new Date();
+        return {
+          ...p,
+          likes_count: (p as any).likes_count || 0,
+          server_name: serverMap.get(p.server_id)?.name || "Unknown",
+          is_vip: !!postVipActive,
+          vip_tier: postVipActive ? (p as any).vip_tier : null,
+          owner_nickname: profileMap.get(p.owner_id)?.nickname || "Unknown",
+          owner_avatar: profileMap.get(p.owner_id)?.avatar_url,
+          liked_by_me: myLikedIds.has(p.id),
+        };
+      }));
     } else {
       setPosts([]);
     }
