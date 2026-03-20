@@ -225,7 +225,7 @@ const StaffRecruitment = () => {
         return new Date(b.created_at).getTime() - new Date(a.created_at).getTime();
       }
       if (sortOrder === "most_liked") {
-        return (b.server_likes_count || 0) - (a.server_likes_count || 0);
+        return (b.likes_count || 0) - (a.likes_count || 0);
       }
       return sortOrder === "newest"
         ? new Date(b.created_at).getTime() - new Date(a.created_at).getTime()
