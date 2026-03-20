@@ -37,7 +37,7 @@ interface StaffPost {
 }
 
 const StaffPostDetail = () => {
-  const { id } = useParams<{ id: string }>();
+  const { slug } = useParams<{ slug: string }>();
   const navigate = useNavigate();
   const { user, isAdmin } = useAuth();
   const { t, locale } = useLanguage();
@@ -65,11 +65,11 @@ const StaffPostDetail = () => {
 
   useEffect(() => {
     const fetchPost = async () => {
-      if (!id) return;
+      if (!slug) return;
       const { data } = await supabase
         .from("staff_posts")
         .select("*")
-        .eq("id", id)
+        .eq("slug", slug)
         .maybeSingle();
 
       if (!data) {
@@ -87,7 +87,6 @@ const StaffPostDetail = () => {
 
       setServerName(serverRes.data?.name || "Unknown");
       setServerSlug(serverRes.data?.slug || "");
-      // VIP from post's own columns
       const postVipActive = (data as any).vip_tier && (data as any).vip_expires_at && new Date((data as any).vip_expires_at) > new Date();
       setIsVip(!!postVipActive);
       setVipTier(postVipActive ? (data as any).vip_tier : null);
@@ -96,14 +95,14 @@ const StaffPostDetail = () => {
       setLoading(false);
     };
     fetchPost();
-  }, [id]);
+  }, [slug]);
 
   // Check if current user liked this post
   useEffect(() => {
-    if (!user || !id) return;
-    supabase.from("staff_post_likes").select("id").eq("staff_post_id", id).eq("user_id", user.id).maybeSingle()
+    if (!user || !post) return;
+    supabase.from("staff_post_likes").select("id").eq("staff_post_id", post.id).eq("user_id", user.id).maybeSingle()
       .then(({ data }) => setLikedByMe(!!data));
-  }, [user, id]);
+  }, [user, post?.id]);
 
   const toggleLike = async () => {
     if (!user || !post) {

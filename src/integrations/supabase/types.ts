@@ -484,6 +484,7 @@ export type Database = {
           requirements: string
           server_id: string
           server_ip: string
+          slug: string
           updated_at: string
           vip_expires_at: string | null
           vip_tier: string | null
@@ -502,6 +503,7 @@ export type Database = {
           requirements?: string
           server_id: string
           server_ip?: string
+          slug?: string
           updated_at?: string
           vip_expires_at?: string | null
           vip_tier?: string | null
@@ -520,6 +522,7 @@ export type Database = {
           requirements?: string
           server_id?: string
           server_ip?: string
+          slug?: string
           updated_at?: string
           vip_expires_at?: string | null
           vip_tier?: string | null
@@ -676,6 +679,10 @@ export type Database = {
     }
     Functions: {
       generate_server_slug: { Args: { server_ip: string }; Returns: string }
+      generate_staff_post_slug: {
+        Args: { server_ip_val: string }
+        Returns: string
+      }
       get_top_voters: {
         Args: { p_limit?: number; p_server_id: string }
         Returns: {

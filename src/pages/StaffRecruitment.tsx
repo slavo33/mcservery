@@ -32,6 +32,7 @@ interface StaffPost {
   is_active: boolean;
   created_at: string;
   likes_count: number;
+  slug?: string;
   server_name?: string;
   owner_nickname?: string;
   owner_avatar?: string | null;
@@ -432,7 +433,7 @@ const StaffRecruitment = () => {
         ) : (
           <div className="grid gap-4 sm:grid-cols-2">
             {displayedPosts.map(post => (
-              <Link key={post.id} to={`/staff/${post.id}`} className="block">
+              <Link key={post.id} to={`/staff/${(post as any).slug || post.id}`} className="block">
               <Card className={`overflow-hidden transition-colors cursor-pointer ${post.is_vip ? (
                 post.vip_tier === "max" ? "border-amber-500/40 hover:border-amber-500/60 ring-1 ring-amber-500/10" :
                 post.vip_tier === "pro" ? "border-purple-500/40 hover:border-purple-500/60 ring-1 ring-purple-500/10" :
