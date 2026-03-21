@@ -221,6 +221,10 @@ const VipPage = () => {
                     <Check className="h-4 w-4 text-primary mt-0.5 shrink-0" />
                     {t("vip_feature_staff_priority")}
                   </li>
+                  <li className="flex items-start gap-2 text-sm text-foreground">
+                    <Terminal className="h-4 w-4 text-primary mt-0.5 shrink-0" />
+                    {t("vip_feature_console")}
+                  </li>
                 </ul>
 
                 <Button
