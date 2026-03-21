@@ -2191,6 +2191,7 @@ const es: TranslationKeys = {
   vip_feature_vote_cooldown: "Votar por el servidor cada",
   vip_feature_badge: "Insignia VIP en el servidor",
   vip_feature_staff_priority: "Anuncios de reclutamiento con insignia VIP y visualización prioritaria",
+  vip_feature_console: "Acceso a Server Console – monitorea el chat y jugadores desde la web",
   vip_feature_priority: "Visualización prioritaria por votos",
   vip_buy_now: "Comprar ahora",
   vip_select_server_label: "Selecciona un servidor para VIP",
