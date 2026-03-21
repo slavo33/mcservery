@@ -342,6 +342,7 @@ type TranslationKeys = {
   vip_feature_badge: string;
   vip_feature_priority: string;
   vip_feature_staff_priority: string;
+  vip_feature_console: string;
   vip_buy_now: string;
   vip_select_server_label: string;
   vip_select_server: string;
