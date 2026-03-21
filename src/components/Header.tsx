@@ -1,16 +1,32 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
-import { Menu, X, Gamepad2, User, LogOut, Shield, Crown, Users } from "lucide-react";
+import { Menu, X, Gamepad2, User, LogOut, Shield, Crown, Users, Terminal } from "lucide-react";
 import BugReportDialog from "@/components/BugReportDialog";
 import { Button } from "@/components/ui/button";
 import { useAuth } from "@/hooks/useAuth";
 import { useLanguage } from "@/i18n/LanguageContext";
 import LanguageSwitcher from "@/components/LanguageSwitcher";
+import { supabase } from "@/integrations/supabase/client";
 
 const Header = () => {
   const [mobileOpen, setMobileOpen] = useState(false);
   const { user, profile, signOut, isAdmin } = useAuth();
   const { t } = useLanguage();
+  const [hasVipServer, setHasVipServer] = useState(false);
+
+  useEffect(() => {
+    if (!user || isAdmin) return;
+    supabase
+      .from("servers")
+      .select("id, vip_expires_at")
+      .eq("owner_id", user.id)
+      .then(({ data }) => {
+        const hasVip = data?.some((s) => s.vip_expires_at && new Date(s.vip_expires_at) > new Date()) ?? false;
+        setHasVipServer(hasVip);
+      });
+  }, [user, isAdmin]);
+
+  const showConsole = isAdmin || hasVipServer;
 
   const navItems = [
     { label: t("nav_home"), to: "/" },
