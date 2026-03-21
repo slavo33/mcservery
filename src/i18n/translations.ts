@@ -342,6 +342,7 @@ type TranslationKeys = {
   vip_feature_badge: string;
   vip_feature_priority: string;
   vip_feature_staff_priority: string;
+  vip_feature_console: string;
   vip_buy_now: string;
   vip_select_server_label: string;
   vip_select_server: string;
@@ -714,6 +715,7 @@ const sk: TranslationKeys = {
   vip_feature_vote_cooldown: "Vote za server každých",
   vip_feature_badge: "VIP odznak pri serveri",
   vip_feature_staff_priority: "Inzeráty náboru s VIP odznakom a prioritným zobrazením",
+  vip_feature_console: "Prístup k Server Console – sleduj chat a hráčov cez web",
   vip_feature_priority: "Prioritné zobrazenie podľa hlasov",
   vip_buy_now: "Kúpiť teraz",
   vip_select_server_label: "Vyber server pre VIP",
@@ -969,6 +971,7 @@ const cs: TranslationKeys = {
   vip_feature_vote_cooldown: "Hlasování za server každých",
   vip_feature_badge: "VIP odznak u serveru",
   vip_feature_staff_priority: "Inzeráty náboru s VIP odznakem a prioritním zobrazením",
+  vip_feature_console: "Přístup k Server Console – sleduj chat a hráče přes web",
   vip_feature_priority: "Prioritní zobrazení podle hlasů",
   vip_buy_now: "Koupit nyní",
   vip_select_server_label: "Vyber server pro VIP",
@@ -1341,6 +1344,7 @@ const en: TranslationKeys = {
   vip_feature_vote_cooldown: "Vote for server every",
   vip_feature_badge: "VIP badge on server",
   vip_feature_staff_priority: "Staff recruitment posts with VIP badge and priority display",
+  vip_feature_console: "Access to Server Console – monitor chat and players via web",
   vip_feature_priority: "Priority display by votes",
   vip_buy_now: "Buy Now",
   vip_select_server_label: "Select server for VIP",
@@ -1601,6 +1605,7 @@ const de: TranslationKeys = {
   vip_feature_vote_cooldown: "Für Server abstimmen alle",
   vip_feature_badge: "VIP-Abzeichen am Server",
   vip_feature_staff_priority: "Rekrutierungsanzeigen mit VIP-Abzeichen und Prioritätsanzeige",
+  vip_feature_console: "Zugang zur Server-Konsole – Chat und Spieler über das Web verfolgen",
   vip_feature_priority: "Prioritätsanzeige nach Stimmen",
   vip_buy_now: "Jetzt kaufen",
   vip_select_server_label: "Server für VIP auswählen",
@@ -1864,6 +1869,7 @@ const fr: TranslationKeys = {
   vip_feature_vote_cooldown: "Vote pour le serveur toutes les",
   vip_feature_badge: "Badge VIP sur le serveur",
   vip_feature_staff_priority: "Annonces de recrutement avec badge VIP et affichage prioritaire",
+  vip_feature_console: "Accès à la Console Serveur – suivez le chat et les joueurs via le web",
   vip_feature_priority: "Affichage prioritaire par votes",
   vip_buy_now: "Acheter maintenant",
   vip_select_server_label: "Sélectionne un serveur pour VIP",
@@ -1972,6 +1978,7 @@ const ru: TranslationKeys = {
   vip_feature_vote_cooldown: "Голосование за сервер каждые",
   vip_feature_badge: "VIP значок у сервера",
   vip_feature_staff_priority: "Объявления набора с VIP значком и приоритетным отображением",
+  vip_feature_console: "Доступ к Server Console – следите за чатом и игроками через веб",
   vip_feature_priority: "Приоритетное отображение по голосам",
   vip_buy_now: "Купить сейчас",
   vip_select_server_label: "Выбери сервер для VIP",
@@ -2078,6 +2085,7 @@ const uk: TranslationKeys = {
   vip_feature_vote_cooldown: "Голосування за сервер кожні",
   vip_feature_badge: "VIP значок біля сервера",
   vip_feature_staff_priority: "Оголошення набору з VIP значком та пріоритетним відображенням",
+  vip_feature_console: "Доступ до Server Console – стежте за чатом та гравцями через веб",
   vip_feature_priority: "Пріоритетне відображення за голосами",
   vip_buy_now: "Купити зараз",
   vip_select_server_label: "Обери сервер для VIP",
@@ -2183,6 +2191,7 @@ const es: TranslationKeys = {
   vip_feature_vote_cooldown: "Votar por el servidor cada",
   vip_feature_badge: "Insignia VIP en el servidor",
   vip_feature_staff_priority: "Anuncios de reclutamiento con insignia VIP y visualización prioritaria",
+  vip_feature_console: "Acceso a Server Console – monitorea el chat y jugadores desde la web",
   vip_feature_priority: "Visualización prioritaria por votos",
   vip_buy_now: "Comprar ahora",
   vip_select_server_label: "Selecciona un servidor para VIP",
@@ -2287,6 +2296,7 @@ const pt: TranslationKeys = {
   vip_feature_vote_cooldown: "Votar pelo servidor a cada",
   vip_feature_badge: "Distintivo VIP no servidor",
   vip_feature_staff_priority: "Anúncios de recrutamento com distintivo VIP e exibição prioritária",
+  vip_feature_console: "Acesso ao Server Console – monitore o chat e jogadores pela web",
   vip_feature_priority: "Exibição prioritária por votos",
   vip_buy_now: "Comprar agora",
   vip_select_server_label: "Seleciona um servidor para VIP",
@@ -2398,6 +2408,7 @@ const zh: TranslationKeys = {
   vip_feature_vote_cooldown: "每隔以下时间可投票一次",
   vip_feature_badge: "服务器VIP徽章",
   vip_feature_staff_priority: "招聘帖子带VIP徽章和优先显示",
+  vip_feature_console: "访问Server Console – 通过网页监控聊天和玩家",
   vip_feature_priority: "按投票数优先显示",
   vip_buy_now: "立即购买",
   vip_select_server_label: "选择VIP服务器",
@@ -2503,6 +2514,7 @@ const ja: TranslationKeys = {
   vip_feature_vote_cooldown: "サーバーへの投票間隔",
   vip_feature_badge: "サーバーにVIPバッジ",
   vip_feature_staff_priority: "スタッフ募集にVIPバッジと優先表示",
+  vip_feature_console: "Server Consoleへのアクセス – ウェブでチャットとプレイヤーを監視",
   vip_feature_priority: "投票数による優先表示",
   vip_buy_now: "今すぐ購入",
   vip_select_server_label: "VIP用サーバーを選択",

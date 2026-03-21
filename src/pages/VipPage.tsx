@@ -7,7 +7,7 @@ import { supabase } from "@/integrations/supabase/client";
 import { Link } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { Crown, Zap, Rocket, Check, Tag, ArrowRight } from "lucide-react";
+import { Crown, Zap, Rocket, Check, Tag, ArrowRight, Terminal } from "lucide-react";
 import { toast } from "sonner";
 
 const VIP_TIERS = [
@@ -220,6 +220,10 @@ const VipPage = () => {
                   <li className="flex items-start gap-2 text-sm text-foreground">
                     <Check className="h-4 w-4 text-primary mt-0.5 shrink-0" />
                     {t("vip_feature_staff_priority")}
+                  </li>
+                  <li className="flex items-start gap-2 text-sm text-foreground">
+                    <Terminal className="h-4 w-4 text-primary mt-0.5 shrink-0" />
+                    {t("vip_feature_console")}
                   </li>
                 </ul>
 
