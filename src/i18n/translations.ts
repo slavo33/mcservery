@@ -715,6 +715,7 @@ const sk: TranslationKeys = {
   vip_feature_vote_cooldown: "Vote za server každých",
   vip_feature_badge: "VIP odznak pri serveri",
   vip_feature_staff_priority: "Inzeráty náboru s VIP odznakom a prioritným zobrazením",
+  vip_feature_console: "Prístup k Server Console – sleduj chat a hráčov cez web",
   vip_feature_priority: "Prioritné zobrazenie podľa hlasov",
   vip_buy_now: "Kúpiť teraz",
   vip_select_server_label: "Vyber server pre VIP",
