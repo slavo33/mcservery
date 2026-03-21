@@ -374,19 +374,29 @@ const ServerConsole = () => {
                               </Button>
                             </div>
                           </div>
-                          <div className="bg-muted rounded-lg p-4 text-sm space-y-2">
+                          <div className="bg-muted rounded-lg p-4 text-sm space-y-3">
                             <p className="font-semibold">Inštalácia pluginu:</p>
+                            <a
+                              href="/MCServeryChat-1.0.0.jar"
+                              download="MCServeryChat-1.0.0.jar"
+                              className="inline-flex items-center gap-2 bg-primary text-primary-foreground rounded-md px-4 py-2 text-sm font-medium hover:bg-primary/90 transition-colors"
+                            >
+                              <Download className="h-4 w-4" />
+                              Stiahnuť MCServeryChat-1.0.0.jar
+                            </a>
                             <ol className="list-decimal list-inside space-y-1 text-muted-foreground">
-                              <li>Stiahni plugin <code className="text-xs bg-background px-1 py-0.5 rounded">MCServeryChat.jar</code></li>
+                              <li>Stiahni plugin cez tlačidlo vyššie</li>
                               <li>Vlož ho do priečinka <code className="text-xs bg-background px-1 py-0.5 rounded">plugins/</code> na serveri</li>
-                              <li>V súbore <code className="text-xs bg-background px-1 py-0.5 rounded">config.yml</code> nastav:</li>
+                              <li>Reštartuj server</li>
+                              <li>V súbore <code className="text-xs bg-background px-1 py-0.5 rounded">plugins/MCServeryChat/config.yml</code> nastav:</li>
                             </ol>
                             <pre className="bg-background rounded p-3 text-xs overflow-x-auto mt-2">
 {`api-url: "${edgeFunctionUrl}"
 api-key: "${apiKey}"`}
                             </pre>
                             <p className="text-muted-foreground text-xs mt-2">
-                              Plugin posiela chat správy a zoznam hráčov na API a zobrazuje webové správy v hre.
+                              Kompatibilný s Spigot, Paper, Purpur a Bukkit (1.13+).
+                              Plugin posiela chat, eventy (join/leave/death) a zoznam hráčov na API.
                             </p>
                           </div>
                         </>
