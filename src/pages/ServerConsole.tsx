@@ -459,8 +459,41 @@ api-key: "${apiKey}"`}
                           <p className="text-sm">Žiadne správy. Nainštaluj plugin na server pre zobrazenie chatu.</p>
                         </div>
                       )}
-                      {messages.map((msg) => (
-                        <div key={msg.id} className="flex items-start gap-2 py-1 hover:bg-muted/50 rounded px-2 -mx-2">
+                      {messages.map((msg) => {
+                        const isEvent = msg.source.startsWith("event:");
+                        const eventType = isEvent ? msg.source.split(":")[1] : null;
+
+                        if (isEvent) {
+                          const eventIcon = eventType === "join" ? <LogIn className="h-3 w-3" />
+                            : eventType === "leave" ? <LogOut className="h-3 w-3" />
+                            : eventType === "death" ? <Skull className="h-3 w-3" />
+                            : eventType === "advancement" ? <Trophy className="h-3 w-3" />
+                            : eventType === "kick" ? <Ban className="h-3 w-3" />
+                            : <Terminal className="h-3 w-3" />;
+
+                          const eventColor = eventType === "join" ? "text-green-500"
+                            : eventType === "leave" ? "text-red-400"
+                            : eventType === "death" ? "text-red-500"
+                            : eventType === "advancement" ? "text-yellow-500"
+                            : "text-muted-foreground";
+
+                          return (
+                            <div key={msg.id} className="flex items-center gap-2 py-0.5 px-2 -mx-2">
+                              <div className={`w-5 h-5 rounded-sm shrink-0 flex items-center justify-center ${eventColor}`}>
+                                {eventIcon}
+                              </div>
+                              <span className={`text-xs italic ${eventColor}`}>
+                                {msg.message}
+                              </span>
+                              <span className="text-[10px] text-muted-foreground/60 ml-auto shrink-0">
+                                {new Date(msg.created_at).toLocaleTimeString("sk-SK", { hour: "2-digit", minute: "2-digit" })}
+                              </span>
+                            </div>
+                          );
+                        }
+
+                        return (
+                          <div key={msg.id} className="flex items-start gap-2 py-1 hover:bg-muted/50 rounded px-2 -mx-2">
                           {msg.source === "minecraft" && msg.player_name ? (
                             <img
                               src={`https://mc-heads.net/avatar/${msg.player_name}/20`}
@@ -485,7 +518,8 @@ api-key: "${apiKey}"`}
                             {new Date(msg.created_at).toLocaleTimeString("sk-SK", { hour: "2-digit", minute: "2-digit" })}
                           </span>
                         </div>
-                      ))}
+                        );
+                      })}
                       <div ref={chatEndRef} />
                     </div>
                   </ScrollArea>
