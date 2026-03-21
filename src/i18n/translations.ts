@@ -1978,6 +1978,7 @@ const ru: TranslationKeys = {
   vip_feature_vote_cooldown: "Голосование за сервер каждые",
   vip_feature_badge: "VIP значок у сервера",
   vip_feature_staff_priority: "Объявления набора с VIP значком и приоритетным отображением",
+  vip_feature_console: "Доступ к Server Console – следите за чатом и игроками через веб",
   vip_feature_priority: "Приоритетное отображение по голосам",
   vip_buy_now: "Купить сейчас",
   vip_select_server_label: "Выбери сервер для VIP",
