@@ -24,6 +24,7 @@ const Terms = lazy(() => import("./pages/Terms"));
 const Privacy = lazy(() => import("./pages/Privacy"));
 const StaffRecruitment = lazy(() => import("./pages/StaffRecruitment"));
 const StaffPostDetail = lazy(() => import("./pages/StaffPostDetail"));
+const ServerConsole = lazy(() => import("./pages/ServerConsole"));
 const NotFound = lazy(() => import("./pages/NotFound"));
 
 const queryClient = new QueryClient();
@@ -57,6 +58,7 @@ const App = () => (
                 <Route path="/vip-success" element={<VipSuccess />} />
                 <Route path="/staff" element={<StaffRecruitment />} />
                 <Route path="/staff/:slug" element={<StaffPostDetail />} />
+                <Route path="/console" element={<ServerConsole />} />
                 <Route path="/terms" element={<Terms />} />
                 <Route path="/privacy" element={<Privacy />} />
                 <Route path="*" element={<NotFound />} />
