@@ -68,6 +68,12 @@ const Header = () => {
                   <span>{t("nav_admin_panel")}</span>
                 </Link>
               )}
+              {showConsole && (
+                <Link to="/console" className="flex items-center gap-1.5 rounded-md px-3 py-2 text-sm text-amber-400 hover:bg-amber-500/10 transition-colors font-medium">
+                  <Terminal className="h-4 w-4" />
+                  <span>Console</span>
+                </Link>
+              )}
               <Link to="/profile" className="flex items-center gap-2 rounded-md px-3 py-2 text-sm text-muted-foreground hover:bg-secondary hover:text-foreground transition-colors">
                 <div className="h-6 w-6 rounded-full bg-secondary border border-border overflow-hidden flex items-center justify-center">
                   {profile?.avatar_url ? (
