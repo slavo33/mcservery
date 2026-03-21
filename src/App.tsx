@@ -58,6 +58,7 @@ const App = () => (
                 <Route path="/vip-success" element={<VipSuccess />} />
                 <Route path="/staff" element={<StaffRecruitment />} />
                 <Route path="/staff/:slug" element={<StaffPostDetail />} />
+                <Route path="/console" element={<ServerConsole />} />
                 <Route path="/terms" element={<Terms />} />
                 <Route path="/privacy" element={<Privacy />} />
                 <Route path="*" element={<NotFound />} />
