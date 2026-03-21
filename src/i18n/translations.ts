@@ -1869,6 +1869,7 @@ const fr: TranslationKeys = {
   vip_feature_vote_cooldown: "Vote pour le serveur toutes les",
   vip_feature_badge: "Badge VIP sur le serveur",
   vip_feature_staff_priority: "Annonces de recrutement avec badge VIP et affichage prioritaire",
+  vip_feature_console: "Accès à la Console Serveur – suivez le chat et les joueurs via le web",
   vip_feature_priority: "Affichage prioritaire par votes",
   vip_buy_now: "Acheter maintenant",
   vip_select_server_label: "Sélectionne un serveur pour VIP",
