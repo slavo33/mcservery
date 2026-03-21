@@ -50,6 +50,111 @@ export type Database = {
         }
         Relationships: []
       }
+      chat_connections: {
+        Row: {
+          api_key: string
+          created_at: string
+          id: string
+          is_active: boolean
+          server_id: string
+        }
+        Insert: {
+          api_key?: string
+          created_at?: string
+          id?: string
+          is_active?: boolean
+          server_id: string
+        }
+        Update: {
+          api_key?: string
+          created_at?: string
+          id?: string
+          is_active?: boolean
+          server_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "chat_connections_server_id_fkey"
+            columns: ["server_id"]
+            isOneToOne: true
+            referencedRelation: "servers"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      chat_messages: {
+        Row: {
+          created_at: string
+          delivered: boolean
+          id: string
+          message: string
+          player_name: string | null
+          server_id: string
+          source: string
+          user_id: string | null
+        }
+        Insert: {
+          created_at?: string
+          delivered?: boolean
+          id?: string
+          message: string
+          player_name?: string | null
+          server_id: string
+          source?: string
+          user_id?: string | null
+        }
+        Update: {
+          created_at?: string
+          delivered?: boolean
+          id?: string
+          message?: string
+          player_name?: string | null
+          server_id?: string
+          source?: string
+          user_id?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "chat_messages_server_id_fkey"
+            columns: ["server_id"]
+            isOneToOne: false
+            referencedRelation: "servers"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      chat_online_players: {
+        Row: {
+          id: string
+          joined_at: string
+          player_name: string
+          player_uuid: string | null
+          server_id: string
+        }
+        Insert: {
+          id?: string
+          joined_at?: string
+          player_name: string
+          player_uuid?: string | null
+          server_id: string
+        }
+        Update: {
+          id?: string
+          joined_at?: string
+          player_name?: string
+          player_uuid?: string | null
+          server_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "chat_online_players_server_id_fkey"
+            columns: ["server_id"]
+            isOneToOne: false
+            referencedRelation: "servers"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       comments: {
         Row: {
           content: string
