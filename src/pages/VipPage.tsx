@@ -7,7 +7,7 @@ import { supabase } from "@/integrations/supabase/client";
 import { Link } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { Crown, Zap, Rocket, Check, Tag, ArrowRight } from "lucide-react";
+import { Crown, Zap, Rocket, Check, Tag, ArrowRight, Terminal } from "lucide-react";
 import { toast } from "sonner";
 
 const VIP_TIERS = [
