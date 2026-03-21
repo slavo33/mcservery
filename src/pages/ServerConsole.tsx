@@ -11,7 +11,7 @@ import { ScrollArea } from "@/components/ui/scroll-area";
 import { Badge } from "@/components/ui/badge";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { useToast } from "@/hooks/use-toast";
-import { Send, Users, Copy, Settings, RefreshCw, Terminal, Wifi, WifiOff, Crown, ChevronDown, ChevronUp, LogIn, LogOut, Skull, Trophy, Ban } from "lucide-react";
+import { Send, Users, Copy, Settings, RefreshCw, Terminal, Wifi, WifiOff, Crown, ChevronDown, ChevronUp, LogIn, LogOut, Skull, Trophy, Ban, Download } from "lucide-react";
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
 import { useLanguage } from "@/i18n/LanguageContext";
 
