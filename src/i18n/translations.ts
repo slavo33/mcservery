@@ -1605,6 +1605,7 @@ const de: TranslationKeys = {
   vip_feature_vote_cooldown: "Für Server abstimmen alle",
   vip_feature_badge: "VIP-Abzeichen am Server",
   vip_feature_staff_priority: "Rekrutierungsanzeigen mit VIP-Abzeichen und Prioritätsanzeige",
+  vip_feature_console: "Zugang zur Server-Konsole – Chat und Spieler über das Web verfolgen",
   vip_feature_priority: "Prioritätsanzeige nach Stimmen",
   vip_buy_now: "Jetzt kaufen",
   vip_select_server_label: "Server für VIP auswählen",
