@@ -87,6 +87,41 @@ serve(async (req) => {
     });
   }
 
+  // Plugin sends a server event (join/leave/death/advancement etc.)
+  if (action === "event") {
+    const { event_type, player_name, message: eventMessage } = body;
+    const validEvents = ["join", "leave", "death", "advancement", "kick"];
+    if (!event_type || !validEvents.includes(event_type)) {
+      return new Response(JSON.stringify({ error: "Invalid event type" }), {
+        status: 400,
+        headers: { ...corsHeaders, "Content-Type": "application/json" },
+      });
+    }
+
+    const displayMessage = eventMessage
+      ? String(eventMessage).slice(0, 200)
+      : event_type === "join"
+        ? `${player_name} sa pripojil/a`
+        : event_type === "leave"
+          ? `${player_name} sa odpojil/a`
+          : event_type === "death"
+            ? `${player_name} zomrel/a`
+            : event_type === "advancement"
+              ? `${player_name} získal/a úspech`
+              : `${player_name} bol/a vykopnutý/á`;
+
+    await supabase.from("chat_messages").insert({
+      server_id: connection.server_id,
+      player_name: player_name ? String(player_name).slice(0, 32) : null,
+      source: `event:${event_type}`,
+      message: displayMessage,
+    });
+
+    return new Response(JSON.stringify({ ok: true }), {
+      headers: { ...corsHeaders, "Content-Type": "application/json" },
+    });
+  }
+
   // Plugin syncs current player list
   if (action === "players") {
     const { players } = body; // [{name: string, uuid?: string}]
