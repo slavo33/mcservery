@@ -2408,6 +2408,7 @@ const zh: TranslationKeys = {
   vip_feature_vote_cooldown: "每隔以下时间可投票一次",
   vip_feature_badge: "服务器VIP徽章",
   vip_feature_staff_priority: "招聘帖子带VIP徽章和优先显示",
+  vip_feature_console: "访问Server Console – 通过网页监控聊天和玩家",
   vip_feature_priority: "按投票数优先显示",
   vip_buy_now: "立即购买",
   vip_select_server_label: "选择VIP服务器",
