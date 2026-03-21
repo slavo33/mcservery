@@ -24,6 +24,7 @@ const Terms = lazy(() => import("./pages/Terms"));
 const Privacy = lazy(() => import("./pages/Privacy"));
 const StaffRecruitment = lazy(() => import("./pages/StaffRecruitment"));
 const StaffPostDetail = lazy(() => import("./pages/StaffPostDetail"));
+const ServerConsole = lazy(() => import("./pages/ServerConsole"));
 const NotFound = lazy(() => import("./pages/NotFound"));
 
 const queryClient = new QueryClient();
