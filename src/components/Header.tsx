@@ -1,16 +1,32 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
-import { Menu, X, Gamepad2, User, LogOut, Shield, Crown, Users } from "lucide-react";
+import { Menu, X, Gamepad2, User, LogOut, Shield, Crown, Users, Terminal } from "lucide-react";
 import BugReportDialog from "@/components/BugReportDialog";
 import { Button } from "@/components/ui/button";
 import { useAuth } from "@/hooks/useAuth";
 import { useLanguage } from "@/i18n/LanguageContext";
 import LanguageSwitcher from "@/components/LanguageSwitcher";
+import { supabase } from "@/integrations/supabase/client";
 
 const Header = () => {
   const [mobileOpen, setMobileOpen] = useState(false);
   const { user, profile, signOut, isAdmin } = useAuth();
   const { t } = useLanguage();
+  const [hasVipServer, setHasVipServer] = useState(false);
+
+  useEffect(() => {
+    if (!user || isAdmin) return;
+    supabase
+      .from("servers")
+      .select("id, vip_expires_at")
+      .eq("owner_id", user.id)
+      .then(({ data }) => {
+        const hasVip = data?.some((s) => s.vip_expires_at && new Date(s.vip_expires_at) > new Date()) ?? false;
+        setHasVipServer(hasVip);
+      });
+  }, [user, isAdmin]);
+
+  const showConsole = isAdmin || hasVipServer;
 
   const navItems = [
     { label: t("nav_home"), to: "/" },
@@ -50,6 +66,12 @@ const Header = () => {
                 <Link to="/admin" className="flex items-center gap-1.5 rounded-md px-3 py-2 text-sm text-primary hover:bg-secondary transition-colors">
                   <Shield className="h-4 w-4" />
                   <span>{t("nav_admin_panel")}</span>
+                </Link>
+              )}
+              {showConsole && (
+                <Link to="/console" className="flex items-center gap-1.5 rounded-md px-3 py-2 text-sm text-amber-400 hover:bg-amber-500/10 transition-colors font-medium">
+                  <Terminal className="h-4 w-4" />
+                  <span>Console</span>
                 </Link>
               )}
               <Link to="/profile" className="flex items-center gap-2 rounded-md px-3 py-2 text-sm text-muted-foreground hover:bg-secondary hover:text-foreground transition-colors">
@@ -114,6 +136,12 @@ const Header = () => {
                   <Link to="/admin" onClick={() => setMobileOpen(false)} className="rounded-md px-4 py-3 text-sm font-medium text-primary hover:bg-secondary flex items-center gap-2">
                     <Shield className="h-4 w-4" />
                     {t("nav_admin_panel")}
+                  </Link>
+                )}
+                {showConsole && (
+                  <Link to="/console" onClick={() => setMobileOpen(false)} className="rounded-md px-4 py-3 text-sm font-medium text-amber-400 hover:bg-amber-500/10 flex items-center gap-2">
+                    <Terminal className="h-4 w-4" />
+                    Console
                   </Link>
                 )}
                 <BugReportDialog mobile />
