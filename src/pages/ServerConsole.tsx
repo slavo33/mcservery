@@ -332,7 +332,7 @@ const ServerConsole = () => {
                       <Settings className="h-4 w-4" />
                     </Button>
                   </DialogTrigger>
-                  <DialogContent className="max-w-lg">
+                  <DialogContent className="max-w-[calc(100vw-2rem)] sm:max-w-lg max-h-[85vh] overflow-y-auto">
                     <DialogHeader>
                       <DialogTitle>Nastavenia pripojenia</DialogTitle>
                     </DialogHeader>
