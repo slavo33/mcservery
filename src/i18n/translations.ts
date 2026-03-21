@@ -2514,6 +2514,7 @@ const ja: TranslationKeys = {
   vip_feature_vote_cooldown: "サーバーへの投票間隔",
   vip_feature_badge: "サーバーにVIPバッジ",
   vip_feature_staff_priority: "スタッフ募集にVIPバッジと優先表示",
+  vip_feature_console: "Server Consoleへのアクセス – ウェブでチャットとプレイヤーを監視",
   vip_feature_priority: "投票数による優先表示",
   vip_buy_now: "今すぐ購入",
   vip_select_server_label: "VIP用サーバーを選択",
