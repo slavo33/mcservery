@@ -2085,6 +2085,7 @@ const uk: TranslationKeys = {
   vip_feature_vote_cooldown: "Голосування за сервер кожні",
   vip_feature_badge: "VIP значок біля сервера",
   vip_feature_staff_priority: "Оголошення набору з VIP значком та пріоритетним відображенням",
+  vip_feature_console: "Доступ до Server Console – стежте за чатом та гравцями через веб",
   vip_feature_priority: "Пріоритетне відображення за голосами",
   vip_buy_now: "Купити зараз",
   vip_select_server_label: "Обери сервер для VIP",
