@@ -14,6 +14,30 @@ export type Database = {
   }
   public: {
     Tables: {
+      banned_users: {
+        Row: {
+          banned_at: string
+          banned_by: string | null
+          id: string
+          reason: string
+          user_id: string
+        }
+        Insert: {
+          banned_at?: string
+          banned_by?: string | null
+          id?: string
+          reason?: string
+          user_id: string
+        }
+        Update: {
+          banned_at?: string
+          banned_by?: string | null
+          id?: string
+          reason?: string
+          user_id?: string
+        }
+        Relationships: []
+      }
       bug_reports: {
         Row: {
           admin_note: string | null
