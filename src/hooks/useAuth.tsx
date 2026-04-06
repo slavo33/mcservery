@@ -31,7 +31,27 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
   const [profile, setProfile] = useState<{ nickname: string; avatar_url: string | null; bio: string } | null>(null);
   const [isAdmin, setIsAdmin] = useState(false);
 
+  const checkBan = async (userId: string): Promise<boolean> => {
+    const { data } = await supabase
+      .from("banned_users")
+      .select("id")
+      .eq("user_id", userId)
+      .maybeSingle();
+    if (data) {
+      await supabase.auth.signOut();
+      setUser(null);
+      setSession(null);
+      setProfile(null);
+      setIsAdmin(false);
+      return true;
+    }
+    return false;
+  };
+
   const fetchProfile = async (userId: string) => {
+    const banned = await checkBan(userId);
+    if (banned) return;
+
     const { data } = await supabase
       .from("profiles")
       .select("nickname, avatar_url, bio")
