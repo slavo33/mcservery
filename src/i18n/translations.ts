@@ -85,6 +85,10 @@ type TranslationKeys = {
   add_photos_resolution: string;
   add_submit: string;
   add_submitting: string;
+  add_limit_reached: string;
+  add_duplicate_ip: string;
+  add_generic_error: string;
+  add_success: string;
   add_login_required: string;
   add_login_btn: string;
   add_warez: string;
@@ -483,6 +487,10 @@ const sk: TranslationKeys = {
   add_photos_resolution: "Odporúčané: 1280×720 px (16:9)",
   add_submit: "Pridať server",
   add_submitting: "Pridávam...",
+  add_limit_reached: "Dosiahol si limit 5 serverov. Vymaž niektorý pred pridaním nového.",
+  add_duplicate_ip: "Server s touto IP adresou už existuje.",
+  add_generic_error: "Nepodarilo sa pridať server. Skús to znova.",
+  add_success: "Server bol pridaný!",
   add_login_required: "Na pridanie servera sa musíš prihlásiť",
   add_login_btn: "Prihlásiť sa",
   add_warez: "Warez povolený",
@@ -1118,6 +1126,10 @@ const en: TranslationKeys = {
   add_photos_resolution: "Recommended: 1280×720 px (16:9)",
   add_submit: "Add server",
   add_submitting: "Adding...",
+  add_limit_reached: "You've reached the limit of 5 servers. Delete one before adding another.",
+  add_duplicate_ip: "A server with this IP address already exists.",
+  add_generic_error: "Failed to add server. Please try again.",
+  add_success: "Server has been added!",
   add_login_required: "You need to sign in to add a server",
   add_login_btn: "Sign In",
   add_warez: "Warez allowed",
