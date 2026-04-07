@@ -73,6 +73,30 @@ const AddServer = () => {
     }
 
     setSubmitting(true);
+
+    // Pre-check: server limit
+    const { count } = await supabase
+      .from("servers")
+      .select("id", { count: "exact", head: true })
+      .eq("owner_id", user.id);
+    if (count !== null && count >= 5) {
+      toast.error(t("add_limit_reached"));
+      setSubmitting(false);
+      return;
+    }
+
+    // Pre-check: duplicate IP
+    const { data: existing } = await supabase
+      .from("servers")
+      .select("id")
+      .eq("ip", ip.trim())
+      .maybeSingle();
+    if (existing) {
+      toast.error(t("add_duplicate_ip"));
+      setSubmitting(false);
+      return;
+    }
+
     const { error } = await supabase.from("servers").insert({
       owner_id: user.id,
       name: name.trim(),
@@ -97,9 +121,15 @@ const AddServer = () => {
 
     if (error) {
       logError("Server insert error:", error);
-      toast.error("Nepodarilo sa pridať server. Skús to znova.");
+      if (error.code === "23505") {
+        toast.error(t("add_duplicate_ip"));
+      } else if (error.code === "42501") {
+        toast.error(t("add_limit_reached"));
+      } else {
+        toast.error(t("add_generic_error"));
+      }
     } else {
-      toast.success("Server bol pridaný!");
+      toast.success(t("add_success"));
       navigate("/servers");
     }
     setSubmitting(false);
