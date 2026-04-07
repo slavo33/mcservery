@@ -12,6 +12,7 @@ import VipPurchasesAdmin from "@/components/VipPurchasesAdmin";
 import VipManagementAdmin from "@/components/VipManagementAdmin";
 import BugReportsAdmin from "@/components/BugReportsAdmin";
 import StaffPostVipAdmin from "@/components/StaffPostVipAdmin";
+import BannedUsersAdmin from "@/components/BannedUsersAdmin";
 import { Button } from "@/components/ui/button";
 
 interface Report {
@@ -319,6 +320,7 @@ const AdminPanel = () => {
         <StaffPostVipAdmin />
         <VipPurchasesAdmin />
         <DiscountCodesAdmin />
+        <BannedUsersAdmin />
         <BugReportsAdmin />
       </main>
       <Footer />
