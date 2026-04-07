@@ -274,6 +274,13 @@ type TranslationKeys = {
   admin_status_pending: string;
   admin_status_resolved: string;
   admin_status_dismissed: string;
+  // Banned users admin
+  ban_title: string;
+  ban_none: string;
+  ban_unban: string;
+  ban_unban_confirm: string;
+  ban_unban_error: string;
+  ban_unban_success: string;
   // Discount codes admin
   dc_title: string;
   dc_create_new: string;
