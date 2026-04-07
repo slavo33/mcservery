@@ -85,6 +85,10 @@ type TranslationKeys = {
   add_photos_resolution: string;
   add_submit: string;
   add_submitting: string;
+  add_limit_reached: string;
+  add_duplicate_ip: string;
+  add_generic_error: string;
+  add_success: string;
   add_login_required: string;
   add_login_btn: string;
   add_warez: string;
