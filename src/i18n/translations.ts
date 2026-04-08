@@ -409,6 +409,7 @@ type TranslationKeys = {
   staff_submitting: string;
   staff_success: string;
   staff_error: string;
+  staff_limit_reached: string;
   staff_login_required: string;
   staff_no_servers: string;
   staff_none: string;
@@ -792,6 +793,7 @@ const sk: TranslationKeys = {
   staff_submitting: "Zverejňujem...",
   staff_success: "Inzerát bol zverejnený!",
   staff_error: "Chyba pri zverejnení inzerátu",
+  staff_limit_reached: "Dosiahli ste maximálny limit 5 náborových inzerátov",
   staff_login_required: "Pre vytvorenie inzerátu sa musíte prihlásiť",
   staff_no_servers: "Nemáte žiadne servery. Najprv pridajte server.",
   staff_none: "Žiadne inzeráty",
@@ -1048,6 +1050,7 @@ const cs: TranslationKeys = {
   staff_submitting: "Zveřejňuji...",
   staff_success: "Inzerát byl zveřejněn!",
   staff_error: "Chyba při zveřejnění inzerátu",
+  staff_limit_reached: "Dosáhli jste maximálního limitu 5 náborových inzerátů",
   staff_login_required: "Pro vytvoření inzerátu se musíte přihlásit",
   staff_no_servers: "Nemáte žádné servery. Nejprve přidejte server.",
   staff_none: "Žádné inzeráty",
@@ -1431,6 +1434,7 @@ const en: TranslationKeys = {
   staff_submitting: "Publishing...",
   staff_success: "Listing published!",
   staff_error: "Error publishing listing",
+  staff_limit_reached: "You have reached the maximum limit of 5 recruitment listings",
   staff_login_required: "You must be logged in to create a listing",
   staff_no_servers: "You don't have any servers. Add a server first.",
   staff_none: "No listings",
@@ -1692,6 +1696,7 @@ const de: TranslationKeys = {
   staff_submitting: "Wird veröffentlicht...",
   staff_success: "Inserat veröffentlicht!",
   staff_error: "Fehler beim Veröffentlichen",
+  staff_limit_reached: "Sie haben das Maximum von 5 Stellenanzeigen erreicht",
   staff_login_required: "Zum Erstellen eines Inserats müssen Sie sich anmelden",
   staff_no_servers: "Sie haben keine Server. Fügen Sie zuerst einen Server hinzu.",
   staff_none: "Keine Inserate",
@@ -1956,6 +1961,7 @@ const fr: TranslationKeys = {
   staff_submitting: "Publication...",
   staff_success: "Annonce publiée !",
   staff_error: "Erreur lors de la publication",
+  staff_limit_reached: "Vous avez atteint la limite de 5 annonces de recrutement",
   staff_login_required: "Vous devez être connecté pour créer une annonce",
   staff_no_servers: "Vous n'avez aucun serveur. Ajoutez d'abord un serveur.",
   staff_none: "Aucune annonce",
@@ -2065,6 +2071,7 @@ const ru: TranslationKeys = {
   staff_submitting: "Публикуем...",
   staff_success: "Объявление опубликовано!",
   staff_error: "Ошибка при публикации",
+  staff_limit_reached: "Вы достигли лимита в 5 объявлений о наборе",
   staff_login_required: "Для создания объявления нужно войти",
   staff_no_servers: "У вас нет серверов. Сначала добавьте сервер.",
   staff_none: "Нет объявлений",
@@ -2172,6 +2179,7 @@ const uk: TranslationKeys = {
   staff_submitting: "Публікуємо...",
   staff_success: "Оголошення опубліковано!",
   staff_error: "Помилка при публікації",
+  staff_limit_reached: "Ви досягли ліміту в 5 оголошень про набір",
   staff_login_required: "Для створення оголошення потрібно увійти",
   staff_no_servers: "У вас немає серверів. Спочатку додайте сервер.",
   staff_none: "Немає оголошень",
@@ -2278,6 +2286,7 @@ const es: TranslationKeys = {
   staff_submitting: "Publicando...",
   staff_success: "¡Anuncio publicado!",
   staff_error: "Error al publicar",
+  staff_limit_reached: "Has alcanzado el límite de 5 anuncios de reclutamiento",
   staff_login_required: "Debes iniciar sesión para crear un anuncio",
   staff_no_servers: "No tienes servidores. Añade primero un servidor.",
   staff_none: "Sin anuncios",
@@ -2383,6 +2392,7 @@ const pt: TranslationKeys = {
   staff_submitting: "A publicar...",
   staff_success: "Anúncio publicado!",
   staff_error: "Erro ao publicar",
+  staff_limit_reached: "Atingiu o limite de 5 anúncios de recrutamento",
   staff_login_required: "Deve iniciar sessão para criar um anúncio",
   staff_no_servers: "Não tem servidores. Adicione primeiro um servidor.",
   staff_none: "Sem anúncios",
@@ -2495,6 +2505,7 @@ const zh: TranslationKeys = {
   staff_submitting: "发布中...",
   staff_success: "招聘已发布！",
   staff_error: "发布出错",
+  staff_limit_reached: "您已达到5个招聘帖子的上限",
   staff_login_required: "请登录以创建招聘",
   staff_no_servers: "您没有服务器。请先添加服务器。",
   staff_none: "暂无招聘",
@@ -2601,6 +2612,7 @@ const ja: TranslationKeys = {
   staff_submitting: "公開中...",
   staff_success: "募集が公開されました！",
   staff_error: "公開エラー",
+  staff_limit_reached: "募集投稿の上限5件に達しました",
   staff_login_required: "募集を作成するにはログインが必要です",
   staff_no_servers: "サーバーがありません。まずサーバーを追加してください。",
   staff_none: "募集なし",

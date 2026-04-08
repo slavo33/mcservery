@@ -141,6 +141,17 @@ const StaffRecruitment = () => {
 
     setSubmitting(true);
 
+    // Pre-check: staff post limit
+    const { count } = await supabase
+      .from("staff_posts")
+      .select("id", { count: "exact", head: true })
+      .eq("owner_id", user.id);
+    if (count !== null && count >= 5) {
+      toast.error(t("staff_limit_reached"));
+      setSubmitting(false);
+      return;
+    }
+
     // Check if server has active VIP - auto-assign to new post
     const serverHasVip = server.vip_expires_at && new Date(server.vip_expires_at) > new Date();
     let vipTier: string | null = null;
@@ -166,7 +177,11 @@ const StaffRecruitment = () => {
     } as any);
 
     if (error) {
-      toast.error(t("staff_error"));
+      if (error.code === "42501") {
+        toast.error(t("staff_limit_reached"));
+      } else {
+        toast.error(t("staff_error"));
+      }
     } else {
       toast.success(t("staff_success"));
       setDialogOpen(false);
