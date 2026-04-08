@@ -5,8 +5,8 @@ import Footer from "@/components/Footer";
 import { Button } from "@/components/ui/button";
 import { Switch } from "@/components/ui/switch";
 import { softwareOptions, versions, minigameOptions, proxyOptions } from "@/lib/mockData";
-import { useState } from "react";
-import { Plus } from "lucide-react";
+import { useState, useEffect } from "react";
+import { Plus, Server } from "lucide-react";
 import ServerImageUpload from "@/components/ServerImageUpload";
 import { supabase } from "@/integrations/supabase/client";
 import { useAuth } from "@/hooks/useAuth";
@@ -36,6 +36,17 @@ const AddServer = () => {
   const [youtubeUrl, setYoutubeUrl] = useState("");
   const [twitterUrl, setTwitterUrl] = useState("");
   const [submitting, setSubmitting] = useState(false);
+  const [serverCount, setServerCount] = useState<number | null>(null);
+  const MAX_SERVERS = 5;
+
+  useEffect(() => {
+    if (!user) return;
+    supabase
+      .from("servers")
+      .select("id", { count: "exact", head: true })
+      .eq("owner_id", user.id)
+      .then(({ count }) => setServerCount(count ?? 0));
+  }, [user]);
 
   const togglePlatform = (p: string) =>
     setSelectedPlatform((prev) =>
@@ -145,6 +156,26 @@ const AddServer = () => {
           {t("add_title_1")} <span className="text-gradient">{t("add_title_2")}</span>
         </h1>
         <p className="text-muted-foreground mb-8">{t("add_subtitle")}</p>
+
+        {user && serverCount !== null && (
+          <div className={`flex items-center gap-3 rounded-lg border px-4 py-3 mb-6 ${serverCount >= MAX_SERVERS ? "border-destructive/50 bg-destructive/10" : "border-border bg-secondary/30"}`}>
+            <Server className="h-5 w-5 text-muted-foreground shrink-0" />
+            <div className="flex-1">
+              <p className="text-sm font-semibold text-foreground">
+                {serverCount} / {MAX_SERVERS}
+              </p>
+              <p className="text-xs text-muted-foreground">
+                {serverCount >= MAX_SERVERS ? t("add_limit_reached") : t("add_subtitle")}
+              </p>
+            </div>
+            <div className="w-24 h-2 rounded-full bg-secondary overflow-hidden">
+              <div
+                className={`h-full rounded-full transition-all ${serverCount >= MAX_SERVERS ? "bg-destructive" : "bg-primary"}`}
+                style={{ width: `${(serverCount / MAX_SERVERS) * 100}%` }}
+              />
+            </div>
+          </div>
+        )}
 
         {!user && (
           <div className="gradient-card rounded-lg border border-border shadow-card p-6 text-center mb-6">
