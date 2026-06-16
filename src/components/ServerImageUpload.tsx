@@ -80,7 +80,9 @@ const ServerImageUpload = ({ images, onImagesChange, serverId, maxImages = 5 }: 
       }
 
       try {
-        const folder = serverId || "temp-" + Date.now();
+        // Store under the user's own folder so storage RLS can enforce ownership
+        const folder = user.id;
+
 
         // GIFs are uploaded as-is to preserve animation
         if (isGif(file)) {
