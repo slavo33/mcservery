@@ -152,7 +152,7 @@ const ServerConsole = () => {
   useEffect(() => {
     if (!selectedServerId) return;
     const channel = supabase
-      .channel(`chat-players-${selectedServerId}`)
+      .channel(`chat-players-${selectedServerId}`, { config: { private: true } })
       .on(
         "postgres_changes",
         {
