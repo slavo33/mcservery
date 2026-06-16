@@ -59,6 +59,12 @@ const ServerImageUpload = ({ images, onImagesChange, serverId, maxImages = 5 }: 
       return;
     }
 
+    const { data: { user } } = await supabase.auth.getUser();
+    if (!user) {
+      toast.error("Musíte byť prihlásený");
+      return;
+    }
+
     const filesToUpload = Array.from(files).slice(0, remaining);
     setUploading(true);
 
