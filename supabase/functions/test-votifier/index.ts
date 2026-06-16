@@ -82,6 +82,14 @@ Deno.serve(async (req) => {
       });
     }
 
+    // SSRF guard: refuse to probe private/internal targets or privileged ports
+    if (!isSafeVotifierTarget(secret.votifier_ip, secret.votifier_port)) {
+      return new Response(JSON.stringify({ error: "invalid_target", message: "Votifier IP/port is not allowed (private or invalid address)" }), {
+        status: 400,
+        headers: { ...corsHeaders, "Content-Type": "application/json" },
+      });
+    }
+
     // Determine protocol
     const hasToken = !!secret.votifier_token;
     const hasKey = !!secret.votifier_public_key;
