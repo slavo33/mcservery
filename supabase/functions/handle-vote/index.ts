@@ -286,6 +286,14 @@ Deno.serve(async (req) => {
     const hasV2Config = !!(secret?.votifier_ip && secret?.votifier_port && secret?.votifier_token);
     const hasV1Config = !!(secret?.votifier_ip && secret?.votifier_port && secret?.votifier_public_key);
 
+    // SSRF guard: never connect to private/internal targets even if an owner configured one
+    if ((hasV2Config || hasV1Config) && !isSafeVotifierTarget(secret!.votifier_ip as string, secret!.votifier_port as number)) {
+      console.warn("Blocked unsafe votifier target for server", server_id);
+      // Vote stays counted, but reward delivery is skipped to prevent SSRF
+      return new Response(JSON.stringify({ success: true, votifier: "blocked_target" }), { headers: { ...corsHeaders, "Content-Type": "application/json" } });
+    }
+
+
     if (hasV2Config) {
       // Prefer v2 protocol if token is set
       try {
