@@ -59,6 +59,12 @@ const ServerImageUpload = ({ images, onImagesChange, serverId, maxImages = 5 }: 
       return;
     }
 
+    const { data: { user } } = await supabase.auth.getUser();
+    if (!user) {
+      toast.error("Musíte byť prihlásený");
+      return;
+    }
+
     const filesToUpload = Array.from(files).slice(0, remaining);
     setUploading(true);
 
@@ -74,7 +80,9 @@ const ServerImageUpload = ({ images, onImagesChange, serverId, maxImages = 5 }: 
       }
 
       try {
-        const folder = serverId || "temp-" + Date.now();
+        // Store under the user's own folder so storage RLS can enforce ownership
+        const folder = user.id;
+
 
         // GIFs are uploaded as-is to preserve animation
         if (isGif(file)) {

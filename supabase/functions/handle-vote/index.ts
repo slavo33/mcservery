@@ -7,6 +7,22 @@ const corsHeaders = {
   "Access-Control-Allow-Headers": "authorization, x-client-info, apikey, content-type, x-supabase-client-platform, x-supabase-client-platform-version, x-supabase-client-runtime, x-supabase-client-runtime-version",
 };
 
+// SSRF protection: reject private/loopback/link-local hosts and privileged ports
+const BLOCKED_HOST_PATTERNS = [
+  /^127\./, /^10\./, /^172\.(1[6-9]|2[0-9]|3[01])\./, /^192\.168\./,
+  /^169\.254\./, /^0\./, /^metadata/i, /localhost/i, /^::1$/, /^fc00/i, /^fe80/i,
+];
+
+const isSafeVotifierTarget = (host: string, port: number): boolean => {
+  if (!host || typeof host !== "string") return false;
+  const h = host.trim().toLowerCase();
+  if (BLOCKED_HOST_PATTERNS.some((p) => p.test(h))) return false;
+  if (!/^[a-zA-Z0-9.-]+$/.test(h)) return false;
+  if (h.length < 1 || h.length > 253) return false;
+  if (!Number.isInteger(port) || port < 1024 || port > 65535) return false;
+  return true;
+};
+
 const VIP_TIER_COOLDOWN_HOURS: Record<string, number> = {
   basic: 8,
   pro: 4,
@@ -269,6 +285,14 @@ Deno.serve(async (req) => {
 
     const hasV2Config = !!(secret?.votifier_ip && secret?.votifier_port && secret?.votifier_token);
     const hasV1Config = !!(secret?.votifier_ip && secret?.votifier_port && secret?.votifier_public_key);
+
+    // SSRF guard: never connect to private/internal targets even if an owner configured one
+    if ((hasV2Config || hasV1Config) && !isSafeVotifierTarget(secret!.votifier_ip as string, secret!.votifier_port as number)) {
+      console.warn("Blocked unsafe votifier target for server", server_id);
+      // Vote stays counted, but reward delivery is skipped to prevent SSRF
+      return new Response(JSON.stringify({ success: true, votifier: "blocked_target" }), { headers: { ...corsHeaders, "Content-Type": "application/json" } });
+    }
+
 
     if (hasV2Config) {
       // Prefer v2 protocol if token is set

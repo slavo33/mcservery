@@ -17,6 +17,32 @@ serve(async (req) => {
     { auth: { persistSession: false } },
   );
 
+  // Authorization: only admins (or a server-side caller using the service role key) may trigger cleanup
+  const authHeader = req.headers.get("authorization")?.replace("Bearer ", "").trim() ?? "";
+  const serviceRoleKey = Deno.env.get("SUPABASE_SERVICE_ROLE_KEY") ?? "";
+  let authorized = false;
+
+  if (authHeader && serviceRoleKey && authHeader === serviceRoleKey) {
+    authorized = true;
+  } else if (authHeader) {
+    const { data: { user } } = await supabaseAdmin.auth.getUser(authHeader);
+    if (user) {
+      const { data: isAdmin } = await supabaseAdmin.rpc("has_role", {
+        _user_id: user.id,
+        _role: "admin",
+      });
+      authorized = !!isAdmin;
+    }
+  }
+
+  if (!authorized) {
+    return new Response(JSON.stringify({ error: "unauthorized" }), {
+      status: 401,
+      headers: { ...corsHeaders, "Content-Type": "application/json" },
+    });
+  }
+
+
   try {
     // Find servers with expired VIP
     const now = new Date().toISOString();
