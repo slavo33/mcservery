@@ -14,6 +14,7 @@ import { useLanguage } from "@/i18n/LanguageContext";
 import { useServerStatus } from "@/hooks/useServerStatus";
 import { Avatar, AvatarImage, AvatarFallback } from "@/components/ui/avatar";
 import { sanitizeHref } from "@/lib/urlValidation";
+import SEO from "@/components/SEO";
 
 interface ServerDetailData {
   id: string;
