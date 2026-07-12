@@ -19,6 +19,7 @@ import { useAuth } from "@/hooks/useAuth";
 import { useLanguage } from "@/i18n/LanguageContext";
 import { sanitizeHref } from "@/lib/urlValidation";
 import { toast } from "sonner";
+import SEO from "@/components/SEO";
 
 interface StaffPost {
   id: string;
