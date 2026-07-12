@@ -8,6 +8,11 @@ const Terms = () => {
 
   return (
     <div className="min-h-screen flex flex-col bg-background">
+      <SEO
+        title="Podmienky používania | MCServery"
+        description="Podmienky používania služby MCServery — databázy Minecraft serverov. Prečítaj si pravidlá pre pridávanie serverov a používanie platformy."
+        path="/terms"
+      />
       <Header />
       <main className="flex-1 container mx-auto px-4 py-16 max-w-3xl">
         <h1 className="font-display text-4xl font-bold text-foreground mb-8">{t("footer_terms")}</h1>

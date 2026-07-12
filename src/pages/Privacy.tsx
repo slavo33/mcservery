@@ -8,6 +8,11 @@ const Privacy = () => {
 
   return (
     <div className="min-h-screen flex flex-col bg-background">
+      <SEO
+        title="Ochrana súkromia | MCServery"
+        description="Zásady ochrany osobných údajov služby MCServery. Zisti, ako spracúvame a chránime tvoje údaje pri používaní databázy Minecraft serverov."
+        path="/privacy"
+      />
       <Header />
       <main className="flex-1 container mx-auto px-4 py-16 max-w-3xl">
         <h1 className="font-display text-4xl font-bold text-foreground mb-8">{t("footer_privacy")}</h1>
