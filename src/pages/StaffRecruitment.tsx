@@ -269,6 +269,11 @@ const StaffRecruitment = () => {
 
   return (
     <div className="min-h-screen bg-background">
+      <SEO
+        title="Nábor staff — hľadaj pozície na Minecraft serveroch | MCServery"
+        description="Náborové inzeráty na Minecraft serveroch. Nájdi si pozíciu v tíme alebo pridaj vlastný inzerát a získaj nových členov."
+        path="/staff"
+      />
       <Header />
       <main className="container mx-auto px-4 py-8 max-w-5xl">
         {/* Title */}

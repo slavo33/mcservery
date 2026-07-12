@@ -126,6 +126,11 @@ const VipPage = () => {
 
   return (
     <div className="min-h-screen flex flex-col bg-background">
+      <SEO
+        title="VIP členstvo — zvýrazni svoj server | MCServery"
+        description="Získaj VIP členstvo a zvýrazni svoj Minecraft server na vrchole zoznamu. Viac hráčov, lepšia viditeľnosť a kratší cooldown hlasovania."
+        path="/vip"
+      />
       <Header />
       <main className="flex-1 container mx-auto px-4 py-16">
         {/* Hero */}
