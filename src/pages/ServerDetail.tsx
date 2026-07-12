@@ -14,6 +14,7 @@ import { useLanguage } from "@/i18n/LanguageContext";
 import { useServerStatus } from "@/hooks/useServerStatus";
 import { Avatar, AvatarImage, AvatarFallback } from "@/components/ui/avatar";
 import { sanitizeHref } from "@/lib/urlValidation";
+import SEO from "@/components/SEO";
 
 interface ServerDetailData {
   id: string;
@@ -219,8 +220,33 @@ const ServerDetailPage = () => {
   const maxPlayers = status?.players?.max ?? server.max_players;
   const isOnline = status?.online ?? false;
 
+  const metaDesc = (server.description || `${server.name} — Minecraft server ${server.ip}. Verzia ${server.version}.`)
+    .replace(/\s+/g, " ")
+    .trim()
+    .slice(0, 155);
+
   return (
     <div className="min-h-screen flex flex-col bg-background">
+      <SEO
+        title={`${server.name} — Minecraft server | MCServery`}
+        description={metaDesc}
+        path={`/server/${server.slug || slug}`}
+        image={server.images && server.images.length > 0 ? server.images[0] : undefined}
+        type="article"
+        jsonLd={{
+          "@context": "https://schema.org",
+          "@type": "SoftwareApplication",
+          name: server.name,
+          description: metaDesc,
+          applicationCategory: "GameApplication",
+          operatingSystem: "Minecraft",
+          offers: { "@type": "Offer", price: "0", priceCurrency: "EUR" },
+          aggregateRating:
+            server.likes_count > 0
+              ? { "@type": "AggregateRating", ratingValue: "5", ratingCount: String(server.likes_count) }
+              : undefined,
+        }}
+      />
       <Header />
       <main className="flex-1 container mx-auto px-4 py-10 max-w-3xl">
         <Link to="/servers" className="inline-flex items-center gap-1 text-sm text-muted-foreground hover:text-foreground mb-6 transition-colors">

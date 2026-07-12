@@ -19,6 +19,7 @@ import { useAuth } from "@/hooks/useAuth";
 import { useLanguage } from "@/i18n/LanguageContext";
 import { sanitizeHref } from "@/lib/urlValidation";
 import { toast } from "sonner";
+import SEO from "@/components/SEO";
 
 interface StaffPost {
   id: string;
@@ -222,8 +223,29 @@ const StaffPostDetail = () => {
 
   const isOwner = user?.id === post.owner_id;
 
+  const staffMetaDesc = (post.description || `${post.position} — nábor na server ${serverName}.`)
+    .replace(/\s+/g, " ")
+    .trim()
+    .slice(0, 155);
+
   return (
     <div className="min-h-screen bg-background">
+      <SEO
+        title={`${post.position} — nábor na ${serverName || "Minecraft server"} | MCServery`}
+        description={staffMetaDesc}
+        path={`/staff/${slug}`}
+        image={post.images && post.images.length > 0 ? post.images[0] : undefined}
+        type="article"
+        jsonLd={{
+          "@context": "https://schema.org",
+          "@type": "JobPosting",
+          title: post.position,
+          description: staffMetaDesc,
+          datePosted: post.created_at,
+          employmentType: "VOLUNTEER",
+          hiringOrganization: { "@type": "Organization", name: serverName || "MCServery" },
+        }}
+      />
       <Header />
       <main className="container mx-auto px-4 py-8 max-w-3xl">
         {/* Back link */}

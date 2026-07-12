@@ -2,6 +2,7 @@ import { logError } from "@/lib/logger";
 import { findInvalidUrl } from "@/lib/urlValidation";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
+import SEO from "@/components/SEO";
 import { Button } from "@/components/ui/button";
 import { Switch } from "@/components/ui/switch";
 import { softwareOptions, versions, minigameOptions, proxyOptions } from "@/lib/mockData";
@@ -150,6 +151,11 @@ const AddServer = () => {
 
   return (
     <div className="min-h-screen flex flex-col bg-background">
+      <SEO
+        title="Pridaj Minecraft server | MCServery"
+        description="Pridaj svoj Minecraft server do databázy MCServery zadarmo. Získaj viac hráčov a vybuduj si komunitu."
+        path="/add-server"
+      />
       <Header />
       <main className="flex-1 container mx-auto px-4 py-10 max-w-2xl">
         <h1 className="font-display text-4xl font-bold text-foreground mb-2">

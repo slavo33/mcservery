@@ -3,6 +3,7 @@ import { Link } from "react-router-dom";
 import { Users, Plus, Trash2, Eye, EyeOff, RefreshCw, ExternalLink, Globe, MessageSquare, Crown, Heart } from "lucide-react";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
+import SEO from "@/components/SEO";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
@@ -268,6 +269,11 @@ const StaffRecruitment = () => {
 
   return (
     <div className="min-h-screen bg-background">
+      <SEO
+        title="Nábor staff — hľadaj pozície na Minecraft serveroch | MCServery"
+        description="Náborové inzeráty na Minecraft serveroch. Nájdi si pozíciu v tíme alebo pridaj vlastný inzerát a získaj nových členov."
+        path="/staff"
+      />
       <Header />
       <main className="container mx-auto px-4 py-8 max-w-5xl">
         {/* Title */}

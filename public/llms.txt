@@ -1,0 +1,18 @@
+# MCServery
+
+> Databáza Minecraft serverov — rýchlo, prehľadne a jednoducho na jednom mieste. Nájdi si server, hlasuj za obľúbené a pridaj svoj do najväčšej komunity hráčov.
+
+MCServery je slovenská databáza (server list) Minecraft serverov. Používatelia môžu prehľadávať a filtrovať servery podľa verzie, platformy (Java/Bedrock) a herných módov, hlasovať za servery, pridávať vlastné servery a uverejňovať náborové inzeráty (staff nábor).
+
+## Pages
+
+- [Domov](/): Prehľad top a VIP serverov, vyhľadávanie.
+- [Servery](/servers): Zoznam a filtrovanie všetkých Minecraft serverov.
+- [Nábor staff](/staff): Náborové inzeráty pozícií na serveroch.
+- [Pridať server](/add-server): Pridanie vlastného servera do databázy.
+- [VIP](/vip): Informácie o VIP členstve a zvýraznení servera.
+
+## Optional
+
+- [Podmienky používania](/terms): Pravidlá používania platformy.
+- [Ochrana súkromia](/privacy): Zásady spracovania osobných údajov.
