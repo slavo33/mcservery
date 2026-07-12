@@ -1,6 +1,7 @@
 import { useState, useMemo, useEffect } from "react";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
+import SEO from "@/components/SEO";
 import ServerCard from "@/components/ServerCard";
 import ServerFilters from "@/components/ServerFilters";
 import { ArrowUpDown, Crown } from "lucide-react";

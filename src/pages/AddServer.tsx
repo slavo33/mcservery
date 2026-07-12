@@ -2,6 +2,7 @@ import { logError } from "@/lib/logger";
 import { findInvalidUrl } from "@/lib/urlValidation";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
+import SEO from "@/components/SEO";
 import { Button } from "@/components/ui/button";
 import { Switch } from "@/components/ui/switch";
 import { softwareOptions, versions, minigameOptions, proxyOptions } from "@/lib/mockData";
