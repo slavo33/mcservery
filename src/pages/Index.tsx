@@ -68,6 +68,31 @@ const Index = () => {
 
   return (
     <div className="min-h-screen flex flex-col bg-background">
+      <SEO
+        title="MCServery — Databáza Minecraft serverov"
+        description="Databáza Minecraft serverov. Rýchlo, prehľadne a jednoducho na jednom mieste. Nájdi si server alebo pridaj svoj do najväčšej komunity hráčov."
+        path="/"
+        jsonLd={[
+          {
+            "@context": "https://schema.org",
+            "@type": "WebSite",
+            name: "MCServery",
+            url: "https://mcservery.one",
+            description: "Databáza Minecraft serverov.",
+            potentialAction: {
+              "@type": "SearchAction",
+              target: "https://mcservery.one/servers?q={search_term_string}",
+              "query-input": "required name=search_term_string",
+            },
+          },
+          {
+            "@context": "https://schema.org",
+            "@type": "Organization",
+            name: "MCServery",
+            url: "https://mcservery.one",
+          },
+        ]}
+      />
       <Header />
       <main className="flex-1">
         <HeroSection />
