@@ -14,15 +14,21 @@ interface SEOProps {
   /** Path beginning with "/" — used for canonical and og:url. */
   path: string;
   image?: string;
+  /** Alt text of the social preview image (og:image:alt / twitter:image:alt). */
+  imageAlt?: string;
   type?: "website" | "article";
+  /** ISO dates for article-type pages (server profiles). */
+  publishedTime?: string | null;
+  modifiedTime?: string | null;
   /** Extra JSON-LD structured data object(s). */
   jsonLd?: Record<string, unknown> | Record<string, unknown>[];
   noindex?: boolean;
 }
 
-const SEO = ({ title, description, path, image, type = "website", jsonLd, noindex }: SEOProps) => {
+const SEO = ({ title, description, path, image, imageAlt, type = "website", publishedTime, modifiedTime, jsonLd, noindex }: SEOProps) => {
   const url = `${SITE_URL}${path}`;
   const img = image || DEFAULT_IMAGE;
+  const imgAlt = imageAlt || title;
   const ldArray = jsonLd ? (Array.isArray(jsonLd) ? jsonLd : [jsonLd]) : [];
   const ldJson = JSON.stringify(ldArray);
 
@@ -46,7 +52,7 @@ const SEO = ({ title, description, path, image, type = "website", jsonLd, noinde
       });
     // Istota pre prípad, že prehliadač titulok ešte neprepísal.
     if (document.title !== title) document.title = title;
-  }, [title, description, url, img, type, ldJson, ldArray.length]);
+  }, [title, description, url, img, imgAlt, type, publishedTime, modifiedTime, ldJson, ldArray.length]);
 
 
 
@@ -63,11 +69,22 @@ const SEO = ({ title, description, path, image, type = "website", jsonLd, noinde
       <meta property="og:type" content={type} />
       <meta property="og:url" content={url} />
       <meta property="og:image" content={img} />
+      <meta property="og:image:alt" content={imgAlt} />
+      <meta property="og:image:width" content="1280" />
+      <meta property="og:image:height" content="720" />
+      <meta property="og:locale" content="sk_SK" />
+      {type === "article" && publishedTime && (
+        <meta property="article:published_time" content={publishedTime} />
+      )}
+      {type === "article" && modifiedTime && (
+        <meta property="article:modified_time" content={modifiedTime} />
+      )}
 
       <meta name="twitter:card" content="summary_large_image" />
       <meta name="twitter:title" content={title} />
       <meta name="twitter:description" content={description} />
       <meta name="twitter:image" content={img} />
+      <meta name="twitter:image:alt" content={imgAlt} />
 
       {ldArray.map((ld, i) => (
         <script type="application/ld+json" key={i}>

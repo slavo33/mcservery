@@ -319,7 +319,10 @@ const ServerDetailPage = () => {
         description={meta.description}
         path={meta.path}
         image={server.images && server.images.length > 0 ? server.images[0] : undefined}
+        imageAlt={`${server.name} — Minecraft server ${server.ip}`}
         type="article"
+        publishedTime={server.created_at}
+        modifiedTime={server.updated_at}
         jsonLd={meta.jsonLdGraph}
         noindex={!safeVersion}
       />

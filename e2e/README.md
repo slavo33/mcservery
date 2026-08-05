@@ -224,6 +224,22 @@ python3 e2e/servers_filters_e2e.py
 ```
 
 
+`og_server_detail_e2e.py` — overuje **OpenGraph a Twitter Card tagy na profiloch serverov**:
+
+1. Všetky OG tagy (`og:title`, `og:description`, `og:type`, `og:url`, `og:site_name`, `og:locale`, `og:image`, `og:image:alt`) sú vyplnené a bez duplicít.
+2. `og:title` sedí s `<title>` a názvom servera v `<h1>`, `og:description` s meta description (50–200 znakov).
+3. `og:url` je self-referencujúca https URL zhodná s canonical, `og:type` je `article`.
+4. `og:image` je prvá fotka servera, vracia HTTP 200 s `image/*` a dekóduje sa v prehliadači.
+5. Twitter Card (`summary_large_image`) hodnoty sedia s OG variantmi vrátane `twitter:image:alt`.
+6. `article:published_time` / `article:modified_time` sú validné ISO dátumy.
+7. Po SPA navigácii z výpisu na profil ostanú v `<head>` len aktuálne tagy.
+
+```bash
+python3 e2e/og_server_detail_e2e.py
+E2E_MAX_SERVERS=5 python3 e2e/og_server_detail_e2e.py
+```
+
+
 `server_create_media_e2e.py` — overuje **vytvorenie zápisu servera vrátane médií a lajkovania**:
 
 1. Neprihlásený používateľ nemôže odoslať formulár (disabled submit + výzva na prihlásenie).
