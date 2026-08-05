@@ -77,7 +77,7 @@ const VersionBadge = ({
     <Link
       key={label}
       to={`/servers?version=${encodeURIComponent(plain)}`}
-      aria-label={`Verzia ${label} — filtrovať servery podľa tejto verzie`}
+      aria-label={`Filtrovať servery podľa verzie ${label}`}
       aria-describedby={showTooltip ? descriptionId : undefined}
       className={classes}
       onTouchStart={() => {
@@ -94,23 +94,33 @@ const VersionBadge = ({
     >
       {content}
     </Link>
-  ) : showTooltip ? (
-    <button
-      key={label}
-      type="button"
-      aria-label={`Verzia ${label} — zobraziť informácie o kompatibilite`}
-      aria-describedby={descriptionId}
-      aria-expanded={open}
-      className={classes}
-      onClick={() => setOpen((v) => !v)}
-    >
-      {content}
-    </button>
   ) : (
-    <span key={label} aria-label={`Verzia ${label}`} className={classes}>
+    <span
+      key={label}
+      aria-label={`Verzia ${label}`}
+      aria-describedby={showTooltip ? descriptionId : undefined}
+      aria-expanded={showTooltip ? open : undefined}
+      className={classes}
+      role={showTooltip ? "button" : undefined}
+      tabIndex={showTooltip ? 0 : undefined}
+      onClick={showTooltip ? () => setOpen((v) => !v) : undefined}
+      onKeyDown={
+        showTooltip
+          ? (e) => {
+              if (e.key === "Enter" || e.key === " " || e.key === "Spacebar") {
+                e.preventDefault();
+                setOpen((v) => !v);
+              } else if (e.key === "Escape") {
+                setOpen(false);
+              }
+            }
+          : undefined
+      }
+    >
       {content}
     </span>
   );
+
 
   if (!showTooltip) return badge;
 
