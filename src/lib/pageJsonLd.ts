@@ -35,9 +35,7 @@ export const buildWebPageJsonLd = ({
     name: "MCServery",
     url: SITE_URL,
   },
-  publisher: ORGANIZATION_JSON_LD["@type"]
-    ? { "@type": "Organization", name: "MCServery", url: SITE_URL }
-    : undefined,
+  publisher: { "@type": "Organization", name: "MCServery", url: SITE_URL },
 });
 
 export const buildBreadcrumbJsonLd = (
