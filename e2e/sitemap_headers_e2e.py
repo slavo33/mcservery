@@ -124,7 +124,22 @@ def main():
 
     # ---------- 2) Živá sitemapa (edge funkcia) ----------
     if LIVE_SITEMAP:
-        live_body = check_xml_endpoint("živá sitemapa (edge)", LIVE_SITEMAP)
+        st, hd, live_body = request(LIVE_SITEMAP)
+        check("živá sitemapa (edge) vracia 200", st == 200, st)
+        ctype = (hd.get("content-type") or "").lower()
+        # Funkcia posiela application/xml; brána Supabase pre funkcie na doméne
+        # *.supabase.co Content-Type zámerne degraduje na text/plain (nosniff +
+        # CSP sandbox). Nesmie to však byť HTML – crawler používa doménovú
+        # sitemapu s korektným text/xml.
+        check("živá sitemapa nemá HTML Content-Type",
+              any(t in ctype for t in XML_TYPES) or ctype.startswith("text/plain"), ctype)
+        if not any(t in ctype for t in XML_TYPES):
+            print(f"WARN  brána degraduje Content-Type živej sitemapy na {ctype} "
+                  "(platformové obmedzenie *.supabase.co)")
+        ok, desc = cache_ok(hd)
+        check("živá sitemapa má vhodné caching hlavičky (bez pre-cache)", ok, desc)
+        check("živá sitemapa poskytuje validátor (ETag/Last-Modified)",
+              bool(hd.get("etag") or hd.get("last-modified")), hd.get("etag"))
         if live_body is not None:
             check("živá sitemapa vracia XML obsah", "<urlset" in live_body or
                   "<sitemapindex" in live_body, live_body[:60])
