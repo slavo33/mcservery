@@ -9,7 +9,20 @@ export interface ServerJsonLdInput {
   platform?: string[] | null;
   /** Zvolený loader/software, napr. "Paper", "Spigot", "Purpur". */
   software?: string | null;
+  /** Kanonická URL profilu servera. */
+  url?: string | null;
+  /** Hlavný obrázok profilu (absolútna URL). */
+  image?: string | null;
+  /** IP adresa servera — pomáha vyhľadávačom pochopiť, o aký server ide. */
+  ip?: string | null;
+  /** Kapacita servera. */
+  maxPlayers?: number | null;
+  /** Tagy / minihry ako kľúčové slová. */
+  keywords?: string[] | null;
+  createdAt?: string | null;
+  updatedAt?: string | null;
 }
+
 
 /**
  * Softvérová verzia v JSON-LD musí byť vždy v rovnakom tvare ako odznak: `vX.Y` (prípadne `vX.Y.Z`).
@@ -64,6 +77,13 @@ export const buildServerJsonLd = ({
   likesCount,
   platform,
   software,
+  url,
+  image,
+  ip,
+  maxPlayers,
+  keywords,
+  createdAt,
+  updatedAt,
 }: ServerJsonLdInput): Record<string, unknown> => {
   const editions = toEditions(platform);
   const loader = toLoader(software);
@@ -72,7 +92,12 @@ export const buildServerJsonLd = ({
       ? { "@type": "PropertyValue", name: "Edition", value: editions.join(", ") }
       : null,
     loader ? { "@type": "PropertyValue", name: "Server software", value: loader } : null,
+    ip ? { "@type": "PropertyValue", name: "Server IP", value: ip } : null,
+    maxPlayers && maxPlayers > 0
+      ? { "@type": "PropertyValue", name: "Max players", value: String(maxPlayers) }
+      : null,
   ].filter(Boolean) as Record<string, string>[];
+  const keywordList = (keywords ?? []).map((k) => (k || "").trim()).filter(Boolean);
   return {
     "@context": "https://schema.org",
     "@type": "SoftwareApplication",
@@ -84,7 +109,17 @@ export const buildServerJsonLd = ({
     softwareVersion: toSoftwareVersion(version) ?? undefined,
     runtimePlatform: loader,
     additionalProperty: properties.length > 0 ? properties : undefined,
-
+    url: url || undefined,
+    image: image || undefined,
+    keywords: keywordList.length > 0 ? keywordList.join(", ") : undefined,
+    inLanguage: "sk",
+    datePublished: createdAt || undefined,
+    dateModified: updatedAt || createdAt || undefined,
+    publisher: {
+      "@type": "Organization",
+      name: "MCServery",
+      url: "https://mcservery.one",
+    },
     offers: { "@type": "Offer", price: "0", priceCurrency: "EUR" },
     aggregateRating:
       likesCount && likesCount > 0
@@ -92,6 +127,21 @@ export const buildServerJsonLd = ({
         : undefined,
   };
 };
+
+/** Drobečková navigácia Domov → Servery → profil, aby Google zobrazil cestu vo výsledkoch. */
+export const buildServerBreadcrumbJsonLd = (
+  name: string,
+  path: string
+): Record<string, unknown> => ({
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  itemListElement: [
+    { "@type": "ListItem", position: 1, name: "Domov", item: "https://mcservery.one/" },
+    { "@type": "ListItem", position: 2, name: "Servery", item: "https://mcservery.one/servers" },
+    { "@type": "ListItem", position: 3, name, item: `https://mcservery.one${path}` },
+  ],
+});
+
 
 
 const SITE_URL = "https://mcservery.one";
@@ -106,6 +156,11 @@ export interface ServerMetaInput {
   likesCount?: number | null;
   platform?: string[] | null;
   software?: string | null;
+  maxPlayers?: number | null;
+  tags?: string[] | null;
+  minigames?: string[] | null;
+  createdAt?: string | null;
+  updatedAt?: string | null;
 }
 
 
@@ -121,21 +176,32 @@ export const buildServerMeta = (server: ServerMetaInput) => {
     ? `${server.name} ${versionLabel} — Minecraft server | MCServery`
     : `${server.name} — Minecraft server | MCServery`;
   const path = `/server/${server.slug ?? ""}`;
+  const url = `${SITE_URL}${path}`;
+  const jsonLd = buildServerJsonLd({
+    name: server.name,
+    description,
+    version: server.version,
+    likesCount: server.likesCount,
+    platform: server.platform,
+    software: server.software,
+    url,
+    image: server.image,
+    ip: server.ip,
+    maxPlayers: server.maxPlayers,
+    keywords: [...(server.tags ?? []), ...(server.minigames ?? [])],
+    createdAt: server.createdAt,
+    updatedAt: server.updatedAt,
+  });
   return {
     title,
     description,
     path,
-    url: `${SITE_URL}${path}`,
+    url,
     versionLabel,
-    jsonLd: buildServerJsonLd({
-      name: server.name,
-      description,
-      version: server.version,
-      likesCount: server.likesCount,
-      platform: server.platform,
-      software: server.software,
-    }),
-
+    jsonLd,
+    breadcrumbJsonLd: buildServerBreadcrumbJsonLd(server.name, path),
+    /** Kompletná sada structured data pre profil servera. */
+    jsonLdGraph: [jsonLd, buildServerBreadcrumbJsonLd(server.name, path)],
   };
 };
 
@@ -202,11 +268,13 @@ export const applyServerHeadMeta = (server: ServerMetaInput) => {
   document.head
     .querySelectorAll('script[type="application/ld+json"]')
     .forEach((el) => el.remove());
-  const ld = document.createElement("script");
-  ld.type = "application/ld+json";
-  ld.setAttribute("data-rh", "true");
-  ld.textContent = JSON.stringify(meta.jsonLd);
-  document.head.appendChild(ld);
+  meta.jsonLdGraph.forEach((entry) => {
+    const ld = document.createElement("script");
+    ld.type = "application/ld+json";
+    ld.setAttribute("data-rh", "true");
+    ld.textContent = JSON.stringify(entry);
+    document.head.appendChild(ld);
+  });
 
   return meta;
 };
