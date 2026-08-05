@@ -1,5 +1,5 @@
 import { Search } from "lucide-react";
-import { versions, platforms, softwareOptions } from "@/lib/mockData";
+import { versions, platforms, softwareOptions, minigameOptions } from "@/lib/mockData";
 import { useLanguage } from "@/i18n/LanguageContext";
 
 interface ServerFiltersProps {
@@ -11,6 +11,8 @@ interface ServerFiltersProps {
   onVersionChange: (v: string) => void;
   selectedSoftware: string;
   onSoftwareChange: (v: string) => void;
+  selectedMinigame?: string;
+  onMinigameChange?: (v: string) => void;
 }
 
 const ServerFilters = ({
@@ -22,8 +24,11 @@ const ServerFilters = ({
   onVersionChange,
   selectedSoftware,
   onSoftwareChange,
+  selectedMinigame = "",
+  onMinigameChange,
 }: ServerFiltersProps) => {
   const { t } = useLanguage();
+
 
   return (
     <div className="gradient-card rounded-lg border border-border p-4 md:p-6 shadow-card mb-8">
