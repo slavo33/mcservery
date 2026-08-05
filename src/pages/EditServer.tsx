@@ -146,6 +146,15 @@ const EditServer = () => {
     setSelectedPlatform(cleaned.platform);
     setSoftware(cleaned.software);
     setProxy(cleaned.proxy);
+    setVersionError(
+      validateVersionSelection(nextVersion) ??
+        validateVersionCombination({
+          version: nextVersion,
+          software: cleaned.software,
+          proxy: cleaned.proxy,
+          platform: cleaned.platform,
+        })
+    );
   };
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -156,17 +165,22 @@ const EditServer = () => {
       return;
     }
 
-    const versionError = validateVersionSelection(version);
-    if (versionError) {
-      toast.error(versionError);
+    const selectionError = validateVersionSelection(version);
+    if (selectionError) {
+      setVersionError(selectionError);
+      toast.error(selectionError);
       return;
     }
 
     const combinationError = validateVersionCombination({ version, software, proxy, platform: selectedPlatform });
     if (combinationError) {
+      setVersionError(combinationError);
       toast.error(combinationError);
       return;
     }
+    setVersionError(null);
+
+
 
     // Votifier validation
     if (votifierIp.trim() && /:\d+/.test(votifierIp.trim())) {
