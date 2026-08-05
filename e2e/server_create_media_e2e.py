@@ -84,7 +84,7 @@ async def main():
         # ---------- 1) anonymný používateľ ----------
         anon = await browser.new_context(viewport={"width": 1280, "height": 1800})
         apage = await anon.new_page()
-        await apage.goto(BASE + "/add-server", wait_until="networkidle")
+        await apage.goto(BASE + "/add-server", wait_until="domcontentloaded")
         await apage.wait_for_timeout(800)
         submit = apage.locator('form button[type="submit"]')
         check("neprihlásený: tlačidlo Pridať je zakázané", await submit.is_disabled())
@@ -113,7 +113,7 @@ async def main():
             print("\nBEZ PRIHLÁSENIA – ďalšie kroky nie je možné overiť")
             sys.exit(1)
 
-        await page.goto(BASE + "/add-server", wait_until="networkidle")
+        await page.goto(BASE + "/add-server", wait_until="domcontentloaded")
         await page.wait_for_timeout(1200)
         submit = page.locator('form button[type="submit"]')
         check("prihlásený: tlačidlo Pridať je aktívne", not await submit.is_disabled())
@@ -191,8 +191,8 @@ async def main():
               f"{page.url} {toast_txt}")
 
         # nájdenie profilu podľa mena
-        await page.goto(BASE + f"/servers?q={SERVER_NAME.replace(' ', '+')}", wait_until="networkidle")
-        await page.wait_for_timeout(2000)
+        await page.goto(BASE + f"/servers?q={SERVER_NAME.replace(' ', '+')}", wait_until="domcontentloaded")
+        await page.wait_for_timeout(3500)
         href = await page.evaluate(
             """(nm) => {
                  const a = Array.from(document.querySelectorAll('a[href^="/server/"]'))
@@ -204,7 +204,7 @@ async def main():
 
         if href:
             net.clear()
-            await page.goto(BASE + href, wait_until="networkidle")
+            await page.goto(BASE + href, wait_until="domcontentloaded")
             await page.wait_for_timeout(2500)
 
             # ---------- 5) médiá na profile ----------
@@ -234,7 +234,7 @@ async def main():
             check("lajk je vizuálne aktívny (aria-pressed)",
                   await like.get_attribute("aria-pressed") == "true")
 
-            await page.reload(wait_until="networkidle")
+            await page.reload(wait_until="domcontentloaded")
             await page.wait_for_timeout(2500)
             like = page.locator('[data-testid="server-like"]')
             persisted = int((await like.inner_text()).strip() or "0")
