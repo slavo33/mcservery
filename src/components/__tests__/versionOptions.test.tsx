@@ -21,9 +21,11 @@ vi.mock("@/integrations/supabase/client", () => ({
 
 const wrap = (ui: React.ReactElement) =>
   render(
-    <MemoryRouter>
-      <LanguageProvider>{ui}</LanguageProvider>
-    </MemoryRouter>
+    <HelmetProvider>
+      <MemoryRouter>
+        <LanguageProvider>{ui}</LanguageProvider>
+      </MemoryRouter>
+    </HelmetProvider>
   );
 
 const NEW_VERSIONS = ["26.2", "26.1.2", "26.1.1", "26.1"];
