@@ -409,7 +409,17 @@ const ServerDetailPage = () => {
                 <span key={p} className="badge-platform">{p === "java" ? "Java" : "Bedrock"}</span>
               ))}
               <span className="badge-tag">{server.software}</span>
-              <VersionBadge version={server.version} linkToFilter />
+              {safeVersion ? (
+                <VersionBadge version={safeVersion} linkToFilter />
+              ) : (
+                <span
+                  className="inline-flex items-center gap-1 rounded-md border border-border bg-muted px-2 py-0.5 text-xs text-muted-foreground"
+                  title="Verzia servera nie je nastavená"
+                >
+                  Verzia neuvedená
+                </span>
+              )}
+
               {server.proxy && <span className="badge-platform">{server.proxy}</span>}
               <span className={`badge-tag ${server.is_warez ? "" : ""}`}>
                 {server.is_warez ? t("detail_warez") : t("detail_original")}
