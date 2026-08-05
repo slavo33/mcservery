@@ -280,8 +280,9 @@ const EditServer = () => {
         version: version.trim(),
         slug,
         image: serverImages[0] || null,
-        platform,
-        software,
+        platform: selectedPlatform,
+        software: software || "Paper",
+
       });
 
 
