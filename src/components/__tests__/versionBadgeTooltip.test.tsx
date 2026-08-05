@@ -1,6 +1,6 @@
 import { describe, it, expect } from "vitest";
 import { render, screen, fireEvent, waitFor } from "@testing-library/react";
-import { MemoryRouter } from "react-router-dom";
+import { MemoryRouter, useLocation } from "react-router-dom";
 import VersionBadge from "../VersionBadge";
 
 const renderBadge = (ui: React.ReactElement) =>
