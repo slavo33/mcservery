@@ -16,7 +16,8 @@ const Terms = () => {
         path="/terms"
         jsonLd={buildPageJsonLdGraph({
           name: "Podmienky používania",
-          description: "Podmienky používania služby MCServery — databázy Minecraft serverov.",
+          description:
+            "Podmienky používania služby MCServery — databázy Minecraft serverov. Prečítaj si pravidlá pre pridávanie serverov a používanie platformy.",
           path: "/terms",
           breadcrumbs: [["Podmienky používania", "/terms"]],
         })}
