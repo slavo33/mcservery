@@ -97,7 +97,7 @@ const ServerDetailPage = () => {
           .from("profiles")
           .select("nickname, avatar_url, bio")
           .eq("id", data.owner_id)
-          .single();
+          .maybeSingle();
         const p = profileData as OwnerProfile | null;
         // Fetch active VIP tier
         let vipTier: string | null = null;
