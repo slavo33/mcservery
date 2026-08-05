@@ -78,6 +78,7 @@ const VersionBadge = ({
       key={label}
       to={`/servers?version=${encodeURIComponent(plain)}`}
       aria-label={`Filtrovať servery podľa verzie ${label}`}
+      data-version-badge={label}
       aria-describedby={showTooltip ? descriptionId : undefined}
       className={classes}
       onTouchStart={() => {
@@ -98,6 +99,7 @@ const VersionBadge = ({
     <span
       key={label}
       aria-label={`Verzia ${label}`}
+      data-version-badge={label}
       aria-describedby={showTooltip ? descriptionId : undefined}
       aria-expanded={showTooltip ? open : undefined}
       className={classes}

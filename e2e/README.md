@@ -153,6 +153,18 @@ python3 e2e/jsonld_structured_data_e2e.py
 E2E_MAX_URLS=12 python3 e2e/jsonld_structured_data_e2e.py
 ```
 
+`jsonld_fields_consistency_e2e.py` — overuje **povinné polia JSON-LD** a **zhodu údajov o serveri s obsahom stránky**:
+
+1. Na každej verejnej stránke je práve jedna **WebPage** (`name`, `description`, `url`, `inLanguage`, `isPartOf.url`, `publisher.name`) so self-referencing `url`; `name` je súčasťou `<title>` a `description` sa presne rovná meta description.
+2. Práve jedna **Organization** s `name` a absolútnou `url`, rovnakou naprieč stránkami.
+3. Žiadne prázdne hodnoty ani artefakty `undefined`/`null`/`NaN`.
+4. Na profile servera má entita servera povinné polia a jej `name`, `softwareVersion`, edície Java/Bedrock (`operatingSystem`, `applicationSubCategory`, `Edition`), softvér (`runtimePlatform`) a „Server IP“ sa presne zhodujú s viditeľnými `<h1>`, odznakom verzie a odznakmi na stránke.
+
+```bash
+python3 e2e/jsonld_fields_consistency_e2e.py
+E2E_MAX_SERVERS=5 python3 e2e/jsonld_fields_consistency_e2e.py
+```
+
 `responsive_overflow_e2e.py` — overuje **render verejných stránok na rôznych šírkach** (360, 375, 768, 1024, 1280, 1920 px):
 
 1. Dokument ani `body` nemajú horizontálny pretok (`scrollWidth` ≤ šírka viewportu).

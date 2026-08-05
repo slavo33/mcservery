@@ -278,7 +278,7 @@ const StaffRecruitment = () => {
         jsonLd={buildPageJsonLdGraph({
           name: "Nábor staff",
           description:
-            "Náborové inzeráty na Minecraft serveroch — nájdi si pozíciu v tíme alebo pridaj vlastný inzerát.",
+            "Náborové inzeráty na Minecraft serveroch. Nájdi si pozíciu v tíme alebo pridaj vlastný inzerát a získaj nových členov.",
           path: "/staff",
           breadcrumbs: [["Nábor staff", "/staff"]],
         })}

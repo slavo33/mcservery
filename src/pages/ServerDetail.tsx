@@ -444,9 +444,9 @@ const ServerDetailPage = () => {
             {/* Tags + badges */}
             <div className="flex flex-wrap gap-2">
               {server.platform.map((p) => (
-                <span key={p} className="badge-platform">{p === "java" ? "Java" : "Bedrock"}</span>
+                <span key={p} data-server-platform={p === "java" ? "Java" : "Bedrock"} className="badge-platform">{p === "java" ? "Java" : "Bedrock"}</span>
               ))}
-              <span className="badge-tag">{server.software}</span>
+              <span data-server-software={server.software} className="badge-tag">{server.software}</span>
               {safeVersion ? (
                 <VersionBadge version={safeVersion} linkToFilter />
               ) : (
@@ -505,7 +505,7 @@ const ServerDetailPage = () => {
 
             {/* IP */}
             <button onClick={copyIp} className="flex w-full items-center justify-between rounded-md border border-border bg-secondary/50 px-4 py-3 text-foreground font-mono transition-all hover:border-primary/40 glow-border-hover">
-              <span>{server.ip}</span>
+              <span data-server-ip={server.ip}>{server.ip}</span>
               <span className="flex items-center gap-1 text-sm text-muted-foreground">
                 <Copy className="h-4 w-4" /> {t("detail_copy")}
               </span>

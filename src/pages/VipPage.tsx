@@ -134,7 +134,7 @@ const VipPage = () => {
         path="/vip"
         jsonLd={buildPageJsonLdGraph({
           name: "VIP členstvo",
-          description: "Získaj VIP členstvo a zvýrazni svoj Minecraft server na vrchole zoznamu.",
+          description: "Získaj VIP členstvo a zvýrazni svoj Minecraft server na vrchole zoznamu. Viac hráčov, lepšia viditeľnosť a kratší cooldown hlasovania.",
           path: "/vip",
           breadcrumbs: [["VIP členstvo", "/vip"]],
         })}

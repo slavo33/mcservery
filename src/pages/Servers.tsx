@@ -176,7 +176,7 @@ const Servers = () => {
         jsonLd={buildPageJsonLdGraph({
           name: "Minecraft servery",
           description:
-            "Prehľadávaj a filtruj Minecraft servery podľa verzie, platformy a herných módov.",
+            "Prehľadávaj a filtruj Minecraft servery podľa verzie, platformy a herných módov. Nájdi si ten najlepší server pre seba.",
           path: "/servers",
           breadcrumbs: [["Servery", "/servers"]],
         })}

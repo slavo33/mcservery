@@ -223,7 +223,7 @@ const AddServer = () => {
         path="/add-server"
         jsonLd={buildPageJsonLdGraph({
           name: "Pridaj Minecraft server",
-          description: "Pridaj svoj Minecraft server do databázy MCServery zadarmo.",
+          description: "Pridaj svoj Minecraft server do databázy MCServery zadarmo. Získaj viac hráčov a vybuduj si komunitu.",
           path: "/add-server",
           breadcrumbs: [["Pridaj Minecraft server", "/add-server"]],
         })}
