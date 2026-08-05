@@ -156,6 +156,11 @@ export interface ServerMetaInput {
   likesCount?: number | null;
   platform?: string[] | null;
   software?: string | null;
+  maxPlayers?: number | null;
+  tags?: string[] | null;
+  minigames?: string[] | null;
+  createdAt?: string | null;
+  updatedAt?: string | null;
 }
 
 
@@ -171,21 +176,32 @@ export const buildServerMeta = (server: ServerMetaInput) => {
     ? `${server.name} ${versionLabel} — Minecraft server | MCServery`
     : `${server.name} — Minecraft server | MCServery`;
   const path = `/server/${server.slug ?? ""}`;
+  const url = `${SITE_URL}${path}`;
+  const jsonLd = buildServerJsonLd({
+    name: server.name,
+    description,
+    version: server.version,
+    likesCount: server.likesCount,
+    platform: server.platform,
+    software: server.software,
+    url,
+    image: server.image,
+    ip: server.ip,
+    maxPlayers: server.maxPlayers,
+    keywords: [...(server.tags ?? []), ...(server.minigames ?? [])],
+    createdAt: server.createdAt,
+    updatedAt: server.updatedAt,
+  });
   return {
     title,
     description,
     path,
-    url: `${SITE_URL}${path}`,
+    url,
     versionLabel,
-    jsonLd: buildServerJsonLd({
-      name: server.name,
-      description,
-      version: server.version,
-      likesCount: server.likesCount,
-      platform: server.platform,
-      software: server.software,
-    }),
-
+    jsonLd,
+    breadcrumbJsonLd: buildServerBreadcrumbJsonLd(server.name, path),
+    /** Kompletná sada structured data pre profil servera. */
+    jsonLdGraph: [jsonLd, buildServerBreadcrumbJsonLd(server.name, path)],
   };
 };
 
