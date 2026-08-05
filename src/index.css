@@ -17,6 +17,8 @@
 
     --primary: 0 72% 51%;
     --primary-foreground: 0 0% 100%;
+    /* Svetlejší odtieň primárnej pre text na tmavom pozadí (WCAG AA kontrast) */
+    --primary-bright: 0 91% 71%;
 
     --secondary: 0 0% 15%;
     --secondary-foreground: 0 0% 90%;

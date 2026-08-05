@@ -47,7 +47,7 @@ const Header = () => {
         </Link>
 
         {/* Desktop nav */}
-        <nav className="hidden items-center gap-1 lg:flex">
+        <nav aria-label="Hlavná navigácia" className="hidden items-center gap-1 lg:flex">
           {navItems.map((item: any) => (
             <Link
               key={item.to}
@@ -118,7 +118,7 @@ const Header = () => {
       {/* Mobile nav */}
       {mobileOpen && (
         <div className="border-t border-border bg-background px-4 pb-4 lg:hidden animate-slide-up">
-          <nav className="flex flex-col gap-1 pt-2">
+          <nav aria-label="Mobilná navigácia" className="flex flex-col gap-1 pt-2">
             {navItems.map((item: any) => (
               <Link
                 key={item.to}

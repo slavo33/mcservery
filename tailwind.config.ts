@@ -17,6 +17,14 @@ export default {
         display: ["Rajdhani", "sans-serif"],
         body: ["Inter", "sans-serif"],
       },
+      // `text-primary` používa svetlejší odtieň kvôli kontrastu na tmavom pozadí,
+      // `bg-primary` zostáva pôvodná sýta červená.
+      textColor: {
+        primary: {
+          DEFAULT: "hsl(var(--primary-bright))",
+          foreground: "hsl(var(--primary-foreground))",
+        },
+      },
       colors: {
         border: "hsl(var(--border))",
         input: "hsl(var(--input))",

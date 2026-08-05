@@ -207,7 +207,7 @@ const Servers = () => {
             <Crown className="h-3.5 w-3.5" />
             {t("filter_vip")}
           </button>
-          <span className="text-muted-foreground/40">|</span>
+          <span className="text-muted-foreground" aria-hidden="true">|</span>
           <span className="text-sm text-muted-foreground flex items-center gap-1">
             <ArrowUpDown className="h-4 w-4" /> {t("sort_label")}:
           </span>

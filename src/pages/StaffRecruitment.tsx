@@ -304,7 +304,7 @@ const StaffRecruitment = () => {
             className="sm:max-w-xs"
           />
           <Select value={sortOrder} onValueChange={(v) => setSortOrder(v as typeof sortOrder)}>
-            <SelectTrigger className="sm:w-48">
+            <SelectTrigger className="sm:w-48" aria-label="Zoradiť inzeráty">
               <SelectValue />
             </SelectTrigger>
             <SelectContent>
@@ -574,8 +574,8 @@ const StaffRecruitment = () => {
                         )}
                       </div>
                       <span className="text-xs text-muted-foreground">{post.owner_nickname}</span>
-                      <span className="text-xs text-muted-foreground/50">·</span>
-                      <span className="text-xs text-muted-foreground/50">
+                      <span className="text-xs text-muted-foreground" aria-hidden="true">·</span>
+                      <span className="text-xs text-muted-foreground">
                         {new Date(post.created_at).toLocaleDateString()}
                       </span>
                     </div>

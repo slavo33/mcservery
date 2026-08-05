@@ -288,14 +288,14 @@ const AddServer = () => {
                 <p className="text-sm font-semibold text-foreground">{t("add_warez")}</p>
                 <p className="text-xs text-muted-foreground">{t("add_warez_desc")}</p>
               </div>
-              <Switch checked={isWarez} onCheckedChange={setIsWarez} />
+              <Switch checked={isWarez} onCheckedChange={setIsWarez} aria-label={t("add_warez")} />
             </div>
             <div className="flex items-center justify-between rounded-md border border-border bg-secondary/30 px-4 py-3">
               <div>
                 <p className="text-sm font-semibold text-foreground">{t("add_whitelist")}</p>
                 <p className="text-xs text-muted-foreground">{t("add_whitelist_desc")}</p>
               </div>
-              <Switch checked={hasWhitelist} onCheckedChange={setHasWhitelist} />
+              <Switch checked={hasWhitelist} onCheckedChange={setHasWhitelist} aria-label={t("add_whitelist")} />
             </div>
           </div>
 
@@ -311,8 +311,9 @@ const AddServer = () => {
 
           <div className="grid grid-cols-2 gap-4">
             <div>
-              <label className="text-sm font-semibold text-foreground mb-1.5 block">{t("add_version")} <span className="text-primary">*</span></label>
+              <label htmlFor="add-version" className="text-sm font-semibold text-foreground mb-1.5 block">{t("add_version")} <span className="text-primary">*</span></label>
               <select
+                id="add-version"
                 value={version}
                 onChange={(e) => handleVersionChange(e.target.value)}
                 aria-invalid={!!versionError}
@@ -344,8 +345,8 @@ const AddServer = () => {
 
             </div>
             <div>
-              <label className="text-sm font-semibold text-foreground mb-1.5 block">{t("add_software")}</label>
-              <select value={software} onChange={(e) => setSoftware(e.target.value)} className={inputClass}>
+              <label htmlFor="add-software" className="text-sm font-semibold text-foreground mb-1.5 block">{t("add_software")}</label>
+              <select id="add-software" value={software} onChange={(e) => setSoftware(e.target.value)} className={inputClass}>
                 <option value="">—</option>
                 {availableSoftware.map((s) => <option key={s} value={s}>{s}</option>)}
               </select>
@@ -353,8 +354,8 @@ const AddServer = () => {
           </div>
 
           <div>
-            <label className="text-sm font-semibold text-foreground mb-1.5 block">{t("add_proxy")}</label>
-            <select value={proxy} onChange={(e) => setProxy(e.target.value)} className={inputClass}>
+            <label htmlFor="add-proxy" className="text-sm font-semibold text-foreground mb-1.5 block">{t("add_proxy")}</label>
+            <select id="add-proxy" value={proxy} onChange={(e) => setProxy(e.target.value)} className={inputClass}>
               {availableProxies.map((p) => (
                 <option key={p} value={p === "Žiadny" ? "" : p}>{p}</option>
               ))}

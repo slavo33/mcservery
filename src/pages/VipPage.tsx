@@ -276,7 +276,7 @@ const VipPage = () => {
         {/* Payment methods info */}
         <div className="text-center mt-12">
           <p className="text-sm text-muted-foreground mb-3">{t("vip_payment_methods")}</p>
-          <div className="flex flex-wrap items-center justify-center gap-2 sm:gap-4 text-muted-foreground/60">
+          <div className="flex flex-wrap items-center justify-center gap-2 sm:gap-4 text-muted-foreground">
             <span className="text-xs font-medium px-3 py-1 rounded-full border border-border">Visa</span>
             <span className="text-xs font-medium px-3 py-1 rounded-full border border-border">Mastercard</span>
             <span className="text-xs font-medium px-3 py-1 rounded-full border border-border">PayPal</span>

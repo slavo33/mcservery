@@ -1,0 +1,62 @@
+[
+  {
+    "url": "/servers",
+    "viewport": "mobil-390",
+    "rule": "heading-order",
+    "impact": "moderate",
+    "help": "Heading levels should only increase by one",
+    "helpUrl": "https://dequeuniversity.com/rules/axe/4.13/heading-order?application=axeAPI",
+    "count": 1,
+    "targets": [
+      "div[data-server-ip=\"play.ciwland.cz\"] > .p-4.min-w-0 > .items-start.mb-2.gap-2 > h3"
+    ],
+    "summary": [
+      "Fix any of the following:   Heading order invalid"
+    ]
+  },
+  {
+    "url": "/server/-------",
+    "viewport": "mobil-390",
+    "rule": "heading-order",
+    "impact": "moderate",
+    "help": "Heading levels should only increase by one",
+    "helpUrl": "https://dequeuniversity.com/rules/axe/4.13/heading-order?application=axeAPI",
+    "count": 1,
+    "targets": [
+      "div:nth-child(5) > .mb-2"
+    ],
+    "summary": [
+      "Fix any of the following:   Heading order invalid"
+    ]
+  },
+  {
+    "url": "/servers",
+    "viewport": "desktop-1280",
+    "rule": "heading-order",
+    "impact": "moderate",
+    "help": "Heading levels should only increase by one",
+    "helpUrl": "https://dequeuniversity.com/rules/axe/4.13/heading-order?application=axeAPI",
+    "count": 1,
+    "targets": [
+      "div[data-server-ip=\"play.ciwland.cz\"] > .p-4.min-w-0 > .items-start.mb-2.gap-2 > h3"
+    ],
+    "summary": [
+      "Fix any of the following:   Heading order invalid"
+    ]
+  },
+  {
+    "url": "/server/-------",
+    "viewport": "desktop-1280",
+    "rule": "heading-order",
+    "impact": "moderate",
+    "help": "Heading levels should only increase by one",
+    "helpUrl": "https://dequeuniversity.com/rules/axe/4.13/heading-order?application=axeAPI",
+    "count": 1,
+    "targets": [
+      "div:nth-child(5) > .mb-2"
+    ],
+    "summary": [
+      "Fix any of the following:   Heading order invalid"
+    ]
+  }
+]
