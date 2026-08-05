@@ -38,7 +38,16 @@ const ServerCard = ({ server, dbMode, dbId }: ServerCardProps) => {
   };
 
   const cardContent = (
-    <div className="group gradient-card w-full min-w-0 rounded-lg border border-border shadow-card transition-all duration-300 glow-border-hover overflow-hidden">
+    <div
+      className="group gradient-card w-full min-w-0 rounded-lg border border-border shadow-card transition-all duration-300 glow-border-hover overflow-hidden"
+      data-server-card=""
+      data-server-name={server.name}
+      data-server-ip={server.ip}
+      data-server-version={server.version}
+      data-server-software={server.software}
+      data-server-platforms={server.platform.join(",")}
+      data-server-minigames={server.minigames.join(",")}
+    >
       <div className="relative h-40 overflow-hidden bg-secondary">
         <div className="absolute inset-0 gradient-hero z-10" />
         {server.image ? (

@@ -1,5 +1,5 @@
 import { Search } from "lucide-react";
-import { versions, platforms, softwareOptions } from "@/lib/mockData";
+import { versions, platforms, softwareOptions, minigameOptions } from "@/lib/mockData";
 import { useLanguage } from "@/i18n/LanguageContext";
 
 interface ServerFiltersProps {
@@ -11,6 +11,8 @@ interface ServerFiltersProps {
   onVersionChange: (v: string) => void;
   selectedSoftware: string;
   onSoftwareChange: (v: string) => void;
+  selectedMinigame?: string;
+  onMinigameChange?: (v: string) => void;
 }
 
 const ServerFilters = ({
@@ -22,8 +24,11 @@ const ServerFilters = ({
   onVersionChange,
   selectedSoftware,
   onSoftwareChange,
+  selectedMinigame = "",
+  onMinigameChange,
 }: ServerFiltersProps) => {
   const { t } = useLanguage();
+
 
   return (
     <div className="gradient-card rounded-lg border border-border p-4 md:p-6 shadow-card mb-8">
@@ -42,7 +47,7 @@ const ServerFilters = ({
       {/* Filter rows */}
       <div className="flex flex-wrap gap-6">
         {/* Platform */}
-        <div>
+        <div data-filter-group="platform">
           <span className="text-xs font-semibold uppercase tracking-wider text-muted-foreground mb-2 block">{t("filter_platform")}</span>
           <div className="flex flex-wrap gap-1.5">
             <button
@@ -54,6 +59,7 @@ const ServerFilters = ({
             {platforms.map((p) => (
               <button
                 key={p}
+                data-filter-value={p}
                 onClick={() => onPlatformChange(p === selectedPlatform ? "" : p)}
                 className={`filter-chip ${selectedPlatform === p ? "active" : ""}`}
               >
@@ -64,7 +70,7 @@ const ServerFilters = ({
         </div>
 
         {/* Version */}
-        <div>
+        <div data-filter-group="version">
           <span className="text-xs font-semibold uppercase tracking-wider text-muted-foreground mb-2 block">{t("filter_version")}</span>
           <div className="flex flex-wrap gap-1.5">
             <button
@@ -76,6 +82,7 @@ const ServerFilters = ({
             {versions.map((v) => (
               <button
                 key={v}
+                data-filter-value={v}
                 onClick={() => onVersionChange(v === selectedVersion ? "" : v)}
                 className={`filter-chip ${selectedVersion === v ? "active" : ""}`}
               >
@@ -85,8 +92,9 @@ const ServerFilters = ({
           </div>
         </div>
 
-        {/* Software */}
-        <div>
+
+        {/* Software / loader */}
+        <div data-filter-group="software">
           <span className="text-xs font-semibold uppercase tracking-wider text-muted-foreground mb-2 block">{t("filter_software")}</span>
           <div className="flex flex-wrap gap-1.5">
             <button
@@ -98,6 +106,7 @@ const ServerFilters = ({
             {softwareOptions.map((s) => (
               <button
                 key={s}
+                data-filter-value={s}
                 onClick={() => onSoftwareChange(s === selectedSoftware ? "" : s)}
                 className={`filter-chip ${selectedSoftware === s ? "active" : ""}`}
               >
@@ -106,7 +115,33 @@ const ServerFilters = ({
             ))}
           </div>
         </div>
+
+        {/* Minigames */}
+        {onMinigameChange && (
+          <div data-filter-group="minigame">
+            <span className="text-xs font-semibold uppercase tracking-wider text-muted-foreground mb-2 block">{t("detail_minigames")}</span>
+            <div className="flex flex-wrap gap-1.5 max-h-40 overflow-y-auto pr-1">
+              <button
+                onClick={() => onMinigameChange("")}
+                className={`filter-chip ${selectedMinigame === "" ? "active" : ""}`}
+              >
+                {t("filter_all")}
+              </button>
+              {minigameOptions.map((m) => (
+                <button
+                  key={m}
+                  data-filter-value={m}
+                  onClick={() => onMinigameChange(m === selectedMinigame ? "" : m)}
+                  className={`filter-chip ${selectedMinigame === m ? "active" : ""}`}
+                >
+                  {m}
+                </button>
+              ))}
+            </div>
+          </div>
+        )}
       </div>
+
     </div>
   );
 };
