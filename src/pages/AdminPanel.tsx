@@ -202,6 +202,7 @@ const AdminPanel = () => {
   if (authLoading) {
     return (
       <div className="min-h-screen flex flex-col bg-background">
+        <SEO title="Admin panel | MCServery" description="Administrácia MCServery." path="/admin" noindex />
         <Header />
         <main className="flex-1 flex items-center justify-center"><p className="text-muted-foreground">{t("loading")}</p></main>
         <Footer />
