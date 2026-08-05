@@ -124,6 +124,9 @@ jobs:
       - name: E2E Schema.org JSON-LD na verejných stránkach
         run: python3 e2e/jsonld_structured_data_e2e.py
 
+      - name: E2E responzívny render (mobil/tablet/desktop, overflow)
+        run: python3 e2e/responsive_overflow_e2e.py
+
       - name: E2E sitemap po vytvorení a editácii profilu
         run: python3 e2e/sitemap_profile_update_e2e.py
         env:

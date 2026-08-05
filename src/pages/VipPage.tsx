@@ -186,7 +186,7 @@ const VipPage = () => {
             return (
               <div
                 key={tier.id}
-                className={`relative rounded-xl border ${tier.borderClass} bg-secondary/20 p-6 transition-all duration-300 hover:shadow-xl hover:${tier.glowClass} ${tier.popular ? "ring-2 ring-primary/40 scale-[1.02]" : ""}`}
+                className={`relative rounded-xl border ${tier.borderClass} bg-secondary/20 p-6 transition-all duration-300 hover:shadow-xl hover:${tier.glowClass} ${tier.popular ? "ring-2 ring-primary/40 md:scale-[1.02]" : ""}`}
               >
                 {tier.popular && (
                   <div className="absolute -top-3 left-1/2 -translate-x-1/2 bg-primary text-primary-foreground px-4 py-1 rounded-full text-xs font-bold uppercase tracking-wider">
@@ -274,7 +274,7 @@ const VipPage = () => {
         {/* Payment methods info */}
         <div className="text-center mt-12">
           <p className="text-sm text-muted-foreground mb-3">{t("vip_payment_methods")}</p>
-          <div className="flex items-center justify-center gap-4 text-muted-foreground/60">
+          <div className="flex flex-wrap items-center justify-center gap-2 sm:gap-4 text-muted-foreground/60">
             <span className="text-xs font-medium px-3 py-1 rounded-full border border-border">Visa</span>
             <span className="text-xs font-medium px-3 py-1 rounded-full border border-border">Mastercard</span>
             <span className="text-xs font-medium px-3 py-1 rounded-full border border-border">PayPal</span>
