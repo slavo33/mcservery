@@ -141,19 +141,36 @@ Deno.serve(async (req) => {
 
     const xml = render([...statics, ...serverEntries, ...staffEntries]);
 
-    return new Response(xml, {
-      headers: {
-        ...corsHeaders,
-        "Content-Type": "application/xml; charset=utf-8",
-        // Krátka cache – zmena profilu sa prejaví do minúty.
-        "Cache-Control": "public, max-age=60, s-maxage=60",
-      },
-    });
+    // Validátory pre podmienené požiadavky crawlerov.
+    const digest = await crypto.subtle.digest("SHA-1", new TextEncoder().encode(xml));
+    const etag = `"${Array.from(new Uint8Array(digest)).map((b) => b.toString(16).padStart(2, "0")).join("")}"`;
+    const lastmod = newestAny ? new Date(newestAny) : new Date();
+
+    const headers: Record<string, string> = {
+      ...corsHeaders,
+      // Vždy prepíšeme prípadný text/plain z corsHeaders.
+      "Content-Type": "application/xml; charset=utf-8",
+      // Krátka cache – zmena profilu sa prejaví do minúty, žiadny pre-cache.
+      "Cache-Control": "public, max-age=60, s-maxage=60, must-revalidate",
+      "ETag": etag,
+      "Last-Modified": lastmod.toUTCString(),
+    };
+    delete (headers as Record<string, string>)["content-type"];
+
+    // 304 aj pre slabý (W/) ETag, ktorý môže pridať gateway.
+    const inm = (req.headers.get("if-none-match") || "").replace(/^W\//, "").trim();
+    if (inm && inm === etag) {
+      return new Response(null, { status: 304, headers });
+    }
+
+    return new Response(req.method === "HEAD" ? null : xml, { headers });
+
   } catch (e) {
     console.error("sitemap error", e);
-    return new Response("sitemap generation failed", {
-      status: 500,
-      headers: { ...corsHeaders, "Content-Type": "text/plain" },
-    });
+    const headers = new Headers(corsHeaders);
+    headers.set("Content-Type", "text/plain; charset=utf-8");
+    headers.set("Cache-Control", "no-store");
+    return new Response("sitemap generation failed", { status: 500, headers });
   }
 });
+
