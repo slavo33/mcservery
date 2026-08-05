@@ -6,7 +6,7 @@ import SEO from "@/components/SEO";
 import { Button } from "@/components/ui/button";
 import { Switch } from "@/components/ui/switch";
 import { softwareOptions, versions, minigameOptions, proxyOptions } from "@/lib/mockData";
-import { getAvailablePlatforms, getAvailableSoftware, getAvailableProxies, sanitizeForVersion, validateVersionCombination, validateVersionSelection, isNextGenVersion } from "@/lib/versionCompatibility";
+import { getAvailablePlatforms, getAvailableSoftware, getAvailableProxies, sanitizeForVersion, validateVersionCombination, validateVersionSelection, isNextGenVersion, getCompatibleFix, describeFix } from "@/lib/versionCompatibility";
 import { useState, useEffect } from "react";
 import { Plus, Server } from "lucide-react";
 import ServerImageUpload from "@/components/ServerImageUpload";
@@ -79,6 +79,14 @@ const AddServer = () => {
     setSelectedPlatform(cleaned.platform);
     setSoftware(cleaned.software);
     setProxy(cleaned.proxy);
+  };
+
+  const versionFix = getCompatibleFix({ version, software, proxy, platform: selectedPlatform });
+
+  const applyCompatibleFix = () => {
+    setSelectedPlatform(versionFix.platform);
+    setSoftware(versionFix.software);
+    setProxy(versionFix.proxy);
   };
 
   // Živá validácia — nekompatibilita sa ukáže hneď pri zmene verzie,
@@ -309,6 +317,15 @@ const AddServer = () => {
                 <p id="version-error" role="alert" className="text-xs text-destructive mt-1.5">
                   {versionError}
                 </p>
+              )}
+              {versionFix.changes.length > 0 && (
+                <button
+                  type="button"
+                  onClick={applyCompatibleFix}
+                  className="text-xs font-semibold text-primary underline underline-offset-2 mt-1.5 hover:opacity-80"
+                >
+                  Použiť kompatibilnú alternatívu — {describeFix(versionFix)}
+                </button>
               )}
               {!versionError && isNextGenVersion(version) && (
                 <p className="text-xs text-muted-foreground mt-1.5">
