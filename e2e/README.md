@@ -196,3 +196,15 @@ E2E_BASE_URL=https://mcservery.one python3 e2e/security_headers_e2e.py
 python3 e2e/favicon_manifest_e2e.py
 ```
 
+
+`servers_filters_e2e.py` — overuje **vyhľadávanie a filtre** na `/servers`:
+
+1. Filter verzie, platformy (Java/Bedrock), loaderu (software) a minihry zapíše správny parameter do URL (`?version=`, `?platform=`, `?software=`, `?minigame=`, `?q=`).
+2. Zobrazené karty presne zodpovedajú aktívnym filtrom (porovnáva sa s nefiltrovaným zoznamom cez `data-server-*` atribúty kariet).
+3. Kombinácia filtrov funguje ako AND a deep link predvyplní aktívne chipy.
+4. Zrušenie filtra odstráni parameter z URL a vráti pôvodný počet výsledkov.
+5. Neplatná hodnota v URL (napr. neexistujúca verzia) sa ignoruje.
+
+```bash
+python3 e2e/servers_filters_e2e.py
+```
