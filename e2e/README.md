@@ -26,3 +26,15 @@ python3 e2e/version_badge_edit_e2e.py
 ```
 
 Testovacie servery majú názov `E2E Badge <timestamp>` — po behu ich treba odstrániť z databázy.
+
+`version_badge_mobile_e2e.py` — vytvorí server s verziou **26.2**, otvorí jeho profil a overí odznak verzie:
+
+1. Desktop (1280 px): odznak existuje, text `v26.2`, `white-space: nowrap`.
+2. Mobil (375 px): odznak sa zmestí do viewportu, ostáva na jednom riadku, má kontrastné pozadie.
+3. Screenshoty: `mobile_e2e_badge_desktop.png`, `mobile_e2e_badge_375.png`, `mobile_e2e_profile_375.png`.
+
+```bash
+python3 e2e/version_badge_mobile_e2e.py
+```
+
+Testovacie servery majú názov `E2E Mobile <timestamp>` a IP `e2emob<timestamp>.example.com` — po behu ich treba odstrániť z databázy.

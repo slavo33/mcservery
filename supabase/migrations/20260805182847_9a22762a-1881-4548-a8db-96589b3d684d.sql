@@ -1,0 +1,1 @@
+DELETE FROM public.servers WHERE name LIKE 'E2E Mobile %' OR ip LIKE 'e2emob%.example.com';
