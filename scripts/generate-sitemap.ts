@@ -2,12 +2,14 @@
 // Pulls dynamic server + staff-post slugs from the database so crawlers
 // can discover every public detail page. Runs via predev/prebuild hooks.
 
-import { writeFileSync, readFileSync, existsSync } from "fs";
+import { writeFileSync, readFileSync, existsSync, readdirSync, unlinkSync } from "fs";
 import { resolve } from "path";
 
 const BASE_URL = "https://mcservery.one";
 // Bezpečnostný strop pre počet URL v sitemape (limit protokolu je 50 000).
 const MAX_URLS = Number(process.env.SITEMAP_MAX_URLS ?? 45000);
+// Po prekročení tohto počtu sa sitemap rozdelí na chunky + sitemap index.
+const URLS_PER_FILE = Number(process.env.SITEMAP_URLS_PER_FILE ?? 5000);
 
 // Read Supabase creds from .env (publishable anon key — safe for read-only public data).
 function readEnv(key: string): string | undefined {
