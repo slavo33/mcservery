@@ -574,8 +574,8 @@ const StaffRecruitment = () => {
                         )}
                       </div>
                       <span className="text-xs text-muted-foreground">{post.owner_nickname}</span>
-                      <span className="text-xs text-muted-foreground/50">·</span>
-                      <span className="text-xs text-muted-foreground/50">
+                      <span className="text-xs text-muted-foreground" aria-hidden="true">·</span>
+                      <span className="text-xs text-muted-foreground">
                         {new Date(post.created_at).toLocaleDateString()}
                       </span>
                     </div>
