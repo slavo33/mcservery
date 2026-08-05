@@ -59,7 +59,7 @@ const staticEntries: SitemapEntry[] = [
   { path: "/staff", changefreq: "daily", priority: "0.7" },
   { path: "/vip", changefreq: "monthly", priority: "0.6" },
   { path: "/add-server", changefreq: "monthly", priority: "0.6" },
-  { path: "/auth", changefreq: "monthly", priority: "0.4" },
+  // /auth je noindex (prihlasovacia stránka) — do sitemapy nepatrí.
   { path: "/terms", changefreq: "yearly", priority: "0.3" },
   { path: "/privacy", changefreq: "yearly", priority: "0.3" },
 ];
