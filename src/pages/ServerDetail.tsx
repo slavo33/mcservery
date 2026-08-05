@@ -63,6 +63,8 @@ const ServerDetailPage = () => {
   const { t } = useLanguage();
   const [server, setServer] = useState<ServerDetailData | null>(null);
   const [loading, setLoading] = useState(true);
+  const [loadError, setLoadError] = useState(false);
+
   const [liked, setLiked] = useState(false);
   const [likesCount, setLikesCount] = useState(0);
   const [voteCount, setVoteCount] = useState(0);
@@ -78,18 +80,24 @@ const ServerDetailPage = () => {
   useEffect(() => {
     if (!slug || hasFetchedServer.current) return;
     const fetchServer = async () => {
-      const { data } = await supabase
+      const { data, error } = await supabase
         .from("servers")
         .select("*")
         .eq("slug", slug)
-        .single();
+        .maybeSingle();
+      if (error) {
+        setLoadError(true);
+        setLoading(false);
+        return;
+      }
       if (data) {
+
         hasFetchedServer.current = true;
         const { data: profileData } = await supabase
           .from("profiles")
           .select("nickname, avatar_url, bio")
           .eq("id", data.owner_id)
-          .single();
+          .maybeSingle();
         const p = profileData as OwnerProfile | null;
         // Fetch active VIP tier
         let vipTier: string | null = null;
@@ -199,15 +207,49 @@ const ServerDetailPage = () => {
     );
   }
 
-  if (!server) {
+  if (loadError || !server) {
     return (
       <div className="min-h-screen flex flex-col bg-background">
+        <SEO
+          title={loadError ? "Chyba načítania servera" : "Server sa nenašiel"}
+          description="Profil servera sa nepodarilo zobraziť."
+          path={`/server/${slug ?? ""}`}
+          noindex
+        />
         <Header />
-        <main className="flex-1 flex items-center justify-center"><p className="text-muted-foreground">{t("detail_not_found")}</p></main>
+        <main className="flex-1 flex flex-col items-center justify-center gap-4 px-4 text-center">
+          <p className="text-muted-foreground">
+            {loadError
+              ? "Profil servera sa nepodarilo načítať. Skúste to prosím znova."
+              : t("detail_not_found")}
+          </p>
+          <div className="flex gap-3">
+            {loadError && (
+              <button
+                className="rounded-md bg-primary px-4 py-2 text-sm font-medium text-primary-foreground hover:bg-primary/90"
+                onClick={() => window.location.reload()}
+              >
+                Skúsiť znova
+              </button>
+            )}
+            <Link
+              to="/servers"
+              className="rounded-md border border-border px-4 py-2 text-sm font-medium hover:bg-muted"
+            >
+              {t("nav_servers")}
+            </Link>
+          </div>
+        </main>
+
         <Footer />
       </div>
     );
   }
+
+  // Bezpečnostná poistka: bez platnej verzie by profil bol nekonzistentný
+  // (odznak, SEO aj JSON-LD by si protirečili) — radšej zobrazíme bezpečný stav.
+  const safeVersion = formatVersion(server.version);
+
 
   const links = [
     { url: server.discord_url, label: "Discord" },
@@ -223,11 +265,12 @@ const ServerDetailPage = () => {
   const isOnline = status?.online ?? false;
 
   // Jednotný zdroj metadát — rovnaká logika ako pri okamžitej aktualizácii po editácii.
+  // Pri chýbajúcej/neplatnej verzii sa verzia do metadát vôbec nedostane (žiadne "v" bez čísla).
   const meta = buildServerMeta({
     name: server.name,
     ip: server.ip,
     description: server.description,
-    version: server.version,
+    version: safeVersion ? safeVersion.replace(/^v/, "") : "",
     slug: server.slug || slug,
     likesCount: server.likes_count,
   });
@@ -241,7 +284,9 @@ const ServerDetailPage = () => {
         image={server.images && server.images.length > 0 ? server.images[0] : undefined}
         type="article"
         jsonLd={meta.jsonLd}
+        noindex={!safeVersion}
       />
+
 
       <Header />
       <main className="flex-1 container mx-auto px-4 py-10 max-w-3xl">
@@ -364,7 +409,17 @@ const ServerDetailPage = () => {
                 <span key={p} className="badge-platform">{p === "java" ? "Java" : "Bedrock"}</span>
               ))}
               <span className="badge-tag">{server.software}</span>
-              <VersionBadge version={server.version} linkToFilter />
+              {safeVersion ? (
+                <VersionBadge version={safeVersion} linkToFilter />
+              ) : (
+                <span
+                  className="inline-flex items-center gap-1 rounded-md border border-border bg-muted px-2 py-0.5 text-xs text-muted-foreground"
+                  title="Verzia servera nie je nastavená"
+                >
+                  Verzia neuvedená
+                </span>
+              )}
+
               {server.proxy && <span className="badge-platform">{server.proxy}</span>}
               <span className={`badge-tag ${server.is_warez ? "" : ""}`}>
                 {server.is_warez ? t("detail_warez") : t("detail_original")}
