@@ -2,11 +2,11 @@
 
 exports[`VersionBadge – vizuálna regresia (dĺžky verzií) > klikateľný odznak (profil) pre v1.7 zostáva nezmenený 1`] = `
 <a
+  aria-describedby="version-badge-desc-1-7"
   aria-label="Filtrovať servery podľa verzie v1.7"
-  class="inline-flex items-center gap-1 rounded-md border font-medium whitespace-nowrap text-nowrap tabular-nums font-display tracking-tight px-1.5 py-0.5 text-xs sm:px-2.5 sm:py-1 sm:text-sm bg-primary/90 text-primary-foreground border-primary/50 cursor-pointer transition-colors hover:bg-primary hover:text-primary-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
+  class="inline-flex items-center gap-1 rounded-md border font-medium whitespace-nowrap text-nowrap tabular-nums font-display tracking-tight px-1.5 py-0.5 text-xs sm:px-2.5 sm:py-1 sm:text-sm bg-primary/90 text-primary-foreground border-primary/50 contrast-more:bg-primary contrast-more:border-primary-foreground forced-colors:bg-[ButtonFace] forced-colors:text-[ButtonText] forced-colors:border-[ButtonText] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-1 focus-visible:ring-offset-background cursor-pointer transition-colors hover:bg-primary hover:text-primary-foreground"
   data-state="closed"
   href="/servers?version=1.7"
-  title="Zobraziť servery s verziou v1.7"
 >
   <svg
     aria-hidden="true"
@@ -41,11 +41,11 @@ exports[`VersionBadge – vizuálna regresia (dĺžky verzií) > klikateľný od
 
 exports[`VersionBadge – vizuálna regresia (dĺžky verzií) > klikateľný odznak (profil) pre v1.20.4 zostáva nezmenený 1`] = `
 <a
+  aria-describedby="version-badge-desc-1-20-4"
   aria-label="Filtrovať servery podľa verzie v1.20.4"
-  class="inline-flex items-center gap-1 rounded-md border font-medium whitespace-nowrap text-nowrap tabular-nums font-display tracking-tight px-1.5 py-0.5 text-xs sm:px-2.5 sm:py-1 sm:text-sm bg-primary/90 text-primary-foreground border-primary/50 cursor-pointer transition-colors hover:bg-primary hover:text-primary-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
+  class="inline-flex items-center gap-1 rounded-md border font-medium whitespace-nowrap text-nowrap tabular-nums font-display tracking-tight px-1.5 py-0.5 text-xs sm:px-2.5 sm:py-1 sm:text-sm bg-primary/90 text-primary-foreground border-primary/50 contrast-more:bg-primary contrast-more:border-primary-foreground forced-colors:bg-[ButtonFace] forced-colors:text-[ButtonText] forced-colors:border-[ButtonText] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-1 focus-visible:ring-offset-background cursor-pointer transition-colors hover:bg-primary hover:text-primary-foreground"
   data-state="closed"
   href="/servers?version=1.20.4"
-  title="Zobraziť servery s verziou v1.20.4"
 >
   <svg
     aria-hidden="true"
@@ -80,11 +80,11 @@ exports[`VersionBadge – vizuálna regresia (dĺžky verzií) > klikateľný od
 
 exports[`VersionBadge – vizuálna regresia (dĺžky verzií) > klikateľný odznak (profil) pre v1.21.10 zostáva nezmenený 1`] = `
 <a
+  aria-describedby="version-badge-desc-1-21-10"
   aria-label="Filtrovať servery podľa verzie v1.21.10"
-  class="inline-flex items-center gap-1 rounded-md border font-medium whitespace-nowrap text-nowrap tabular-nums font-display tracking-tight px-1.5 py-0.5 text-xs sm:px-2.5 sm:py-1 sm:text-sm bg-primary/90 text-primary-foreground border-primary/50 cursor-pointer transition-colors hover:bg-primary hover:text-primary-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
+  class="inline-flex items-center gap-1 rounded-md border font-medium whitespace-nowrap text-nowrap tabular-nums font-display tracking-tight px-1.5 py-0.5 text-xs sm:px-2.5 sm:py-1 sm:text-sm bg-primary/90 text-primary-foreground border-primary/50 contrast-more:bg-primary contrast-more:border-primary-foreground forced-colors:bg-[ButtonFace] forced-colors:text-[ButtonText] forced-colors:border-[ButtonText] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-1 focus-visible:ring-offset-background cursor-pointer transition-colors hover:bg-primary hover:text-primary-foreground"
   data-state="closed"
   href="/servers?version=1.21.10"
-  title="Zobraziť servery s verziou v1.21.10"
 >
   <svg
     aria-hidden="true"
@@ -119,11 +119,11 @@ exports[`VersionBadge – vizuálna regresia (dĺžky verzií) > klikateľný od
 
 exports[`VersionBadge – vizuálna regresia (dĺžky verzií) > klikateľný odznak (profil) pre v1.21.10.1 zostáva nezmenený 1`] = `
 <a
+  aria-describedby="version-badge-desc-1-21-10-1"
   aria-label="Filtrovať servery podľa verzie v1.21.10.1"
-  class="inline-flex items-center gap-1 rounded-md border font-medium whitespace-nowrap text-nowrap tabular-nums font-display tracking-tight px-1.5 py-0.5 text-xs sm:px-2.5 sm:py-1 sm:text-sm bg-primary/90 text-primary-foreground border-primary/50 cursor-pointer transition-colors hover:bg-primary hover:text-primary-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
+  class="inline-flex items-center gap-1 rounded-md border font-medium whitespace-nowrap text-nowrap tabular-nums font-display tracking-tight px-1.5 py-0.5 text-xs sm:px-2.5 sm:py-1 sm:text-sm bg-primary/90 text-primary-foreground border-primary/50 contrast-more:bg-primary contrast-more:border-primary-foreground forced-colors:bg-[ButtonFace] forced-colors:text-[ButtonText] forced-colors:border-[ButtonText] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-1 focus-visible:ring-offset-background cursor-pointer transition-colors hover:bg-primary hover:text-primary-foreground"
   data-state="closed"
   href="/servers?version=1.21.10.1"
-  title="Zobraziť servery s verziou v1.21.10.1"
 >
   <svg
     aria-hidden="true"
@@ -158,11 +158,11 @@ exports[`VersionBadge – vizuálna regresia (dĺžky verzií) > klikateľný od
 
 exports[`VersionBadge – vizuálna regresia (dĺžky verzií) > klikateľný odznak (profil) pre v26.2 zostáva nezmenený 1`] = `
 <a
+  aria-describedby="version-badge-desc-26-2"
   aria-label="Filtrovať servery podľa verzie v26.2"
-  class="inline-flex items-center gap-1 rounded-md border font-medium whitespace-nowrap text-nowrap tabular-nums font-display tracking-tight px-1.5 py-0.5 text-xs sm:px-2.5 sm:py-1 sm:text-sm bg-primary/90 text-primary-foreground border-primary/50 cursor-pointer transition-colors hover:bg-primary hover:text-primary-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
+  class="inline-flex items-center gap-1 rounded-md border font-medium whitespace-nowrap text-nowrap tabular-nums font-display tracking-tight px-1.5 py-0.5 text-xs sm:px-2.5 sm:py-1 sm:text-sm bg-primary/90 text-primary-foreground border-primary/50 contrast-more:bg-primary contrast-more:border-primary-foreground forced-colors:bg-[ButtonFace] forced-colors:text-[ButtonText] forced-colors:border-[ButtonText] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-1 focus-visible:ring-offset-background cursor-pointer transition-colors hover:bg-primary hover:text-primary-foreground"
   data-state="closed"
   href="/servers?version=26.2"
-  title="Zobraziť servery s verziou v26.2"
 >
   <svg
     aria-hidden="true"
@@ -197,12 +197,13 @@ exports[`VersionBadge – vizuálna regresia (dĺžky verzií) > klikateľný od
 
 exports[`VersionBadge – vizuálna regresia (dĺžky verzií) > markup odznaku pre v1.7 zostáva nezmenený 1`] = `
 <span
+  aria-describedby="version-badge-desc-1-7"
+  aria-expanded="false"
   aria-label="Verzia v1.7"
-  class="inline-flex items-center gap-1 rounded-md border font-medium whitespace-nowrap text-nowrap tabular-nums font-display tracking-tight px-1.5 py-0.5 text-xs sm:px-2.5 sm:py-1 sm:text-sm bg-primary/90 text-primary-foreground border-primary/50"
+  class="inline-flex items-center gap-1 rounded-md border font-medium whitespace-nowrap text-nowrap tabular-nums font-display tracking-tight px-1.5 py-0.5 text-xs sm:px-2.5 sm:py-1 sm:text-sm bg-primary/90 text-primary-foreground border-primary/50 contrast-more:bg-primary contrast-more:border-primary-foreground forced-colors:bg-[ButtonFace] forced-colors:text-[ButtonText] forced-colors:border-[ButtonText] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-1 focus-visible:ring-offset-background cursor-help"
   data-state="closed"
   role="button"
   tabindex="0"
-  title="v1.7"
 >
   <svg
     aria-hidden="true"
@@ -237,12 +238,13 @@ exports[`VersionBadge – vizuálna regresia (dĺžky verzií) > markup odznaku 
 
 exports[`VersionBadge – vizuálna regresia (dĺžky verzií) > markup odznaku pre v1.20.4 zostáva nezmenený 1`] = `
 <span
+  aria-describedby="version-badge-desc-1-20-4"
+  aria-expanded="false"
   aria-label="Verzia v1.20.4"
-  class="inline-flex items-center gap-1 rounded-md border font-medium whitespace-nowrap text-nowrap tabular-nums font-display tracking-tight px-1.5 py-0.5 text-xs sm:px-2.5 sm:py-1 sm:text-sm bg-primary/90 text-primary-foreground border-primary/50"
+  class="inline-flex items-center gap-1 rounded-md border font-medium whitespace-nowrap text-nowrap tabular-nums font-display tracking-tight px-1.5 py-0.5 text-xs sm:px-2.5 sm:py-1 sm:text-sm bg-primary/90 text-primary-foreground border-primary/50 contrast-more:bg-primary contrast-more:border-primary-foreground forced-colors:bg-[ButtonFace] forced-colors:text-[ButtonText] forced-colors:border-[ButtonText] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-1 focus-visible:ring-offset-background cursor-help"
   data-state="closed"
   role="button"
   tabindex="0"
-  title="v1.20.4"
 >
   <svg
     aria-hidden="true"
@@ -277,12 +279,13 @@ exports[`VersionBadge – vizuálna regresia (dĺžky verzií) > markup odznaku 
 
 exports[`VersionBadge – vizuálna regresia (dĺžky verzií) > markup odznaku pre v1.21.10 zostáva nezmenený 1`] = `
 <span
+  aria-describedby="version-badge-desc-1-21-10"
+  aria-expanded="false"
   aria-label="Verzia v1.21.10"
-  class="inline-flex items-center gap-1 rounded-md border font-medium whitespace-nowrap text-nowrap tabular-nums font-display tracking-tight px-1.5 py-0.5 text-xs sm:px-2.5 sm:py-1 sm:text-sm bg-primary/90 text-primary-foreground border-primary/50"
+  class="inline-flex items-center gap-1 rounded-md border font-medium whitespace-nowrap text-nowrap tabular-nums font-display tracking-tight px-1.5 py-0.5 text-xs sm:px-2.5 sm:py-1 sm:text-sm bg-primary/90 text-primary-foreground border-primary/50 contrast-more:bg-primary contrast-more:border-primary-foreground forced-colors:bg-[ButtonFace] forced-colors:text-[ButtonText] forced-colors:border-[ButtonText] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-1 focus-visible:ring-offset-background cursor-help"
   data-state="closed"
   role="button"
   tabindex="0"
-  title="v1.21.10"
 >
   <svg
     aria-hidden="true"
@@ -317,12 +320,13 @@ exports[`VersionBadge – vizuálna regresia (dĺžky verzií) > markup odznaku 
 
 exports[`VersionBadge – vizuálna regresia (dĺžky verzií) > markup odznaku pre v1.21.10.1 zostáva nezmenený 1`] = `
 <span
+  aria-describedby="version-badge-desc-1-21-10-1"
+  aria-expanded="false"
   aria-label="Verzia v1.21.10.1"
-  class="inline-flex items-center gap-1 rounded-md border font-medium whitespace-nowrap text-nowrap tabular-nums font-display tracking-tight px-1.5 py-0.5 text-xs sm:px-2.5 sm:py-1 sm:text-sm bg-primary/90 text-primary-foreground border-primary/50"
+  class="inline-flex items-center gap-1 rounded-md border font-medium whitespace-nowrap text-nowrap tabular-nums font-display tracking-tight px-1.5 py-0.5 text-xs sm:px-2.5 sm:py-1 sm:text-sm bg-primary/90 text-primary-foreground border-primary/50 contrast-more:bg-primary contrast-more:border-primary-foreground forced-colors:bg-[ButtonFace] forced-colors:text-[ButtonText] forced-colors:border-[ButtonText] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-1 focus-visible:ring-offset-background cursor-help"
   data-state="closed"
   role="button"
   tabindex="0"
-  title="v1.21.10.1"
 >
   <svg
     aria-hidden="true"
@@ -357,12 +361,13 @@ exports[`VersionBadge – vizuálna regresia (dĺžky verzií) > markup odznaku 
 
 exports[`VersionBadge – vizuálna regresia (dĺžky verzií) > markup odznaku pre v26.2 zostáva nezmenený 1`] = `
 <span
+  aria-describedby="version-badge-desc-26-2"
+  aria-expanded="false"
   aria-label="Verzia v26.2"
-  class="inline-flex items-center gap-1 rounded-md border font-medium whitespace-nowrap text-nowrap tabular-nums font-display tracking-tight px-1.5 py-0.5 text-xs sm:px-2.5 sm:py-1 sm:text-sm bg-primary/90 text-primary-foreground border-primary/50"
+  class="inline-flex items-center gap-1 rounded-md border font-medium whitespace-nowrap text-nowrap tabular-nums font-display tracking-tight px-1.5 py-0.5 text-xs sm:px-2.5 sm:py-1 sm:text-sm bg-primary/90 text-primary-foreground border-primary/50 contrast-more:bg-primary contrast-more:border-primary-foreground forced-colors:bg-[ButtonFace] forced-colors:text-[ButtonText] forced-colors:border-[ButtonText] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-1 focus-visible:ring-offset-background cursor-help"
   data-state="closed"
   role="button"
   tabindex="0"
-  title="v26.2"
 >
   <svg
     aria-hidden="true"
