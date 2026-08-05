@@ -1,0 +1,1 @@
+UPDATE public.servers SET description = description WHERE slug = 'kamienok';

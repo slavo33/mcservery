@@ -32,3 +32,5 @@ Disallow: /vip-success
 Disallow: /*/edit$
 
 Sitemap: https://mcservery.one/sitemap.xml
+# Živá sitemapa – regeneruje sa pri každom požiadavku, lastmod odráža úpravy profilov okamžite
+Sitemap: https://uinrxvxfrvjtqwklbiqk.supabase.co/functions/v1/sitemap
