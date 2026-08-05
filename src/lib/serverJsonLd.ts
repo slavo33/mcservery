@@ -5,6 +5,10 @@ export interface ServerJsonLdInput {
   description: string;
   version?: string | null;
   likesCount?: number | null;
+  /** Edície servera z profilu, napr. ["Java", "Bedrock"]. */
+  platform?: string[] | null;
+  /** Zvolený loader/software, napr. "Paper", "Spigot", "Purpur". */
+  software?: string | null;
 }
 
 /**
@@ -23,25 +27,72 @@ export const isSoftwareVersionConsistent = (
   version?: string | null
 ): boolean => jsonLd.softwareVersion === (toSoftwareVersion(version) ?? undefined);
 
+/** Normalizované edície (Java/Bedrock) presne podľa nastavení profilu servera. */
+export const toEditions = (platform?: string[] | null): string[] => {
+  const seen = new Set<string>();
+  return (platform ?? [])
+    .map((p) => (p || "").trim())
+    .filter(Boolean)
+    .map((p) => {
+      const lower = p.toLowerCase();
+      if (lower === "java") return "Java";
+      if (lower === "bedrock") return "Bedrock";
+      return p;
+    })
+    .filter((p) => (seen.has(p) ? false : (seen.add(p), true)));
+};
+
+/** `operatingSystem` odráža edície, na ktorých sa dá hrať (Minecraft Java / Bedrock). */
+export const toOperatingSystem = (platform?: string[] | null): string => {
+  const editions = toEditions(platform);
+  return editions.length > 0
+    ? editions.map((e) => `Minecraft ${e} Edition`).join(", ")
+    : "Minecraft";
+};
+
+/** Loader/software servera (Paper, Spigot, Purpur, …) — prázdne hodnoty sa vynechajú. */
+export const toLoader = (software?: string | null): string | undefined => {
+  const value = (software || "").trim();
+  if (!value || value.toLowerCase() === "žiadny") return undefined;
+  return value;
+};
+
 export const buildServerJsonLd = ({
   name,
   description,
   version,
   likesCount,
-}: ServerJsonLdInput): Record<string, unknown> => ({
-  "@context": "https://schema.org",
-  "@type": "SoftwareApplication",
-  name,
-  description,
-  applicationCategory: "GameApplication",
-  operatingSystem: "Minecraft",
-  softwareVersion: toSoftwareVersion(version) ?? undefined,
-  offers: { "@type": "Offer", price: "0", priceCurrency: "EUR" },
-  aggregateRating:
-    likesCount && likesCount > 0
-      ? { "@type": "AggregateRating", ratingValue: "5", ratingCount: String(likesCount) }
-      : undefined,
-});
+  platform,
+  software,
+}: ServerJsonLdInput): Record<string, unknown> => {
+  const editions = toEditions(platform);
+  const loader = toLoader(software);
+  const properties = [
+    editions.length > 0
+      ? { "@type": "PropertyValue", name: "Edition", value: editions.join(", ") }
+      : null,
+    loader ? { "@type": "PropertyValue", name: "Server software", value: loader } : null,
+  ].filter(Boolean) as Record<string, string>[];
+  return {
+    "@context": "https://schema.org",
+    "@type": "SoftwareApplication",
+    name,
+    description,
+    applicationCategory: "GameApplication",
+    applicationSubCategory: editions.length > 0 ? `Minecraft ${editions.join(" / ")}` : undefined,
+    operatingSystem: toOperatingSystem(platform),
+    softwareVersion: toSoftwareVersion(version) ?? undefined,
+    runtimePlatform: loader,
+    additionalProperty: properties.length > 0 ? properties : undefined,
+
+    offers: { "@type": "Offer", price: "0", priceCurrency: "EUR" },
+    aggregateRating:
+      likesCount && likesCount > 0
+        ? { "@type": "AggregateRating", ratingValue: "5", ratingCount: String(likesCount) }
+        : undefined,
+  };
+};
+
 
 const SITE_URL = "https://mcservery.one";
 
@@ -53,7 +104,10 @@ export interface ServerMetaInput {
   slug?: string | null;
   image?: string | null;
   likesCount?: number | null;
+  platform?: string[] | null;
+  software?: string | null;
 }
+
 
 /** Jednotný zdroj title/description/JSON-LD pre profil servera (formulár aj profil). */
 export const buildServerMeta = (server: ServerMetaInput) => {
@@ -78,7 +132,10 @@ export const buildServerMeta = (server: ServerMetaInput) => {
       description,
       version: server.version,
       likesCount: server.likesCount,
+      platform: server.platform,
+      software: server.software,
     }),
+
   };
 };
 

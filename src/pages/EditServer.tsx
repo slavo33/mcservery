@@ -280,7 +280,11 @@ const EditServer = () => {
         version: version.trim(),
         slug,
         image: serverImages[0] || null,
+        platform: selectedPlatform,
+        software: software || "Paper",
+
       });
+
 
       toast.success(t("edit_save_success"));
       navigate(`/server/${slug}`);

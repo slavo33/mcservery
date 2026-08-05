@@ -298,7 +298,10 @@ const ServerDetailPage = () => {
     version: safeVersion ? safeVersion.replace(/^v/, "") : "",
     slug: server.slug || slug,
     likesCount: server.likes_count,
+    platform: server.platform,
+    software: server.software,
   });
+
 
   return (
     <div className="min-h-screen flex flex-col bg-background">
