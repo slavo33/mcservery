@@ -149,7 +149,7 @@ describe("prázdna verzia — editácia servera", () => {
 
 describe("odznak a metadáta pri chýbajúcej verzii", () => {
   it("VersionBadge nevykreslí nič pre prázdnu alebo neplatnú hodnotu", () => {
-    for (const value of ["", "   ", null, undefined, "v", "abc", "26", "26.x"]) {
+    for (const value of ["", "   ", null, undefined, "v", "abc", "26.x", "v.", "1..2"]) {
       const { container, unmount } = render(<VersionBadge version={value as any} />);
       expect(container.innerHTML).toBe("");
       expect(formatVersion(value as any)).toBeNull();
