@@ -105,7 +105,13 @@ export const isKnownVersion = (version?: string | null): boolean => {
 
 /** Validácia povinnej verzie vo formulári. */
 export const validateVersionSelection = (version?: string | null): string | null => {
-  if (!(version ?? "").trim()) return "Vyber verziu Minecraftu.";
-  if (!isKnownVersion(version)) return `Verzia ${version} nie je podporovaná.`;
+  if (!(version ?? "").trim())
+    return `Vyber verziu Minecraftu — bez nej sa server neuloží. Najnovšie dostupné sú ${suggest(
+      versions.slice(0, 4)
+    )}.`;
+  if (!isKnownVersion(version))
+    return `Verzia „${version}“ nie je v zozname podporovaných verzií. Vyber jednu z ponuky, napr. ${suggest(
+      versions.slice(0, 4)
+    )}.`;
   return null;
 };
