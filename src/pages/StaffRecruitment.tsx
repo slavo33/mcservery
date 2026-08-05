@@ -304,7 +304,7 @@ const StaffRecruitment = () => {
             className="sm:max-w-xs"
           />
           <Select value={sortOrder} onValueChange={(v) => setSortOrder(v as typeof sortOrder)}>
-            <SelectTrigger className="sm:w-48">
+            <SelectTrigger className="sm:w-48" aria-label={t("staff_sort_newest")}>
               <SelectValue />
             </SelectTrigger>
             <SelectContent>
