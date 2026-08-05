@@ -38,10 +38,10 @@ function isValidMinecraftAddress(ip: string): boolean {
     return false;
   }
 
-  // Validate port if present
+  // Validate port if present (only unprivileged ports allowed)
   if (parts[1]) {
     const port = Number(parts[1]);
-    if (isNaN(port) || port < 1 || port > 65535) {
+    if (!Number.isInteger(port) || port < 1024 || port > 65535) {
       return false;
     }
   }
@@ -146,6 +146,13 @@ serve(async (req) => {
         }
       } catch {
         // ignore SRV resolution failure
+      }
+
+      // Only allow TCP probing of conventional Minecraft ports, and never
+      // to private/internal hosts (SRV resolution could point anywhere).
+      const ALLOWED_TCP_PORTS = [25565, 25566, 25567, 19132];
+      if (!ALLOWED_TCP_PORTS.includes(checkPort) || !isValidMinecraftAddress(checkHost)) {
+        throw new Error("tcp_probe_not_allowed");
       }
 
       // Try TCP connect to verify server is at least reachable
