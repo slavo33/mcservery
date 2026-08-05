@@ -9,7 +9,20 @@ export interface ServerJsonLdInput {
   platform?: string[] | null;
   /** Zvolený loader/software, napr. "Paper", "Spigot", "Purpur". */
   software?: string | null;
+  /** Kanonická URL profilu servera. */
+  url?: string | null;
+  /** Hlavný obrázok profilu (absolútna URL). */
+  image?: string | null;
+  /** IP adresa servera — pomáha vyhľadávačom pochopiť, o aký server ide. */
+  ip?: string | null;
+  /** Kapacita servera. */
+  maxPlayers?: number | null;
+  /** Tagy / minihry ako kľúčové slová. */
+  keywords?: string[] | null;
+  createdAt?: string | null;
+  updatedAt?: string | null;
 }
+
 
 /**
  * Softvérová verzia v JSON-LD musí byť vždy v rovnakom tvare ako odznak: `vX.Y` (prípadne `vX.Y.Z`).
