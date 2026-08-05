@@ -39,7 +39,7 @@ const Header = () => {
   return (
     <header className="sticky top-0 z-50 border-b border-border/50 bg-background/80 backdrop-blur-xl">
       <div className="container mx-auto flex h-16 items-center justify-between px-4">
-        <Link to="/" className="flex items-center gap-2 group">
+        <Link to="/" className="flex items-center gap-2 py-1.5 group">
           <Gamepad2 className="h-7 w-7 text-primary transition-transform duration-300 group-hover:rotate-12" />
           <span className="font-display text-xl font-bold tracking-wider text-foreground">
             MC<span className="text-gradient">Servery</span>
@@ -47,7 +47,7 @@ const Header = () => {
         </Link>
 
         {/* Desktop nav */}
-        <nav className="hidden items-center gap-1 md:flex">
+        <nav className="hidden items-center gap-1 lg:flex">
           {navItems.map((item: any) => (
             <Link
               key={item.to}
@@ -103,11 +103,12 @@ const Header = () => {
         </nav>
 
         {/* Mobile: language + toggle */}
-        <div className="flex items-center gap-1 md:hidden">
+        <div className="flex items-center gap-1 lg:hidden">
           <LanguageSwitcher />
           <button
             onClick={() => setMobileOpen(!mobileOpen)}
-            className="text-foreground"
+            aria-label={t("nav_menu") || "Menu"}
+            className="flex h-10 w-10 items-center justify-center rounded-md text-foreground hover:bg-secondary transition-colors"
           >
             {mobileOpen ? <X className="h-6 w-6" /> : <Menu className="h-6 w-6" />}
           </button>
@@ -116,7 +117,7 @@ const Header = () => {
 
       {/* Mobile nav */}
       {mobileOpen && (
-        <div className="border-t border-border bg-background px-4 pb-4 md:hidden animate-slide-up">
+        <div className="border-t border-border bg-background px-4 pb-4 lg:hidden animate-slide-up">
           <nav className="flex flex-col gap-1 pt-2">
             {navItems.map((item: any) => (
               <Link
