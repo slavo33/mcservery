@@ -220,7 +220,11 @@ const EditServer = () => {
 
     if (error) {
       logError("Server update error:", error);
-      toast.error(t("edit_save_error"));
+      if ((error as any).code === "23514") {
+        toast.error(error.message || "Neplatná kombinácia verzie a nastavení servera.");
+      } else {
+        toast.error(t("edit_save_error"));
+      }
     } else {
       // Save votifier config to server_secrets
       const cleanedVotifierKey = normalizeVotifierPublicKey(votifierPublicKey);
