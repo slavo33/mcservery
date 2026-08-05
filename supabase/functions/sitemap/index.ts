@@ -141,24 +141,30 @@ Deno.serve(async (req) => {
 
     const xml = render([...statics, ...serverEntries, ...staffEntries]);
 
-    // Hlavičky staviame cez Headers, aby nevznikla duplicitná Content-Type
-    // (corsHeaders môže obsahovať vlastnú hodnotu v inom zápise).
-    const headers = new Headers(corsHeaders);
-    headers.set("Content-Type", "application/xml; charset=utf-8");
-    // Krátka cache – zmena profilu sa prejaví do minúty, žiadny pre-cache.
-    headers.set("Cache-Control", "public, max-age=60, s-maxage=60, must-revalidate");
     // Validátory pre podmienené požiadavky crawlerov.
     const digest = await crypto.subtle.digest("SHA-1", new TextEncoder().encode(xml));
     const etag = `"${Array.from(new Uint8Array(digest)).map((b) => b.toString(16).padStart(2, "0")).join("")}"`;
-    headers.set("ETag", etag);
     const lastmod = newestAny ? new Date(newestAny) : new Date();
-    headers.set("Last-Modified", lastmod.toUTCString());
 
-    if (req.headers.get("if-none-match") === etag) {
+    const headers: Record<string, string> = {
+      ...corsHeaders,
+      // Vždy prepíšeme prípadný text/plain z corsHeaders.
+      "Content-Type": "application/xml; charset=utf-8",
+      // Krátka cache – zmena profilu sa prejaví do minúty, žiadny pre-cache.
+      "Cache-Control": "public, max-age=60, s-maxage=60, must-revalidate",
+      "ETag": etag,
+      "Last-Modified": lastmod.toUTCString(),
+    };
+    delete (headers as Record<string, string>)["content-type"];
+
+    // 304 aj pre slabý (W/) ETag, ktorý môže pridať gateway.
+    const inm = (req.headers.get("if-none-match") || "").replace(/^W\//, "").trim();
+    if (inm && inm === etag) {
       return new Response(null, { status: 304, headers });
     }
 
     return new Response(req.method === "HEAD" ? null : xml, { headers });
+
   } catch (e) {
     console.error("sitemap error", e);
     const headers = new Headers(corsHeaders);
