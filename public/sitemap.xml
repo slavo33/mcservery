@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" xmlns:image="http://www.google.com/schemas/sitemap-image/1.1">
   <url>
     <loc>https://mcservery.one/</loc>
     <lastmod>2026-08-05T19:37:58+00:00</lastmod>
@@ -73,6 +73,11 @@
     <lastmod>2026-03-21T11:32:29+00:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
+    <image:image>
+      <image:loc>https://uinrxvxfrvjtqwklbiqk.supabase.co/storage/v1/object/public/server-images/945f2d87-a3f9-4b70-8edd-86ecd8fd43e1/1771883346047-9r4xkep2dpp.gif</image:loc>
+      <image:title>PvPMania.eu</image:title>
+      <image:caption>Minecraft server PvPMania.eu na MCServery</image:caption>
+    </image:image>
   </url>
   <url>
     <loc>https://mcservery.one/server/skyplex</loc>
@@ -85,42 +90,77 @@
     <lastmod>2026-08-05T19:35:43+00:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
+    <image:image>
+      <image:loc>https://uinrxvxfrvjtqwklbiqk.supabase.co/storage/v1/object/public/server-images/f01a0ad2-a66e-4880-9734-5b6bc54d2c21/1771870744669-vvts483hypp.png</image:loc>
+      <image:title>Kamienok</image:title>
+      <image:caption>Minecraft server Kamienok na MCServery</image:caption>
+    </image:image>
   </url>
   <url>
     <loc>https://mcservery.one/server/my-mc</loc>
     <lastmod>2026-04-10T18:11:25+00:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
+    <image:image>
+      <image:loc>https://uinrxvxfrvjtqwklbiqk.supabase.co/storage/v1/object/public/server-images/temp-1775844518440/1775844519023-i3t6iu8sycj.webp</image:loc>
+      <image:title>My-Mc.EU</image:title>
+      <image:caption>Minecraft server My-Mc.EU na MCServery</image:caption>
+    </image:image>
   </url>
   <url>
     <loc>https://mcservery.one/server/agonia</loc>
     <lastmod>2026-04-10T18:29:53+00:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
+    <image:image>
+      <image:loc>https://uinrxvxfrvjtqwklbiqk.supabase.co/storage/v1/object/public/server-images/b6efdf65-b221-422b-8207-0f9dd2a8163b/1771870407544-ewhmudnxjb.webp</image:loc>
+      <image:title>Agonia.CZ/SK</image:title>
+      <image:caption>Minecraft server Agonia.CZ/SK na MCServery</image:caption>
+    </image:image>
   </url>
   <url>
     <loc>https://mcservery.one/server/minecraft-host</loc>
     <lastmod>2026-03-31T10:41:10+00:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
+    <image:image>
+      <image:loc>https://uinrxvxfrvjtqwklbiqk.supabase.co/storage/v1/object/public/server-images/temp-1774953181408/1774953181460-qwyw0wim3mg.webp</image:loc>
+      <image:title>Hexar Season 1</image:title>
+      <image:caption>Minecraft server Hexar Season 1 na MCServery</image:caption>
+    </image:image>
   </url>
   <url>
     <loc>https://mcservery.one/server/ciwland</loc>
     <lastmod>2026-08-05T18:07:51+00:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
+    <image:image>
+      <image:loc>https://uinrxvxfrvjtqwklbiqk.supabase.co/storage/v1/object/public/server-images/80c2f42d-f862-4701-9434-3c3f7c7a7134/1785953263768-1nben4nb327.webp</image:loc>
+      <image:title>CIWLand.CZ🌴 1.21.10 RPG | Survival | VoiceChat</image:title>
+      <image:caption>Minecraft server CIWLand.CZ🌴 1.21.10 RPG | Survival | VoiceChat na MCServery</image:caption>
+    </image:image>
   </url>
   <url>
     <loc>https://mcservery.one/server/crownix</loc>
     <lastmod>2026-06-10T16:55:46+00:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
+    <image:image>
+      <image:loc>https://uinrxvxfrvjtqwklbiqk.supabase.co/storage/v1/object/public/server-images/daef1ebf-30e4-4338-a731-64d4a59b5c4b/1781110540189-bzsnkagi3m6.webp</image:loc>
+      <image:title>Crownix.eu</image:title>
+      <image:caption>Minecraft server Crownix.eu na MCServery</image:caption>
+    </image:image>
   </url>
   <url>
     <loc>https://mcservery.one/server/flex-games</loc>
     <lastmod>2026-07-24T12:39:30+00:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
+    <image:image>
+      <image:loc>https://uinrxvxfrvjtqwklbiqk.supabase.co/storage/v1/object/public/server-images/cfa81939-30f2-4244-88ad-c9ae305ef45d/1774004761030-dacxargd3xq.webp</image:loc>
+      <image:title>Flex-Games.cz</image:title>
+      <image:caption>Minecraft server Flex-Games.cz na MCServery</image:caption>
+    </image:image>
   </url>
   <url>
     <loc>https://mcservery.one/server/strepko</loc>
@@ -133,30 +173,60 @@
     <lastmod>2026-03-08T17:24:18+00:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
+    <image:image>
+      <image:loc>https://uinrxvxfrvjtqwklbiqk.supabase.co/storage/v1/object/public/server-images/temp-1772370707773/1772370707820-ywgnkkwrsts.webp</image:loc>
+      <image:title>WildVent</image:title>
+      <image:caption>Minecraft server WildVent na MCServery</image:caption>
+    </image:image>
   </url>
   <url>
     <loc>https://mcservery.one/server/blackmc</loc>
     <lastmod>2026-04-01T20:36:52+00:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
+    <image:image>
+      <image:loc>https://uinrxvxfrvjtqwklbiqk.supabase.co/storage/v1/object/public/server-images/c406c42f-f61b-4e2c-93a7-2b49955c0a46/1771596565750-9ykwl7ldpfi.gif</image:loc>
+      <image:title>🔥BLACKMC.EU - Zábava začíná!</image:title>
+      <image:caption>Minecraft server 🔥BLACKMC.EU - Zábava začíná! na MCServery</image:caption>
+    </image:image>
   </url>
   <url>
     <loc>https://mcservery.one/server/ight</loc>
     <lastmod>2026-05-08T09:06:50+00:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
+    <image:image>
+      <image:loc>https://uinrxvxfrvjtqwklbiqk.supabase.co/storage/v1/object/public/server-images/temp-1778231163278/1778231163419-fo3s4dc6kjt.webp</image:loc>
+      <image:title>Ight</image:title>
+      <image:caption>Minecraft server Ight na MCServery</image:caption>
+    </image:image>
   </url>
   <url>
     <loc>https://mcservery.one/server/zenzone</loc>
     <lastmod>2026-03-21T11:33:34+00:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
+    <image:image>
+      <image:loc>https://uinrxvxfrvjtqwklbiqk.supabase.co/storage/v1/object/public/server-images/10751802-0539-4f0e-94ea-2c5221940e3f/1772492791138-ya2a1qpoipb.webp</image:loc>
+      <image:title>ZenZone</image:title>
+      <image:caption>Minecraft server ZenZone na MCServery</image:caption>
+    </image:image>
   </url>
   <url>
     <loc>https://mcservery.one/server/hostify-2</loc>
     <lastmod>2026-05-18T14:09:48+00:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
+    <image:image>
+      <image:loc>https://uinrxvxfrvjtqwklbiqk.supabase.co/storage/v1/object/public/server-images/temp-1778678702750/1778678702833-gyzv65fr6rk.webp</image:loc>
+      <image:title>Trimsmp</image:title>
+      <image:caption>Minecraft server Trimsmp na MCServery</image:caption>
+    </image:image>
+    <image:image>
+      <image:loc>https://uinrxvxfrvjtqwklbiqk.supabase.co/storage/v1/object/public/server-images/temp-1778678710657/1778678710739-q3higgggm3e.webp</image:loc>
+      <image:title>Trimsmp — screenshot 2</image:title>
+      <image:caption>Minecraft server Trimsmp na MCServery</image:caption>
+    </image:image>
   </url>
   <url>
     <loc>https://mcservery.one/server/sooncore</loc>
@@ -187,11 +257,21 @@
     <lastmod>2026-03-15T14:00:10+00:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
+    <image:image>
+      <image:loc>https://uinrxvxfrvjtqwklbiqk.supabase.co/storage/v1/object/public/server-images/0d556c9e-ec2d-4123-bcd7-929852619f13/1772021988040-1h6dyy4suqg.gif</image:loc>
+      <image:title>Příběhy Ardy</image:title>
+      <image:caption>Minecraft server Příběhy Ardy na MCServery</image:caption>
+    </image:image>
   </url>
   <url>
     <loc>https://mcservery.one/staff/crownix</loc>
     <lastmod>2026-03-22T22:13:50+00:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.6</priority>
+    <image:image>
+      <image:loc>https://uinrxvxfrvjtqwklbiqk.supabase.co/storage/v1/object/public/server-images/temp-1774040201669/1774040201729-054p00ktbna5.webp</image:loc>
+      <image:title>Nábor: Content Creator</image:title>
+      <image:caption>Nábor do A-teamu na MCServery</image:caption>
+    </image:image>
   </url>
 </urlset>

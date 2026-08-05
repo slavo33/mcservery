@@ -46,11 +46,47 @@ function newestLastmod(entries: SitemapEntry[]): string | undefined {
   return times.length ? times[times.length - 1] : undefined;
 }
 
+interface SitemapImage {
+  loc: string;
+  title?: string;
+  caption?: string;
+}
+
 interface SitemapEntry {
   path: string;
   changefreq?: "always" | "hourly" | "daily" | "weekly" | "monthly" | "yearly" | "never";
   priority?: string;
   lastmod?: string;
+  /** Obrázky profilu (image sitemap extension) — pomáhajú indexácii fotiek serverov. */
+  images?: SitemapImage[];
+}
+
+function xmlEscape(value: string): string {
+  return value
+    .replace(/&/g, "&amp;")
+    .replace(/</g, "&lt;")
+    .replace(/>/g, "&gt;")
+    .replace(/"/g, "&quot;");
+}
+
+/** Do image sitemapy patria len absolútne http(s) URL; max 1000 obrázkov na stránku. */
+function toSitemapImages(
+  urls: unknown,
+  title: string,
+  caption?: string
+): SitemapImage[] | undefined {
+  const list = Array.isArray(urls) ? urls : [];
+  const images = list
+    .filter((u): u is string => typeof u === "string" && /^https?:\/\//i.test(u.trim()))
+    .map((u) => u.trim())
+    .filter((u, i, arr) => arr.indexOf(u) === i)
+    .slice(0, 1000)
+    .map((loc, i) => ({
+      loc,
+      title: i === 0 ? title : `${title} — screenshot ${i + 1}`,
+      caption,
+    }));
+  return images.length > 0 ? images : undefined;
 }
 
 const staticEntries: SitemapEntry[] = [
@@ -77,11 +113,16 @@ async function fetchDynamicEntries(): Promise<SitemapEntry[]> {
 
   try {
     const serversRes = await fetch(
-      `${url}/rest/v1/servers?select=slug,updated_at&slug=not.is.null&limit=45000`,
+      `${url}/rest/v1/servers?select=slug,name,updated_at,images&slug=not.is.null&limit=45000`,
       { headers }
     );
     if (serversRes.ok) {
-      const servers = (await serversRes.json()) as { slug: string; updated_at?: string }[];
+      const servers = (await serversRes.json()) as {
+        slug: string;
+        name?: string;
+        updated_at?: string;
+        images?: string[];
+      }[];
       for (const s of servers) {
         if (s.slug)
           entries.push({
@@ -89,6 +130,11 @@ async function fetchDynamicEntries(): Promise<SitemapEntry[]> {
             changefreq: "weekly",
             priority: "0.8",
             lastmod: toW3C(s.updated_at),
+            images: toSitemapImages(
+              s.images,
+              s.name || s.slug,
+              `Minecraft server ${s.name || s.slug} na MCServery`
+            ),
           });
       }
     }
@@ -98,11 +144,16 @@ async function fetchDynamicEntries(): Promise<SitemapEntry[]> {
 
   try {
     const staffRes = await fetch(
-      `${url}/rest/v1/staff_posts?select=slug,updated_at&is_active=eq.true&slug=not.is.null&limit=45000`,
+      `${url}/rest/v1/staff_posts?select=slug,position,updated_at,images&is_active=eq.true&slug=not.is.null&limit=45000`,
       { headers }
     );
     if (staffRes.ok) {
-      const posts = (await staffRes.json()) as { slug: string; updated_at?: string }[];
+      const posts = (await staffRes.json()) as {
+        slug: string;
+        position?: string;
+        updated_at?: string;
+        images?: string[];
+      }[];
       for (const p of posts) {
         if (p.slug)
           entries.push({
@@ -110,6 +161,11 @@ async function fetchDynamicEntries(): Promise<SitemapEntry[]> {
             changefreq: "weekly",
             priority: "0.6",
             lastmod: toW3C(p.updated_at),
+            images: toSitemapImages(
+              p.images,
+              p.position ? `Nábor: ${p.position}` : p.slug,
+              "Nábor do A-teamu na MCServery"
+            ),
           });
       }
     }
@@ -120,6 +176,18 @@ async function fetchDynamicEntries(): Promise<SitemapEntry[]> {
   return entries;
 }
 
+function renderImages(images?: SitemapImage[]): string[] {
+  return (images ?? []).flatMap((img) =>
+    [
+      `    <image:image>`,
+      `      <image:loc>${xmlEscape(img.loc)}</image:loc>`,
+      img.title ? `      <image:title>${xmlEscape(img.title)}</image:title>` : null,
+      img.caption ? `      <image:caption>${xmlEscape(img.caption)}</image:caption>` : null,
+      `    </image:image>`,
+    ].filter(Boolean) as string[]
+  );
+}
+
 function generateSitemap(entries: SitemapEntry[]) {
   const urls = entries.map((e) =>
     [
@@ -128,6 +196,7 @@ function generateSitemap(entries: SitemapEntry[]) {
       e.lastmod ? `    <lastmod>${e.lastmod}</lastmod>` : null,
       e.changefreq ? `    <changefreq>${e.changefreq}</changefreq>` : null,
       e.priority ? `    <priority>${e.priority}</priority>` : null,
+      ...renderImages(e.images),
       `  </url>`,
     ]
       .filter(Boolean)
@@ -136,7 +205,7 @@ function generateSitemap(entries: SitemapEntry[]) {
 
   return [
     `<?xml version="1.0" encoding="UTF-8"?>`,
-    `<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">`,
+    `<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" xmlns:image="http://www.google.com/schemas/sitemap-image/1.1">`,
     ...urls,
     `</urlset>`,
   ].join("\n");
@@ -199,7 +268,8 @@ async function main() {
     // Malý web: jeden urlset priamo v sitemap.xml.
     cleanupOldChunks([]);
     writeFileSync(resolve("public/sitemap.xml"), generateSitemap(entries));
-    console.log(`sitemap.xml written (${entries.length} entries)`);
+    const imageCount = entries.reduce((n, e) => n + (e.images?.length ?? 0), 0);
+    console.log(`sitemap.xml written (${entries.length} entries, ${imageCount} images)`);
     return;
   }
 
