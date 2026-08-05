@@ -288,14 +288,14 @@ const AddServer = () => {
                 <p className="text-sm font-semibold text-foreground">{t("add_warez")}</p>
                 <p className="text-xs text-muted-foreground">{t("add_warez_desc")}</p>
               </div>
-              <Switch checked={isWarez} onCheckedChange={setIsWarez} />
+              <Switch checked={isWarez} onCheckedChange={setIsWarez} aria-label={t("add_warez")} />
             </div>
             <div className="flex items-center justify-between rounded-md border border-border bg-secondary/30 px-4 py-3">
               <div>
                 <p className="text-sm font-semibold text-foreground">{t("add_whitelist")}</p>
                 <p className="text-xs text-muted-foreground">{t("add_whitelist_desc")}</p>
               </div>
-              <Switch checked={hasWhitelist} onCheckedChange={setHasWhitelist} />
+              <Switch checked={hasWhitelist} onCheckedChange={setHasWhitelist} aria-label={t("add_whitelist")} />
             </div>
           </div>
 
