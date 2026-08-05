@@ -7,7 +7,7 @@ import Footer from "@/components/Footer";
 import CommentSection from "@/components/CommentSection";
 import VoteSection from "@/components/VoteSection";
 import TopVoters from "@/components/TopVoters";
-import VersionBadge from "@/components/VersionBadge";
+import VersionBadge, { formatVersion } from "@/components/VersionBadge";
 import { Heart, Users, Copy, ArrowLeft, Shield, ShieldOff, ExternalLink, Trash2, Pencil, User, Crown } from "lucide-react";
 import ReportDialog from "@/components/ReportDialog";
 import { toast } from "sonner";
@@ -221,15 +221,21 @@ const ServerDetailPage = () => {
   const maxPlayers = status?.players?.max ?? server.max_players;
   const isOnline = status?.online ?? false;
 
-  const metaDesc = (server.description || `${server.name} — Minecraft server ${server.ip}. Verzia ${server.version}.`)
+  const versionLabel = formatVersion(server.version);
+  const versionSuffix = versionLabel ? ` Verzia ${versionLabel}.` : "";
+  const baseDesc = (server.description || `${server.name} — Minecraft server ${server.ip}.`)
     .replace(/\s+/g, " ")
-    .trim()
-    .slice(0, 155);
+    .trim();
+  // Verzia musí byť vždy súčasťou popisu, aj keď je vlastný popis dlhý.
+  const metaDesc = `${baseDesc.slice(0, Math.max(0, 155 - versionSuffix.length)).trim()}${versionSuffix}`;
+  const metaTitle = versionLabel
+    ? `${server.name} ${versionLabel} — Minecraft server | MCServery`
+    : `${server.name} — Minecraft server | MCServery`;
 
   return (
     <div className="min-h-screen flex flex-col bg-background">
       <SEO
-        title={`${server.name} — Minecraft server | MCServery`}
+        title={metaTitle}
         description={metaDesc}
         path={`/server/${server.slug || slug}`}
         image={server.images && server.images.length > 0 ? server.images[0] : undefined}
@@ -241,6 +247,7 @@ const ServerDetailPage = () => {
           description: metaDesc,
           applicationCategory: "GameApplication",
           operatingSystem: "Minecraft",
+          softwareVersion: versionLabel ?? undefined,
           offers: { "@type": "Offer", price: "0", priceCurrency: "EUR" },
           aggregateRating:
             server.likes_count > 0
