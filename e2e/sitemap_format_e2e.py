@@ -3,7 +3,8 @@ End-to-end krok: validácia formátu generovanej sitemapy.
 
 Overuje, že sitemap.xml (a v režime indexu aj chunky sitemap-N.xml):
  1. je dobre formované XML v správnom namespace sitemaps.org/0.9,
- 2. má pri KAŽDEJ <url> vyplnený <lastmod> v ISO 8601 (žiadny chýbajúci dátum),
+ 2. má pri profiloch a výpisových stránkach vyplnený <lastmod> v ISO 8601
+    (statické stránky bez autoritatívneho dátumu ho podľa politiky nemajú),
  3. používa povolené hodnoty <changefreq> a <priority> v rozsahu 0.0–1.0,
  4. má absolútne <loc> na https://mcservery.one bez duplicít,
  5. neobsahuje súkromné/noindex routy blokované v robots.txt,
