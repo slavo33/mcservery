@@ -165,6 +165,8 @@ const AddServer = () => {
       logError("Server insert error:", error);
       if (error.code === "23505") {
         toast.error(t("add_duplicate_ip"));
+      } else if (error.code === "23514") {
+        toast.error(error.message || "Neplatná kombinácia verzie a nastavení servera.");
       } else if (error.code === "42501") {
         toast.error(t("add_limit_reached"));
       } else {
