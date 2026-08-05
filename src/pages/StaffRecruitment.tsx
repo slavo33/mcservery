@@ -4,6 +4,7 @@ import { Users, Plus, Trash2, Eye, EyeOff, RefreshCw, ExternalLink, Globe, Messa
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import SEO from "@/components/SEO";
+import PageBreadcrumbs from "@/components/PageBreadcrumbs";
 import { buildPageJsonLdGraph } from "@/lib/pageJsonLd";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
@@ -284,6 +285,7 @@ const StaffRecruitment = () => {
       />
       <Header />
       <main className="container mx-auto px-4 py-8 max-w-5xl">
+        <PageBreadcrumbs items={[["Nábor staff", "/staff"]]} />
         {/* Title */}
         <div className="mb-8 text-center">
           <h1 className="font-display text-3xl sm:text-4xl font-bold tracking-tight text-foreground">

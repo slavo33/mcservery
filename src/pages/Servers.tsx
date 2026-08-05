@@ -2,6 +2,7 @@ import { useState, useMemo, useEffect } from "react";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import SEO from "@/components/SEO";
+import PageBreadcrumbs from "@/components/PageBreadcrumbs";
 import { buildPageJsonLdGraph } from "@/lib/pageJsonLd";
 import ServerCard from "@/components/ServerCard";
 import ServerFilters from "@/components/ServerFilters";
@@ -182,6 +183,7 @@ const Servers = () => {
       />
       <Header />
       <main className="flex-1 container mx-auto px-4 py-10">
+        <PageBreadcrumbs items={[["Servery", "/servers"]]} />
         <h1 className="font-display text-4xl font-bold text-foreground mb-2">
           {t("servers_title_1")} <span className="text-gradient">{t("servers_title_2")}</span>
         </h1>

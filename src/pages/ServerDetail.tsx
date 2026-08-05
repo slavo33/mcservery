@@ -17,6 +17,7 @@ import { useServerStatus } from "@/hooks/useServerStatus";
 import { Avatar, AvatarImage, AvatarFallback } from "@/components/ui/avatar";
 import { sanitizeHref } from "@/lib/urlValidation";
 import SEO from "@/components/SEO";
+import PageBreadcrumbs from "@/components/PageBreadcrumbs";
 
 interface ServerDetailData {
   id: string;
@@ -326,6 +327,7 @@ const ServerDetailPage = () => {
 
       <Header />
       <main className="flex-1 container mx-auto px-4 py-10 max-w-3xl">
+        <PageBreadcrumbs items={[["Servery", "/servers"], [server.name, `/server/${slug}`]]} />
         <Link to="/servers" className="inline-flex items-center gap-1 text-sm text-muted-foreground hover:text-foreground mb-6 transition-colors">
           <ArrowLeft className="h-4 w-4" /> {t("detail_back")}
         </Link>

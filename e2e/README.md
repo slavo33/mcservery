@@ -77,6 +77,7 @@ python3 e2e/sitemap_format_e2e.py
 ```
 
 
+- `breadcrumbs_jsonld_e2e.py` — overí, že `BreadcrumbList` JSON-LD presne zodpovedá viditeľnej drobečkovej navigácii (počet, poradie, názvy, cesty aj `href` odkazov) a že každá `item` URL je absolútna, vracia HTTP 200 a nemení cestu; posledný breadcrumb musí odkazovať na aktuálnu stránku.
 - `sitemap_coverage_e2e.py` — opačný smer (stránky → sitemap): overí, že každá verejná statická route z `src/App.tsx`, každý server so slugom a každý aktívny nábor sú v sitemap.xml, že neindexovateľné cesty (`/auth`, `/admin`, `/profile`, `/console`, `/vip-success`, `*/edit`, `/user/:id`) tam nie sú, a že vzorka URL má self-referencing canonical bez `noindex`.
 - `sitemap_indexability_e2e.py` — overí, že každá URL zo sitemap.xml vracia HTTP 200 (žiadne 404/500), nemá `meta robots noindex`, nie je soft-404 a má self-referencing canonical. Statický náprotivok beží v hlavnom CI jobe: `src/integration/__tests__/sitemapIndexability.test.ts`.
 
