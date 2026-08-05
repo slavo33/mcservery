@@ -224,6 +224,20 @@ python3 e2e/servers_filters_e2e.py
 ```
 
 
+`robots_indexability_e2e.py` — overuje **robots.txt a jeho súlad s indexovaním**:
+
+1. `/robots.txt` vracia 200 s `text/plain`, má validnú syntax a skupinu `User-agent: *`, ktorá neblokuje celý web.
+2. Direktívy `Sitemap:` sú absolútne https URL, sitemapa na doméne projektu vracia 200 a validný XML.
+3. Žiadna URL zo sitemapy nie je blokovaná robots pravidlami ani nie je súkromná/editačná.
+4. `Disallow` cesty zodpovedajú reálnym routám z `App.tsx`.
+5. Súkromné cesty (`/admin`, `/profile`, `/console`, `/auth`, `/vip-success`, `/*/edit`, 404) sú blokované a zároveň `noindex` alebo presmerujú preč.
+6. Indexovateľné URL nemajú `noindex` a majú práve jeden self-referencing canonical, ktorý nie je blokovaný v robots.txt.
+
+```bash
+python3 e2e/robots_indexability_e2e.py
+```
+
+
 `og_server_detail_e2e.py` — overuje **OpenGraph a Twitter Card tagy na profiloch serverov**:
 
 1. Všetky OG tagy (`og:title`, `og:description`, `og:type`, `og:url`, `og:site_name`, `og:locale`, `og:image`, `og:image:alt`) sú vyplnené a bez duplicít.
