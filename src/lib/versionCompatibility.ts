@@ -115,3 +115,48 @@ export const validateVersionSelection = (version?: string | null): string | null
     )}.`;
   return null;
 };
+
+/** Preferované poradie odporúčaného softvéru pri automatickej oprave. */
+const SOFTWARE_PREFERENCE = ["Paper", "Purpur", "Spigot", "Fabric", "Vanilla"];
+
+export type CompatibilityFix = CompatibilityInput & { changes: string[] };
+
+/**
+ * Vráti kompatibilnú alternatívu k aktuálnemu výberu — nekompatibilné voľby
+ * nahradí odporúčanými hodnotami. Ak je už všetko v poriadku, `changes` je prázdne.
+ */
+export const getCompatibleFix = (input: CompatibilityInput): CompatibilityFix => {
+  const { version } = input;
+  const changes: string[] = [];
+
+  const platforms = getAvailablePlatforms(version);
+  let platform = input.platform.filter((p) => platforms.includes(p));
+  if (platform.length !== input.platform.length) {
+    const removed = input.platform.filter((p) => !platforms.includes(p));
+    if (!platform.length) platform = [platforms[0]];
+    changes.push(`platforma ${removed.join(", ")} → ${platform.join(", ")}`);
+  }
+
+  const softwares = getAvailableSoftware(version);
+  let software = input.software;
+  if (software && !softwares.includes(software)) {
+    const replacement =
+      SOFTWARE_PREFERENCE.find((s) => softwares.includes(s)) ?? softwares[0] ?? "";
+    changes.push(`software ${software} → ${replacement}`);
+    software = replacement;
+  }
+
+  const proxies = getAvailableProxies(version);
+  let proxy = input.proxy;
+  if (proxy && !proxies.includes(proxy)) {
+    const replacement = proxies.find((p) => p !== "Žiadny") ?? "Žiadny";
+    changes.push(`proxy ${proxy} → ${replacement}`);
+    proxy = replacement;
+  }
+
+  return { version, software, proxy, platform, changes };
+};
+
+/** Krátky popis toho, čo automatická oprava zmení. */
+export const describeFix = (fix: CompatibilityFix): string =>
+  fix.changes.length ? `Nastaví: ${fix.changes.join(", ")}.` : "";
