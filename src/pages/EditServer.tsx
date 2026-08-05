@@ -298,6 +298,7 @@ const EditServer = () => {
   if (loading) {
     return (
       <div className="min-h-screen flex flex-col bg-background">
+        <SEO title="Upraviť server | MCServery" description="Úprava profilu Minecraft servera na MCServery." path={`/server/${slug ?? ""}/edit`} noindex />
         <Header />
         <main className="flex-1 flex items-center justify-center"><p className="text-muted-foreground">{t("loading")}</p></main>
         <Footer />
