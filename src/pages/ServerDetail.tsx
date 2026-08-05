@@ -219,19 +219,28 @@ const ServerDetailPage = () => {
         <Header />
         <main className="flex-1 flex flex-col items-center justify-center gap-4 px-4 text-center">
           <p className="text-muted-foreground">
-            {loadError ? t("detail_load_error") : t("detail_not_found")}
+            {loadError
+              ? "Profil servera sa nepodarilo načítať. Skúste to prosím znova."
+              : t("detail_not_found")}
           </p>
           <div className="flex gap-3">
             {loadError && (
-              <button className="btn-primary" onClick={() => window.location.reload()}>
-                {t("detail_retry")}
+              <button
+                className="rounded-md bg-primary px-4 py-2 text-sm font-medium text-primary-foreground hover:bg-primary/90"
+                onClick={() => window.location.reload()}
+              >
+                Skúsiť znova
               </button>
             )}
-            <Link to="/servers" className="btn-secondary">
+            <Link
+              to="/servers"
+              className="rounded-md border border-border px-4 py-2 text-sm font-medium hover:bg-muted"
+            >
               {t("nav_servers")}
             </Link>
           </div>
         </main>
+
         <Footer />
       </div>
     );
