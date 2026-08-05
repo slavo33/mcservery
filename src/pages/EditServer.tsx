@@ -146,20 +146,27 @@ const EditServer = () => {
     setSelectedPlatform(cleaned.platform);
     setSoftware(cleaned.software);
     setProxy(cleaned.proxy);
-    setVersionError(
-      validateVersionSelection(nextVersion) ??
-        validateVersionCombination({
-          version: nextVersion,
-          software: cleaned.software,
-          proxy: cleaned.proxy,
-          platform: cleaned.platform,
-        })
-    );
   };
+
+  // Živá validácia — nekompatibilita sa ukáže hneď pri zmene verzie,
+  // softvéru, proxy alebo platformy, bez čakania na uloženie.
+  useEffect(() => {
+    if (loading) return;
+    if (!version.trim()) {
+      setVersionError(submitAttempted ? validateVersionSelection(version) : null);
+      return;
+    }
+    setVersionError(
+      validateVersionSelection(version) ??
+        validateVersionCombination({ version, software, proxy, platform: selectedPlatform })
+    );
+  }, [version, software, proxy, selectedPlatform, submitAttempted, loading]);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+    setSubmitAttempted(true);
     if (!user || !serverId) return;
+
     if (!name.trim() || !ip.trim()) {
       toast.error(t("edit_fill_required"));
       return;
