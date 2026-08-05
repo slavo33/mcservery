@@ -1,0 +1,87 @@
+import { softwareOptions, proxyOptions } from "@/lib/mockData";
+
+/**
+ * Next-gen Minecraft verzie (26.x) sú zatiaľ len pre Java Edition.
+ * Bedrock software / loadery, ktoré tieto verzie nepodporujú, sa nemajú
+ * vôbec ponúkať a formulár sa s takou kombináciou nesmie dať uložiť.
+ */
+export const NEXT_GEN_PREFIX = "26.";
+
+export const isNextGenVersion = (version: string) =>
+  version.startsWith(NEXT_GEN_PREFIX);
+
+/** Software podporujúci 26.x (Java-only, moderné buildy) */
+const NEXT_GEN_SOFTWARE = [
+  "Vanilla",
+  "Spigot",
+  "Paper",
+  "Purpur",
+  "Pufferfish",
+  "Folia",
+  "Fabric",
+  "Quilt",
+  "NeoForge",
+];
+
+/** Proxy podporujúce 26.x */
+const NEXT_GEN_PROXY = ["Žiadny", "Velocity", "Gate", "Infrared"];
+
+export const getAvailablePlatforms = (version: string): string[] =>
+  isNextGenVersion(version) ? ["Java"] : ["Java", "Bedrock"];
+
+export const getAvailableSoftware = (version: string): string[] =>
+  isNextGenVersion(version)
+    ? softwareOptions.filter((s) => NEXT_GEN_SOFTWARE.includes(s))
+    : softwareOptions;
+
+export const getAvailableProxies = (version: string): string[] =>
+  isNextGenVersion(version)
+    ? proxyOptions.filter((p) => NEXT_GEN_PROXY.includes(p))
+    : proxyOptions;
+
+export type CompatibilityInput = {
+  version: string;
+  software: string;
+  proxy: string;
+  platform: string[];
+};
+
+/** Vráti chybovú hlášku, ak je kombinácia neplatná, inak null. */
+export const validateVersionCombination = ({
+  version,
+  software,
+  proxy,
+  platform,
+}: CompatibilityInput): string | null => {
+  if (!version || !isNextGenVersion(version)) return null;
+
+  const badPlatform = platform.filter(
+    (p) => !getAvailablePlatforms(version).includes(p)
+  );
+  if (badPlatform.length) {
+    return `Verzia ${version} je dostupná iba pre Java Edition (${badPlatform.join(", ")} nie je podporovaný).`;
+  }
+
+  if (software && !getAvailableSoftware(version).includes(software)) {
+    return `Software ${software} nepodporuje verziu ${version}.`;
+  }
+
+  if (proxy && !getAvailableProxies(version).includes(proxy)) {
+    return `Proxy ${proxy} nepodporuje verziu ${version}.`;
+  }
+
+  return null;
+};
+
+/** Očistí výbery, ktoré k danej verzii nepasujú. */
+export const sanitizeForVersion = (input: CompatibilityInput) => ({
+  platform: input.platform.filter((p) =>
+    getAvailablePlatforms(input.version).includes(p)
+  ),
+  software: getAvailableSoftware(input.version).includes(input.software)
+    ? input.software
+    : "",
+  proxy: getAvailableProxies(input.version).includes(input.proxy)
+    ? input.proxy
+    : "",
+});
