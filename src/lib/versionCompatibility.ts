@@ -160,3 +160,14 @@ export const getCompatibleFix = (input: CompatibilityInput): CompatibilityFix =>
 /** Krátky popis toho, čo automatická oprava zmení. */
 export const describeFix = (fix: CompatibilityFix): string =>
   fix.changes.length ? `Nastaví: ${fix.changes.join(", ")}.` : "";
+
+/** Ľudsky čitateľný popis kompatibility danej verzie (pre tooltip pri odznaku). */
+export const getVersionCompatibilitySummary = (version?: string | null): string => {
+  const v = (version ?? "").trim().replace(/^v/i, "");
+  if (!v) return "Verzia nie je uvedená.";
+  if (isNextGenVersion(v))
+    return `Verzia ${v} je zatiaľ len pre Java Edition. Podporovaný software: ${suggest(
+      getAvailableSoftware(v)
+    )}. Proxy: ${suggest(getAvailableProxies(v).filter((p) => p !== "Žiadny"))}.`;
+  return `Verzia ${v} funguje na Java aj Bedrock Edition (podľa nastavenia servera) a podporuje všetky bežné servery aj proxy.`;
+};
