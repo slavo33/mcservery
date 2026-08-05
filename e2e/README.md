@@ -167,3 +167,20 @@ Screenshoty problémov idú do `e2e/screenshots/overflow_<viewport>_<url>.png`.
 python3 e2e/responsive_overflow_e2e.py
 E2E_MAX_URLS=10 python3 e2e/responsive_overflow_e2e.py
 ```
+
+`security_headers_e2e.py` — overuje **bezpečnostné HTTP hlavičky** verejných stránok (HTTP odpoveď aj to, čo vidí prehliadač vrátane `<meta http-equiv>` fallbacku):
+
+1. `Content-Security-Policy` s `default-src`, `base-uri`, `object-src 'none'` a `frame-ancestors`; bez `*`, `http:` v skriptoch, `frame-ancestors *` a (mimo dev servera) bez `unsafe-eval`.
+2. `X-Frame-Options: DENY|SAMEORIGIN`, `X-Content-Type-Options: nosniff`.
+3. `Referrer-Policy` zo zoznamu bezpečných (nikdy `unsafe-url` a pod.).
+4. `Permissions-Policy` zakazuje kameru, mikrofón a geolokáciu.
+5. `Cross-Origin-Opener-Policy: same-origin`, na HTTPS aj `Strict-Transport-Security` s `max-age` ≥ 15552000.
+6. `X-XSS-Protection` chýba alebo je `0`; hlavičky neprezrádzajú verziu servera.
+7. CSP nič neblokuje (žiadne CSP chyby v konzole) a stránka sa vyrenderuje.
+
+Hlavičky sa nastavujú vo `vite.config.ts` (`server.headers` a `preview.headers`).
+
+```bash
+python3 e2e/security_headers_e2e.py
+E2E_BASE_URL=https://mcservery.one python3 e2e/security_headers_e2e.py
+```
