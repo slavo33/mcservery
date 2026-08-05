@@ -255,7 +255,6 @@ const ServerDetailPage = () => {
               : undefined,
         }}
       />
-      />
       <Header />
       <main className="flex-1 container mx-auto px-4 py-10 max-w-3xl">
         <Link to="/servers" className="inline-flex items-center gap-1 text-sm text-muted-foreground hover:text-foreground mb-6 transition-colors">
