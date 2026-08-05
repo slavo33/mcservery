@@ -222,32 +222,27 @@ const ServerDetailPage = () => {
   const maxPlayers = status?.players?.max ?? server.max_players;
   const isOnline = status?.online ?? false;
 
-  const versionLabel = formatVersion(server.version);
-  const versionSuffix = versionLabel ? ` Verzia ${versionLabel}.` : "";
-  const baseDesc = (server.description || `${server.name} — Minecraft server ${server.ip}.`)
-    .replace(/\s+/g, " ")
-    .trim();
-  // Verzia musí byť vždy súčasťou popisu, aj keď je vlastný popis dlhý.
-  const metaDesc = `${baseDesc.slice(0, Math.max(0, 155 - versionSuffix.length)).trim()}${versionSuffix}`;
-  const metaTitle = versionLabel
-    ? `${server.name} ${versionLabel} — Minecraft server | MCServery`
-    : `${server.name} — Minecraft server | MCServery`;
+  // Jednotný zdroj metadát — rovnaká logika ako pri okamžitej aktualizácii po editácii.
+  const meta = buildServerMeta({
+    name: server.name,
+    ip: server.ip,
+    description: server.description,
+    version: server.version,
+    slug: server.slug || slug,
+    likesCount: server.likes_count,
+  });
 
   return (
     <div className="min-h-screen flex flex-col bg-background">
       <SEO
-        title={metaTitle}
-        description={metaDesc}
-        path={`/server/${server.slug || slug}`}
+        title={meta.title}
+        description={meta.description}
+        path={meta.path}
         image={server.images && server.images.length > 0 ? server.images[0] : undefined}
         type="article"
-        jsonLd={buildServerJsonLd({
-          name: server.name,
-          description: metaDesc,
-          version: server.version,
-          likesCount: server.likes_count,
-        })}
+        jsonLd={meta.jsonLd}
       />
+
       <Header />
       <main className="flex-1 container mx-auto px-4 py-10 max-w-3xl">
         <Link to="/servers" className="inline-flex items-center gap-1 text-sm text-muted-foreground hover:text-foreground mb-6 transition-colors">
