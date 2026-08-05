@@ -92,6 +92,10 @@ jobs:
       - name: E2E validácia formátu sitemapy
         run: python3 e2e/sitemap_format_e2e.py
 
+      - name: E2E indexovateľnosť sitemapy (200, žiadny noindex)
+        run: python3 e2e/sitemap_indexability_e2e.py
+
+
 
 
       - name: Screenshoty
