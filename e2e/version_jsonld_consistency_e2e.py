@@ -136,9 +136,10 @@ async def main():
         await page.screenshot(path=str(SHOTS / "jsonld_before_edit.png"))
 
         # ---- 3) Editácia na 1.20.4 ----
-        edit_url = detail_url.replace("/server/", "/edit-server/")
+        edit_url = detail_url.rstrip("/") + "/edit"
         await page.goto(edit_url, wait_until="domcontentloaded")
-        await page.wait_for_timeout(2000)
+        await page.wait_for_timeout(3000)
+        check("editačný formulár sa načítal", await page.locator("form select").count() > 0, page.url)
         select = page.locator("form select").first
         await select.select_option(VERSION_B)
         await page.locator("form button[type=submit]").first.click()
