@@ -210,3 +210,16 @@ python3 e2e/favicon_manifest_e2e.py
 ```bash
 python3 e2e/servers_filters_e2e.py
 ```
+
+
+`accessibility_axe_e2e.py` — **audit dostupnosti (axe-core)** na verejných stránkach v dvoch breakpointoch (390 px, 1280 px):
+
+1. Kontroluje pravidlá WCAG 2.1 A/AA + best-practice (`color-contrast`, `heading-order`, `button-name`, `select-name`, `link-name`, `image-alt`, `label`, `region`, `html-has-lang`, `duplicate-id-aria`, …).
+2. Každé porušenie vypíše s pravidlom, závažnosťou, počtom uzlov, CSS selektorom a odkazom na dokumentáciu Deque.
+3. Test zlyhá pri závažnosti `serious` a vyššej (nastaviteľné cez `E2E_A11Y_FAIL_ON=minor|moderate|serious|critical`); drobné upozornenia sa iba reportujú.
+4. Plný JSON report sa uloží do `e2e/a11y-report.json`, screenshoty problémových stránok do `e2e/screenshots/`.
+
+```bash
+python3 e2e/accessibility_axe_e2e.py
+E2E_MAX_URLS=8 E2E_A11Y_FAIL_ON=moderate python3 e2e/accessibility_axe_e2e.py
+```
