@@ -48,13 +48,21 @@ const VersionBadge = ({
   const plain = label.replace(/^v/, "");
   const summary = getVersionCompatibilitySummary(plain);
 
+  const descriptionId = `version-badge-desc-${plain.replace(/\./g, "-")}`;
+
   const classes = cn(
     "inline-flex items-center gap-1 rounded-md border font-medium",
     "whitespace-nowrap text-nowrap tabular-nums font-display tracking-tight leading-none",
     "px-1.5 py-0.5 text-xs sm:px-2.5 sm:py-1 sm:text-sm",
+    // Sémantické tokeny → kontrast drží v svetlej aj tmavej schéme
     "bg-primary/90 text-primary-foreground border-primary/50",
+    // Vyšší kontrast pre používateľov s prefers-contrast a Windows High Contrast
+    "contrast-more:bg-primary contrast-more:border-primary-foreground",
+    "forced-colors:bg-[ButtonFace] forced-colors:text-[ButtonText] forced-colors:border-[ButtonText]",
+    "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-1 focus-visible:ring-offset-background",
     linkToFilter &&
-      "cursor-pointer transition-colors hover:bg-primary hover:text-primary-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring",
+      "cursor-pointer transition-colors hover:bg-primary hover:text-primary-foreground",
+    showTooltip && !linkToFilter && "cursor-help",
     className
   );
 
@@ -69,8 +77,8 @@ const VersionBadge = ({
     <Link
       key={label}
       to={`/servers?version=${encodeURIComponent(plain)}`}
-      title={`Zobraziť servery s verziou ${label}`}
-      aria-label={`Filtrovať servery podľa verzie ${label}`}
+      aria-label={`Verzia ${label} — filtrovať servery podľa tejto verzie`}
+      aria-describedby={showTooltip ? descriptionId : undefined}
       className={classes}
       onTouchStart={() => {
         touchedRef.current = true;
@@ -86,16 +94,20 @@ const VersionBadge = ({
     >
       {content}
     </Link>
-  ) : (
-    <span
+  ) : showTooltip ? (
+    <button
       key={label}
-      title={label}
-      aria-label={`Verzia ${label}`}
+      type="button"
+      aria-label={`Verzia ${label} — zobraziť informácie o kompatibilite`}
+      aria-describedby={descriptionId}
+      aria-expanded={open}
       className={classes}
-      role={showTooltip ? "button" : undefined}
-      tabIndex={showTooltip ? 0 : undefined}
-      onClick={showTooltip ? () => setOpen((v) => !v) : undefined}
+      onClick={() => setOpen((v) => !v)}
     >
+      {content}
+    </button>
+  ) : (
+    <span key={label} aria-label={`Verzia ${label}`} className={classes}>
       {content}
     </span>
   );
@@ -106,9 +118,14 @@ const VersionBadge = ({
     <TooltipProvider delayDuration={150}>
       <Tooltip open={open} onOpenChange={setOpen}>
         <TooltipTrigger asChild>{badge}</TooltipTrigger>
+        {/* Popis pre čítačky obrazovky je dostupný aj keď je tooltip zavretý. */}
+        <span id={descriptionId} className="sr-only">
+          {summary}
+        </span>
         <TooltipContent
           side="top"
           sideOffset={6}
+          role="tooltip"
           className="max-w-[16rem] text-xs leading-snug"
           onPointerDownOutside={() => setOpen(false)}
         >
