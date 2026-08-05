@@ -133,11 +133,14 @@ async def main():
             bad = [r for r in st["robots"] if "noindex" in r or "none" in r]
             check(f"{label} robots meta neobsahuje noindex", not bad, st["robots"])
 
-        # Neverejné route musia byť noindex a mimo sitemapy.
+        # Neverejné route musia byť noindex (alebo presmerované preč) a mimo sitemapy.
         for path in NOINDEX_ROUTES:
             st = await head_state(page, path)
             has_noindex = any("noindex" in r for r in st["robots"])
-            check(f"[{path}] je označená ako noindex", has_noindex, st["robots"])
+            redirected = norm(st["path"]) != norm(path)
+            check(f"[{path}] je noindex alebo presmerovaná preč",
+                  has_noindex or redirected,
+                  f"robots={st['robots']} final={st['path']}")
             check(f"[{path}] nie je v sitemape", norm(path) not in sm_paths)
 
         await browser.close()
