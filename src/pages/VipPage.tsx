@@ -2,6 +2,7 @@ import { useState, useEffect } from "react";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import SEO from "@/components/SEO";
+import { buildPageJsonLdGraph } from "@/lib/pageJsonLd";
 import { useAuth } from "@/hooks/useAuth";
 import { useLanguage } from "@/i18n/LanguageContext";
 import { supabase } from "@/integrations/supabase/client";
@@ -130,6 +131,12 @@ const VipPage = () => {
         title="VIP členstvo — zvýrazni svoj server | MCServery"
         description="Získaj VIP členstvo a zvýrazni svoj Minecraft server na vrchole zoznamu. Viac hráčov, lepšia viditeľnosť a kratší cooldown hlasovania."
         path="/vip"
+        jsonLd={buildPageJsonLdGraph({
+          name: "VIP členstvo",
+          description: "Získaj VIP členstvo a zvýrazni svoj Minecraft server na vrchole zoznamu.",
+          path: "/vip",
+          breadcrumbs: [["VIP členstvo", "/vip"]],
+        })}
       />
       <Header />
       <main className="flex-1 container mx-auto px-4 py-16">

@@ -3,6 +3,7 @@ import { findInvalidUrl } from "@/lib/urlValidation";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import SEO from "@/components/SEO";
+import { buildPageJsonLdGraph } from "@/lib/pageJsonLd";
 import { Button } from "@/components/ui/button";
 import { Switch } from "@/components/ui/switch";
 import { softwareOptions, versions, minigameOptions, proxyOptions } from "@/lib/mockData";
@@ -219,6 +220,12 @@ const AddServer = () => {
         title="Pridaj Minecraft server | MCServery"
         description="Pridaj svoj Minecraft server do databázy MCServery zadarmo. Získaj viac hráčov a vybuduj si komunitu."
         path="/add-server"
+        jsonLd={buildPageJsonLdGraph({
+          name: "Pridaj Minecraft server",
+          description: "Pridaj svoj Minecraft server do databázy MCServery zadarmo.",
+          path: "/add-server",
+          breadcrumbs: [["Pridaj Minecraft server", "/add-server"]],
+        })}
       />
       <Header />
       <main className="flex-1 container mx-auto px-4 py-10 max-w-2xl">

@@ -1,6 +1,7 @@
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import SEO from "@/components/SEO";
+import { buildPageJsonLdGraph } from "@/lib/pageJsonLd";
 import { useLanguage } from "@/i18n/LanguageContext";
 
 const Privacy = () => {
@@ -12,6 +13,12 @@ const Privacy = () => {
         title="Ochrana súkromia | MCServery"
         description="Zásady ochrany osobných údajov služby MCServery. Zisti, ako spracúvame a chránime tvoje údaje pri používaní databázy Minecraft serverov."
         path="/privacy"
+        jsonLd={buildPageJsonLdGraph({
+          name: "Ochrana súkromia",
+          description: "Zásady ochrany osobných údajov služby MCServery.",
+          path: "/privacy",
+          breadcrumbs: [["Ochrana súkromia", "/privacy"]],
+        })}
       />
       <Header />
       <main className="flex-1 container mx-auto px-4 py-16 max-w-3xl">
