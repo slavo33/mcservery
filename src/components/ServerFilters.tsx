@@ -47,7 +47,7 @@ const ServerFilters = ({
       {/* Filter rows */}
       <div className="flex flex-wrap gap-6">
         {/* Platform */}
-        <div>
+        <div data-filter-group="platform">
           <span className="text-xs font-semibold uppercase tracking-wider text-muted-foreground mb-2 block">{t("filter_platform")}</span>
           <div className="flex flex-wrap gap-1.5">
             <button
@@ -59,6 +59,7 @@ const ServerFilters = ({
             {platforms.map((p) => (
               <button
                 key={p}
+                data-filter-value={p}
                 onClick={() => onPlatformChange(p === selectedPlatform ? "" : p)}
                 className={`filter-chip ${selectedPlatform === p ? "active" : ""}`}
               >
@@ -69,7 +70,7 @@ const ServerFilters = ({
         </div>
 
         {/* Version */}
-        <div>
+        <div data-filter-group="version">
           <span className="text-xs font-semibold uppercase tracking-wider text-muted-foreground mb-2 block">{t("filter_version")}</span>
           <div className="flex flex-wrap gap-1.5">
             <button
@@ -81,6 +82,7 @@ const ServerFilters = ({
             {versions.map((v) => (
               <button
                 key={v}
+                data-filter-value={v}
                 onClick={() => onVersionChange(v === selectedVersion ? "" : v)}
                 className={`filter-chip ${selectedVersion === v ? "active" : ""}`}
               >
@@ -89,6 +91,7 @@ const ServerFilters = ({
             ))}
           </div>
         </div>
+
 
         {/* Software / loader */}
         <div data-filter-group="software">
