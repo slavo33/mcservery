@@ -44,21 +44,35 @@ describe("VersionBadge – tooltip s kompatibilitou", () => {
   });
 
   it("na odkaze (profil) prvý ťuk ukáže tooltip a až druhý naviguje", async () => {
-    renderBadge(<VersionBadge version="26.2" linkToFilter />);
+    const Location = () => {
+      const loc = useLocation();
+      return <div data-testid="loc">{loc.pathname + loc.search}</div>;
+    };
+    render(
+      <MemoryRouter initialEntries={["/server/test"]}>
+        <VersionBadge version="26.2" linkToFilter />
+        <Location />
+      </MemoryRouter>
+    );
     const link = screen.getByRole("link", {
       name: "Filtrovať servery podľa verzie v26.2",
     });
     expect(link).toHaveAttribute("href", "/servers?version=26.2");
 
     fireEvent.touchStart(link);
-    const firstTap = fireEvent.click(link);
-    expect(firstTap).toBe(false); // preventDefault — nenaviguje
+    fireEvent.click(link);
     await waitFor(() =>
       expect(screen.getAllByText("Minecraft v26.2").length).toBeGreaterThan(0)
     );
+    // prvý ťuk nenaviguje
+    expect(screen.getByTestId("loc")).toHaveTextContent("/server/test");
 
-    const secondTap = fireEvent.click(link);
-    expect(secondTap).toBe(true); // navigácia prebehne
+    fireEvent.click(link);
+    await waitFor(() =>
+      expect(screen.getByTestId("loc")).toHaveTextContent(
+        "/servers?version=26.2"
+      )
+    );
   });
 
   it("dá sa vypnúť cez showTooltip={false}", () => {
