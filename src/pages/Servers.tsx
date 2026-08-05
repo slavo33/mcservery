@@ -11,7 +11,7 @@ import { supabase } from "@/integrations/supabase/client";
 import { useLanguage } from "@/i18n/LanguageContext";
 import { useMultiServerStatus } from "@/hooks/useMultiServerStatus";
 import { useSearchParams } from "react-router-dom";
-import { versions } from "@/lib/mockData";
+import { versions, platforms, softwareOptions, minigameOptions } from "@/lib/mockData";
 
 interface DbServer {
   id: string;
