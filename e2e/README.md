@@ -282,3 +282,17 @@ python3 e2e/server_create_media_e2e.py
 python3 e2e/accessibility_axe_e2e.py
 E2E_MAX_URLS=8 E2E_A11Y_FAIL_ON=moderate python3 e2e/accessibility_axe_e2e.py
 ```
+
+
+`layout_visual_regression_e2e.py` — **vizuálna regresia hlavných rozložení** (8 stránok × 3 breakpointy):
+
+1. Deterministické screenshoty viewportu pre `/`, `/servers`, `/add-server`, `/vip`, `/staff`, `/terms`, `/privacy`, `/404` na mobile (375), tablete (768) a desktope (1440).
+2. Animácie/prechody vypnuté, dynamický obsah (karty serverov, inzeráty, počty hráčov, časy, obrázky) zamaskovaný — screenshoty sú stabilné medzi behmi.
+3. Samostatné screenshoty hlavičky a pätičky pre každý breakpoint.
+4. Porovnanie s baseline v `e2e/baselines/vr_*.png` s toleranciou 1 % odlišných pixelov; chýbajúci baseline sa vytvorí a označí ako NEW.
+5. Kontrola, že rozloženie nepreteká horizontálne a hlavička/pätička sú na celú šírku viewportu.
+
+```bash
+python3 e2e/layout_visual_regression_e2e.py
+UPDATE_BASELINES=1 python3 e2e/layout_visual_regression_e2e.py   # zámerná zmena dizajnu
+```
