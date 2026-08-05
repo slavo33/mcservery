@@ -320,7 +320,7 @@ const EditServer = () => {
             <div>
               <label className="text-sm font-semibold text-foreground mb-1.5 block">{t("add_software")}</label>
               <select value={software} onChange={(e) => setSoftware(e.target.value)} className={inputClass}>
-                <option value="">— vyber verziu —</option>
+                <option value="">—</option>
                 {availableSoftware.map((s) => <option key={s} value={s}>{s}</option>)}
               </select>
             </div>
