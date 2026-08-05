@@ -157,7 +157,12 @@ describe("editácia verzie 26.2 → 1.20.4 prepočíta odznak aj meta dáta", ()
     const ldTypes = Array.from(
       document.head.querySelectorAll('script[type="application/ld+json"]')
     ).map((el) => JSON.parse(el.textContent || "{}")["@type"]);
-    expect(ldTypes).toEqual(["SoftwareApplication", "BreadcrumbList"]);
+    expect(ldTypes).toEqual([
+      "SoftwareApplication",
+      "BreadcrumbList",
+      "WebPage",
+      "Organization",
+    ]);
     expect(document.head.innerHTML).not.toContain("v26.2");
   });
 });
