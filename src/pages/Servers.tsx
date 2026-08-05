@@ -34,31 +34,65 @@ interface DbServer {
 
 const Servers = () => {
   const { t } = useLanguage();
-  const [search, setSearch] = useState("");
-  const [platform, setPlatform] = useState("");
   const [searchParams, setSearchParams] = useSearchParams();
-  const versionParam = searchParams.get("version") ?? "";
-  const [version, setVersion] = useState(versions.includes(versionParam) ? versionParam : "");
-  const [software, setSoftware] = useState("");
+
+  // Všetky filtre sa držia v URL (napr. /servers?version=26.2&platform=Java&software=Paper&minigame=SkyWars&q=sky),
+  // aby sa dali zdieľať a fungovali odkazy z odznakov na profile servera.
+  const paramOrEmpty = (key: string, allowed?: string[]) => {
+    const raw = searchParams.get(key) ?? "";
+    if (!allowed) return raw;
+    return allowed.includes(raw) ? raw : "";
+  };
+
+  const [search, setSearch] = useState(() => paramOrEmpty("q"));
+  const [platform, setPlatform] = useState(() => paramOrEmpty("platform", platforms));
+  const [version, setVersion] = useState(() => paramOrEmpty("version", versions));
+  const [software, setSoftware] = useState(() => paramOrEmpty("software", softwareOptions));
+  const [minigame, setMinigame] = useState(() => paramOrEmpty("minigame", minigameOptions));
   const [sortBy, setSortBy] = useState<"votes" | "likes" | "players">("votes");
   const [sortDir, setSortDir] = useState<"desc" | "asc">("desc");
   const [showVipOnly, setShowVipOnly] = useState(false);
   const [dbServers, setDbServers] = useState<DbServer[]>([]);
 
-  // Filter podľa verzie sa drží v URL (napr. /servers?version=26.2),
-  // aby sa dal zdieľať a fungoval odkaz z odznaku na profile servera.
+  // Synchronizácia URL -> stav (napr. späť/vpred v prehliadači alebo zdieľaný odkaz)
   useEffect(() => {
-    const fromUrl = searchParams.get("version") ?? "";
-    setVersion(versions.includes(fromUrl) ? fromUrl : "");
+    setSearch(searchParams.get("q") ?? "");
+    setPlatform(paramOrEmpty("platform", platforms));
+    setVersion(paramOrEmpty("version", versions));
+    setSoftware(paramOrEmpty("software", softwareOptions));
+    setMinigame(paramOrEmpty("minigame", minigameOptions));
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [searchParams]);
 
-  const handleVersionChange = (v: string) => {
-    setVersion(v);
+  // Synchronizácia stav -> URL
+  const updateParam = (key: string, value: string) => {
     const next = new URLSearchParams(searchParams);
-    if (v) next.set("version", v);
-    else next.delete("version");
+    if (value) next.set(key, value);
+    else next.delete(key);
     setSearchParams(next, { replace: true });
   };
+
+  const handleSearchChange = (v: string) => {
+    setSearch(v);
+    updateParam("q", v);
+  };
+  const handlePlatformChange = (v: string) => {
+    setPlatform(v);
+    updateParam("platform", v);
+  };
+  const handleVersionChange = (v: string) => {
+    setVersion(v);
+    updateParam("version", v);
+  };
+  const handleSoftwareChange = (v: string) => {
+    setSoftware(v);
+    updateParam("software", v);
+  };
+  const handleMinigameChange = (v: string) => {
+    setMinigame(v);
+    updateParam("minigame", v);
+  };
+
 
   useEffect(() => {
     const fetch = async () => {
