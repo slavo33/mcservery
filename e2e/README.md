@@ -63,3 +63,16 @@ python3 e2e/sitemap_robots_e2e.py
 ```
 
 Testovacie servery majú názov `E2E Sitemap <timestamp>` a IP `e2esm<timestamp>.example.com` — po behu ich treba odstrániť z databázy.
+
+`sitemap_format_e2e.py` — validuje **formát generovanej sitemapy** (nepotrebuje prihlásenie ani testovacie dáta):
+
+1. `sitemap.xml` je dobre formované XML s XML deklaráciou a koreňom `<urlset>` v namespace `sitemaps.org/0.9`.
+2. Profily (`/server/…`, `/staff/…`) a výpisové stránky majú `<lastmod>` v ISO 8601; statické stránky bez autoritatívneho dátumu ho podľa politiky nemajú.
+3. `<changefreq>` má povolenú hodnotu, `<priority>` je v rozsahu 0.0–1.0, `<loc>` sú absolútne na `https://mcservery.one` a bez duplicít.
+4. V sitemape nie sú súkromné/noindex routy (`/admin`, `/profile`, `/console`, `/auth`, `/vip-success`, `…/edit`).
+5. V režime sitemap indexu platia rovnaké kontroly aj pre každý chunk `sitemap-N.xml`, index má `lastmod` a súčet URL v chunkoch sedí s jednosúborovou sitemapou; na záver sa obnoví štandardný režim.
+
+```bash
+python3 e2e/sitemap_format_e2e.py
+```
+
