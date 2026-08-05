@@ -91,7 +91,12 @@ async def main():
         status, robots = await fetch_text(page, "/robots.txt")
         check("robots.txt je dostupný (200)", status == 200, status)
         sitemaps = re.findall(r"(?im)^\s*Sitemap:\s*(\S+)\s*$", robots)
-        check("robots.txt obsahuje Sitemap direktívu", len(sitemaps) == 1, sitemaps)
+        static_maps = [s for s in sitemaps if s.endswith("/sitemap.xml")]
+        live_maps = [s for s in sitemaps if s.endswith("/functions/v1/sitemap")]
+        check("robots.txt obsahuje práve jednu statickú Sitemap direktívu",
+              len(static_maps) == 1, sitemaps)
+        check("robots.txt odkazuje aj na živú sitemapu", len(live_maps) == 1, sitemaps)
+
         check("Sitemap direktíva ukazuje na správnu URL",
               sitemaps[:1] == [f"{SITE_URL}/sitemap.xml"], sitemaps)
         check("robots.txt neblokuje crawlerov",
