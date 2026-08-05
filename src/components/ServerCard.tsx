@@ -38,7 +38,7 @@ const ServerCard = ({ server, dbMode, dbId }: ServerCardProps) => {
   };
 
   const cardContent = (
-    <div className="group gradient-card rounded-lg border border-border shadow-card transition-all duration-300 glow-border-hover overflow-hidden">
+    <div className="group gradient-card w-full min-w-0 rounded-lg border border-border shadow-card transition-all duration-300 glow-border-hover overflow-hidden">
       <div className="relative h-40 overflow-hidden bg-secondary">
         <div className="absolute inset-0 gradient-hero z-10" />
         {server.image ? (
@@ -138,7 +138,7 @@ const ServerCard = ({ server, dbMode, dbId }: ServerCardProps) => {
   );
 
   if (dbMode && dbId) {
-    return <Link to={`/server/${(server as any).slug || dbId}`}>{cardContent}</Link>;
+    return <Link to={`/server/${(server as any).slug || dbId}`} className="block min-w-0">{cardContent}</Link>;
   }
 
   return cardContent;

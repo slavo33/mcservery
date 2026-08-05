@@ -145,7 +145,9 @@ LAYOUT_JS = """
             outside.push({ el: desc(el), left: Math.round(r.left), right: Math.round(r.right) });
         }
         const scrollsX = ['auto', 'scroll'].includes(st.overflowX);
-        if (!scrollsX && el.scrollWidth > el.clientWidth + 1 && el.clientWidth > 0) {
+        // Zámerné skrátenie textu (ellipsis / line-clamp) nie je chyba rozloženia.
+        const intentionalTrim = st.textOverflow === 'ellipsis' || st.webkitLineClamp !== 'none';
+        if (!scrollsX && !intentionalTrim && el.scrollWidth > el.clientWidth + 1 && el.clientWidth > 0) {
             selfOverflow.push({
                 el: desc(el), scrollWidth: el.scrollWidth, clientWidth: el.clientWidth,
             });
