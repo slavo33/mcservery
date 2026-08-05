@@ -46,6 +46,13 @@ export type CompatibilityInput = {
   platform: string[];
 };
 
+/** Pomôcka: pekne vypíše zoznam odporúčaní (max 5, aby hláška nebola dlhá). */
+const suggest = (options: string[]) => {
+  const shown = options.filter(Boolean).slice(0, 5);
+  const rest = options.length - shown.length;
+  return rest > 0 ? `${shown.join(", ")} a ďalšie` : shown.join(", ");
+};
+
 /** Vráti chybovú hlášku, ak je kombinácia neplatná, inak null. */
 export const validateVersionCombination = ({
   version,
@@ -59,15 +66,19 @@ export const validateVersionCombination = ({
     (p) => !getAvailablePlatforms(version).includes(p)
   );
   if (badPlatform.length) {
-    return `Verzia ${version} je dostupná iba pre Java Edition (${badPlatform.join(", ")} nie je podporovaný).`;
+    return `Platforma ${badPlatform.join(", ")} sa nedá použiť s verziou ${version} — táto verzia zatiaľ vyšla len pre Java Edition. Zruš výber ${badPlatform.join(", ")} a nechaj označenú iba Java, alebo zvoľ staršiu verziu (napr. 1.21.x), ktorá Bedrock podporuje.`;
   }
 
   if (software && !getAvailableSoftware(version).includes(software)) {
-    return `Software ${software} nepodporuje verziu ${version}.`;
+    return `Software ${software} zatiaľ nemá build pre verziu ${version}, preto by server nenaštartoval. Vyber niektorý z podporovaných: ${suggest(
+      getAvailableSoftware(version)
+    )} — alebo zmeň verziu na staršiu, kde ${software} funguje.`;
   }
 
   if (proxy && !getAvailableProxies(version).includes(proxy)) {
-    return `Proxy ${proxy} nepodporuje verziu ${version}.`;
+    return `Proxy ${proxy} nepodporuje verziu ${version} (staršie proxy ako BungeeCord/Waterfall nemajú protokol pre 26.x). Použi ${suggest(
+      getAvailableProxies(version).filter((p) => p !== "Žiadny")
+    )}, alebo nastav proxy na „Žiadny“.`;
   }
 
   return null;
