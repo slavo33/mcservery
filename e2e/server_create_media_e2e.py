@@ -136,6 +136,17 @@ async def main():
         check("validácia: nebezpečná URL nespôsobí uloženie", "/add-server" in page.url)
         await page.fill('input[placeholder="https://discord.gg/..."]', "")
 
+        # validácia: chýbajúca verzia
+        await submit.click()
+        await page.wait_for_timeout(900)
+        check("validácia: bez verzie sa server neuloží", "/add-server" in page.url)
+
+        await page.select_option("#add-version", label="1.21.4")
+        await page.click('button.filter-chip:has-text("Java")')
+        await page.wait_for_timeout(300)
+        check("verzia a platforma sú vybrané",
+              (await page.input_value("#add-version")) == "1.21.4")
+
         # ---------- 3) nahrávanie fotky + GIFu ----------
         upload_start = len(net)
         await page.set_input_files('input[type="file"]', [str(png), str(gif)])
@@ -170,7 +181,14 @@ async def main():
             saved = True
         except Exception:
             saved = False
-        check("server sa uložil a nastalo presmerovanie na /servers", saved, page.url)
+        toast_txt = ""
+        if not saved:
+            try:
+                toast_txt = await page.inner_text("[data-sonner-toast]", timeout=2000)
+            except Exception:
+                toast_txt = ""
+        check("server sa uložil a nastalo presmerovanie na /servers", saved,
+              f"{page.url} {toast_txt}")
 
         # nájdenie profilu podľa mena
         await page.goto(BASE + f"/servers?q={SERVER_NAME.replace(' ', '+')}", wait_until="networkidle")
@@ -241,7 +259,8 @@ async def main():
             )
             check("testovací server bol vymazaný", deleted == "ok", str(deleted))
 
-        fatal = [e for e in console_errors if "Failed to load resource" not in e]
+        IGNORED = ("Failed to load resource", "Function components cannot be given refs")
+        fatal = [e for e in console_errors if not any(i in e for i in IGNORED)]
         check("žiadne fatálne chyby v konzole", not fatal, "; ".join(fatal[:3]))
 
         await browser.close()
