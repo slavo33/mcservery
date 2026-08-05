@@ -88,3 +88,11 @@ python3 e2e/sitemap_profile_update_e2e.py
 ```
 
 Testovacie servery majú názov `E2E Sitemap <timestamp>` a IP `sitemap<timestamp>.example.com` — po behu ich treba odstrániť z databázy.
+
+- `sitemap_headers_e2e.py` — overí **HTTP hlavičky sitemapy** lokálne aj na produkcii: `sitemap.xml`, chunky `sitemap-N.xml` a `robots.txt` vracajú 200 so správnym Content-Type (`text/xml`/`application/xml`, resp. `text/plain`), majú ETag/Last-Modified, žiadny `immutable` ani `max-age` nad 1 hodinu (bez chybného pre-cache), živá edge sitemapa podporuje CORS preflight a `If-None-Match` → 304 a neexistujúci chunk nevracia 200 XML.
+
+```bash
+python3 e2e/sitemap_headers_e2e.py
+```
+
+Poznámka: brána Supabase na doméne `*.supabase.co` degraduje Content-Type odpovede edge funkcie na `text/plain` (nosniff + CSP sandbox) — je to platformové obmedzenie, crawler používa doménovú `https://mcservery.one/sitemap.xml` s korektným `text/xml`. Test to hlási ako WARN.
