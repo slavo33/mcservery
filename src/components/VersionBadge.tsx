@@ -30,7 +30,6 @@ const VersionBadge = ({ version, className, linkToFilter = false }: VersionBadge
     "whitespace-nowrap text-nowrap tabular-nums font-display tracking-tight leading-none",
     "px-1.5 py-0.5 text-xs sm:px-2.5 sm:py-1 sm:text-sm",
     "bg-primary/90 text-primary-foreground border-primary/50",
-    "min-w-0 shrink-0",
     linkToFilter &&
       "cursor-pointer transition-colors hover:bg-primary hover:text-primary-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring",
     className
