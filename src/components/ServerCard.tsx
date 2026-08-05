@@ -89,9 +89,9 @@ const ServerCard = ({ server, dbMode, dbId }: ServerCardProps) => {
         </div>
       </div>
 
-      <div className="p-4">
+      <div className="p-4 min-w-0">
         <div className="flex items-start justify-between gap-2 mb-2">
-          <h3 className="font-display text-lg font-bold text-foreground leading-tight group-hover:text-primary transition-colors">
+          <h3 className="font-display text-lg font-bold text-foreground leading-tight break-words min-w-0 group-hover:text-primary transition-colors">
             {server.name}
           </h3>
           <div className="flex items-center gap-3 shrink-0">
@@ -106,7 +106,7 @@ const ServerCard = ({ server, dbMode, dbId }: ServerCardProps) => {
           </div>
         </div>
 
-        <p className="text-sm text-muted-foreground mb-3 line-clamp-2">{server.description}</p>
+        <p className="text-sm text-muted-foreground mb-3 line-clamp-2 break-words">{server.description}</p>
 
         <div className="flex flex-wrap gap-1.5 mb-3">
           {server.platform.map((p) => (
@@ -127,8 +127,8 @@ const ServerCard = ({ server, dbMode, dbId }: ServerCardProps) => {
         </div>
 
         <button onClick={copyIp} className="flex w-full items-center justify-between rounded-md border border-border bg-secondary/50 px-3 py-2 text-sm font-mono text-foreground transition-all hover:border-primary/40">
-          <span>{server.ip}</span>
-          <span className="flex items-center gap-1 text-xs text-muted-foreground">
+          <span className="truncate min-w-0 text-left">{server.ip}</span>
+          <span className="flex shrink-0 items-center gap-1 text-xs text-muted-foreground">
             <Copy className="h-3 w-3" />
             {copied ? t("detail_copied") : t("detail_copy")}
           </span>
