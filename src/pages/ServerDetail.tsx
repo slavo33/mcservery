@@ -368,7 +368,7 @@ const ServerDetailPage = () => {
                 <span key={p} className="badge-platform">{p === "java" ? "Java" : "Bedrock"}</span>
               ))}
               <span className="badge-tag">{server.software}</span>
-              <span className="badge-tag">v{server.version}</span>
+              <VersionBadge version={server.version} />
               {server.proxy && <span className="badge-platform">{server.proxy}</span>}
               <span className={`badge-tag ${server.is_warez ? "" : ""}`}>
                 {server.is_warez ? t("detail_warez") : t("detail_original")}
