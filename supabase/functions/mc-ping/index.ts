@@ -150,7 +150,7 @@ serve(async (req) => {
 
       // Only allow TCP probing of conventional Minecraft ports, and never
       // to private/internal hosts (SRV resolution could point anywhere).
-      const ALLOWED_TCP_PORTS = [25565, 25566, 25567, 19132, 25575];
+      const ALLOWED_TCP_PORTS = [25565, 25566, 25567, 19132];
       if (!ALLOWED_TCP_PORTS.includes(checkPort) || !isValidMinecraftAddress(checkHost)) {
         throw new Error("tcp_probe_not_allowed");
       }
