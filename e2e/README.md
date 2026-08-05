@@ -14,3 +14,15 @@ python3 e2e/version_26_2_e2e.py
 
 Prihlásenie sa obnoví zo Supabase session v premenných prostredia. Screenshoty sa ukladajú do `e2e/screenshots/`.
 Testovacie servery majú názov `E2E NextGen <timestamp>` a IP `e2e<timestamp>.example.com` — po behu ich treba odstrániť z databázy.
+
+`version_badge_edit_e2e.py` — overuje `VersionBadge` po **editácii verzie**:
+
+1. Vytvorí server s `26.2`, skontroluje odznak na karte v zozname aj na profile (screenshoty odznaku, mobilné zobrazenie bez zalomenia).
+2. Zmení verziu cez editáciu na `1.20.4`.
+3. Overí, že profil aj karta zobrazujú `v1.20.4`, starý `v26.2` zmizol a SEO title obsahuje novú verziu.
+
+```bash
+python3 e2e/version_badge_edit_e2e.py
+```
+
+Testovacie servery majú názov `E2E Badge <timestamp>` — po behu ich treba odstrániť z databázy.
