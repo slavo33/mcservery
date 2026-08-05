@@ -77,6 +77,14 @@ jobs:
           LOVABLE_BROWSER_SUPABASE_STORAGE_KEY: ${{ secrets.E2E_SUPABASE_STORAGE_KEY }}
           LOVABLE_BROWSER_SUPABASE_SESSION_JSON: ${{ secrets.E2E_SUPABASE_SESSION_JSON }}
 
+      - name: E2E konzistencia VersionBadge ↔ JSON-LD
+        run: python3 e2e/version_jsonld_consistency_e2e.py
+        env:
+          LOVABLE_BROWSER_SUPABASE_STORAGE_KEY: ${{ secrets.E2E_SUPABASE_STORAGE_KEY }}
+          LOVABLE_BROWSER_SUPABASE_SESSION_JSON: ${{ secrets.E2E_SUPABASE_SESSION_JSON }}
+
+
+
       - name: Screenshoty
         if: always()
         uses: actions/upload-artifact@v4
