@@ -169,7 +169,7 @@ async def main():
 
         # ---- 3) Editácia profilu ----
         time.sleep(2)  # aby bol rozdiel v čase merateľný
-        await page.goto(f"{BASE}/edit-server/{row['slug']}", wait_until="domcontentloaded")
+        await page.goto(f"{BASE}/server/{row["slug"]}/edit", wait_until="domcontentloaded")
         await page.wait_for_timeout(2500)
         await page.locator("form textarea").first.fill(
             f"Upravený popis {STAMP} – overenie lastmod v sitemape."
