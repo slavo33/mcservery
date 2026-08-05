@@ -158,14 +158,17 @@ async def run():
                 )
                 check(f"{label} bez horizontálneho pretoku", m["scrollW"] <= m["clientW"] + 1,
                       f"{m['scrollW']} > {m['clientW']}")
-                check(f"{label} hlavička na celú šírku", bool(m["header"]) and abs(m["header"]["w"] - m["clientW"]) <= 1,
-                      str(m["header"]))
-                check(f"{label} pätička na celú šírku", bool(m["footer"]) and abs(m["footer"]["w"] - m["clientW"]) <= 1,
-                      str(m["footer"]))
+                if m["header"] or m["footer"]:
+                    check(f"{label} hlavička na celú šírku", bool(m["header"]) and abs(m["header"]["w"] - m["clientW"]) <= 1,
+                          str(m["header"]))
+                    check(f"{label} pätička na celú šírku", bool(m["footer"]) and abs(m["footer"]["w"] - m["clientW"]) <= 1,
+                          str(m["footer"]))
 
                 await snapshot(page, f"{label} vizuál stránky", key)
-                await snapshot(page, f"{label} vizuál hlavičky", key + "_header", "header")
-                await snapshot(page, f"{label} vizuál pätičky", key + "_footer", "footer")
+                if m["header"]:
+                    await snapshot(page, f"{label} vizuál hlavičky", key + "_header", "header")
+                if m["footer"]:
+                    await snapshot(page, f"{label} vizuál pätičky", key + "_footer", "footer")
 
             await context.close()
         await browser.close()
