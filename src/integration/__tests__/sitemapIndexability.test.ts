@@ -80,8 +80,12 @@ describe("sitemap.xml indexovateľnosť", () => {
       const route = matchRoute(path, routes);
       expect(route, `route pre ${path} neexistuje v App.tsx`).toBeTruthy();
       const src = readFileSync(resolve(root, route!.file), "utf-8");
-      // noindex bez podmienky (napr. `noindex />`) = stránka sa nikdy nesmie indexovať
-      if (/\bnoindex\s*(\/?>|\n)/.test(src)) offenders.push(`${path} -> ${route!.file}`);
+      // Stránka je neindexovateľná len ak KAŽDÝ jej <SEO ...> má noindex
+      // (podmienené `noindex={...}` sa počíta ako indexovateľný variant).
+      const seoTags = [...src.matchAll(/<SEO\b[\s\S]*?\/>/g)].map((m) => m[0]);
+      const hasIndexableSeo = seoTags.some((t) => !/\bnoindex\b(?!=)/.test(t));
+      if (seoTags.length > 0 && !hasIndexableSeo) offenders.push(`${path} -> ${route!.file}`);
+
     }
     expect(offenders, `noindex stránky v sitemape: ${offenders.join(", ")}`).toEqual([]);
   });
