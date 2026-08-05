@@ -184,3 +184,15 @@ Hlavičky sa nastavujú vo `vite.config.ts` (`server.headers` a `preview.headers
 python3 e2e/security_headers_e2e.py
 E2E_BASE_URL=https://mcservery.one python3 e2e/security_headers_e2e.py
 ```
+
+`favicon_manifest_e2e.py` — overuje **favicon a web manifest**:
+
+1. HTML obsahuje `rel="icon"`, `rel="apple-touch-icon"`, práve jeden `rel="manifest"` a `theme-color`.
+2. Všetky ikony a `/favicon.ico` vracajú HTTP 200 so správnym `Content-Type` (žiadne 404).
+3. `manifest.webmanifest` je validný JSON a obsahuje `name`, `short_name`, `icons`, `start_url`, `display`.
+4. Manifest obsahuje ikony 192×192 aj 512×512 a každá z nich sa načíta (200) a dekóduje v prehliadači.
+
+```bash
+python3 e2e/favicon_manifest_e2e.py
+```
+
