@@ -240,20 +240,12 @@ const ServerDetailPage = () => {
         path={`/server/${server.slug || slug}`}
         image={server.images && server.images.length > 0 ? server.images[0] : undefined}
         type="article"
-        jsonLd={{
-          "@context": "https://schema.org",
-          "@type": "SoftwareApplication",
+        jsonLd={buildServerJsonLd({
           name: server.name,
           description: metaDesc,
-          applicationCategory: "GameApplication",
-          operatingSystem: "Minecraft",
-          softwareVersion: versionLabel ?? undefined,
-          offers: { "@type": "Offer", price: "0", priceCurrency: "EUR" },
-          aggregateRating:
-            server.likes_count > 0
-              ? { "@type": "AggregateRating", ratingValue: "5", ratingCount: String(server.likes_count) }
-              : undefined,
-        }}
+          version: server.version,
+          likesCount: server.likes_count,
+        })}
       />
       <Header />
       <main className="flex-1 container mx-auto px-4 py-10 max-w-3xl">
