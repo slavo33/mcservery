@@ -136,6 +136,9 @@ jobs:
       - name: E2E vyhľadávanie a filtre serverov
         run: python3 e2e/servers_filters_e2e.py
 
+      - name: E2E pokrytie sitemapy (všetky indexovateľné URL)
+        run: python3 e2e/sitemap_coverage_e2e.py
+
       - name: E2E sitemap po vytvorení a editácii profilu
         run: python3 e2e/sitemap_profile_update_e2e.py
         env:
