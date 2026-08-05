@@ -8,7 +8,7 @@ import { resolve } from "path";
  * (napr. /auth, /admin, /profile, /console, /vip-success, /404, /*\/edit).
  */
 
-const root = resolve(__dirname, "../..");
+const root = resolve(__dirname, "../../..");
 
 function readSitemapLocs(): string[] {
   const file = resolve(root, "public/sitemap.xml");
