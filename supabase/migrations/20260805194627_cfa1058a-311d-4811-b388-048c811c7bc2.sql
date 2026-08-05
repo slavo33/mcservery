@@ -1,0 +1,1 @@
+DELETE FROM public.servers WHERE ip LIKE 'sitemap%.example.com';

@@ -80,3 +80,11 @@ python3 e2e/sitemap_format_e2e.py
 - `sitemap_indexability_e2e.py` — overí, že každá URL zo sitemap.xml vracia HTTP 200 (žiadne 404/500), nemá `meta robots noindex`, nie je soft-404 a má self-referencing canonical. Statický náprotivok beží v hlavnom CI jobe: `src/integration/__tests__/sitemapIndexability.test.ts`.
 
 - `sitemap_freshness_e2e.py` — overí živú sitemapu z edge funkcie `sitemap` (regeneruje sa pri každom požiadavku): rovnaká množina URL ako statická sitemapa, `lastmod` presne zodpovedá `updated_at` profilu a po úprave profilu sa obnoví do 60 sekúnd.
+
+- `sitemap_profile_update_e2e.py` — overí, že **sitemap sa aktualizuje sama po vytvorení a editácii profilu** (bez ručnej regenerácie): po vytvorení servera cez UI pribudne do živej sitemapy správne `<loc>` (`https://mcservery.one/server/<slug>`) s `<lastmod>` zodpovedajúcim `updated_at`, po editácii sa `lastmod` posunie dopredu, `loc` ostáva rovnaké a v sitemape nie sú duplicity.
+
+```bash
+python3 e2e/sitemap_profile_update_e2e.py
+```
+
+Testovacie servery majú názov `E2E Sitemap <timestamp>` a IP `sitemap<timestamp>.example.com` — po behu ich treba odstrániť z databázy.
