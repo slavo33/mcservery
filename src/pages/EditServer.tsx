@@ -153,6 +153,12 @@ const EditServer = () => {
       return;
     }
 
+    const combinationError = validateVersionCombination({ version, software, proxy, platform: selectedPlatform });
+    if (combinationError) {
+      toast.error(combinationError);
+      return;
+    }
+
     // Votifier validation
     if (votifierIp.trim() && /:\d+/.test(votifierIp.trim())) {
       toast.error(t("edit_votifier_ip_no_port"));
@@ -299,6 +305,11 @@ const EditServer = () => {
                 <option value="">—</option>
                 {versions.map((v) => <option key={v} value={v}>{v}</option>)}
               </select>
+              {isNextGenVersion(version) && (
+                <p className="text-xs text-muted-foreground mt-1.5">
+                  Verzia {version} je iba pre Java Edition — nekompatibilné platformy, software a proxy sú skryté.
+                </p>
+              )}
             </div>
             <div>
               <label className="text-sm font-semibold text-foreground mb-1.5 block">{t("add_software")}</label>
