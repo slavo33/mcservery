@@ -77,6 +77,16 @@ const AddServer = () => {
     setSelectedPlatform(cleaned.platform);
     setSoftware(cleaned.software);
     setProxy(cleaned.proxy);
+    // Hláška zmizne hneď po zvolení platnej verzie.
+    setVersionError(
+      validateVersionSelection(nextVersion) ??
+        validateVersionCombination({
+          version: nextVersion,
+          software: cleaned.software,
+          proxy: cleaned.proxy,
+          platform: cleaned.platform,
+        })
+    );
   };
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -91,17 +101,21 @@ const AddServer = () => {
       return;
     }
 
-    const versionError = validateVersionSelection(version);
-    if (versionError) {
-      toast.error(versionError);
+    const selectionError = validateVersionSelection(version);
+    if (selectionError) {
+      setVersionError(selectionError);
+      toast.error(selectionError);
       return;
     }
 
     const combinationError = validateVersionCombination({ version, software, proxy, platform: selectedPlatform });
     if (combinationError) {
+      setVersionError(combinationError);
       toast.error(combinationError);
       return;
     }
+    setVersionError(null);
+
 
     const invalidUrl = findInvalidUrl([
       { label: "Discord", value: discordUrl },
