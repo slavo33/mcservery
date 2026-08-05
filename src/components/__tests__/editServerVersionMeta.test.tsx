@@ -153,7 +153,11 @@ describe("editácia verzie 26.2 → 1.20.4 prepočíta odznak aj meta dáta", ()
 
     await waitFor(() => expect(document.title).toContain(`v${NEW_VERSION}`));
     expect(document.head.querySelectorAll('meta[property="og:title"]')).toHaveLength(1);
-    expect(document.head.querySelectorAll('script[type="application/ld+json"]')).toHaveLength(1);
+    // Structured data profilu: SoftwareApplication + BreadcrumbList, bez duplicít.
+    const ldTypes = Array.from(
+      document.head.querySelectorAll('script[type="application/ld+json"]')
+    ).map((el) => JSON.parse(el.textContent || "{}")["@type"]);
+    expect(ldTypes).toEqual(["SoftwareApplication", "BreadcrumbList"]);
     expect(document.head.innerHTML).not.toContain("v26.2");
   });
 });
