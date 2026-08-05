@@ -135,6 +135,12 @@ def main():
         st_h, hd_h, _ = request(LIVE_SITEMAP, method="HEAD")
         if st_h in (200, 405):
             check("HEAD nevracia chybu servera", st_h < 500, st_h)
+        # Podmienená požiadavka musí vrátiť 304 (šetrí crawl budget, nie pre-cache)
+        _, hd_e, _ = request(LIVE_SITEMAP)
+        etag = hd_e.get("etag")
+        if etag:
+            st_304, _, _ = request(LIVE_SITEMAP, extra_headers={"If-None-Match": etag})
+            check("živá sitemapa podporuje If-None-Match (304)", st_304 == 304, st_304)
     else:
         print("SKIP  živá sitemapa (chýba VITE_SUPABASE_URL)")
 
