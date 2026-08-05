@@ -138,11 +138,7 @@ async def main():
 
         # ---------- 3) nahrávanie fotky + GIFu ----------
         upload_start = len(net)
-        async with page.expect_file_chooser() as fc:
-            await page.click("text=" + (await page.inner_text("text=/Formáty|Formats|PNG|JPG/i")).split("\n")[0]
-                             if False else 'input[type="file"] + *, div:has(> input[type="file"])')
-            chooser = await fc.value
-        await chooser.set_files([str(png), str(gif)])
+        await page.set_input_files('input[type="file"]', [str(png), str(gif)])
         await page.wait_for_timeout(6000)
 
         previews = await page.evaluate(
