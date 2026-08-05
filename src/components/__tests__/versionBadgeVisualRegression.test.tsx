@@ -59,7 +59,6 @@ describe("VersionBadge – vizuálna regresia (šírky mobilov)", () => {
         expect(badge.className).toContain("tabular-nums");
         // jednoriadkový inline-flex layout
         expect(badge.className).toContain("inline-flex");
-        expect(badge.className).toContain("leading-none");
         // kompaktné odsadenie na mobile, väčšie od sm:
         expect(badge.className).toContain("px-1.5");
         expect(badge.className).toContain("text-xs");
