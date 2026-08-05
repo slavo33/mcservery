@@ -89,6 +89,12 @@ const UserProfile = () => {
   if (!profile) {
     return (
       <div className="min-h-screen flex flex-col bg-background">
+        <SEO
+          title="Profil sa nenašiel | MCServery"
+          description="Tento používateľský profil na MCServery neexistuje."
+          path={`/user/${userId ?? ""}`}
+          noindex
+        />
         <Header />
         <main className="flex-1 flex items-center justify-center">
           <p className="text-muted-foreground">{t("user_profile_not_found")}</p>
