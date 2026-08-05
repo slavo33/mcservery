@@ -132,7 +132,10 @@ export const buildServerMeta = (server: ServerMetaInput) => {
       description,
       version: server.version,
       likesCount: server.likesCount,
+      platform: server.platform,
+      software: server.software,
     }),
+
   };
 };
 
