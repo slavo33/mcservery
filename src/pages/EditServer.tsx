@@ -5,6 +5,7 @@ import Footer from "@/components/Footer";
 import { Button } from "@/components/ui/button";
 import { Switch } from "@/components/ui/switch";
 import { softwareOptions, versions, minigameOptions, proxyOptions } from "@/lib/mockData";
+import { getAvailablePlatforms, getAvailableSoftware, getAvailableProxies, sanitizeForVersion, validateVersionCombination, isNextGenVersion } from "@/lib/versionCompatibility";
 import { useState, useEffect, useRef, useMemo } from "react";
 import { Save, Key, Copy, Check, Wifi, WifiOff, Loader2 } from "lucide-react";
 import ServerImageUpload from "@/components/ServerImageUpload";
@@ -126,6 +127,23 @@ const EditServer = () => {
 
   const isValidBase64Key = (value: string) =>
     /^[A-Za-z0-9+/=]+$/.test(value) && value.length >= 16;
+
+  const availablePlatforms = getAvailablePlatforms(version);
+  const availableSoftware = getAvailableSoftware(version);
+  const availableProxies = getAvailableProxies(version);
+
+  const handleVersionChange = (nextVersion: string) => {
+    setVersion(nextVersion);
+    const cleaned = sanitizeForVersion({
+      version: nextVersion,
+      software,
+      proxy,
+      platform: selectedPlatform,
+    });
+    setSelectedPlatform(cleaned.platform);
+    setSoftware(cleaned.software);
+    setProxy(cleaned.proxy);
+  };
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -267,7 +285,7 @@ const EditServer = () => {
           <div>
             <label className="text-sm font-semibold text-foreground mb-2 block">{t("add_platform")}</label>
             <div className="flex gap-2">
-              {["Java", "Bedrock"].map((p) => (
+              {availablePlatforms.map((p) => (
                 <button key={p} type="button" onClick={() => togglePlatform(p)}
                   className={`filter-chip ${selectedPlatform.includes(p) ? "active" : ""}`}>{p}</button>
               ))}
@@ -277,7 +295,7 @@ const EditServer = () => {
           <div className="grid grid-cols-2 gap-4">
             <div>
               <label className="text-sm font-semibold text-foreground mb-1.5 block">{t("add_version")}</label>
-              <select value={version} onChange={(e) => setVersion(e.target.value)} className={inputClass}>
+              <select value={version} onChange={(e) => handleVersionChange(e.target.value)} className={inputClass}>
                 <option value="">—</option>
                 {versions.map((v) => <option key={v} value={v}>{v}</option>)}
               </select>
@@ -286,7 +304,7 @@ const EditServer = () => {
               <label className="text-sm font-semibold text-foreground mb-1.5 block">{t("add_software")}</label>
               <select value={software} onChange={(e) => setSoftware(e.target.value)} className={inputClass}>
                 <option value="">—</option>
-                {softwareOptions.map((s) => <option key={s} value={s}>{s}</option>)}
+                {availableSoftware.map((s) => <option key={s} value={s}>{s}</option>)}
               </select>
             </div>
           </div>
@@ -294,7 +312,7 @@ const EditServer = () => {
           <div>
             <label className="text-sm font-semibold text-foreground mb-1.5 block">{t("add_proxy")}</label>
             <select value={proxy} onChange={(e) => setProxy(e.target.value)} className={inputClass}>
-              {proxyOptions.map((p) => (
+              {availableProxies.map((p) => (
                 <option key={p} value={p === "Žiadny" ? "" : p}>{p}</option>
               ))}
             </select>
