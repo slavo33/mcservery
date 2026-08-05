@@ -106,9 +106,11 @@ async def read_page(page, path):
         'script[type="application/ld+json"]', "els => els.map(e => e.textContent || '')"
     )
     title = await page.title()
-    desc = await page.eval_on_selector(
-        'meta[name="description"]', "el => el.content", strict=False
-    ) if await page.query_selector('meta[name="description"]') else None
+    # react-helmet vkladá svoj tag ako posledný — statický fallback z index.html ignorujeme.
+    descs = await page.eval_on_selector_all(
+        'meta[name="description"]', "els => els.map(e => e.content)"
+    )
+    desc = descs[-1] if descs else None
     return entities(blocks), title, desc
 
 
@@ -130,9 +132,18 @@ async def check_common(page, path, org_urls):
         check(f"{path}: WebPage.isPartOf.url", is_clean((wp.get("isPartOf") or {}).get("url")))
         check(f"{path}: WebPage.publisher.name", is_clean((wp.get("publisher") or {}).get("name")))
         if title:
-            check(f"{path}: WebPage.name zodpovedá <title>", wp.get("name") == title, f"{wp.get('name')!r} vs {title!r}")
+            # `name` je názov stránky — musí byť súčasťou <title> (ten má navyše brand suffix).
+            check(
+                f"{path}: WebPage.name je súčasťou <title>",
+                str(wp.get("name", "")).lower() in title.lower(),
+                f"{wp.get('name')!r} vs {title!r}",
+            )
         if desc:
-            check(f"{path}: WebPage.description zodpovedá meta description", wp.get("description") == desc)
+            check(
+                f"{path}: WebPage.description zodpovedá meta description",
+                wp.get("description") == desc,
+                f"{wp.get('description')!r} vs {desc!r}",
+            )
 
     orgs = of_type(items, ["Organization"])
     check(f"{path}: práve jedna Organization entita", len(orgs) == 1, f"našiel {len(orgs)}")
