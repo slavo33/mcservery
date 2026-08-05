@@ -100,6 +100,9 @@ jobs:
         env:
           E2E_SUPABASE_ACCESS_TOKEN: ${{ secrets.E2E_SUPABASE_ACCESS_TOKEN }}
 
+      - name: E2E obrázky a GIF na profiloch (200 + zobrazenie)
+        run: python3 e2e/profile_images_e2e.py
+
       - name: E2E hlavičky sitemapy (Content-Type, status, caching)
         run: python3 e2e/sitemap_headers_e2e.py
 

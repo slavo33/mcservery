@@ -96,3 +96,10 @@ python3 e2e/sitemap_headers_e2e.py
 ```
 
 Poznámka: brána Supabase na doméne `*.supabase.co` degraduje Content-Type odpovede edge funkcie na `text/plain` (nosniff + CSP sandbox) — je to platformové obmedzenie, crawler používa doménovú `https://mcservery.one/sitemap.xml` s korektným `text/xml`. Test to hlási ako WARN.
+
+- `profile_images_e2e.py` — prejde domovskú stránku, `/staff` a prvých 5 profilov serverov a overí, že **každý obrázok a GIF vráti 200** (žiadne 404/403/5xx ani zlyhané requesty), má `content-type: image/*`, reálne sa v prehliadači dekóduje a zobrazí (`complete`, `naturalWidth > 0`, nenulová veľkosť v layoute), nemá prázdny `src` a má `alt` atribút. Kontroluje aj CSS background obrázky a lazy-loaded obsah (stránka sa preroluje). Screenshoty ukladá do `e2e/screenshots/images_*.png`.
+
+```bash
+python3 e2e/profile_images_e2e.py          # dev server na :8080
+E2E_BASE_URL=https://mcservery.one E2E_MAX_PROFILES=10 python3 e2e/profile_images_e2e.py
+```
