@@ -38,3 +38,15 @@ python3 e2e/version_badge_mobile_e2e.py
 ```
 
 Testovacie servery majú názov `E2E Mobile <timestamp>` a IP `e2emob<timestamp>.example.com` — po behu ich treba odstrániť z databázy.
+
+`version_jsonld_consistency_e2e.py` — overuje **konzistenciu odznaku verzie a JSON-LD** (`softwareVersion`) priamo v DOM:
+
+1. Vytvorí server s `26.2`; na profile porovná text `VersionBadge` s `softwareVersion` v `script[type="application/ld+json"]` (musí byť presná zhoda `v26.2`) a overí, že v DOM je práve jeden blok `SoftwareApplication`.
+2. Zmení verziu na `1.20.4` v editácii (`/server/:slug/edit`) — JSON-LD, `<title>` aj `meta[name=description]` sa musia aktualizovať **okamžite, bez reloadu**.
+3. Po tvrdom reloade profilu znova porovná odznak s JSON-LD a overí, že stará verzia sa nikde nenachádza.
+
+```bash
+python3 e2e/version_jsonld_consistency_e2e.py
+```
+
+Testovacie servery majú názov `E2E JsonLd <timestamp>` a IP `e2eld<timestamp>.example.com` — po behu ich treba odstrániť z databázy.
