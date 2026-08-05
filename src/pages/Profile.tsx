@@ -11,6 +11,7 @@ import { Camera, User, Heart, Settings, Server, Users } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import { useLanguage } from "@/i18n/LanguageContext";
 import type { MinecraftServer } from "@/lib/mockData";
+import SEO from "@/components/SEO";
 
 const Profile = () => {
   const { user, loading, profile, refreshProfile } = useAuth();
@@ -247,6 +248,7 @@ const Profile = () => {
 
   return (
     <div className="min-h-screen flex flex-col bg-background">
+    <SEO title="Môj profil | MCServery" description="Správa vášho profilu na MCServery." path="/profile" noindex />
       <Header />
       <main className="flex-1 container mx-auto px-4 py-10 max-w-3xl">
         <h1 className="font-display text-3xl sm:text-4xl font-bold text-foreground mb-8">
