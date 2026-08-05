@@ -9,6 +9,8 @@ import type { MinecraftServer } from "@/lib/mockData";
 import { supabase } from "@/integrations/supabase/client";
 import { useLanguage } from "@/i18n/LanguageContext";
 import { useMultiServerStatus } from "@/hooks/useMultiServerStatus";
+import { useSearchParams } from "react-router-dom";
+import { versions } from "@/lib/mockData";
 
 interface DbServer {
   id: string;
@@ -33,12 +35,29 @@ const Servers = () => {
   const { t } = useLanguage();
   const [search, setSearch] = useState("");
   const [platform, setPlatform] = useState("");
-  const [version, setVersion] = useState("");
+  const [searchParams, setSearchParams] = useSearchParams();
+  const versionParam = searchParams.get("version") ?? "";
+  const [version, setVersion] = useState(versions.includes(versionParam) ? versionParam : "");
   const [software, setSoftware] = useState("");
   const [sortBy, setSortBy] = useState<"votes" | "likes" | "players">("votes");
   const [sortDir, setSortDir] = useState<"desc" | "asc">("desc");
   const [showVipOnly, setShowVipOnly] = useState(false);
   const [dbServers, setDbServers] = useState<DbServer[]>([]);
+
+  // Filter podľa verzie sa drží v URL (napr. /servers?version=26.2),
+  // aby sa dal zdieľať a fungoval odkaz z odznaku na profile servera.
+  useEffect(() => {
+    const fromUrl = searchParams.get("version") ?? "";
+    setVersion(versions.includes(fromUrl) ? fromUrl : "");
+  }, [searchParams]);
+
+  const handleVersionChange = (v: string) => {
+    setVersion(v);
+    const next = new URLSearchParams(searchParams);
+    if (v) next.set("version", v);
+    else next.delete("version");
+    setSearchParams(next, { replace: true });
+  };
 
   useEffect(() => {
     const fetch = async () => {
@@ -128,7 +147,7 @@ const Servers = () => {
         <ServerFilters
           search={search} onSearchChange={setSearch}
           selectedPlatform={platform} onPlatformChange={setPlatform}
-          selectedVersion={version} onVersionChange={setVersion}
+          selectedVersion={version} onVersionChange={handleVersionChange}
           selectedSoftware={software} onSoftwareChange={setSoftware}
         />
 

@@ -1,9 +1,12 @@
 import { Tag } from "lucide-react";
+import { Link } from "react-router-dom";
 import { cn } from "@/lib/utils";
 
 interface VersionBadgeProps {
   version?: string | null;
   className?: string;
+  /** Ak je true, kliknutie na odznak otvorí zoznam serverov vyfiltrovaný podľa tejto verzie. */
+  linkToFilter?: boolean;
 }
 
 /**
@@ -18,23 +21,43 @@ export const formatVersion = (version?: string | null): string | null => {
   return `v${raw}`;
 };
 
-const VersionBadge = ({ version, className }: VersionBadgeProps) => {
+const VersionBadge = ({ version, className, linkToFilter = false }: VersionBadgeProps) => {
   const label = formatVersion(version);
   if (!label) return null;
 
-  return (
-    <span
-      key={label}
-      title={label}
-      aria-label={`Verzia ${label}`}
-      className={cn(
-        "badge-tag gap-1 whitespace-nowrap tabular-nums font-display tracking-tight",
-        "px-2.5 py-1 text-xs sm:text-sm max-w-full",
-        className
-      )}
-    >
+  const classes = cn(
+    "badge-tag gap-1 whitespace-nowrap tabular-nums font-display tracking-tight",
+    "px-2.5 py-1 text-xs sm:text-sm max-w-full",
+    linkToFilter &&
+      "cursor-pointer transition-colors hover:bg-primary/20 hover:text-primary focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring",
+    className
+  );
+
+  const content = (
+    <>
       <Tag className="h-3 w-3 shrink-0 opacity-70" aria-hidden="true" />
       <span className="truncate">{label}</span>
+    </>
+  );
+
+  if (linkToFilter) {
+    const plain = label.replace(/^v/, "");
+    return (
+      <Link
+        key={label}
+        to={`/servers?version=${encodeURIComponent(plain)}`}
+        title={`Zobraziť servery s verziou ${label}`}
+        aria-label={`Filtrovať servery podľa verzie ${label}`}
+        className={classes}
+      >
+        {content}
+      </Link>
+    );
+  }
+
+  return (
+    <span key={label} title={label} aria-label={`Verzia ${label}`} className={classes}>
+      {content}
     </span>
   );
 };
