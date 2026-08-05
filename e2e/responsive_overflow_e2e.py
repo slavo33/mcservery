@@ -124,6 +124,10 @@ LAYOUT_JS = """
     const visible = (el, r, st) =>
         r.width > 0 && r.height > 0 &&
         st.visibility !== 'hidden' && st.display !== 'none' && st.opacity !== '0';
+    // Vizuálne skryté prvky pre čítačky (sr-only) a klipované boxy neriešime.
+    const srOnly = (el, r, st) =>
+        el.classList.contains('sr-only') || st.clip === 'rect(0px, 0px, 0px, 0px)' ||
+        r.width <= 1 || r.height <= 1;
 
     const outside = [];
     const selfOverflow = [];
@@ -133,6 +137,7 @@ LAYOUT_JS = """
         const st = getComputedStyle(el);
         const r = el.getBoundingClientRect();
         if (!visible(el, r, st)) continue;
+        if (srOnly(el, r, st)) continue;
         if (st.position === 'fixed' && r.width <= vw + 1 && r.left >= -1) {
             // fixné prvky (napr. dialógy) kontrolujeme rovnako, len bez scrollu
         }
@@ -210,7 +215,16 @@ async def main():
             )
             page = await ctx.new_page()
             errors = []
-            page.on("console", lambda m: errors.append(m.text) if m.type == "error" else None)
+            def on_console(m):
+                if m.type != "error":
+                    return
+                t = m.text
+                # Dev-only React varovania z knižníc nie sú chybou rozloženia.
+                if t.startswith("Warning:") or "cannot be given refs" in t:
+                    return
+                errors.append(t)
+
+            page.on("console", on_console)
             page.on("pageerror", lambda e: errors.append(str(e)))
 
             for path in paths:
