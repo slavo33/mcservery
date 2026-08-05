@@ -14,6 +14,7 @@ import { useToast } from "@/hooks/use-toast";
 import { Send, Users, Copy, Settings, RefreshCw, Terminal, Wifi, WifiOff, Crown, ChevronDown, ChevronUp, LogIn, LogOut, Skull, Trophy, Ban, Download } from "lucide-react";
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
 import { useLanguage } from "@/i18n/LanguageContext";
+import SEO from "@/components/SEO";
 
 interface ChatMessage {
   id: string;
@@ -287,6 +288,7 @@ const ServerConsole = () => {
 
   return (
     <div className="min-h-screen bg-background flex flex-col">
+    <SEO title="Server konzola | MCServery" description="Živá konzola vášho Minecraft servera." path="/console" noindex />
       <Header />
       <main className="flex-1 container mx-auto px-4 py-6 max-w-6xl">
         <div className="flex items-center gap-3 mb-6">

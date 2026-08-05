@@ -8,6 +8,7 @@ import Footer from "@/components/Footer";
 import { toast } from "sonner";
 import { useLanguage } from "@/i18n/LanguageContext";
 import { useAuth } from "@/hooks/useAuth";
+import SEO from "@/components/SEO";
 
 const Auth = () => {
   const [isLogin, setIsLogin] = useState(true);
@@ -63,6 +64,7 @@ const Auth = () => {
 
   return (
     <div className="min-h-screen flex flex-col bg-background">
+    <SEO title="Prihlásenie | MCServery" description="Prihláste sa alebo si vytvorte účet na MCServery." path="/auth" noindex />
       <Header />
       <main className="flex-1 flex items-center justify-center px-4 py-16">
         <div className="w-full max-w-md gradient-card rounded-lg border border-border shadow-card p-8">

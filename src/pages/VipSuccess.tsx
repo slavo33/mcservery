@@ -7,6 +7,7 @@ import { useAuth } from "@/hooks/useAuth";
 import { useLanguage } from "@/i18n/LanguageContext";
 import { CheckCircle, ArrowRight } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import SEO from "@/components/SEO";
 
 const VipSuccess = () => {
   const { t } = useLanguage();
@@ -37,6 +38,7 @@ const VipSuccess = () => {
 
   return (
     <div className="min-h-screen flex flex-col bg-background">
+    <SEO title="VIP aktivované | MCServery" description="Potvrdenie VIP nákupu na MCServery." path="/vip-success" noindex />
       <Header />
       <main className="flex-1 container mx-auto px-4 py-20 text-center">
         {status === "verifying" && (

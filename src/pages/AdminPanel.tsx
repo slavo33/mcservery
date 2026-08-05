@@ -14,6 +14,7 @@ import BugReportsAdmin from "@/components/BugReportsAdmin";
 import StaffPostVipAdmin from "@/components/StaffPostVipAdmin";
 import BannedUsersAdmin from "@/components/BannedUsersAdmin";
 import { Button } from "@/components/ui/button";
+import SEO from "@/components/SEO";
 
 interface Report {
   id: string;
@@ -210,6 +211,7 @@ const AdminPanel = () => {
 
   return (
     <div className="min-h-screen flex flex-col bg-background">
+    <SEO title="Admin panel | MCServery" description="Administrácia MCServery." path="/admin" noindex />
       <Header />
       <main className="flex-1 container mx-auto px-4 py-10 max-w-4xl">
         <div className="flex items-center gap-3 mb-6">

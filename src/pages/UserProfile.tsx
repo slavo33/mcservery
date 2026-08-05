@@ -8,6 +8,7 @@ import { User, ArrowLeft } from "lucide-react";
 import { Avatar, AvatarImage, AvatarFallback } from "@/components/ui/avatar";
 import { useLanguage } from "@/i18n/LanguageContext";
 import type { MinecraftServer } from "@/lib/mockData";
+import SEO from "@/components/SEO";
 
 interface UserProfileData {
   id: string;
@@ -105,6 +106,11 @@ const UserProfile = () => {
 
   return (
     <div className="min-h-screen flex flex-col bg-background">
+    <SEO
+      title={`${profile.nickname} — profil používateľa | MCServery`}
+      description={`Servery a profil používateľa ${profile.nickname} na MCServery.`}
+      path={`/user/${userId ?? ""}`}
+    />
       <Header />
       <main className="flex-1 container mx-auto px-4 py-10 max-w-3xl">
         <Link
