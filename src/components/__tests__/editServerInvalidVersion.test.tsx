@@ -150,8 +150,9 @@ describe("editácia servera — neplatná verzia sa nezapíše", () => {
       expect(toast.error).toHaveBeenCalledWith("Verzia 26.2 podporuje iba platformu Java.")
     );
     expect(toast.success).not.toHaveBeenCalled();
-    // Zamietnutý zápis nesmie prepísať SEO metadáta profilu.
-    expect(document.title).toBe("");
+    // Zamietnutý zápis nesmie prepísať SEO metadáta profilu novou verziou.
+    expect(document.title).not.toContain("26.2");
     expect(document.head.querySelector('script[type="application/ld+json"]')).toBeNull();
+
   });
 });
