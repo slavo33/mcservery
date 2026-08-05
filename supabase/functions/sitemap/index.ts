@@ -141,19 +141,30 @@ Deno.serve(async (req) => {
 
     const xml = render([...statics, ...serverEntries, ...staffEntries]);
 
-    return new Response(xml, {
-      headers: {
-        ...corsHeaders,
-        "Content-Type": "application/xml; charset=utf-8",
-        // Krátka cache – zmena profilu sa prejaví do minúty.
-        "Cache-Control": "public, max-age=60, s-maxage=60",
-      },
-    });
+    // Hlavičky staviame cez Headers, aby nevznikla duplicitná Content-Type
+    // (corsHeaders môže obsahovať vlastnú hodnotu v inom zápise).
+    const headers = new Headers(corsHeaders);
+    headers.set("Content-Type", "application/xml; charset=utf-8");
+    // Krátka cache – zmena profilu sa prejaví do minúty, žiadny pre-cache.
+    headers.set("Cache-Control", "public, max-age=60, s-maxage=60, must-revalidate");
+    // Validátory pre podmienené požiadavky crawlerov.
+    const digest = await crypto.subtle.digest("SHA-1", new TextEncoder().encode(xml));
+    const etag = `"${Array.from(new Uint8Array(digest)).map((b) => b.toString(16).padStart(2, "0")).join("")}"`;
+    headers.set("ETag", etag);
+    const lastmod = newestAny ? new Date(newestAny) : new Date();
+    headers.set("Last-Modified", lastmod.toUTCString());
+
+    if (req.headers.get("if-none-match") === etag) {
+      return new Response(null, { status: 304, headers });
+    }
+
+    return new Response(req.method === "HEAD" ? null : xml, { headers });
   } catch (e) {
     console.error("sitemap error", e);
-    return new Response("sitemap generation failed", {
-      status: 500,
-      headers: { ...corsHeaders, "Content-Type": "text/plain" },
-    });
+    const headers = new Headers(corsHeaders);
+    headers.set("Content-Type", "text/plain; charset=utf-8");
+    headers.set("Cache-Control", "no-store");
+    return new Response("sitemap generation failed", { status: 500, headers });
   }
 });
+
