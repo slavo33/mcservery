@@ -40,6 +40,7 @@ const VersionBadge = ({
   const [open, setOpen] = useState(false);
   // Na dotykových zariadeniach otvorí tooltip prvý ťuk, odkaz nasleduje až pri druhom.
   const touchedRef = useRef(false);
+  const shownRef = useRef(false);
 
   const label = formatVersion(version);
   if (!label) return null;
