@@ -77,6 +77,7 @@ python3 e2e/sitemap_format_e2e.py
 ```
 
 
+- `sitemap_coverage_e2e.py` — opačný smer (stránky → sitemap): overí, že každá verejná statická route z `src/App.tsx`, každý server so slugom a každý aktívny nábor sú v sitemap.xml, že neindexovateľné cesty (`/auth`, `/admin`, `/profile`, `/console`, `/vip-success`, `*/edit`, `/user/:id`) tam nie sú, a že vzorka URL má self-referencing canonical bez `noindex`.
 - `sitemap_indexability_e2e.py` — overí, že každá URL zo sitemap.xml vracia HTTP 200 (žiadne 404/500), nemá `meta robots noindex`, nie je soft-404 a má self-referencing canonical. Statický náprotivok beží v hlavnom CI jobe: `src/integration/__tests__/sitemapIndexability.test.ts`.
 
 - `sitemap_freshness_e2e.py` — overí živú sitemapu z edge funkcie `sitemap` (regeneruje sa pri každom požiadavku): rovnaká množina URL ako statická sitemapa, `lastmod` presne zodpovedá `updated_at` profilu a po úprave profilu sa obnoví do 60 sekúnd.
