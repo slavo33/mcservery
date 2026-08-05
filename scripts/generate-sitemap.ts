@@ -6,6 +6,8 @@ import { writeFileSync, readFileSync, existsSync } from "fs";
 import { resolve } from "path";
 
 const BASE_URL = "https://mcservery.one";
+// Bezpečnostný strop pre počet URL v sitemape (limit protokolu je 50 000).
+const MAX_URLS = Number(process.env.SITEMAP_MAX_URLS ?? 45000);
 
 // Read Supabase creds from .env (publishable anon key — safe for read-only public data).
 function readEnv(key: string): string | undefined {
@@ -53,7 +55,7 @@ async function fetchDynamicEntries(): Promise<SitemapEntry[]> {
 
   try {
     const serversRes = await fetch(
-      `${url}/rest/v1/servers?select=slug,updated_at&slug=not.is.null`,
+      `${url}/rest/v1/servers?select=slug,updated_at&slug=not.is.null&limit=45000`,
       { headers }
     );
     if (serversRes.ok) {
@@ -74,7 +76,7 @@ async function fetchDynamicEntries(): Promise<SitemapEntry[]> {
 
   try {
     const staffRes = await fetch(
-      `${url}/rest/v1/staff_posts?select=slug,updated_at&is_active=eq.true&slug=not.is.null`,
+      `${url}/rest/v1/staff_posts?select=slug,updated_at&is_active=eq.true&slug=not.is.null&limit=45000`,
       { headers }
     );
     if (staffRes.ok) {
@@ -120,7 +122,11 @@ function generateSitemap(entries: SitemapEntry[]) {
 
 async function main() {
   const dynamic = await fetchDynamicEntries();
-  const entries = [...staticEntries, ...dynamic];
+  const all = [...staticEntries, ...dynamic];
+  const entries = all.slice(0, MAX_URLS);
+  if (all.length > entries.length) {
+    console.warn(`sitemap: orezané na ${MAX_URLS} URL (celkom ${all.length})`);
+  }
   writeFileSync(resolve("public/sitemap.xml"), generateSitemap(entries));
   console.log(`sitemap.xml written (${entries.length} entries)`);
 }
