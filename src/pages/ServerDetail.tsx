@@ -207,15 +207,40 @@ const ServerDetailPage = () => {
     );
   }
 
-  if (!server) {
+  if (loadError || !server) {
     return (
       <div className="min-h-screen flex flex-col bg-background">
+        <SEO
+          title={loadError ? "Chyba načítania servera" : "Server sa nenašiel"}
+          description="Profil servera sa nepodarilo zobraziť."
+          path={`/server/${slug ?? ""}`}
+          noindex
+        />
         <Header />
-        <main className="flex-1 flex items-center justify-center"><p className="text-muted-foreground">{t("detail_not_found")}</p></main>
+        <main className="flex-1 flex flex-col items-center justify-center gap-4 px-4 text-center">
+          <p className="text-muted-foreground">
+            {loadError ? t("detail_load_error") : t("detail_not_found")}
+          </p>
+          <div className="flex gap-3">
+            {loadError && (
+              <button className="btn-primary" onClick={() => window.location.reload()}>
+                {t("detail_retry")}
+              </button>
+            )}
+            <Link to="/servers" className="btn-secondary">
+              {t("nav_servers")}
+            </Link>
+          </div>
+        </main>
         <Footer />
       </div>
     );
   }
+
+  // Bezpečnostná poistka: bez platnej verzie by profil bol nekonzistentný
+  // (odznak, SEO aj JSON-LD by si protirečili) — radšej zobrazíme bezpečný stav.
+  const safeVersion = formatVersion(server.version);
+
 
   const links = [
     { url: server.discord_url, label: "Discord" },
