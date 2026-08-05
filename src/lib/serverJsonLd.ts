@@ -67,6 +67,12 @@ export const buildServerJsonLd = ({
 }: ServerJsonLdInput): Record<string, unknown> => {
   const editions = toEditions(platform);
   const loader = toLoader(software);
+  const properties = [
+    editions.length > 0
+      ? { "@type": "PropertyValue", name: "Edition", value: editions.join(", ") }
+      : null,
+    loader ? { "@type": "PropertyValue", name: "Server software", value: loader } : null,
+  ].filter(Boolean) as Record<string, string>[];
   return {
     "@context": "https://schema.org",
     "@type": "SoftwareApplication",
@@ -77,21 +83,8 @@ export const buildServerJsonLd = ({
     operatingSystem: toOperatingSystem(platform),
     softwareVersion: toSoftwareVersion(version) ?? undefined,
     runtimePlatform: loader,
-    additionalProperty: [
-      editions.length > 0
-        ? { "@type": "PropertyValue", name: "Edition", value: editions.join(", ") }
-        : undefined,
-      loader ? { "@type": "PropertyValue", name: "Server software", value: loader } : undefined,
-    ].filter(Boolean).length
-      ? [
-          editions.length > 0
-            ? { "@type": "PropertyValue", name: "Edition", value: editions.join(", ") }
-            : undefined,
-          loader
-            ? { "@type": "PropertyValue", name: "Server software", value: loader }
-            : undefined,
-        ].filter(Boolean)
-      : undefined,
+    additionalProperty: properties.length > 0 ? properties : undefined,
+
     offers: { "@type": "Offer", price: "0", priceCurrency: "EUR" },
     aggregateRating:
       likesCount && likesCount > 0
