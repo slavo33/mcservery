@@ -89,7 +89,7 @@ const Index = () => {
           ...buildPageJsonLdGraph({
             name: "MCServery — Databáza Minecraft serverov",
             description:
-              "Databáza Minecraft serverov. Rýchlo, prehľadne a jednoducho na jednom mieste.",
+              "Databáza Minecraft serverov. Rýchlo, prehľadne a jednoducho na jednom mieste. Nájdi si server alebo pridaj svoj do najväčšej komunity hráčov.",
             path: "/",
           }),
         ]}

@@ -16,7 +16,7 @@ const Privacy = () => {
         path="/privacy"
         jsonLd={buildPageJsonLdGraph({
           name: "Ochrana súkromia",
-          description: "Zásady ochrany osobných údajov služby MCServery.",
+          description: "Zásady ochrany osobných údajov služby MCServery. Zisti, ako spracúvame a chránime tvoje údaje pri používaní databázy Minecraft serverov.",
           path: "/privacy",
           breadcrumbs: [["Ochrana súkromia", "/privacy"]],
         })}
