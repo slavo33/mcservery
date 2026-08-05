@@ -2,12 +2,14 @@
 // Pulls dynamic server + staff-post slugs from the database so crawlers
 // can discover every public detail page. Runs via predev/prebuild hooks.
 
-import { writeFileSync, readFileSync, existsSync } from "fs";
+import { writeFileSync, readFileSync, existsSync, readdirSync, unlinkSync } from "fs";
 import { resolve } from "path";
 
 const BASE_URL = "https://mcservery.one";
 // Bezpečnostný strop pre počet URL v sitemape (limit protokolu je 50 000).
 const MAX_URLS = Number(process.env.SITEMAP_MAX_URLS ?? 45000);
+// Po prekročení tohto počtu sa sitemap rozdelí na chunky + sitemap index.
+const URLS_PER_FILE = Number(process.env.SITEMAP_URLS_PER_FILE ?? 5000);
 
 // Read Supabase creds from .env (publishable anon key — safe for read-only public data).
 function readEnv(key: string): string | undefined {
@@ -140,6 +142,35 @@ function generateSitemap(entries: SitemapEntry[]) {
   ].join("\n");
 }
 
+function generateSitemapIndex(files: { name: string; lastmod?: string }[]) {
+  const items = files.map((f) =>
+    [
+      `  <sitemap>`,
+      `    <loc>${BASE_URL}/${f.name}</loc>`,
+      f.lastmod ? `    <lastmod>${f.lastmod}</lastmod>` : null,
+      `  </sitemap>`,
+    ]
+      .filter(Boolean)
+      .join("\n")
+  );
+
+  return [
+    `<?xml version="1.0" encoding="UTF-8"?>`,
+    `<sitemapindex xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">`,
+    ...items,
+    `</sitemapindex>`,
+  ].join("\n");
+}
+
+/** Odstráni chunky z predchádzajúceho behu, aby nezostali zastarané URL. */
+function cleanupOldChunks(keep: string[]) {
+  for (const file of readdirSync(resolve("public"))) {
+    if (/^sitemap-\d+\.xml$/.test(file) && !keep.includes(file)) {
+      unlinkSync(resolve("public", file));
+    }
+  }
+}
+
 async function main() {
   const dynamic = await fetchDynamicEntries();
 
@@ -163,8 +194,33 @@ async function main() {
   if (all.length > entries.length) {
     console.warn(`sitemap: orezané na ${MAX_URLS} URL (celkom ${all.length})`);
   }
-  writeFileSync(resolve("public/sitemap.xml"), generateSitemap(entries));
-  console.log(`sitemap.xml written (${entries.length} entries)`);
+
+  if (entries.length <= URLS_PER_FILE) {
+    // Malý web: jeden urlset priamo v sitemap.xml.
+    cleanupOldChunks([]);
+    writeFileSync(resolve("public/sitemap.xml"), generateSitemap(entries));
+    console.log(`sitemap.xml written (${entries.length} entries)`);
+    return;
+  }
+
+  // Väčší web: rozdelíme na chunky a sitemap.xml sa stane indexom.
+  const chunks: SitemapEntry[][] = [];
+  for (let i = 0; i < entries.length; i += URLS_PER_FILE) {
+    chunks.push(entries.slice(i, i + URLS_PER_FILE));
+  }
+
+  const files = chunks.map((chunk, i) => {
+    const name = `sitemap-${i + 1}.xml`;
+    writeFileSync(resolve("public", name), generateSitemap(chunk));
+    return { name, lastmod: newestLastmod(chunk) };
+  });
+
+  cleanupOldChunks(files.map((f) => f.name));
+  writeFileSync(resolve("public/sitemap.xml"), generateSitemapIndex(files));
+  console.log(
+    `sitemap.xml index written (${files.length} súborov, ${entries.length} entries)`
+  );
 }
 
 main();
+
