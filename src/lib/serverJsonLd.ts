@@ -104,7 +104,10 @@ export interface ServerMetaInput {
   slug?: string | null;
   image?: string | null;
   likesCount?: number | null;
+  platform?: string[] | null;
+  software?: string | null;
 }
+
 
 /** Jednotný zdroj title/description/JSON-LD pre profil servera (formulár aj profil). */
 export const buildServerMeta = (server: ServerMetaInput) => {
