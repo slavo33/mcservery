@@ -48,6 +48,8 @@ interface ServerDetailData {
   vote_count?: number;
   vote_cooldown_hours?: number;
   slug?: string;
+  created_at?: string;
+  updated_at?: string;
   vip_tier?: string | null;
 }
 
