@@ -117,3 +117,10 @@ UPDATE_BASELINES=1 python3 e2e/profile_responsive_visual_e2e.py   # po zámernej
 python3 e2e/sitemap_redirects_e2e.py
 E2E_BASE_URL=https://mcservery.one E2E_MAX_URLS=30 python3 e2e/sitemap_redirects_e2e.py
 ```
+
+- `canonical_indexability_e2e.py` — pre každú indexovateľnú URL (statické verejné route + URL zo sitemapy) overí, že HTML obsahuje **práve jeden** `<link rel="canonical">`, že je to absolútna `https://mcservery.one` URL a že je **self-referencing** (cesta canonicalu = cesta stránky, ignoruje sa koncové `/`). Zároveň kontroluje, že `<meta name="robots">` ani `googlebot` neobsahujú `noindex`/`none`. Neverejné route (`/admin`, `/auth`, `/profile`) musia byť naopak `noindex` alebo presmerované preč a nesmú byť v sitemape.
+
+```bash
+python3 e2e/canonical_indexability_e2e.py
+E2E_BASE_URL=https://mcservery.one E2E_MAX_URLS=30 python3 e2e/canonical_indexability_e2e.py
+```
