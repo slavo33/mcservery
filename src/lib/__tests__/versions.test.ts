@@ -5,6 +5,8 @@ import {
   getAvailablePlatforms,
   getAvailableSoftware,
   validateVersionCombination,
+  sanitizeForVersion,
+  validateVersionSelection,
 } from "@/lib/versionCompatibility";
 
 const NEW_VERSIONS = ["26.2", "26.1.2", "26.1.1", "26.1"];
@@ -54,4 +56,56 @@ describe("kompatibilita verzií 26.x", () => {
     ).toBeNull();
   });
 
+});
+
+describe("blokovanie nekompatibilných volieb pri 26.2", () => {
+  it("odmietne loader/software bez buildu pre 26.x a poradí náhradu", () => {
+    const err = validateVersionCombination({
+      version: "26.2",
+      software: "Magma",
+      proxy: "",
+      platform: ["Java"],
+    });
+    expect(err).toContain("Magma");
+    expect(err).toContain("Paper");
+  });
+
+  it("odmietne staré proxy (BungeeCord/Waterfall) a ponúkne Velocity", () => {
+    for (const proxy of ["BungeeCord", "Waterfall"]) {
+      const err = validateVersionCombination({
+        version: "26.2",
+        software: "Paper",
+        proxy,
+        platform: ["Java"],
+      });
+      expect(err).toContain(proxy);
+      expect(err).toContain("Velocity");
+    }
+  });
+
+  it("povolí Žiadny proxy aj podporované proxy", () => {
+    for (const proxy of ["Žiadny", "Velocity", "Gate", "Infrared"]) {
+      expect(
+        validateVersionCombination({ version: "26.2", software: "Paper", proxy, platform: ["Java"] })
+      ).toBeNull();
+    }
+  });
+
+  it("sanitizeForVersion vyčistí nekompatibilné voľby pri prechode na 26.2", () => {
+    const cleaned = sanitizeForVersion({
+      version: "26.2",
+      software: "Magma",
+      proxy: "BungeeCord",
+      platform: ["Java", "Bedrock"],
+    });
+    expect(cleaned.platform).toEqual(["Java"]);
+    expect(cleaned.software).toBe("");
+    expect(cleaned.proxy).toBe("");
+  });
+
+  it("nedovolí uložiť bez verzie ani s neznámou verziou", () => {
+    expect(validateVersionSelection("")).toBeTruthy();
+    expect(validateVersionSelection("99.9.9")).toContain("nie je v zozname");
+    expect(validateVersionSelection("26.2")).toBeNull();
+  });
 });
