@@ -46,9 +46,12 @@ describe("kompatibilita verzií 26.x", () => {
   });
 
   it("blokuje neplatnú kombináciu 26.2 + Bedrock", () => {
-    const invalid = validateVersionCombination("26.2", "Bedrock", [], "");
-    expect(invalid.valid).toBe(false);
-    const valid = validateVersionCombination("26.2", "Java", ["Paper"], "Velocity");
-    expect(valid.valid).toBe(true);
+    expect(
+      validateVersionCombination({ version: "26.2", software: "", proxy: "", platform: ["Bedrock"] })
+    ).toBeTruthy();
+    expect(
+      validateVersionCombination({ version: "26.2", software: "Paper", proxy: "Velocity", platform: ["Java"] })
+    ).toBeNull();
   });
+
 });
