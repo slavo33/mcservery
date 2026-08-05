@@ -13,7 +13,9 @@ interface VersionBadgeProps {
  */
 export const formatVersion = (version?: string | null): string | null => {
   const raw = (version ?? "").trim().replace(/^v/i, "").trim();
-  return raw ? `v${raw}` : null;
+  // Zobrazujeme len rozumné číselné verzie (napr. 26.2, 1.21.4) — nikdy prázdnu či nezmyselnú hodnotu.
+  if (!/^\d+(\.\d+){0,3}$/.test(raw)) return null;
+  return `v${raw}`;
 };
 
 const VersionBadge = ({ version, className }: VersionBadgeProps) => {

@@ -1,4 +1,4 @@
-import { softwareOptions, proxyOptions } from "@/lib/mockData";
+import { softwareOptions, proxyOptions, versions } from "@/lib/mockData";
 
 /**
  * Next-gen Minecraft verzie (26.x) sú zatiaľ len pre Java Edition.
@@ -85,3 +85,16 @@ export const sanitizeForVersion = (input: CompatibilityInput) => ({
     ? input.proxy
     : "",
 });
+
+/** Overí, že verzia je jedna z podporovaných hodnôt zo zoznamu. */
+export const isKnownVersion = (version?: string | null): boolean => {
+  const v = (version ?? "").trim().replace(/^v/i, "");
+  return !!v && versions.includes(v);
+};
+
+/** Validácia povinnej verzie vo formulári. */
+export const validateVersionSelection = (version?: string | null): string | null => {
+  if (!(version ?? "").trim()) return "Vyber verziu Minecraftu.";
+  if (!isKnownVersion(version)) return `Verzia ${version} nie je podporovaná.`;
+  return null;
+};
