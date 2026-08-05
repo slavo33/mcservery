@@ -12,6 +12,7 @@ import ServerImageUpload from "@/components/ServerImageUpload";
 import { supabase } from "@/integrations/supabase/client";
 import { useAuth } from "@/hooks/useAuth";
 import { toast } from "sonner";
+import { applyServerHeadMeta } from "@/lib/serverJsonLd";
 import { useNavigate, useParams } from "react-router-dom";
 import { useLanguage } from "@/i18n/LanguageContext";
 
@@ -237,6 +238,16 @@ const EditServer = () => {
           votifier_token: votifierToken.trim() || null,
         } as any)
         .eq("server_id", serverId);
+
+      // Titulok a sociálne meta tagy prepíšeme okamžite, ešte pred navigáciou.
+      applyServerHeadMeta({
+        name: name.trim(),
+        ip: ip.trim(),
+        description: description.trim(),
+        version: version.trim(),
+        slug,
+        image: serverImages[0] || null,
+      });
 
       toast.success(t("edit_save_success"));
       navigate(`/server/${slug}`);
