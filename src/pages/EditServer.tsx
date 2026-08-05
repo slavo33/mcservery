@@ -15,6 +15,7 @@ import { toast } from "sonner";
 import { applyServerHeadMeta } from "@/lib/serverJsonLd";
 import { useNavigate, useParams } from "react-router-dom";
 import { useLanguage } from "@/i18n/LanguageContext";
+import SEO from "@/components/SEO";
 
 const EditServer = () => {
   const { slug } = useParams<{ slug: string }>();
@@ -306,6 +307,7 @@ const EditServer = () => {
 
   return (
     <div className="min-h-screen flex flex-col bg-background">
+      <SEO title="Upraviť server | MCServery" description="Úprava profilu Minecraft servera na MCServery." path={`/server/${slug ?? ""}/edit`} noindex />
       <Header />
       <main className="flex-1 container mx-auto px-4 py-10 max-w-2xl">
         <h1 className="font-display text-4xl font-bold text-foreground mb-2">
