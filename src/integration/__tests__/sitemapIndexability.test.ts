@@ -33,9 +33,15 @@ function toPath(loc: string): string {
 function routeMap(): Array<{ pattern: string; file: string }> {
   const app = readFileSync(resolve(root, "src/App.tsx"), "utf-8");
   const imports = new Map<string, string>();
-  for (const m of app.matchAll(/import\s+(\w+)\s+from\s+"(@\/pages\/[^"]+)"/g)) {
-    imports.set(m[1], m[2].replace("@/", "src/") + ".tsx");
+  // statické importy: import Index from "./pages/Index"
+  for (const m of app.matchAll(/import\s+(\w+)\s+from\s+"(?:@\/|\.\/)(pages\/[^"]+)"/g)) {
+    imports.set(m[1], "src/" + m[2] + ".tsx");
   }
+  // lazy importy: const Servers = lazy(() => import("./pages/Servers"))
+  for (const m of app.matchAll(/const\s+(\w+)\s*=\s*lazy\(\(\)\s*=>\s*import\("(?:@\/|\.\/)(pages\/[^"]+)"\)\)/g)) {
+    imports.set(m[1], "src/" + m[2] + ".tsx");
+  }
+
   const routes: Array<{ pattern: string; file: string }> = [];
   for (const m of app.matchAll(/<Route\s+path="([^"]+)"\s+element=\{<(\w+)/g)) {
     const file = imports.get(m[2]);
