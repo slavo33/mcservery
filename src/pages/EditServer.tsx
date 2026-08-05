@@ -150,6 +150,14 @@ const EditServer = () => {
     setProxy(cleaned.proxy);
   };
 
+  const versionFix = getCompatibleFix({ version, software, proxy, platform: selectedPlatform });
+
+  const applyCompatibleFix = () => {
+    setSelectedPlatform(versionFix.platform);
+    setSoftware(versionFix.software);
+    setProxy(versionFix.proxy);
+  };
+
   // Živá validácia — nekompatibilita sa ukáže hneď pri zmene verzie,
   // softvéru, proxy alebo platformy, bez čakania na uloženie.
   useEffect(() => {
