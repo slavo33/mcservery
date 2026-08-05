@@ -110,3 +110,10 @@ E2E_BASE_URL=https://mcservery.one E2E_MAX_PROFILES=10 python3 e2e/profile_image
 python3 e2e/profile_responsive_visual_e2e.py
 UPDATE_BASELINES=1 python3 e2e/profile_responsive_visual_e2e.py   # po zámernej zmene dizajnu
 ```
+
+- `sitemap_redirects_e2e.py` — pre URL zo `sitemap.xml` (aj cez sitemap index) sleduje **reťaz presmerovaní bez nasledovania**: každý hop musí byť trvalý (301/308) s hlavičkou `Location`, max 3 hopy, **žiadny cyklus**, finálny status 200 (nikdy 404/410/5xx). Následne otvorí každú URL v prehliadači a overí, že sa nezobrazí 404 obrazovka, stránka má obsah, URL neskončila na nečakanom mieste (`/auth`, `/404`, domov), `canonical` sedí s cestou, stránka nie je `noindex` a nevznikli JS chyby. Testuje aj varianty s koncovým lomkom.
+
+```bash
+python3 e2e/sitemap_redirects_e2e.py
+E2E_BASE_URL=https://mcservery.one E2E_MAX_URLS=30 python3 e2e/sitemap_redirects_e2e.py
+```
