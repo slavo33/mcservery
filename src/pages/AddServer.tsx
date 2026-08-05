@@ -97,7 +97,9 @@ const AddServer = () => {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+    setSubmitAttempted(true);
     if (!user) {
+
       toast.error(t("add_login_required"));
       navigate("/auth");
       return;
