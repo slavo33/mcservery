@@ -1,0 +1,660 @@
+[
+  {
+    "url": "/",
+    "viewport": "mobil-390",
+    "rule": "landmark-unique",
+    "impact": "moderate",
+    "help": "Landmarks should have a unique role or role/label/title (i.e. accessible name) combination",
+    "helpUrl": "https://dequeuniversity.com/rules/axe/4.13/landmark-unique?application=axeAPI",
+    "count": 1,
+    "targets": [
+      "div:nth-child(2) > nav"
+    ],
+    "summary": [
+      "Fix any of the following:   The landmark must have a unique aria-label, aria-labelledby, or title to make landmarks distinguishable"
+    ]
+  },
+  {
+    "url": "/servers",
+    "viewport": "mobil-390",
+    "rule": "color-contrast",
+    "impact": "serious",
+    "help": "Elements must meet minimum color contrast ratio thresholds",
+    "helpUrl": "https://dequeuniversity.com/rules/axe/4.13/color-contrast?application=axeAPI",
+    "count": 1,
+    "targets": [
+      ".border-primary"
+    ],
+    "summary": [
+      "Fix any of the following:   Element has insufficient color contrast of 3.67 (foreground color: #dc2828, background color: #261414, font size: 10.5pt (14px), font weight: normal). Expected contrast rat"
+    ]
+  },
+  {
+    "url": "/servers",
+    "viewport": "mobil-390",
+    "rule": "heading-order",
+    "impact": "moderate",
+    "help": "Heading levels should only increase by one",
+    "helpUrl": "https://dequeuniversity.com/rules/axe/4.13/heading-order?application=axeAPI",
+    "count": 1,
+    "targets": [
+      "div[data-server-ip=\"play.ciwland.cz\"] > .p-4.min-w-0 > .items-start.mb-2.gap-2 > h3"
+    ],
+    "summary": [
+      "Fix any of the following:   Heading order invalid"
+    ]
+  },
+  {
+    "url": "/servers",
+    "viewport": "mobil-390",
+    "rule": "landmark-unique",
+    "impact": "moderate",
+    "help": "Landmarks should have a unique role or role/label/title (i.e. accessible name) combination",
+    "helpUrl": "https://dequeuniversity.com/rules/axe/4.13/landmark-unique?application=axeAPI",
+    "count": 1,
+    "targets": [
+      "div:nth-child(2) > nav"
+    ],
+    "summary": [
+      "Fix any of the following:   The landmark must have a unique aria-label, aria-labelledby, or title to make landmarks distinguishable"
+    ]
+  },
+  {
+    "url": "/staff",
+    "viewport": "mobil-390",
+    "rule": "button-name",
+    "impact": "critical",
+    "help": "Buttons must have discernible text",
+    "helpUrl": "https://dequeuniversity.com/rules/axe/4.13/button-name?application=axeAPI",
+    "count": 1,
+    "targets": [
+      ".\\[\\&\\>span\\]\\:line-clamp-1"
+    ],
+    "summary": [
+      "Fix any of the following:   Element does not have inner text that is visible to screen readers   aria-label attribute does not exist or is empty   aria-labelledby attribute does not exist, references "
+    ]
+  },
+  {
+    "url": "/staff",
+    "viewport": "mobil-390",
+    "rule": "color-contrast",
+    "impact": "serious",
+    "help": "Elements must meet minimum color contrast ratio thresholds",
+    "helpUrl": "https://dequeuniversity.com/rules/axe/4.13/color-contrast?application=axeAPI",
+    "count": 2,
+    "targets": [
+      ".px-2\\.5",
+      ".text-muted-foreground\\/50:nth-child(4)"
+    ],
+    "summary": [
+      "Fix any of the following:   Element has insufficient color contrast of 3.25 (foreground color: #dc2828, background color: #371c1c, font size: 9.0pt (12px), font weight: normal). Expected contrast rati",
+      "Fix any of the following:   Element has insufficient color contrast of 2.52 (foreground color: #5a5a5a, background color: #1a1a1a, font size: 9.0pt (12px), font weight: normal). Expected contrast rati"
+    ]
+  },
+  {
+    "url": "/staff",
+    "viewport": "mobil-390",
+    "rule": "heading-order",
+    "impact": "moderate",
+    "help": "Heading levels should only increase by one",
+    "helpUrl": "https://dequeuniversity.com/rules/axe/4.13/heading-order?application=axeAPI",
+    "count": 1,
+    "targets": [
+      "div:nth-child(2) > h4"
+    ],
+    "summary": [
+      "Fix any of the following:   Heading order invalid"
+    ]
+  },
+  {
+    "url": "/staff",
+    "viewport": "mobil-390",
+    "rule": "landmark-unique",
+    "impact": "moderate",
+    "help": "Landmarks should have a unique role or role/label/title (i.e. accessible name) combination",
+    "helpUrl": "https://dequeuniversity.com/rules/axe/4.13/landmark-unique?application=axeAPI",
+    "count": 1,
+    "targets": [
+      "div:nth-child(2) > .flex-col"
+    ],
+    "summary": [
+      "Fix any of the following:   The landmark must have a unique aria-label, aria-labelledby, or title to make landmarks distinguishable"
+    ]
+  },
+  {
+    "url": "/vip",
+    "viewport": "mobil-390",
+    "rule": "color-contrast",
+    "impact": "serious",
+    "help": "Elements must meet minimum color contrast ratio thresholds",
+    "helpUrl": "https://dequeuniversity.com/rules/axe/4.13/color-contrast?application=axeAPI",
+    "count": 6,
+    "targets": [
+      ".bg-primary\\/10",
+      ".text-xs.border-border.px-3:nth-child(1)",
+      ".text-xs.border-border.px-3:nth-child(2)",
+      ".text-xs.border-border.px-3:nth-child(3)",
+      ".text-xs.border-border.px-3:nth-child(4)"
+    ],
+    "summary": [
+      "Fix any of the following:   Element has insufficient color contrast of 3.52 (foreground color: #dc2828, background color: #2a1818, font size: 10.5pt (14px), font weight: bold). Expected contrast ratio",
+      "Fix any of the following:   Element has insufficient color contrast of 3.11 (foreground color: #636363, background color: #121212, font size: 9.0pt (12px), font weight: normal). Expected contrast rati",
+      "Fix any of the following:   Element has insufficient color contrast of 3.11 (foreground color: #636363, background color: #121212, font size: 9.0pt (12px), font weight: normal). Expected contrast rati"
+    ]
+  },
+  {
+    "url": "/vip",
+    "viewport": "mobil-390",
+    "rule": "heading-order",
+    "impact": "moderate",
+    "help": "Heading levels should only increase by one",
+    "helpUrl": "https://dequeuniversity.com/rules/axe/4.13/heading-order?application=axeAPI",
+    "count": 1,
+    "targets": [
+      "div:nth-child(2) > h4"
+    ],
+    "summary": [
+      "Fix any of the following:   Heading order invalid"
+    ]
+  },
+  {
+    "url": "/vip",
+    "viewport": "mobil-390",
+    "rule": "landmark-unique",
+    "impact": "moderate",
+    "help": "Landmarks should have a unique role or role/label/title (i.e. accessible name) combination",
+    "helpUrl": "https://dequeuniversity.com/rules/axe/4.13/landmark-unique?application=axeAPI",
+    "count": 1,
+    "targets": [
+      "div:nth-child(2) > .flex-col"
+    ],
+    "summary": [
+      "Fix any of the following:   The landmark must have a unique aria-label, aria-labelledby, or title to make landmarks distinguishable"
+    ]
+  },
+  {
+    "url": "/terms",
+    "viewport": "mobil-390",
+    "rule": "heading-order",
+    "impact": "moderate",
+    "help": "Heading levels should only increase by one",
+    "helpUrl": "https://dequeuniversity.com/rules/axe/4.13/heading-order?application=axeAPI",
+    "count": 1,
+    "targets": [
+      "div:nth-child(2) > h4"
+    ],
+    "summary": [
+      "Fix any of the following:   Heading order invalid"
+    ]
+  },
+  {
+    "url": "/terms",
+    "viewport": "mobil-390",
+    "rule": "landmark-unique",
+    "impact": "moderate",
+    "help": "Landmarks should have a unique role or role/label/title (i.e. accessible name) combination",
+    "helpUrl": "https://dequeuniversity.com/rules/axe/4.13/landmark-unique?application=axeAPI",
+    "count": 1,
+    "targets": [
+      "div:nth-child(2) > .flex-col"
+    ],
+    "summary": [
+      "Fix any of the following:   The landmark must have a unique aria-label, aria-labelledby, or title to make landmarks distinguishable"
+    ]
+  },
+  {
+    "url": "/privacy",
+    "viewport": "mobil-390",
+    "rule": "heading-order",
+    "impact": "moderate",
+    "help": "Heading levels should only increase by one",
+    "helpUrl": "https://dequeuniversity.com/rules/axe/4.13/heading-order?application=axeAPI",
+    "count": 1,
+    "targets": [
+      "div:nth-child(2) > h4"
+    ],
+    "summary": [
+      "Fix any of the following:   Heading order invalid"
+    ]
+  },
+  {
+    "url": "/privacy",
+    "viewport": "mobil-390",
+    "rule": "landmark-unique",
+    "impact": "moderate",
+    "help": "Landmarks should have a unique role or role/label/title (i.e. accessible name) combination",
+    "helpUrl": "https://dequeuniversity.com/rules/axe/4.13/landmark-unique?application=axeAPI",
+    "count": 1,
+    "targets": [
+      "div:nth-child(2) > .flex-col"
+    ],
+    "summary": [
+      "Fix any of the following:   The landmark must have a unique aria-label, aria-labelledby, or title to make landmarks distinguishable"
+    ]
+  },
+  {
+    "url": "/add-server",
+    "viewport": "mobil-390",
+    "rule": "button-name",
+    "impact": "critical",
+    "help": "Buttons must have discernible text",
+    "helpUrl": "https://dequeuniversity.com/rules/axe/4.13/button-name?application=axeAPI",
+    "count": 2,
+    "targets": [
+      ".py-3.justify-between.bg-secondary\\/30:nth-child(1) > .peer.w-11.border-transparent",
+      ".py-3.justify-between.bg-secondary\\/30:nth-child(2) > .peer.w-11.border-transparent"
+    ],
+    "summary": [
+      "Fix any of the following:   Element does not have inner text that is visible to screen readers   aria-label attribute does not exist or is empty   aria-labelledby attribute does not exist, references ",
+      "Fix any of the following:   Element does not have inner text that is visible to screen readers   aria-label attribute does not exist or is empty   aria-labelledby attribute does not exist, references "
+    ]
+  },
+  {
+    "url": "/add-server",
+    "viewport": "mobil-390",
+    "rule": "heading-order",
+    "impact": "moderate",
+    "help": "Heading levels should only increase by one",
+    "helpUrl": "https://dequeuniversity.com/rules/axe/4.13/heading-order?application=axeAPI",
+    "count": 1,
+    "targets": [
+      "div:nth-child(2) > h4"
+    ],
+    "summary": [
+      "Fix any of the following:   Heading order invalid"
+    ]
+  },
+  {
+    "url": "/add-server",
+    "viewport": "mobil-390",
+    "rule": "landmark-unique",
+    "impact": "moderate",
+    "help": "Landmarks should have a unique role or role/label/title (i.e. accessible name) combination",
+    "helpUrl": "https://dequeuniversity.com/rules/axe/4.13/landmark-unique?application=axeAPI",
+    "count": 1,
+    "targets": [
+      "div:nth-child(2) > .flex-col"
+    ],
+    "summary": [
+      "Fix any of the following:   The landmark must have a unique aria-label, aria-labelledby, or title to make landmarks distinguishable"
+    ]
+  },
+  {
+    "url": "/add-server",
+    "viewport": "mobil-390",
+    "rule": "select-name",
+    "impact": "critical",
+    "help": "Select element must have an accessible name",
+    "helpUrl": "https://dequeuniversity.com/rules/axe/4.13/select-name?application=axeAPI",
+    "count": 3,
+    "targets": [
+      "div:nth-child(1) > select",
+      "div:nth-child(2) > select",
+      "div:nth-child(7) > select"
+    ],
+    "summary": [
+      "Fix any of the following:   Element does not have an implicit (wrapped) <label>   Element does not have an explicit <label>   aria-label attribute does not exist or is empty   aria-labelledby attribut",
+      "Fix any of the following:   Element does not have an implicit (wrapped) <label>   Element does not have an explicit <label>   aria-label attribute does not exist or is empty   aria-labelledby attribut",
+      "Fix any of the following:   Element does not have an implicit (wrapped) <label>   Element does not have an explicit <label>   aria-label attribute does not exist or is empty   aria-labelledby attribut"
+    ]
+  },
+  {
+    "url": "/server/-------",
+    "viewport": "mobil-390",
+    "rule": "heading-order",
+    "impact": "moderate",
+    "help": "Heading levels should only increase by one",
+    "helpUrl": "https://dequeuniversity.com/rules/axe/4.13/heading-order?application=axeAPI",
+    "count": 1,
+    "targets": [
+      "div:nth-child(5) > .mb-2"
+    ],
+    "summary": [
+      "Fix any of the following:   Heading order invalid"
+    ]
+  },
+  {
+    "url": "/server/-------",
+    "viewport": "mobil-390",
+    "rule": "landmark-unique",
+    "impact": "moderate",
+    "help": "Landmarks should have a unique role or role/label/title (i.e. accessible name) combination",
+    "helpUrl": "https://dequeuniversity.com/rules/axe/4.13/landmark-unique?application=axeAPI",
+    "count": 1,
+    "targets": [
+      "div:nth-child(2) > .flex-col"
+    ],
+    "summary": [
+      "Fix any of the following:   The landmark must have a unique aria-label, aria-labelledby, or title to make landmarks distinguishable"
+    ]
+  },
+  {
+    "url": "/",
+    "viewport": "desktop-1280",
+    "rule": "landmark-unique",
+    "impact": "moderate",
+    "help": "Landmarks should have a unique role or role/label/title (i.e. accessible name) combination",
+    "helpUrl": "https://dequeuniversity.com/rules/axe/4.13/landmark-unique?application=axeAPI",
+    "count": 1,
+    "targets": [
+      ".hidden"
+    ],
+    "summary": [
+      "Fix any of the following:   The landmark must have a unique aria-label, aria-labelledby, or title to make landmarks distinguishable"
+    ]
+  },
+  {
+    "url": "/servers",
+    "viewport": "desktop-1280",
+    "rule": "color-contrast",
+    "impact": "serious",
+    "help": "Elements must meet minimum color contrast ratio thresholds",
+    "helpUrl": "https://dequeuniversity.com/rules/axe/4.13/color-contrast?application=axeAPI",
+    "count": 1,
+    "targets": [
+      ".border-primary"
+    ],
+    "summary": [
+      "Fix any of the following:   Element has insufficient color contrast of 3.67 (foreground color: #dc2828, background color: #261414, font size: 10.5pt (14px), font weight: normal). Expected contrast rat"
+    ]
+  },
+  {
+    "url": "/servers",
+    "viewport": "desktop-1280",
+    "rule": "heading-order",
+    "impact": "moderate",
+    "help": "Heading levels should only increase by one",
+    "helpUrl": "https://dequeuniversity.com/rules/axe/4.13/heading-order?application=axeAPI",
+    "count": 1,
+    "targets": [
+      "div[data-server-ip=\"play.ciwland.cz\"] > .p-4.min-w-0 > .items-start.mb-2.gap-2 > h3"
+    ],
+    "summary": [
+      "Fix any of the following:   Heading order invalid"
+    ]
+  },
+  {
+    "url": "/servers",
+    "viewport": "desktop-1280",
+    "rule": "landmark-unique",
+    "impact": "moderate",
+    "help": "Landmarks should have a unique role or role/label/title (i.e. accessible name) combination",
+    "helpUrl": "https://dequeuniversity.com/rules/axe/4.13/landmark-unique?application=axeAPI",
+    "count": 1,
+    "targets": [
+      ".hidden"
+    ],
+    "summary": [
+      "Fix any of the following:   The landmark must have a unique aria-label, aria-labelledby, or title to make landmarks distinguishable"
+    ]
+  },
+  {
+    "url": "/staff",
+    "viewport": "desktop-1280",
+    "rule": "button-name",
+    "impact": "critical",
+    "help": "Buttons must have discernible text",
+    "helpUrl": "https://dequeuniversity.com/rules/axe/4.13/button-name?application=axeAPI",
+    "count": 1,
+    "targets": [
+      ".\\[\\&\\>span\\]\\:line-clamp-1"
+    ],
+    "summary": [
+      "Fix any of the following:   Element does not have inner text that is visible to screen readers   aria-label attribute does not exist or is empty   aria-labelledby attribute does not exist, references "
+    ]
+  },
+  {
+    "url": "/staff",
+    "viewport": "desktop-1280",
+    "rule": "color-contrast",
+    "impact": "serious",
+    "help": "Elements must meet minimum color contrast ratio thresholds",
+    "helpUrl": "https://dequeuniversity.com/rules/axe/4.13/color-contrast?application=axeAPI",
+    "count": 2,
+    "targets": [
+      ".px-2\\.5",
+      ".text-muted-foreground\\/50:nth-child(4)"
+    ],
+    "summary": [
+      "Fix any of the following:   Element has insufficient color contrast of 3.25 (foreground color: #dc2828, background color: #371c1c, font size: 9.0pt (12px), font weight: normal). Expected contrast rati",
+      "Fix any of the following:   Element has insufficient color contrast of 2.52 (foreground color: #5a5a5a, background color: #1a1a1a, font size: 9.0pt (12px), font weight: normal). Expected contrast rati"
+    ]
+  },
+  {
+    "url": "/staff",
+    "viewport": "desktop-1280",
+    "rule": "heading-order",
+    "impact": "moderate",
+    "help": "Heading levels should only increase by one",
+    "helpUrl": "https://dequeuniversity.com/rules/axe/4.13/heading-order?application=axeAPI",
+    "count": 1,
+    "targets": [
+      "div:nth-child(2) > h4"
+    ],
+    "summary": [
+      "Fix any of the following:   Heading order invalid"
+    ]
+  },
+  {
+    "url": "/staff",
+    "viewport": "desktop-1280",
+    "rule": "landmark-unique",
+    "impact": "moderate",
+    "help": "Landmarks should have a unique role or role/label/title (i.e. accessible name) combination",
+    "helpUrl": "https://dequeuniversity.com/rules/axe/4.13/landmark-unique?application=axeAPI",
+    "count": 1,
+    "targets": [
+      ".hidden"
+    ],
+    "summary": [
+      "Fix any of the following:   The landmark must have a unique aria-label, aria-labelledby, or title to make landmarks distinguishable"
+    ]
+  },
+  {
+    "url": "/vip",
+    "viewport": "desktop-1280",
+    "rule": "color-contrast",
+    "impact": "serious",
+    "help": "Elements must meet minimum color contrast ratio thresholds",
+    "helpUrl": "https://dequeuniversity.com/rules/axe/4.13/color-contrast?application=axeAPI",
+    "count": 6,
+    "targets": [
+      ".bg-primary\\/10",
+      ".text-xs.border-border.px-3:nth-child(1)",
+      ".text-xs.border-border.px-3:nth-child(2)",
+      ".text-xs.border-border.px-3:nth-child(3)",
+      ".text-xs.border-border.px-3:nth-child(4)"
+    ],
+    "summary": [
+      "Fix any of the following:   Element has insufficient color contrast of 3.52 (foreground color: #dc2828, background color: #2a1818, font size: 10.5pt (14px), font weight: bold). Expected contrast ratio",
+      "Fix any of the following:   Element has insufficient color contrast of 3.11 (foreground color: #636363, background color: #121212, font size: 9.0pt (12px), font weight: normal). Expected contrast rati",
+      "Fix any of the following:   Element has insufficient color contrast of 3.11 (foreground color: #636363, background color: #121212, font size: 9.0pt (12px), font weight: normal). Expected contrast rati"
+    ]
+  },
+  {
+    "url": "/vip",
+    "viewport": "desktop-1280",
+    "rule": "heading-order",
+    "impact": "moderate",
+    "help": "Heading levels should only increase by one",
+    "helpUrl": "https://dequeuniversity.com/rules/axe/4.13/heading-order?application=axeAPI",
+    "count": 1,
+    "targets": [
+      "div:nth-child(2) > h4"
+    ],
+    "summary": [
+      "Fix any of the following:   Heading order invalid"
+    ]
+  },
+  {
+    "url": "/vip",
+    "viewport": "desktop-1280",
+    "rule": "landmark-unique",
+    "impact": "moderate",
+    "help": "Landmarks should have a unique role or role/label/title (i.e. accessible name) combination",
+    "helpUrl": "https://dequeuniversity.com/rules/axe/4.13/landmark-unique?application=axeAPI",
+    "count": 1,
+    "targets": [
+      ".hidden"
+    ],
+    "summary": [
+      "Fix any of the following:   The landmark must have a unique aria-label, aria-labelledby, or title to make landmarks distinguishable"
+    ]
+  },
+  {
+    "url": "/terms",
+    "viewport": "desktop-1280",
+    "rule": "heading-order",
+    "impact": "moderate",
+    "help": "Heading levels should only increase by one",
+    "helpUrl": "https://dequeuniversity.com/rules/axe/4.13/heading-order?application=axeAPI",
+    "count": 1,
+    "targets": [
+      "div:nth-child(2) > h4"
+    ],
+    "summary": [
+      "Fix any of the following:   Heading order invalid"
+    ]
+  },
+  {
+    "url": "/terms",
+    "viewport": "desktop-1280",
+    "rule": "landmark-unique",
+    "impact": "moderate",
+    "help": "Landmarks should have a unique role or role/label/title (i.e. accessible name) combination",
+    "helpUrl": "https://dequeuniversity.com/rules/axe/4.13/landmark-unique?application=axeAPI",
+    "count": 1,
+    "targets": [
+      ".hidden"
+    ],
+    "summary": [
+      "Fix any of the following:   The landmark must have a unique aria-label, aria-labelledby, or title to make landmarks distinguishable"
+    ]
+  },
+  {
+    "url": "/privacy",
+    "viewport": "desktop-1280",
+    "rule": "heading-order",
+    "impact": "moderate",
+    "help": "Heading levels should only increase by one",
+    "helpUrl": "https://dequeuniversity.com/rules/axe/4.13/heading-order?application=axeAPI",
+    "count": 1,
+    "targets": [
+      "div:nth-child(2) > h4"
+    ],
+    "summary": [
+      "Fix any of the following:   Heading order invalid"
+    ]
+  },
+  {
+    "url": "/privacy",
+    "viewport": "desktop-1280",
+    "rule": "landmark-unique",
+    "impact": "moderate",
+    "help": "Landmarks should have a unique role or role/label/title (i.e. accessible name) combination",
+    "helpUrl": "https://dequeuniversity.com/rules/axe/4.13/landmark-unique?application=axeAPI",
+    "count": 1,
+    "targets": [
+      ".hidden"
+    ],
+    "summary": [
+      "Fix any of the following:   The landmark must have a unique aria-label, aria-labelledby, or title to make landmarks distinguishable"
+    ]
+  },
+  {
+    "url": "/add-server",
+    "viewport": "desktop-1280",
+    "rule": "button-name",
+    "impact": "critical",
+    "help": "Buttons must have discernible text",
+    "helpUrl": "https://dequeuniversity.com/rules/axe/4.13/button-name?application=axeAPI",
+    "count": 2,
+    "targets": [
+      ".py-3.justify-between.bg-secondary\\/30:nth-child(1) > .peer.w-11.border-transparent",
+      ".py-3.justify-between.bg-secondary\\/30:nth-child(2) > .peer.w-11.border-transparent"
+    ],
+    "summary": [
+      "Fix any of the following:   Element does not have inner text that is visible to screen readers   aria-label attribute does not exist or is empty   aria-labelledby attribute does not exist, references ",
+      "Fix any of the following:   Element does not have inner text that is visible to screen readers   aria-label attribute does not exist or is empty   aria-labelledby attribute does not exist, references "
+    ]
+  },
+  {
+    "url": "/add-server",
+    "viewport": "desktop-1280",
+    "rule": "heading-order",
+    "impact": "moderate",
+    "help": "Heading levels should only increase by one",
+    "helpUrl": "https://dequeuniversity.com/rules/axe/4.13/heading-order?application=axeAPI",
+    "count": 1,
+    "targets": [
+      "div:nth-child(2) > h4"
+    ],
+    "summary": [
+      "Fix any of the following:   Heading order invalid"
+    ]
+  },
+  {
+    "url": "/add-server",
+    "viewport": "desktop-1280",
+    "rule": "landmark-unique",
+    "impact": "moderate",
+    "help": "Landmarks should have a unique role or role/label/title (i.e. accessible name) combination",
+    "helpUrl": "https://dequeuniversity.com/rules/axe/4.13/landmark-unique?application=axeAPI",
+    "count": 1,
+    "targets": [
+      ".lg\\:flex"
+    ],
+    "summary": [
+      "Fix any of the following:   The landmark must have a unique aria-label, aria-labelledby, or title to make landmarks distinguishable"
+    ]
+  },
+  {
+    "url": "/add-server",
+    "viewport": "desktop-1280",
+    "rule": "select-name",
+    "impact": "critical",
+    "help": "Select element must have an accessible name",
+    "helpUrl": "https://dequeuniversity.com/rules/axe/4.13/select-name?application=axeAPI",
+    "count": 3,
+    "targets": [
+      "div:nth-child(1) > select",
+      "div:nth-child(2) > select",
+      "div:nth-child(7) > select"
+    ],
+    "summary": [
+      "Fix any of the following:   Element does not have an implicit (wrapped) <label>   Element does not have an explicit <label>   aria-label attribute does not exist or is empty   aria-labelledby attribut",
+      "Fix any of the following:   Element does not have an implicit (wrapped) <label>   Element does not have an explicit <label>   aria-label attribute does not exist or is empty   aria-labelledby attribut",
+      "Fix any of the following:   Element does not have an implicit (wrapped) <label>   Element does not have an explicit <label>   aria-label attribute does not exist or is empty   aria-labelledby attribut"
+    ]
+  },
+  {
+    "url": "/server/-------",
+    "viewport": "desktop-1280",
+    "rule": "heading-order",
+    "impact": "moderate",
+    "help": "Heading levels should only increase by one",
+    "helpUrl": "https://dequeuniversity.com/rules/axe/4.13/heading-order?application=axeAPI",
+    "count": 1,
+    "targets": [
+      "div:nth-child(5) > .mb-2"
+    ],
+    "summary": [
+      "Fix any of the following:   Heading order invalid"
+    ]
+  },
+  {
+    "url": "/server/-------",
+    "viewport": "desktop-1280",
+    "rule": "landmark-unique",
+    "impact": "moderate",
+    "help": "Landmarks should have a unique role or role/label/title (i.e. accessible name) combination",
+    "helpUrl": "https://dequeuniversity.com/rules/axe/4.13/landmark-unique?application=axeAPI",
+    "count": 1,
+    "targets": [
+      ".hidden"
+    ],
+    "summary": [
+      "Fix any of the following:   The landmark must have a unique aria-label, aria-labelledby, or title to make landmarks distinguishable"
+    ]
+  }
+]
