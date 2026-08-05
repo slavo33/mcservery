@@ -82,18 +82,27 @@ async def main():
         await page.screenshot(path=str(SHOTS / "2_profile.png"))
         detail_url = page.url
 
-        # ---- 3) Filtre podľa verzie ----
+        # ---- 3) Filtre podľa verzie (chipy) ----
         await page.goto(f"{BASE}/servers", wait_until="domcontentloaded")
         await page.get_by_text(SERVER_NAME, exact=False).first.wait_for(timeout=30000)
-        filter_select = page.locator("select").first
-        await filter_select.select_option(VERSION)
-        await page.wait_for_timeout(1200)
+
+        chip = page.get_by_role("button", name=VERSION, exact=True).first
+        if await chip.count() == 0:
+            # filtre môžu byť skryté za prepínačom
+            toggle = page.get_by_role("button", name=lambda n: "iltr" in (n or "")).first
+            if await toggle.count():
+                await toggle.click()
+            chip = page.get_by_role("button", name=VERSION, exact=True).first
+        await chip.click()
+        await page.wait_for_timeout(1000)
         listing = await page.locator("body").inner_text()
         check("filter 26.2 zobrazí náš server", SERVER_NAME in listing)
         await page.screenshot(path=str(SHOTS / "3_filter_2602.png"))
 
-        await filter_select.select_option("1.8.9")
-        await page.wait_for_timeout(1200)
+        await chip.click()  # zrušenie 26.2
+        other = page.get_by_role("button", name="1.8.9", exact=True).first
+        await other.click()
+        await page.wait_for_timeout(1000)
         listing_other = await page.locator("body").inner_text()
         check("filter inej verzie náš server skryje", SERVER_NAME not in listing_other)
         await page.screenshot(path=str(SHOTS / "4_filter_other.png"))
