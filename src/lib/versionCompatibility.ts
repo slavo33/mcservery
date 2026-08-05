@@ -1,4 +1,4 @@
-import { softwareOptions, proxyOptions } from "@/lib/mockData";
+import { softwareOptions, proxyOptions, versions } from "@/lib/mockData";
 
 /**
  * Next-gen Minecraft verzie (26.x) sú zatiaľ len pre Java Edition.

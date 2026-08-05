@@ -6,7 +6,7 @@ import SEO from "@/components/SEO";
 import { Button } from "@/components/ui/button";
 import { Switch } from "@/components/ui/switch";
 import { softwareOptions, versions, minigameOptions, proxyOptions } from "@/lib/mockData";
-import { getAvailablePlatforms, getAvailableSoftware, getAvailableProxies, sanitizeForVersion, validateVersionCombination, isNextGenVersion } from "@/lib/versionCompatibility";
+import { getAvailablePlatforms, getAvailableSoftware, getAvailableProxies, sanitizeForVersion, validateVersionCombination, validateVersionSelection, isNextGenVersion } from "@/lib/versionCompatibility";
 import { useState, useEffect } from "react";
 import { Plus, Server } from "lucide-react";
 import ServerImageUpload from "@/components/ServerImageUpload";
@@ -89,6 +89,12 @@ const AddServer = () => {
       return;
     }
 
+    const versionError = validateVersionSelection(version);
+    if (versionError) {
+      toast.error(versionError);
+      return;
+    }
+
     const combinationError = validateVersionCombination({ version, software, proxy, platform: selectedPlatform });
     if (combinationError) {
       toast.error(combinationError);
@@ -138,7 +144,7 @@ const AddServer = () => {
       name: name.trim(),
       ip: ip.trim(),
       description: description.trim(),
-      version: version || "1.20.4",
+      version: version.trim(),
       software: software || "Paper",
       proxy: proxy || null,
       platform: selectedPlatform.map((p) => p.toLowerCase()),
@@ -262,9 +268,9 @@ const AddServer = () => {
 
           <div className="grid grid-cols-2 gap-4">
             <div>
-              <label className="text-sm font-semibold text-foreground mb-1.5 block">{t("add_version")}</label>
+              <label className="text-sm font-semibold text-foreground mb-1.5 block">{t("add_version")} <span className="text-primary">*</span></label>
               <select value={version} onChange={(e) => handleVersionChange(e.target.value)} className={inputClass}>
-                <option value="">—</option>
+                <option value="">— vyber verziu —</option>
                 {versions.map((v) => <option key={v} value={v}>{v}</option>)}
               </select>
               {isNextGenVersion(version) && (
@@ -276,7 +282,7 @@ const AddServer = () => {
             <div>
               <label className="text-sm font-semibold text-foreground mb-1.5 block">{t("add_software")}</label>
               <select value={software} onChange={(e) => setSoftware(e.target.value)} className={inputClass}>
-                <option value="">—</option>
+                <option value="">— vyber verziu —</option>
                 {availableSoftware.map((s) => <option key={s} value={s}>{s}</option>)}
               </select>
             </div>
