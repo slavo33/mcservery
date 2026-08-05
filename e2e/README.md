@@ -224,6 +224,23 @@ python3 e2e/servers_filters_e2e.py
 ```
 
 
+`server_create_media_e2e.py` — overuje **vytvorenie zápisu servera vrátane médií a lajkovania**:
+
+1. Neprihlásený používateľ nemôže odoslať formulár (disabled submit + výzva na prihlásenie).
+2. Validácia: prázdne povinné polia, chýbajúca verzia a nebezpečná URL zabránia uloženiu.
+3. Nahrávanie fotky (PNG → WebP) aj GIFu (bez konverzie) do bucketu `server-images`; náhľady sa reálne dekódujú.
+4. Uloženie servera presmeruje na `/servers` a nový server je dohľadateľný cez vyhľadávanie.
+5. Na profile sa médiá načítajú s HTTP 200 a `content-type: image/*`.
+6. Lajk zvýši počet, je perzistentný po reloade a odlajkovanie ho vráti späť.
+7. Testovací server sa na konci automaticky vymaže.
+
+Vyžaduje prihlásenú session (`LOVABLE_BROWSER_SUPABASE_*`).
+
+```bash
+python3 e2e/server_create_media_e2e.py
+```
+
+
 `accessibility_axe_e2e.py` — **audit dostupnosti (axe-core)** na verejných stránkach v dvoch breakpointoch (390 px, 1280 px):
 
 1. Kontroluje pravidlá WCAG 2.1 A/AA + best-practice (`color-contrast`, `heading-order`, `button-name`, `select-name`, `link-name`, `image-alt`, `label`, `region`, `html-has-lang`, `duplicate-id-aria`, …).

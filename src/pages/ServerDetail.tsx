@@ -429,7 +429,7 @@ const ServerDetailPage = () => {
                     </button>
                   </>
                 )}
-                <button onClick={toggleLike} className="flex items-center gap-2 text-muted-foreground hover:text-primary transition-colors">
+                <button onClick={toggleLike} aria-pressed={liked} aria-label={t("detail_like") || "Like"} data-testid="server-like" className="flex items-center gap-2 text-muted-foreground hover:text-primary transition-colors">
                   <Heart className={`h-6 w-6 transition-all ${liked ? "fill-primary text-primary" : ""}`} />
                   <span className="font-display text-lg">{likesCount}</span>
                 </button>
