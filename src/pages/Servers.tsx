@@ -147,6 +147,7 @@ const Servers = () => {
       }
       if (version && s.version !== version) return false;
       if (software && s.software !== software) return false;
+      if (minigame && !s.minigames.includes(minigame)) return false;
       return true;
     });
 
