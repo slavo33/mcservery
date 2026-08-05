@@ -265,11 +265,12 @@ const ServerDetailPage = () => {
   const isOnline = status?.online ?? false;
 
   // Jednotný zdroj metadát — rovnaká logika ako pri okamžitej aktualizácii po editácii.
+  // Pri chýbajúcej/neplatnej verzii sa verzia do metadát vôbec nedostane (žiadne "v" bez čísla).
   const meta = buildServerMeta({
     name: server.name,
     ip: server.ip,
     description: server.description,
-    version: server.version,
+    version: safeVersion ? safeVersion.replace(/^v/, "") : "",
     slug: server.slug || slug,
     likesCount: server.likes_count,
   });
@@ -283,7 +284,9 @@ const ServerDetailPage = () => {
         image={server.images && server.images.length > 0 ? server.images[0] : undefined}
         type="article"
         jsonLd={meta.jsonLd}
+        noindex={!safeVersion}
       />
+
 
       <Header />
       <main className="flex-1 container mx-auto px-4 py-10 max-w-3xl">
