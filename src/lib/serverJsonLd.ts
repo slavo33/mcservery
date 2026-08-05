@@ -42,3 +42,114 @@ export const buildServerJsonLd = ({
       ? { "@type": "AggregateRating", ratingValue: "5", ratingCount: String(likesCount) }
       : undefined,
 });
+
+const SITE_URL = "https://mcservery.one";
+
+export interface ServerMetaInput {
+  name: string;
+  ip: string;
+  description?: string | null;
+  version?: string | null;
+  slug?: string | null;
+  image?: string | null;
+  likesCount?: number | null;
+}
+
+/** Jednotný zdroj title/description/JSON-LD pre profil servera (formulár aj profil). */
+export const buildServerMeta = (server: ServerMetaInput) => {
+  const versionLabel = toSoftwareVersion(server.version);
+  const versionSuffix = versionLabel ? ` Verzia ${versionLabel}.` : "";
+  const baseDesc = (server.description || `${server.name} — Minecraft server ${server.ip}.`)
+    .replace(/\s+/g, " ")
+    .trim();
+  const description = `${baseDesc.slice(0, Math.max(0, 155 - versionSuffix.length)).trim()}${versionSuffix}`;
+  const title = versionLabel
+    ? `${server.name} ${versionLabel} — Minecraft server | MCServery`
+    : `${server.name} — Minecraft server | MCServery`;
+  const path = `/server/${server.slug ?? ""}`;
+  return {
+    title,
+    description,
+    path,
+    url: `${SITE_URL}${path}`,
+    versionLabel,
+    jsonLd: buildServerJsonLd({
+      name: server.name,
+      description,
+      version: server.version,
+      likesCount: server.likesCount,
+    }),
+  };
+};
+
+const setTag = (selector: string, create: () => HTMLElement, attr: string, value: string) => {
+  document.head.querySelectorAll(selector).forEach((el) => {
+    if (!el.hasAttribute("data-rh")) el.remove();
+  });
+  let el = document.head.querySelector<HTMLElement>(`${selector}[data-rh]`);
+  if (!el) {
+    el = create();
+    el.setAttribute("data-rh", "true");
+    document.head.appendChild(el);
+  }
+  el.setAttribute(attr, value);
+};
+
+/**
+ * Okamžite prepíše <title> a všetky meta tagy pre sociálne siete — bez čakania
+ * na nové načítanie stránky (volané hneď po uložení editácie servera).
+ */
+export const applyServerHeadMeta = (server: ServerMetaInput) => {
+  if (typeof document === "undefined") return;
+  const meta = buildServerMeta(server);
+  const image = server.image || undefined;
+
+  document.title = meta.title;
+
+  const metaTag = (key: "name" | "property", key2: string, content: string) =>
+    setTag(
+      `meta[${key}="${key2}"]`,
+      () => {
+        const el = document.createElement("meta");
+        el.setAttribute(key, key2);
+        return el;
+      },
+      "content",
+      content
+    );
+
+  metaTag("name", "description", meta.description);
+  metaTag("property", "og:title", meta.title);
+  metaTag("property", "og:description", meta.description);
+  metaTag("property", "og:type", "article");
+  metaTag("property", "og:url", meta.url);
+  metaTag("name", "twitter:card", "summary_large_image");
+  metaTag("name", "twitter:title", meta.title);
+  metaTag("name", "twitter:description", meta.description);
+  if (image) {
+    metaTag("property", "og:image", image);
+    metaTag("name", "twitter:image", image);
+  }
+
+  setTag(
+    'link[rel="canonical"]',
+    () => {
+      const el = document.createElement("link");
+      el.setAttribute("rel", "canonical");
+      return el;
+    },
+    "href",
+    meta.url
+  );
+
+  document.head
+    .querySelectorAll('script[type="application/ld+json"]')
+    .forEach((el) => el.remove());
+  const ld = document.createElement("script");
+  ld.type = "application/ld+json";
+  ld.setAttribute("data-rh", "true");
+  ld.textContent = JSON.stringify(meta.jsonLd);
+  document.head.appendChild(ld);
+
+  return meta;
+};

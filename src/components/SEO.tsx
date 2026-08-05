@@ -1,3 +1,4 @@
+import { useEffect } from "react";
 import { Helmet } from "react-helmet-async";
 
 const SITE_URL = "https://mcservery.one";
@@ -23,6 +24,31 @@ const SEO = ({ title, description, path, image, type = "website", jsonLd, noinde
   const url = `${SITE_URL}${path}`;
   const img = image || DEFAULT_IMAGE;
   const ldArray = jsonLd ? (Array.isArray(jsonLd) ? jsonLd : [jsonLd]) : [];
+  const ldJson = JSON.stringify(ldArray);
+
+  /**
+   * Statické tagy z index.html (a z predgenerovaných profilov) nie sú pod správou Helmetu,
+   * takže by v <head> zostali ako duplicity so starými hodnotami. Po každej zmene metadát
+   * (napr. hneď po editácii verzie servera) ich odstránime, aby platili len aktuálne tagy.
+   */
+  useEffect(() => {
+    const selectors = [
+      'meta[name="description"]',
+      'link[rel="canonical"]',
+      'meta[property^="og:"]',
+      'meta[name^="twitter:"]',
+      ...(ldArray.length ? ['script[type="application/ld+json"]'] : []),
+    ];
+    document.head
+      .querySelectorAll(selectors.join(","))
+      .forEach((el) => {
+        if (!el.hasAttribute("data-rh")) el.remove();
+      });
+    // Istota pre prípad, že prehliadač titulok ešte neprepísal.
+    if (document.title !== title) document.title = title;
+  }, [title, description, url, img, type, ldJson, ldArray.length]);
+
+
 
   return (
     <Helmet>
