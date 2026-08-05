@@ -1,0 +1,1 @@
+DELETE FROM public.servers WHERE name LIKE 'E2E JsonLd %';
