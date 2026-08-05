@@ -136,6 +136,31 @@ const ServerDetailPage = () => {
     fetchServer();
   }, [slug]);
 
+  // Živá synchronizácia zmien vykonaných cez API/DB (napr. zmena verzie mimo UI).
+  // Po UPDATE sa stav prepíše, čím sa okamžite prekreslí odznak verzie aj JSON-LD (`vX.Y`).
+  const serverId = server?.id;
+  useEffect(() => {
+    if (!serverId) return;
+    const channel = supabase
+      .channel(`server-meta-${serverId}`)
+      .on(
+        "postgres_changes",
+        { event: "UPDATE", schema: "public", table: "servers", filter: `id=eq.${serverId}` },
+        (payload) => {
+          const next = payload.new as Partial<ServerDetailData>;
+          setServer((prev) => (prev ? { ...prev, ...next } : prev));
+          if (typeof next.likes_count === "number") setLikesCount(next.likes_count);
+          if (typeof (next as any).vote_count === "number") setVoteCount((next as any).vote_count);
+        }
+      )
+      .subscribe();
+    return () => {
+      supabase.removeChannel(channel);
+    };
+  }, [serverId]);
+
+
+
   useEffect(() => {
     if (!server || !user || hasFetchedLike.current) return;
     hasFetchedLike.current = true;
