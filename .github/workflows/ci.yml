@@ -100,6 +100,13 @@ jobs:
         env:
           E2E_SUPABASE_ACCESS_TOKEN: ${{ secrets.E2E_SUPABASE_ACCESS_TOKEN }}
 
+      - name: E2E sitemap po vytvorení a editácii profilu
+        run: python3 e2e/sitemap_profile_update_e2e.py
+        env:
+          LOVABLE_BROWSER_SUPABASE_STORAGE_KEY: ${{ secrets.E2E_SUPABASE_STORAGE_KEY }}
+          LOVABLE_BROWSER_SUPABASE_SESSION_JSON: ${{ secrets.E2E_SUPABASE_SESSION_JSON }}
+
+
 
 
 
