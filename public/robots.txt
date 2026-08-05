@@ -1,8 +1,20 @@
 User-agent: Googlebot
 Allow: /
+Disallow: /admin
+Disallow: /profile
+Disallow: /console
+Disallow: /auth
+Disallow: /vip-success
+Disallow: /*/edit$
 
 User-agent: Bingbot
 Allow: /
+Disallow: /admin
+Disallow: /profile
+Disallow: /console
+Disallow: /auth
+Disallow: /vip-success
+Disallow: /*/edit$
 
 User-agent: Twitterbot
 Allow: /
@@ -12,5 +24,11 @@ Allow: /
 
 User-agent: *
 Allow: /
+Disallow: /admin
+Disallow: /profile
+Disallow: /console
+Disallow: /auth
+Disallow: /vip-success
+Disallow: /*/edit$
 
 Sitemap: https://mcservery.one/sitemap.xml
