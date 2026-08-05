@@ -176,7 +176,7 @@ async def audit(page, vp_name, width, url):
     check(f"[{vp_name}] hlavička obsahuje červený akcent",
           any(is_redish(parse_rgb(c)) for c in m["headerColors"]))
 
-    if width < 768:
+    if width < 1024:
         check(f"[{vp_name}] navigácia je zbalená do hamburgeru",
               m["hamburgerVisible"] and not m["navVisible"],
               f'hamburger={m["hamburgerVisible"]} nav={m["navVisible"]}')
