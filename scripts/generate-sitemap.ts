@@ -24,6 +24,26 @@ function readEnv(key: string): string | undefined {
   }
 }
 
+/**
+ * Prevedie timestamp z DB na W3C dátum (ISO 8601) pre <lastmod>.
+ * Používame len skutočné údaje o poslednej zmene profilu — nikdy nie čas buildu.
+ */
+function toW3C(value?: string | null): string | undefined {
+  if (!value) return undefined;
+  const d = new Date(value);
+  if (Number.isNaN(d.getTime())) return undefined;
+  return d.toISOString().replace(/\.\d{3}Z$/, "+00:00");
+}
+
+/** Najnovší lastmod zo skupiny profilov — použije sa pre výpisové stránky. */
+function newestLastmod(entries: SitemapEntry[]): string | undefined {
+  const times = entries
+    .map((e) => e.lastmod)
+    .filter((v): v is string => Boolean(v))
+    .sort();
+  return times.length ? times[times.length - 1] : undefined;
+}
+
 interface SitemapEntry {
   path: string;
   changefreq?: "always" | "hourly" | "daily" | "weekly" | "monthly" | "yearly" | "never";
@@ -66,7 +86,7 @@ async function fetchDynamicEntries(): Promise<SitemapEntry[]> {
             path: `/server/${s.slug}`,
             changefreq: "weekly",
             priority: "0.8",
-            lastmod: s.updated_at ? s.updated_at.slice(0, 10) : undefined,
+            lastmod: toW3C(s.updated_at),
           });
       }
     }
@@ -87,7 +107,7 @@ async function fetchDynamicEntries(): Promise<SitemapEntry[]> {
             path: `/staff/${p.slug}`,
             changefreq: "weekly",
             priority: "0.6",
-            lastmod: p.updated_at ? p.updated_at.slice(0, 10) : undefined,
+            lastmod: toW3C(p.updated_at),
           });
       }
     }
@@ -122,7 +142,23 @@ function generateSitemap(entries: SitemapEntry[]) {
 
 async function main() {
   const dynamic = await fetchDynamicEntries();
-  const all = [...staticEntries, ...dynamic];
+
+  // Výpisové stránky dedia lastmod z najnovšie aktualizovaného profilu,
+  // ktorý na nich figuruje (žiadne fallbacky na čas buildu).
+  const serverEntries = dynamic.filter((e) => e.path.startsWith("/server/"));
+  const staffEntries = dynamic.filter((e) => e.path.startsWith("/staff/"));
+  const newestServer = newestLastmod(serverEntries);
+  const newestStaff = newestLastmod(staffEntries);
+  const newestAny = newestLastmod([...serverEntries, ...staffEntries]);
+
+  const statics = staticEntries.map((e) => {
+    if (e.path === "/servers" && newestServer) return { ...e, lastmod: newestServer };
+    if (e.path === "/staff" && newestStaff) return { ...e, lastmod: newestStaff };
+    if (e.path === "/" && newestAny) return { ...e, lastmod: newestAny };
+    return e;
+  });
+
+  const all = [...statics, ...dynamic];
   const entries = all.slice(0, MAX_URLS);
   if (all.length > entries.length) {
     console.warn(`sitemap: orezané na ${MAX_URLS} URL (celkom ${all.length})`);
