@@ -53,8 +53,13 @@ SUPA_URL = env("VITE_SUPABASE_URL")
 LIVE_SITEMAP = f"{SUPA_URL}/functions/v1/sitemap" if SUPA_URL else None
 
 
-def request(url, method="GET"):
-    req = urllib.request.Request(url, method=method)
+UA = ("Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) "
+      "Chrome/126.0 Safari/537.36")
+
+
+def request(url, method="GET", extra_headers=None):
+    req = urllib.request.Request(
+        url, method=method, headers={"User-Agent": UA, **(extra_headers or {})})
     try:
         with urllib.request.urlopen(req, timeout=40) as r:
             body = r.read().decode("utf-8", "replace") if method == "GET" else ""
