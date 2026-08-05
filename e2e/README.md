@@ -124,3 +124,10 @@ E2E_BASE_URL=https://mcservery.one E2E_MAX_URLS=30 python3 e2e/sitemap_redirects
 python3 e2e/canonical_indexability_e2e.py
 E2E_BASE_URL=https://mcservery.one E2E_MAX_URLS=30 python3 e2e/canonical_indexability_e2e.py
 ```
+
+- `soft_404_e2e.py` — odhaľuje **soft-404**: HTTP 200 sa neberie ako úspech. Reálne URL zo sitemapy musia zodpovedať šablóne plnohodnotnej stránky (`h1`, >200 znakov textu, unikátny `<title>`, žiadny „not found“ marker, bez `noindex`). Neexistujúce URL (`/server/…`, `/staff/…`, `/user/<uuid>`, náhodná cesta) musia zobraziť „not found“ šablónu, mať `noindex`, nepresmerovať sa potichu na domov a nemať obsah bežnej stránky.
+
+```bash
+python3 e2e/soft_404_e2e.py
+E2E_BASE_URL=https://mcservery.one E2E_MAX_URLS=20 python3 e2e/soft_404_e2e.py
+```
