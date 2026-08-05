@@ -232,8 +232,14 @@ async def main():
             for path in paths:
                 label = f"[{name} {width}px {path}]"
                 errors.clear()
-                await page.goto(BASE + path, wait_until="networkidle")
-                await page.wait_for_timeout(400)
+                # `networkidle` je nespoľahlivé kvôli živému pollovaniu stavu serverov.
+                await page.goto(BASE + path, wait_until="domcontentloaded", timeout=60000)
+                try:
+                    await page.wait_for_selector("main", timeout=15000)
+                except Exception:
+                    pass
+                await page.wait_for_load_state("load")
+                await page.wait_for_timeout(1200)
                 m = await page.evaluate(LAYOUT_JS)
 
                 ok_doc = m["docScrollWidth"] <= width + TOLERANCE
