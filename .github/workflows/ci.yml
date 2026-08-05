@@ -124,6 +124,9 @@ jobs:
       - name: E2E robots.txt, sitemap odkaz a noindex konzistencia
         run: python3 e2e/robots_indexability_e2e.py
 
+      - name: E2E vizuálna regresia hlavných rozložení
+        run: python3 e2e/layout_visual_regression_e2e.py
+
       - name: E2E OpenGraph/Twitter meta tagy na profiloch serverov
         run: python3 e2e/og_server_detail_e2e.py
 
