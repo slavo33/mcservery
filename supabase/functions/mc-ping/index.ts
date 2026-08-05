@@ -38,10 +38,10 @@ function isValidMinecraftAddress(ip: string): boolean {
     return false;
   }
 
-  // Validate port if present
+  // Validate port if present (only unprivileged ports allowed)
   if (parts[1]) {
     const port = Number(parts[1]);
-    if (isNaN(port) || port < 1 || port > 65535) {
+    if (!Number.isInteger(port) || port < 1024 || port > 65535) {
       return false;
     }
   }
