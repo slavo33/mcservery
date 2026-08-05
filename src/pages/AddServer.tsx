@@ -41,7 +41,9 @@ const AddServer = () => {
   const [twitterUrl, setTwitterUrl] = useState("");
   const [submitting, setSubmitting] = useState(false);
   const [serverCount, setServerCount] = useState<number | null>(null);
+  const [submitAttempted, setSubmitAttempted] = useState(false);
   const MAX_SERVERS = 5;
+
 
   useEffect(() => {
     if (!user) return;
