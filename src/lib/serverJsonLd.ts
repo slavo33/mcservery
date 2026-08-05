@@ -77,6 +77,13 @@ export const buildServerJsonLd = ({
   likesCount,
   platform,
   software,
+  url,
+  image,
+  ip,
+  maxPlayers,
+  keywords,
+  createdAt,
+  updatedAt,
 }: ServerJsonLdInput): Record<string, unknown> => {
   const editions = toEditions(platform);
   const loader = toLoader(software);
@@ -85,7 +92,12 @@ export const buildServerJsonLd = ({
       ? { "@type": "PropertyValue", name: "Edition", value: editions.join(", ") }
       : null,
     loader ? { "@type": "PropertyValue", name: "Server software", value: loader } : null,
+    ip ? { "@type": "PropertyValue", name: "Server IP", value: ip } : null,
+    maxPlayers && maxPlayers > 0
+      ? { "@type": "PropertyValue", name: "Max players", value: String(maxPlayers) }
+      : null,
   ].filter(Boolean) as Record<string, string>[];
+  const keywordList = (keywords ?? []).map((k) => (k || "").trim()).filter(Boolean);
   return {
     "@context": "https://schema.org",
     "@type": "SoftwareApplication",
@@ -97,7 +109,17 @@ export const buildServerJsonLd = ({
     softwareVersion: toSoftwareVersion(version) ?? undefined,
     runtimePlatform: loader,
     additionalProperty: properties.length > 0 ? properties : undefined,
-
+    url: url || undefined,
+    image: image || undefined,
+    keywords: keywordList.length > 0 ? keywordList.join(", ") : undefined,
+    inLanguage: "sk",
+    datePublished: createdAt || undefined,
+    dateModified: updatedAt || createdAt || undefined,
+    publisher: {
+      "@type": "Organization",
+      name: "MCServery",
+      url: "https://mcservery.one",
+    },
     offers: { "@type": "Offer", price: "0", priceCurrency: "EUR" },
     aggregateRating:
       likesCount && likesCount > 0
@@ -105,6 +127,21 @@ export const buildServerJsonLd = ({
         : undefined,
   };
 };
+
+/** Drobečková navigácia Domov → Servery → profil, aby Google zobrazil cestu vo výsledkoch. */
+export const buildServerBreadcrumbJsonLd = (
+  name: string,
+  path: string
+): Record<string, unknown> => ({
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  itemListElement: [
+    { "@type": "ListItem", position: 1, name: "Domov", item: "https://mcservery.one/" },
+    { "@type": "ListItem", position: 2, name: "Servery", item: "https://mcservery.one/servers" },
+    { "@type": "ListItem", position: 3, name, item: `https://mcservery.one${path}` },
+  ],
+});
+
 
 
 const SITE_URL = "https://mcservery.one";
