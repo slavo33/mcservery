@@ -121,6 +121,9 @@ jobs:
       - name: E2E OpenGraph/Twitter meta tagy a dostupnosť og:image
         run: python3 e2e/og_meta_e2e.py
 
+      - name: E2E OpenGraph/Twitter meta tagy na profiloch serverov
+        run: python3 e2e/og_server_detail_e2e.py
+
       - name: E2E Schema.org JSON-LD na verejných stránkach
         run: python3 e2e/jsonld_structured_data_e2e.py
 
