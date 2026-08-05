@@ -29,6 +29,8 @@ const EditServer = () => {
   const [description, setDescription] = useState("");
   const [version, setVersion] = useState("");
   const [versionError, setVersionError] = useState<string | null>(null);
+  const [submitAttempted, setSubmitAttempted] = useState(false);
+
 
   const [software, setSoftware] = useState("");
   const [proxy, setProxy] = useState("");
