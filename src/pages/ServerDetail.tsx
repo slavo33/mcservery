@@ -300,6 +300,12 @@ const ServerDetailPage = () => {
     likesCount: server.likes_count,
     platform: server.platform,
     software: server.software,
+    image: server.images && server.images.length > 0 ? server.images[0] : undefined,
+    maxPlayers: server.max_players,
+    tags: server.tags,
+    minigames: server.minigames,
+    createdAt: server.created_at,
+    updatedAt: server.updated_at,
   });
 
 
@@ -311,7 +317,7 @@ const ServerDetailPage = () => {
         path={meta.path}
         image={server.images && server.images.length > 0 ? server.images[0] : undefined}
         type="article"
-        jsonLd={meta.jsonLd}
+        jsonLd={meta.jsonLdGraph}
         noindex={!safeVersion}
       />
 

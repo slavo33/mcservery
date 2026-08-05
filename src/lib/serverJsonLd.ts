@@ -268,11 +268,13 @@ export const applyServerHeadMeta = (server: ServerMetaInput) => {
   document.head
     .querySelectorAll('script[type="application/ld+json"]')
     .forEach((el) => el.remove());
-  const ld = document.createElement("script");
-  ld.type = "application/ld+json";
-  ld.setAttribute("data-rh", "true");
-  ld.textContent = JSON.stringify(meta.jsonLd);
-  document.head.appendChild(ld);
+  meta.jsonLdGraph.forEach((entry) => {
+    const ld = document.createElement("script");
+    ld.type = "application/ld+json";
+    ld.setAttribute("data-rh", "true");
+    ld.textContent = JSON.stringify(entry);
+    document.head.appendChild(ld);
+  });
 
   return meta;
 };
