@@ -78,12 +78,18 @@ const ServerDetailPage = () => {
   useEffect(() => {
     if (!slug || hasFetchedServer.current) return;
     const fetchServer = async () => {
-      const { data } = await supabase
+      const { data, error } = await supabase
         .from("servers")
         .select("*")
         .eq("slug", slug)
-        .single();
+        .maybeSingle();
+      if (error) {
+        setLoadError(true);
+        setLoading(false);
+        return;
+      }
       if (data) {
+
         hasFetchedServer.current = true;
         const { data: profileData } = await supabase
           .from("profiles")
