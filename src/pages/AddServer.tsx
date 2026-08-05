@@ -6,6 +6,7 @@ import SEO from "@/components/SEO";
 import { Button } from "@/components/ui/button";
 import { Switch } from "@/components/ui/switch";
 import { softwareOptions, versions, minigameOptions, proxyOptions } from "@/lib/mockData";
+import { getAvailablePlatforms, getAvailableSoftware, getAvailableProxies, sanitizeForVersion, validateVersionCombination, isNextGenVersion } from "@/lib/versionCompatibility";
 import { useState, useEffect } from "react";
 import { Plus, Server } from "lucide-react";
 import ServerImageUpload from "@/components/ServerImageUpload";
@@ -59,6 +60,23 @@ const AddServer = () => {
       prev.includes(m) ? prev.filter((x) => x !== m) : [...prev, m]
     );
 
+  const availablePlatforms = getAvailablePlatforms(version);
+  const availableSoftware = getAvailableSoftware(version);
+  const availableProxies = getAvailableProxies(version);
+
+  const handleVersionChange = (nextVersion: string) => {
+    setVersion(nextVersion);
+    const cleaned = sanitizeForVersion({
+      version: nextVersion,
+      software,
+      proxy,
+      platform: selectedPlatform,
+    });
+    setSelectedPlatform(cleaned.platform);
+    setSoftware(cleaned.software);
+    setProxy(cleaned.proxy);
+  };
+
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!user) {
@@ -68,6 +86,12 @@ const AddServer = () => {
     }
     if (!name.trim() || !ip.trim()) {
       toast.error("Vyplň názov a IP adresu");
+      return;
+    }
+
+    const combinationError = validateVersionCombination({ version, software, proxy, platform: selectedPlatform });
+    if (combinationError) {
+      toast.error(combinationError);
       return;
     }
 
@@ -229,7 +253,7 @@ const AddServer = () => {
           <div>
             <label className="text-sm font-semibold text-foreground mb-2 block">{t("add_platform")}</label>
             <div className="flex gap-2">
-              {["Java", "Bedrock"].map((p) => (
+              {availablePlatforms.map((p) => (
                 <button key={p} type="button" onClick={() => togglePlatform(p)}
                   className={`filter-chip ${selectedPlatform.includes(p) ? "active" : ""}`}>{p}</button>
               ))}
@@ -239,16 +263,21 @@ const AddServer = () => {
           <div className="grid grid-cols-2 gap-4">
             <div>
               <label className="text-sm font-semibold text-foreground mb-1.5 block">{t("add_version")}</label>
-              <select value={version} onChange={(e) => setVersion(e.target.value)} className={inputClass}>
+              <select value={version} onChange={(e) => handleVersionChange(e.target.value)} className={inputClass}>
                 <option value="">—</option>
                 {versions.map((v) => <option key={v} value={v}>{v}</option>)}
               </select>
+              {isNextGenVersion(version) && (
+                <p className="text-xs text-muted-foreground mt-1.5">
+                  Verzia {version} je iba pre Java Edition — nekompatibilné platformy, software a proxy sú skryté.
+                </p>
+              )}
             </div>
             <div>
               <label className="text-sm font-semibold text-foreground mb-1.5 block">{t("add_software")}</label>
               <select value={software} onChange={(e) => setSoftware(e.target.value)} className={inputClass}>
                 <option value="">—</option>
-                {softwareOptions.map((s) => <option key={s} value={s}>{s}</option>)}
+                {availableSoftware.map((s) => <option key={s} value={s}>{s}</option>)}
               </select>
             </div>
           </div>
@@ -256,7 +285,7 @@ const AddServer = () => {
           <div>
             <label className="text-sm font-semibold text-foreground mb-1.5 block">{t("add_proxy")}</label>
             <select value={proxy} onChange={(e) => setProxy(e.target.value)} className={inputClass}>
-              {proxyOptions.map((p) => (
+              {availableProxies.map((p) => (
                 <option key={p} value={p === "Žiadny" ? "" : p}>{p}</option>
               ))}
             </select>
