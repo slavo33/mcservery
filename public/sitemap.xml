@@ -29,11 +29,6 @@
     <priority>0.6</priority>
   </url>
   <url>
-    <loc>https://mcservery.one/auth</loc>
-    <changefreq>monthly</changefreq>
-    <priority>0.4</priority>
-  </url>
-  <url>
     <loc>https://mcservery.one/terms</loc>
     <changefreq>yearly</changefreq>
     <priority>0.3</priority>
