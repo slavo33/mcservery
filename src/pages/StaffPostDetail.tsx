@@ -211,6 +211,12 @@ const StaffPostDetail = () => {
   if (!post) {
     return (
       <div className="min-h-screen bg-background">
+        <SEO
+          title="Inzerát sa nenašiel | MCServery"
+          description="Tento náborový inzerát na MCServery neexistuje."
+          path={`/staff/${slug ?? ""}`}
+          noindex
+        />
         <Header />
         <div className="container mx-auto px-4 py-16 text-center">
           <p className="text-muted-foreground">{t("detail_not_found")}</p>
