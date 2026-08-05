@@ -1,6 +1,7 @@
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import SEO from "@/components/SEO";
+import { buildPageJsonLdGraph } from "@/lib/pageJsonLd";
 import { useLanguage } from "@/i18n/LanguageContext";
 
 const Terms = () => {
@@ -12,6 +13,12 @@ const Terms = () => {
         title="Podmienky používania | MCServery"
         description="Podmienky používania služby MCServery — databázy Minecraft serverov. Prečítaj si pravidlá pre pridávanie serverov a používanie platformy."
         path="/terms"
+        jsonLd={buildPageJsonLdGraph({
+          name: "Podmienky používania",
+          description: "Podmienky používania služby MCServery — databázy Minecraft serverov.",
+          path: "/terms",
+          breadcrumbs: [["Podmienky používania", "/terms"]],
+        })}
       />
       <Header />
       <main className="flex-1 container mx-auto px-4 py-16 max-w-3xl">

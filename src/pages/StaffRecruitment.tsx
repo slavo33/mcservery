@@ -4,6 +4,7 @@ import { Users, Plus, Trash2, Eye, EyeOff, RefreshCw, ExternalLink, Globe, Messa
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import SEO from "@/components/SEO";
+import { buildPageJsonLdGraph } from "@/lib/pageJsonLd";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
@@ -273,6 +274,13 @@ const StaffRecruitment = () => {
         title="Nábor staff — hľadaj pozície na Minecraft serveroch | MCServery"
         description="Náborové inzeráty na Minecraft serveroch. Nájdi si pozíciu v tíme alebo pridaj vlastný inzerát a získaj nových členov."
         path="/staff"
+        jsonLd={buildPageJsonLdGraph({
+          name: "Nábor staff",
+          description:
+            "Náborové inzeráty na Minecraft serveroch — nájdi si pozíciu v tíme alebo pridaj vlastný inzerát.",
+          path: "/staff",
+          breadcrumbs: [["Nábor staff", "/staff"]],
+        })}
       />
       <Header />
       <main className="container mx-auto px-4 py-8 max-w-5xl">

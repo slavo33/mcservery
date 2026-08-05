@@ -1,4 +1,5 @@
 import { formatVersion } from "@/components/VersionBadge";
+import { ORGANIZATION_JSON_LD, buildWebPageJsonLd } from "@/lib/pageJsonLd";
 
 export interface ServerJsonLdInput {
   name: string;
@@ -201,7 +202,12 @@ export const buildServerMeta = (server: ServerMetaInput) => {
     jsonLd,
     breadcrumbJsonLd: buildServerBreadcrumbJsonLd(server.name, path),
     /** Kompletná sada structured data pre profil servera. */
-    jsonLdGraph: [jsonLd, buildServerBreadcrumbJsonLd(server.name, path)],
+    jsonLdGraph: [
+      jsonLd,
+      buildServerBreadcrumbJsonLd(server.name, path),
+      buildWebPageJsonLd({ name: title, description, path }),
+      ORGANIZATION_JSON_LD,
+    ],
   };
 };
 
