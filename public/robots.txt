@@ -5,6 +5,7 @@ Disallow: /profile
 Disallow: /console
 Disallow: /auth
 Disallow: /vip-success
+Disallow: /404
 Disallow: /*/edit$
 
 User-agent: Bingbot
@@ -14,6 +15,7 @@ Disallow: /profile
 Disallow: /console
 Disallow: /auth
 Disallow: /vip-success
+Disallow: /404
 Disallow: /*/edit$
 
 User-agent: Twitterbot
@@ -29,6 +31,7 @@ Disallow: /profile
 Disallow: /console
 Disallow: /auth
 Disallow: /vip-success
+Disallow: /404
 Disallow: /*/edit$
 
 Sitemap: https://mcservery.one/sitemap.xml
