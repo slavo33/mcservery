@@ -76,3 +76,5 @@ Testovacie servery majú názov `E2E Sitemap <timestamp>` a IP `e2esm<timestamp>
 python3 e2e/sitemap_format_e2e.py
 ```
 
+
+- `sitemap_indexability_e2e.py` — overí, že každá URL zo sitemap.xml vracia HTTP 200 (žiadne 404/500), nemá `meta robots noindex`, nie je soft-404 a má self-referencing canonical. Statický náprotivok beží v hlavnom CI jobe: `src/integration/__tests__/sitemapIndexability.test.ts`.
