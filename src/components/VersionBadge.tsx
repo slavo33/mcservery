@@ -76,7 +76,8 @@ const VersionBadge = ({
       }}
       onClick={(e) => {
         // Prvý ťuk na mobile len ukáže tooltip s popisom kompatibility.
-        if (showTooltip && touchedRef.current && !open) {
+        if (showTooltip && touchedRef.current && !shownRef.current) {
+          shownRef.current = true;
           e.preventDefault();
           setOpen(true);
         }
