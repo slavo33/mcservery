@@ -88,7 +88,10 @@ def validate_urlset(xml_text, label):
         if not loc.startswith(f"{SITE_URL}/"):
             bad_loc.append(loc)
         if not lastmod:
-            missing_lastmod.append(loc)
+            # <lastmod> je povinný len tam, kde má web autoritatívny dátum zmeny
+            # (profily serverov a náborov + výpisové stránky, ktoré ho dedia).
+            if re.search(r"/(server|staff)/|/(servers|staff)$|/$", loc):
+                missing_lastmod.append(loc)
         elif not is_iso8601(lastmod):
             bad_lastmod.append((loc, lastmod))
         if freq and freq not in CHANGEFREQ:
@@ -100,7 +103,7 @@ def validate_urlset(xml_text, label):
             except ValueError:
                 bad_prio.append((loc, prio))
 
-    check(f"{label}: každá URL má <lastmod>", not missing_lastmod, missing_lastmod[:5])
+    check(f"{label}: profily a výpisy majú <lastmod>", not missing_lastmod, missing_lastmod[:5])
     check(f"{label}: <lastmod> je v ISO 8601", not bad_lastmod, bad_lastmod[:5])
     check(f"{label}: <changefreq> má povolenú hodnotu", not bad_freq, bad_freq[:5])
     check(f"{label}: <priority> je v rozsahu 0.0–1.0", not bad_prio, bad_prio[:5])
