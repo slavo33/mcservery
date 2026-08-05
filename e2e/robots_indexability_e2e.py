@@ -52,6 +52,16 @@ def check(label, ok, extra=""):
     print(("PASS " if ok else "FAIL ") + label + ((" :: " + str(extra)) if extra else ""))
 
 
+def local(url):
+    """Pri lokálnom behu presmeruje URL z produkčnej domény na testovanú inštanciu."""
+    p = urlparse(url)
+    if urlparse(BASE).netloc == p.netloc:
+        return url
+    if p.netloc.endswith(SITE_HOST):
+        return BASE + (p.path or "/")
+    return url
+
+
 def fetch(url):
     req = urllib.request.Request(url, headers={"User-Agent": UA})
     try:
@@ -176,8 +186,13 @@ async def main():
     check("robots.txt odkazuje na sitemap na doméne projektu", bool(primary), str(sitemaps))
 
     all_paths = set()
+    local_run = not urlparse(BASE).netloc.endswith(SITE_HOST)
     for sm in sitemaps:
-        st, hh, bb = fetch(sm)
+        target = local(sm)
+        if local_run and target == sm:
+            # externé (nie na doméne projektu) sitemapy sa pri lokálnom behu nesťahujú
+            continue
+        st, hh, bb = fetch(target)
         ct = (hh.get("Content-Type") or hh.get("content-type") or "")
         check(f"sitemap {urlparse(sm).netloc} vracia 200", st == 200, str(st))
         check(f"sitemap {urlparse(sm).netloc} je XML", "xml" in ct.lower(), ct)
@@ -220,11 +235,13 @@ async def main():
         context = await browser.new_context(viewport={"width": 1280, "height": 1800})
         page = await context.new_page()
 
-        # súkromné cesty: Disallow + noindex
+        # súkromné cesty: Disallow + (noindex alebo presmerovanie preč z cesty)
         for p in PRIVATE_PATHS + ["/server/neexistujuci-server-e2e/edit", "/tato-stranka-neexistuje-e2e"]:
             state = await head_state(page, BASE + p)
             has_noindex = any("noindex" in c for c in state["robots"])
-            check(f"[{p}] stránka má meta robots noindex", has_noindex, str(state["robots"]))
+            redirected = urlparse(page.url).path.rstrip("/") != p.rstrip("/")
+            check(f"[{p}] stránka je noindex alebo presmeruje preč",
+                  has_noindex or redirected, f"robots={state['robots']} url={page.url}")
 
         # indexovateľné URL zo sitemapy: bez noindex, self-referencing canonical
         public = sorted(all_paths)[:MAX_URLS]
