@@ -96,7 +96,12 @@ def norm_editions(text):
 
 
 async def read_page(page, path):
-    await page.goto(f"{BASE}{path}", wait_until="networkidle")
+    await page.goto(f"{BASE}{path}", wait_until="domcontentloaded")
+    try:
+        await page.wait_for_selector('script[type="application/ld+json"]', timeout=15000)
+    except Exception:
+        pass
+    await page.wait_for_timeout(1200)
     blocks = await page.eval_on_selector_all(
         'script[type="application/ld+json"]', "els => els.map(e => e.textContent || '')"
     )
@@ -233,7 +238,11 @@ async def main():
 
         check("Organization.url je rovnaká na všetkých stránkach", len(org_urls) <= 1, str(org_urls))
 
-        await page.goto(f"{BASE}/servers", wait_until="networkidle")
+        await page.goto(f"{BASE}/servers", wait_until="domcontentloaded")
+        try:
+            await page.wait_for_selector('a[href^="/server/"]', timeout=20000)
+        except Exception:
+            pass
         hrefs = await page.eval_on_selector_all(
             'a[href^="/server/"]',
             "els => [...new Set(els.map(e => new URL(e.href).pathname))].filter(p => !p.endsWith('/edit'))",
