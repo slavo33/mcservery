@@ -136,6 +136,9 @@ jobs:
       - name: E2E vyhľadávanie a filtre serverov
         run: python3 e2e/servers_filters_e2e.py
 
+      - name: E2E breadcrumbs JSON-LD vs viditeľná navigácia
+        run: python3 e2e/breadcrumbs_jsonld_e2e.py
+
       - name: E2E pokrytie sitemapy (všetky indexovateľné URL)
         run: python3 e2e/sitemap_coverage_e2e.py
 
