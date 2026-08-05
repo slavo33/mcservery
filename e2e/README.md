@@ -138,3 +138,15 @@ E2E_BASE_URL=https://mcservery.one E2E_MAX_URLS=20 python3 e2e/soft_404_e2e.py
 python3 e2e/og_meta_e2e.py
 E2E_BASE_URL=https://mcservery.one E2E_MAX_URLS=20 python3 e2e/og_meta_e2e.py
 ```
+
+`jsonld_structured_data_e2e.py` — overuje **Schema.org JSON-LD** na verejných stránkach (statické route + URL zo sitemapy):
+
+1. Každý blok `application/ld+json` je validný JSON, má `@context` na schema.org a neprázdny `@type` (bez duplicitných typov).
+2. Na každej stránke je entita **WebPage** (`name`, `description`, `inLanguage`, self-referencing `url`) a **Organization** (`name`, absolútna `url`).
+3. `BreadcrumbList` má pozície `1..n` a absolútne `item` URL.
+4. Profil servera obsahuje **SoftwareApplication** (`applicationCategory=GameApplication`, `operatingSystem`, `offers`, `additionalProperty` so „Server IP“) a `softwareVersion` sa zhoduje s odznakom verzie.
+
+```bash
+python3 e2e/jsonld_structured_data_e2e.py
+E2E_MAX_URLS=12 python3 e2e/jsonld_structured_data_e2e.py
+```
