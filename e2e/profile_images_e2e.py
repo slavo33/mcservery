@@ -139,7 +139,8 @@ async def audit_page(page, url, label, net):
     check(f"[{label}] všetky obrázky majú nenulovú veľkosť v layoute", not zero_box,
           "; ".join(i["src"][:90] for i in zero_box[:5]))
 
-    no_alt = [i for i in imgs if i["alt"] is None or i["alt"].strip() == ""]
+    # prázdny alt="" je platný pre dekoratívne obrázky, chýbajúci atribút nie
+    no_alt = [i for i in imgs if i["alt"] is None]
     check(f"[{label}] obrázky majú alt atribút", not no_alt,
           "; ".join(i["src"][:90] for i in no_alt[:5]))
 
