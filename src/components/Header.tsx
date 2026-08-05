@@ -39,7 +39,7 @@ const Header = () => {
   return (
     <header className="sticky top-0 z-50 border-b border-border/50 bg-background/80 backdrop-blur-xl">
       <div className="container mx-auto flex h-16 items-center justify-between px-4">
-        <Link to="/" className="flex items-center gap-2 group">
+        <Link to="/" className="flex items-center gap-2 py-1.5 group">
           <Gamepad2 className="h-7 w-7 text-primary transition-transform duration-300 group-hover:rotate-12" />
           <span className="font-display text-xl font-bold tracking-wider text-foreground">
             MC<span className="text-gradient">Servery</span>
