@@ -103,3 +103,10 @@ Poznámka: brána Supabase na doméne `*.supabase.co` degraduje Content-Type odp
 python3 e2e/profile_images_e2e.py          # dev server na :8080
 E2E_BASE_URL=https://mcservery.one E2E_MAX_PROFILES=10 python3 e2e/profile_images_e2e.py
 ```
+
+- `profile_responsive_visual_e2e.py` — vizuálny/regresný test profilovej stránky na troch breakpointoch (**mobil 375, tablet 768, desktop 1440**): žiadny horizontálny pretok ani prvok mimo viewportu, sticky hlavička 64 px na plnú šírku, hamburger pod 1024 px vs. plná navigácia na desktope, dotykové ciele ≥ 32 px, **červeno-čierny dizajn** (tmavé pozadie hlavičky aj pätičky + akcent v `--primary` hsl(0 72% 51%)), viditeľné odkazy v pätičke a `h1` profilu. Screenshoty hlavičky, pätičky a celej stránky sa porovnávajú s baseline v `e2e/baselines/` (tolerancia 1 % pixelov).
+
+```bash
+python3 e2e/profile_responsive_visual_e2e.py
+UPDATE_BASELINES=1 python3 e2e/profile_responsive_visual_e2e.py   # po zámernej zmene dizajnu
+```
