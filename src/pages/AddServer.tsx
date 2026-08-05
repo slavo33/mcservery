@@ -6,7 +6,7 @@ import SEO from "@/components/SEO";
 import { Button } from "@/components/ui/button";
 import { Switch } from "@/components/ui/switch";
 import { softwareOptions, versions, minigameOptions, proxyOptions } from "@/lib/mockData";
-import { getAvailablePlatforms, getAvailableSoftware, getAvailableProxies, sanitizeForVersion, validateVersionCombination, validateVersionSelection, isNextGenVersion } from "@/lib/versionCompatibility";
+import { getAvailablePlatforms, getAvailableSoftware, getAvailableProxies, sanitizeForVersion, validateVersionCombination, validateVersionSelection, isNextGenVersion, getCompatibleFix, describeFix } from "@/lib/versionCompatibility";
 import { useState, useEffect } from "react";
 import { Plus, Server } from "lucide-react";
 import ServerImageUpload from "@/components/ServerImageUpload";
