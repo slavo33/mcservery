@@ -5,11 +5,15 @@ import { createClient } from "npm:@supabase/supabase-js@2";
 
 const BASE_URL = "https://mcservery.one";
 
+type SitemapImage = { loc: string; title?: string; caption?: string };
+
 type Entry = {
   path: string;
   lastmod?: string;
   changefreq?: string;
   priority?: string;
+  /** Obrázky profilu (image sitemap extension). */
+  images?: SitemapImage[];
 };
 
 const STATIC_ENTRIES: Entry[] = [
@@ -38,6 +42,34 @@ function xmlEscape(s: string) {
   return s.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
 }
 
+/** Len absolútne http(s) URL, bez duplicít, max 1000 na stránku. */
+function toImages(urls: unknown, title: string, caption?: string): SitemapImage[] | undefined {
+  const list = Array.isArray(urls) ? urls : [];
+  const images = list
+    .filter((u): u is string => typeof u === "string" && /^https?:\/\//i.test(u.trim()))
+    .map((u) => u.trim())
+    .filter((u, i, arr) => arr.indexOf(u) === i)
+    .slice(0, 1000)
+    .map((loc, i) => ({
+      loc,
+      title: i === 0 ? title : `${title} — screenshot ${i + 1}`,
+      caption,
+    }));
+  return images.length > 0 ? images : undefined;
+}
+
+function renderImages(images?: SitemapImage[]): string[] {
+  return (images ?? []).flatMap((img) =>
+    [
+      "    <image:image>",
+      `      <image:loc>${xmlEscape(img.loc)}</image:loc>`,
+      img.title ? `      <image:title>${xmlEscape(img.title)}</image:title>` : null,
+      img.caption ? `      <image:caption>${xmlEscape(img.caption)}</image:caption>` : null,
+      "    </image:image>",
+    ].filter(Boolean) as string[]
+  );
+}
+
 function render(entries: Entry[]) {
   const urls = entries.map((e) =>
     [
@@ -46,12 +78,13 @@ function render(entries: Entry[]) {
       e.lastmod ? `    <lastmod>${e.lastmod}</lastmod>` : null,
       e.changefreq ? `    <changefreq>${e.changefreq}</changefreq>` : null,
       e.priority ? `    <priority>${e.priority}</priority>` : null,
+      ...renderImages(e.images),
       "  </url>",
     ].filter(Boolean).join("\n")
   );
   return [
     '<?xml version="1.0" encoding="UTF-8"?>',
-    '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">',
+    '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" xmlns:image="http://www.google.com/schemas/sitemap-image/1.1">',
     ...urls,
     "</urlset>",
   ].join("\n");
@@ -67,8 +100,8 @@ Deno.serve(async (req) => {
     );
 
     const [{ data: servers }, { data: posts }] = await Promise.all([
-      supabase.from("servers").select("slug,updated_at").not("slug", "is", null).limit(45000),
-      supabase.from("staff_posts").select("slug,updated_at").eq("is_active", true)
+      supabase.from("servers").select("slug,name,updated_at,images").not("slug", "is", null).limit(45000),
+      supabase.from("staff_posts").select("slug,position,updated_at,images").eq("is_active", true)
         .not("slug", "is", null).limit(45000),
     ]);
 
@@ -77,12 +110,22 @@ Deno.serve(async (req) => {
       changefreq: "weekly",
       priority: "0.8",
       lastmod: toW3C(s.updated_at),
+      images: toImages(
+        s.images,
+        s.name || s.slug,
+        `Minecraft server ${s.name || s.slug} na MCServery`,
+      ),
     }));
     const staffEntries: Entry[] = (posts ?? []).map((p) => ({
       path: `/staff/${p.slug}`,
       changefreq: "weekly",
       priority: "0.6",
       lastmod: toW3C(p.updated_at),
+      images: toImages(
+        p.images,
+        p.position ? `Nábor: ${p.position}` : p.slug,
+        "Nábor do A-teamu na MCServery",
+      ),
     }));
 
     const newestServer = newest(serverEntries);
