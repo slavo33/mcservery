@@ -48,7 +48,7 @@ async def main():
         await restore_session(context, page)
 
         # ---- 1) Vytvorenie servera s verziou 26.2 ----
-        await page.goto(f"{BASE}/add-server", wait_until="networkidle")
+        await page.goto(f"{BASE}/add-server", wait_until="domcontentloaded")
         text_inputs = page.locator("form input[type=text]")
         await text_inputs.nth(0).fill(SERVER_NAME)
         await text_inputs.nth(1).fill(SERVER_IP)
@@ -71,9 +71,10 @@ async def main():
         check("server bol vytvorený (redirect z formulára)", "/add-server" not in page.url, page.url)
 
         # ---- 2) Profil servera zobrazuje v26.2 ----
-        await page.goto(f"{BASE}/servers", wait_until="networkidle")
+        await page.goto(f"{BASE}/servers", wait_until="domcontentloaded")
+        await page.get_by_text(SERVER_NAME, exact=False).first.wait_for(timeout=30000)
         await page.get_by_text(SERVER_NAME, exact=False).first.click()
-        await page.wait_for_load_state("networkidle")
+        await page.wait_for_timeout(2500)
         body = await page.locator("body").inner_text()
         check("profil servera zobrazuje odznak v26.2", "v26.2" in body)
         title = await page.title()
@@ -82,7 +83,8 @@ async def main():
         detail_url = page.url
 
         # ---- 3) Filtre podľa verzie ----
-        await page.goto(f"{BASE}/servers", wait_until="networkidle")
+        await page.goto(f"{BASE}/servers", wait_until="domcontentloaded")
+        await page.get_by_text(SERVER_NAME, exact=False).first.wait_for(timeout=30000)
         filter_select = page.locator("select").first
         await filter_select.select_option(VERSION)
         await page.wait_for_timeout(1200)
