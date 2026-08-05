@@ -2,6 +2,7 @@ import { useState, useEffect } from "react";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import SEO from "@/components/SEO";
+import PageBreadcrumbs from "@/components/PageBreadcrumbs";
 import { buildPageJsonLdGraph } from "@/lib/pageJsonLd";
 import { useAuth } from "@/hooks/useAuth";
 import { useLanguage } from "@/i18n/LanguageContext";
@@ -140,6 +141,7 @@ const VipPage = () => {
       />
       <Header />
       <main className="flex-1 container mx-auto px-4 py-16">
+        <PageBreadcrumbs items={[["VIP členstvo", "/vip"]]} />
         {/* Hero */}
         <div className="text-center mb-12">
           <h1 className="font-display text-4xl md:text-5xl font-bold text-foreground mb-4">

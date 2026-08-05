@@ -1,6 +1,7 @@
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import SEO from "@/components/SEO";
+import PageBreadcrumbs from "@/components/PageBreadcrumbs";
 import { buildPageJsonLdGraph } from "@/lib/pageJsonLd";
 import { useLanguage } from "@/i18n/LanguageContext";
 
@@ -22,6 +23,7 @@ const Terms = () => {
       />
       <Header />
       <main className="flex-1 container mx-auto px-4 py-16 max-w-3xl">
+        <PageBreadcrumbs items={[["Podmienky používania", "/terms"]]} />
         <h1 className="font-display text-4xl font-bold text-foreground mb-8">{t("footer_terms")}</h1>
         <div className="prose prose-invert max-w-none space-y-6 text-muted-foreground">
           <section>
