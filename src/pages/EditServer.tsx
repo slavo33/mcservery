@@ -5,7 +5,7 @@ import Footer from "@/components/Footer";
 import { Button } from "@/components/ui/button";
 import { Switch } from "@/components/ui/switch";
 import { softwareOptions, versions, minigameOptions, proxyOptions } from "@/lib/mockData";
-import { getAvailablePlatforms, getAvailableSoftware, getAvailableProxies, sanitizeForVersion, validateVersionCombination, validateVersionSelection, isNextGenVersion } from "@/lib/versionCompatibility";
+import { getAvailablePlatforms, getAvailableSoftware, getAvailableProxies, sanitizeForVersion, validateVersionCombination, validateVersionSelection, isNextGenVersion, getCompatibleFix, describeFix } from "@/lib/versionCompatibility";
 import { useState, useEffect, useRef, useMemo } from "react";
 import { Save, Key, Copy, Check, Wifi, WifiOff, Loader2 } from "lucide-react";
 import ServerImageUpload from "@/components/ServerImageUpload";
