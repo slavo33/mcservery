@@ -95,6 +95,11 @@ jobs:
       - name: E2E indexovateľnosť sitemapy (200, žiadny noindex)
         run: python3 e2e/sitemap_indexability_e2e.py
 
+      - name: E2E čerstvosť sitemapy (lastmod po úprave profilu)
+        run: python3 e2e/sitemap_freshness_e2e.py
+        env:
+          E2E_SUPABASE_ACCESS_TOKEN: ${{ secrets.E2E_SUPABASE_ACCESS_TOKEN }}
+
 
 
 
