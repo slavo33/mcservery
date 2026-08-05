@@ -28,6 +28,8 @@ const EditServer = () => {
   const [ip, setIp] = useState("");
   const [description, setDescription] = useState("");
   const [version, setVersion] = useState("");
+  const [versionError, setVersionError] = useState<string | null>(null);
+
   const [software, setSoftware] = useState("");
   const [proxy, setProxy] = useState("");
   const [selectedPlatform, setSelectedPlatform] = useState<string[]>([]);
@@ -144,6 +146,15 @@ const EditServer = () => {
     setSelectedPlatform(cleaned.platform);
     setSoftware(cleaned.software);
     setProxy(cleaned.proxy);
+    setVersionError(
+      validateVersionSelection(nextVersion) ??
+        validateVersionCombination({
+          version: nextVersion,
+          software: cleaned.software,
+          proxy: cleaned.proxy,
+          platform: cleaned.platform,
+        })
+    );
   };
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -154,17 +165,22 @@ const EditServer = () => {
       return;
     }
 
-    const versionError = validateVersionSelection(version);
-    if (versionError) {
-      toast.error(versionError);
+    const selectionError = validateVersionSelection(version);
+    if (selectionError) {
+      setVersionError(selectionError);
+      toast.error(selectionError);
       return;
     }
 
     const combinationError = validateVersionCombination({ version, software, proxy, platform: selectedPlatform });
     if (combinationError) {
+      setVersionError(combinationError);
       toast.error(combinationError);
       return;
     }
+    setVersionError(null);
+
+
 
     // Votifier validation
     if (votifierIp.trim() && /:\d+/.test(votifierIp.trim())) {
@@ -322,15 +338,27 @@ const EditServer = () => {
           <div className="grid grid-cols-2 gap-4">
             <div>
               <label className="text-sm font-semibold text-foreground mb-1.5 block">{t("add_version")} <span className="text-primary">*</span></label>
-              <select value={version} onChange={(e) => handleVersionChange(e.target.value)} className={inputClass}>
+              <select
+                value={version}
+                onChange={(e) => handleVersionChange(e.target.value)}
+                aria-invalid={!!versionError}
+                aria-describedby={versionError ? "version-error" : undefined}
+                className={`${inputClass} ${versionError ? "border-destructive focus:border-destructive" : ""}`}
+              >
                 <option value="">— vyber verziu —</option>
                 {versions.map((v) => <option key={v} value={v}>{v}</option>)}
               </select>
-              {isNextGenVersion(version) && (
+              {versionError && (
+                <p id="version-error" role="alert" className="text-xs text-destructive mt-1.5">
+                  {versionError}
+                </p>
+              )}
+              {!versionError && isNextGenVersion(version) && (
                 <p className="text-xs text-muted-foreground mt-1.5">
                   Verzia {version} je iba pre Java Edition — nekompatibilné platformy, software a proxy sú skryté.
                 </p>
               )}
+
             </div>
             <div>
               <label className="text-sm font-semibold text-foreground mb-1.5 block">{t("add_software")}</label>
