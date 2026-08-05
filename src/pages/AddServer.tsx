@@ -41,7 +41,9 @@ const AddServer = () => {
   const [twitterUrl, setTwitterUrl] = useState("");
   const [submitting, setSubmitting] = useState(false);
   const [serverCount, setServerCount] = useState<number | null>(null);
+  const [submitAttempted, setSubmitAttempted] = useState(false);
   const MAX_SERVERS = 5;
+
 
   useEffect(() => {
     if (!user) return;
@@ -77,21 +79,27 @@ const AddServer = () => {
     setSelectedPlatform(cleaned.platform);
     setSoftware(cleaned.software);
     setProxy(cleaned.proxy);
-    // Hláška zmizne hneď po zvolení platnej verzie.
-    setVersionError(
-      validateVersionSelection(nextVersion) ??
-        validateVersionCombination({
-          version: nextVersion,
-          software: cleaned.software,
-          proxy: cleaned.proxy,
-          platform: cleaned.platform,
-        })
-    );
   };
+
+  // Živá validácia — nekompatibilita sa ukáže hneď pri zmene verzie,
+  // softvéru, proxy alebo platformy, bez čakania na odoslanie formulára.
+  useEffect(() => {
+    if (!version.trim()) {
+      setVersionError(submitAttempted ? validateVersionSelection(version) : null);
+      return;
+    }
+    setVersionError(
+      validateVersionSelection(version) ??
+        validateVersionCombination({ version, software, proxy, platform: selectedPlatform })
+    );
+  }, [version, software, proxy, selectedPlatform, submitAttempted]);
+
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+    setSubmitAttempted(true);
     if (!user) {
+
       toast.error(t("add_login_required"));
       navigate("/auth");
       return;
