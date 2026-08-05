@@ -150,3 +150,20 @@ E2E_BASE_URL=https://mcservery.one E2E_MAX_URLS=20 python3 e2e/og_meta_e2e.py
 python3 e2e/jsonld_structured_data_e2e.py
 E2E_MAX_URLS=12 python3 e2e/jsonld_structured_data_e2e.py
 ```
+
+`responsive_overflow_e2e.py` — overuje **render verejných stránok na rôznych šírkach** (360, 375, 768, 1024, 1280, 1920 px):
+
+1. Dokument ani `body` nemajú horizontálny pretok (`scrollWidth` ≤ šírka viewportu).
+2. Žiadny viditeľný prvok nepresahuje layout kontajner (pravý okraj ≤ viewport, ľavý ≥ 0).
+3. Obsah nepretečie svoj box (`scrollWidth` ≤ `clientWidth`); zámerné `truncate`/`line-clamp` a `sr-only` sú vylúčené.
+4. Žiadny nechcene orezaný text (overflow hidden bez ellipsis).
+5. Hlavička aj pätička sú na plnú šírku, `main` je vyrenderovaný.
+6. Dotykové ciele v hlavičke majú na mobile ≥ 32 px.
+7. Žiadne chyby v konzole (dev-only React varovania sa ignorujú).
+
+Screenshoty problémov idú do `e2e/screenshots/overflow_<viewport>_<url>.png`.
+
+```bash
+python3 e2e/responsive_overflow_e2e.py
+E2E_MAX_URLS=10 python3 e2e/responsive_overflow_e2e.py
+```
