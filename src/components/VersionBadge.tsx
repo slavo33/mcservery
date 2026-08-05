@@ -26,10 +26,12 @@ const VersionBadge = ({ version, className, linkToFilter = false }: VersionBadge
   if (!label) return null;
 
   const classes = cn(
-    "badge-tag gap-1 whitespace-nowrap tabular-nums font-display tracking-tight",
-    "px-2.5 py-1 text-xs sm:text-sm max-w-full",
+    "inline-flex items-center gap-1 rounded-md border font-medium",
+    "whitespace-nowrap text-nowrap tabular-nums font-display tracking-tight leading-none",
+    "px-1.5 py-0.5 text-xs sm:px-2.5 sm:py-1 sm:text-sm",
+    "bg-primary/90 text-primary-foreground border-primary/50",
     linkToFilter &&
-      "cursor-pointer transition-colors hover:bg-primary/20 hover:text-primary focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring",
+      "cursor-pointer transition-colors hover:bg-primary hover:text-primary-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring",
     className
   );
 
