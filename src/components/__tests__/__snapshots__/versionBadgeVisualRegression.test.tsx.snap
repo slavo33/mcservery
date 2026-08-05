@@ -4,6 +4,7 @@ exports[`VersionBadge – vizuálna regresia (dĺžky verzií) > klikateľný od
 <a
   aria-label="Filtrovať servery podľa verzie v1.7"
   class="inline-flex items-center gap-1 rounded-md border font-medium whitespace-nowrap text-nowrap tabular-nums font-display tracking-tight px-1.5 py-0.5 text-xs sm:px-2.5 sm:py-1 sm:text-sm bg-primary/90 text-primary-foreground border-primary/50 cursor-pointer transition-colors hover:bg-primary hover:text-primary-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
+  data-state="closed"
   href="/servers?version=1.7"
   title="Zobraziť servery s verziou v1.7"
 >
@@ -42,6 +43,7 @@ exports[`VersionBadge – vizuálna regresia (dĺžky verzií) > klikateľný od
 <a
   aria-label="Filtrovať servery podľa verzie v1.20.4"
   class="inline-flex items-center gap-1 rounded-md border font-medium whitespace-nowrap text-nowrap tabular-nums font-display tracking-tight px-1.5 py-0.5 text-xs sm:px-2.5 sm:py-1 sm:text-sm bg-primary/90 text-primary-foreground border-primary/50 cursor-pointer transition-colors hover:bg-primary hover:text-primary-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
+  data-state="closed"
   href="/servers?version=1.20.4"
   title="Zobraziť servery s verziou v1.20.4"
 >
@@ -80,6 +82,7 @@ exports[`VersionBadge – vizuálna regresia (dĺžky verzií) > klikateľný od
 <a
   aria-label="Filtrovať servery podľa verzie v1.21.10"
   class="inline-flex items-center gap-1 rounded-md border font-medium whitespace-nowrap text-nowrap tabular-nums font-display tracking-tight px-1.5 py-0.5 text-xs sm:px-2.5 sm:py-1 sm:text-sm bg-primary/90 text-primary-foreground border-primary/50 cursor-pointer transition-colors hover:bg-primary hover:text-primary-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
+  data-state="closed"
   href="/servers?version=1.21.10"
   title="Zobraziť servery s verziou v1.21.10"
 >
@@ -118,6 +121,7 @@ exports[`VersionBadge – vizuálna regresia (dĺžky verzií) > klikateľný od
 <a
   aria-label="Filtrovať servery podľa verzie v1.21.10.1"
   class="inline-flex items-center gap-1 rounded-md border font-medium whitespace-nowrap text-nowrap tabular-nums font-display tracking-tight px-1.5 py-0.5 text-xs sm:px-2.5 sm:py-1 sm:text-sm bg-primary/90 text-primary-foreground border-primary/50 cursor-pointer transition-colors hover:bg-primary hover:text-primary-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
+  data-state="closed"
   href="/servers?version=1.21.10.1"
   title="Zobraziť servery s verziou v1.21.10.1"
 >
@@ -156,6 +160,7 @@ exports[`VersionBadge – vizuálna regresia (dĺžky verzií) > klikateľný od
 <a
   aria-label="Filtrovať servery podľa verzie v26.2"
   class="inline-flex items-center gap-1 rounded-md border font-medium whitespace-nowrap text-nowrap tabular-nums font-display tracking-tight px-1.5 py-0.5 text-xs sm:px-2.5 sm:py-1 sm:text-sm bg-primary/90 text-primary-foreground border-primary/50 cursor-pointer transition-colors hover:bg-primary hover:text-primary-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
+  data-state="closed"
   href="/servers?version=26.2"
   title="Zobraziť servery s verziou v26.2"
 >
@@ -194,6 +199,9 @@ exports[`VersionBadge – vizuálna regresia (dĺžky verzií) > markup odznaku 
 <span
   aria-label="Verzia v1.7"
   class="inline-flex items-center gap-1 rounded-md border font-medium whitespace-nowrap text-nowrap tabular-nums font-display tracking-tight px-1.5 py-0.5 text-xs sm:px-2.5 sm:py-1 sm:text-sm bg-primary/90 text-primary-foreground border-primary/50"
+  data-state="closed"
+  role="button"
+  tabindex="0"
   title="v1.7"
 >
   <svg
@@ -231,6 +239,9 @@ exports[`VersionBadge – vizuálna regresia (dĺžky verzií) > markup odznaku 
 <span
   aria-label="Verzia v1.20.4"
   class="inline-flex items-center gap-1 rounded-md border font-medium whitespace-nowrap text-nowrap tabular-nums font-display tracking-tight px-1.5 py-0.5 text-xs sm:px-2.5 sm:py-1 sm:text-sm bg-primary/90 text-primary-foreground border-primary/50"
+  data-state="closed"
+  role="button"
+  tabindex="0"
   title="v1.20.4"
 >
   <svg
@@ -268,6 +279,9 @@ exports[`VersionBadge – vizuálna regresia (dĺžky verzií) > markup odznaku 
 <span
   aria-label="Verzia v1.21.10"
   class="inline-flex items-center gap-1 rounded-md border font-medium whitespace-nowrap text-nowrap tabular-nums font-display tracking-tight px-1.5 py-0.5 text-xs sm:px-2.5 sm:py-1 sm:text-sm bg-primary/90 text-primary-foreground border-primary/50"
+  data-state="closed"
+  role="button"
+  tabindex="0"
   title="v1.21.10"
 >
   <svg
@@ -305,6 +319,9 @@ exports[`VersionBadge – vizuálna regresia (dĺžky verzií) > markup odznaku 
 <span
   aria-label="Verzia v1.21.10.1"
   class="inline-flex items-center gap-1 rounded-md border font-medium whitespace-nowrap text-nowrap tabular-nums font-display tracking-tight px-1.5 py-0.5 text-xs sm:px-2.5 sm:py-1 sm:text-sm bg-primary/90 text-primary-foreground border-primary/50"
+  data-state="closed"
+  role="button"
+  tabindex="0"
   title="v1.21.10.1"
 >
   <svg
@@ -342,6 +359,9 @@ exports[`VersionBadge – vizuálna regresia (dĺžky verzií) > markup odznaku 
 <span
   aria-label="Verzia v26.2"
   class="inline-flex items-center gap-1 rounded-md border font-medium whitespace-nowrap text-nowrap tabular-nums font-display tracking-tight px-1.5 py-0.5 text-xs sm:px-2.5 sm:py-1 sm:text-sm bg-primary/90 text-primary-foreground border-primary/50"
+  data-state="closed"
+  role="button"
+  tabindex="0"
   title="v26.2"
 >
   <svg
