@@ -7,7 +7,7 @@ import Footer from "@/components/Footer";
 import CommentSection from "@/components/CommentSection";
 import VoteSection from "@/components/VoteSection";
 import TopVoters from "@/components/TopVoters";
-import VersionBadge from "@/components/VersionBadge";
+import VersionBadge, { formatVersion } from "@/components/VersionBadge";
 import { Heart, Users, Copy, ArrowLeft, Shield, ShieldOff, ExternalLink, Trash2, Pencil, User, Crown } from "lucide-react";
 import ReportDialog from "@/components/ReportDialog";
 import { toast } from "sonner";
