@@ -148,6 +148,13 @@ serve(async (req) => {
         // ignore SRV resolution failure
       }
 
+      // Only allow TCP probing of conventional Minecraft ports, and never
+      // to private/internal hosts (SRV resolution could point anywhere).
+      const ALLOWED_TCP_PORTS = [25565, 25566, 25567, 19132, 25575];
+      if (!ALLOWED_TCP_PORTS.includes(checkPort) || !isValidMinecraftAddress(checkHost)) {
+        throw new Error("tcp_probe_not_allowed");
+      }
+
       // Try TCP connect to verify server is at least reachable
       const conn = await Deno.connect({
         hostname: checkHost,
