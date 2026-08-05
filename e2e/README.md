@@ -131,3 +131,10 @@ E2E_BASE_URL=https://mcservery.one E2E_MAX_URLS=30 python3 e2e/canonical_indexab
 python3 e2e/soft_404_e2e.py
 E2E_BASE_URL=https://mcservery.one E2E_MAX_URLS=20 python3 e2e/soft_404_e2e.py
 ```
+
+- `og_meta_e2e.py` — overuje **social meta tagy** na verejných stránkach: `og:title/description/type/url/site_name/image` a `twitter:card/title/description/image` existujú práve raz, sedia s `<title>` a `meta[name=description]`, `og:url` je self-referencing https na `mcservery.one`, dodržané dĺžky (title ≤ 70, description 50–200). `og:image` aj `twitter:image` musia byť absolútne https URL, vracať **HTTP 200** s `Content-Type: image/*` (žiadne 404) a reálne sa dekódovať v prehliadači.
+
+```bash
+python3 e2e/og_meta_e2e.py
+E2E_BASE_URL=https://mcservery.one E2E_MAX_URLS=20 python3 e2e/og_meta_e2e.py
+```
