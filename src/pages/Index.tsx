@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import Header from "@/components/Header";
 import SEO from "@/components/SEO";
+import { buildPageJsonLdGraph } from "@/lib/pageJsonLd";
 import Footer from "@/components/Footer";
 import HeroSection from "@/components/HeroSection";
 import ServerCard from "@/components/ServerCard";
@@ -85,12 +86,12 @@ const Index = () => {
               "query-input": "required name=search_term_string",
             },
           },
-          {
-            "@context": "https://schema.org",
-            "@type": "Organization",
-            name: "MCServery",
-            url: "https://mcservery.one",
-          },
+          ...buildPageJsonLdGraph({
+            name: "MCServery — Databáza Minecraft serverov",
+            description:
+              "Databáza Minecraft serverov. Rýchlo, prehľadne a jednoducho na jednom mieste.",
+            path: "/",
+          }),
         ]}
       />
       <Header />

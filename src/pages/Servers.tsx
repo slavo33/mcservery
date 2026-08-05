@@ -2,6 +2,7 @@ import { useState, useMemo, useEffect } from "react";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import SEO from "@/components/SEO";
+import { buildPageJsonLdGraph } from "@/lib/pageJsonLd";
 import ServerCard from "@/components/ServerCard";
 import ServerFilters from "@/components/ServerFilters";
 import { ArrowUpDown, Crown } from "lucide-react";
@@ -136,6 +137,13 @@ const Servers = () => {
         title="Minecraft servery — zoznam a vyhľadávanie | MCServery"
         description="Prehľadávaj a filtruj Minecraft servery podľa verzie, platformy a herných módov. Nájdi si ten najlepší server pre seba."
         path="/servers"
+        jsonLd={buildPageJsonLdGraph({
+          name: "Minecraft servery",
+          description:
+            "Prehľadávaj a filtruj Minecraft servery podľa verzie, platformy a herných módov.",
+          path: "/servers",
+          breadcrumbs: [["Servery", "/servers"]],
+        })}
       />
       <Header />
       <main className="flex-1 container mx-auto px-4 py-10">
