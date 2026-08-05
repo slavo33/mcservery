@@ -188,11 +188,13 @@ const Servers = () => {
         <p className="text-muted-foreground mb-8">{t("servers_subtitle")}</p>
 
         <ServerFilters
-          search={search} onSearchChange={setSearch}
-          selectedPlatform={platform} onPlatformChange={setPlatform}
+          search={search} onSearchChange={handleSearchChange}
+          selectedPlatform={platform} onPlatformChange={handlePlatformChange}
           selectedVersion={version} onVersionChange={handleVersionChange}
-          selectedSoftware={software} onSoftwareChange={setSoftware}
+          selectedSoftware={software} onSoftwareChange={handleSoftwareChange}
+          selectedMinigame={minigame} onMinigameChange={handleMinigameChange}
         />
+
 
         {/* Sorting + VIP filter */}
         <div className="flex items-center gap-2 mb-6 flex-wrap">
