@@ -1,3 +1,4 @@
+import VersionBadge from "@/components/VersionBadge";
 import { Heart, Users, Wifi, WifiOff, Copy, Shield, ShieldOff, Vote, Crown } from "lucide-react";
 import type { MinecraftServer } from "@/lib/mockData";
 import { useState } from "react";
@@ -112,7 +113,7 @@ const ServerCard = ({ server, dbMode, dbId }: ServerCardProps) => {
             <span key={p} className="badge-platform">{p === "java" ? "Java" : "Bedrock"}</span>
           ))}
           <span className="badge-tag">{server.software}</span>
-          <span className="badge-tag">v{server.version}</span>
+          <VersionBadge version={server.version} />
           {server.proxy && <span className="badge-platform">{server.proxy}</span>}
         </div>
 

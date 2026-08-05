@@ -7,6 +7,7 @@ import Footer from "@/components/Footer";
 import CommentSection from "@/components/CommentSection";
 import VoteSection from "@/components/VoteSection";
 import TopVoters from "@/components/TopVoters";
+import VersionBadge from "@/components/VersionBadge";
 import { Heart, Users, Copy, ArrowLeft, Shield, ShieldOff, ExternalLink, Trash2, Pencil, User, Crown } from "lucide-react";
 import ReportDialog from "@/components/ReportDialog";
 import { toast } from "sonner";
@@ -368,7 +369,7 @@ const ServerDetailPage = () => {
                 <span key={p} className="badge-platform">{p === "java" ? "Java" : "Bedrock"}</span>
               ))}
               <span className="badge-tag">{server.software}</span>
-              <span className="badge-tag">v{server.version}</span>
+              <VersionBadge version={server.version} />
               {server.proxy && <span className="badge-platform">{server.proxy}</span>}
               <span className={`badge-tag ${server.is_warez ? "" : ""}`}>
                 {server.is_warez ? t("detail_warez") : t("detail_original")}
