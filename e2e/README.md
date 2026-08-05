@@ -50,3 +50,16 @@ python3 e2e/version_jsonld_consistency_e2e.py
 ```
 
 Testovacie servery majú názov `E2E JsonLd <timestamp>` a IP `e2eld<timestamp>.example.com` — po behu ich treba odstrániť z databázy.
+
+`sitemap_robots_e2e.py` — overuje **indexovateľnosť profilov cez sitemap.xml a robots.txt**:
+
+1. `robots.txt` je dostupný, neblokuje crawlerov a obsahuje presne jednu `Sitemap:` direktívu na `https://mcservery.one/sitemap.xml`.
+2. Po vytvorení profilu a pregenerovaní sitemapy je URL `/server/<slug>` v `sitemap.xml` aj s `<lastmod>` v ISO 8601; admin/edit routy tam nie sú.
+3. Po editácii profilu sa `<lastmod>` danej URL posunie a výpis `/servers` zdedí najnovší dátum.
+4. Pri nízkom limite (`SITEMAP_URLS_PER_FILE`) sa `sitemap.xml` stane `<sitemapindex>`, URL profilu sa nájde v odkazovanom chunku a `lastmod` zostane zachovaný; na záver sa obnoví štandardná sitemapa.
+
+```bash
+python3 e2e/sitemap_robots_e2e.py
+```
+
+Testovacie servery majú názov `E2E Sitemap <timestamp>` a IP `e2esm<timestamp>.example.com` — po behu ich treba odstrániť z databázy.
