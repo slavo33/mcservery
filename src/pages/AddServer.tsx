@@ -310,6 +310,15 @@ const AddServer = () => {
                   {versionError}
                 </p>
               )}
+              {versionFix.changes.length > 0 && (
+                <button
+                  type="button"
+                  onClick={applyCompatibleFix}
+                  className="text-xs font-semibold text-primary underline underline-offset-2 mt-1.5 hover:opacity-80"
+                >
+                  Použiť kompatibilnú alternatívu — {describeFix(versionFix)}
+                </button>
+              )}
               {!versionError && isNextGenVersion(version) && (
                 <p className="text-xs text-muted-foreground mt-1.5">
                   Verzia {version} je iba pre Java Edition — nekompatibilné platformy, software a proxy sú skryté.
