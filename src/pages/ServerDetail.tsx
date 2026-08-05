@@ -63,6 +63,8 @@ const ServerDetailPage = () => {
   const { t } = useLanguage();
   const [server, setServer] = useState<ServerDetailData | null>(null);
   const [loading, setLoading] = useState(true);
+  const [loadError, setLoadError] = useState(false);
+
   const [liked, setLiked] = useState(false);
   const [likesCount, setLikesCount] = useState(0);
   const [voteCount, setVoteCount] = useState(0);
