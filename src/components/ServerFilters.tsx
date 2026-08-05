@@ -90,8 +90,8 @@ const ServerFilters = ({
           </div>
         </div>
 
-        {/* Software */}
-        <div>
+        {/* Software / loader */}
+        <div data-filter-group="software">
           <span className="text-xs font-semibold uppercase tracking-wider text-muted-foreground mb-2 block">{t("filter_software")}</span>
           <div className="flex flex-wrap gap-1.5">
             <button
@@ -103,6 +103,7 @@ const ServerFilters = ({
             {softwareOptions.map((s) => (
               <button
                 key={s}
+                data-filter-value={s}
                 onClick={() => onSoftwareChange(s === selectedSoftware ? "" : s)}
                 className={`filter-chip ${selectedSoftware === s ? "active" : ""}`}
               >
@@ -111,7 +112,33 @@ const ServerFilters = ({
             ))}
           </div>
         </div>
+
+        {/* Minigames */}
+        {onMinigameChange && (
+          <div data-filter-group="minigame">
+            <span className="text-xs font-semibold uppercase tracking-wider text-muted-foreground mb-2 block">{t("detail_minigames")}</span>
+            <div className="flex flex-wrap gap-1.5 max-h-40 overflow-y-auto pr-1">
+              <button
+                onClick={() => onMinigameChange("")}
+                className={`filter-chip ${selectedMinigame === "" ? "active" : ""}`}
+              >
+                {t("filter_all")}
+              </button>
+              {minigameOptions.map((m) => (
+                <button
+                  key={m}
+                  data-filter-value={m}
+                  onClick={() => onMinigameChange(m === selectedMinigame ? "" : m)}
+                  className={`filter-chip ${selectedMinigame === m ? "active" : ""}`}
+                >
+                  {m}
+                </button>
+              ))}
+            </div>
+          </div>
+        )}
       </div>
+
     </div>
   );
 };
