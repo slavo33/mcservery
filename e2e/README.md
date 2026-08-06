@@ -237,6 +237,19 @@ python3 e2e/servers_search_pagination_mobile_e2e.py
 ```
 
 
+`server_detail_sections_e2e.py` — regresné overenie **rozloženia detailu servera** na 390/768/1440 px:
+
+1. Sekcie majú `data-detail-section` a v DOM-e idú v poradí médiá → galéria → vlastník → názov → popis → loader info → minihry → odkazy → IP → hlasovanie → komentáre.
+2. Vizuálne poradie (pozícia zhora) zodpovedá DOM poradiu a sekcie sa neprekrývajú.
+3. Loader info obsahuje platformu (Java/Bedrock), software/loader aj odznak verzie; minihry sú vždy až za ním.
+4. Pri extrémne dlhom popise a názve (aj bez medzier) sa layout nezlomí: žiadny horizontálny overflow, text sa zalamuje.
+
+```bash
+python3 e2e/server_detail_sections_e2e.py
+E2E_MAX_SERVERS=3 python3 e2e/server_detail_sections_e2e.py
+```
+
+
 `robots_indexability_e2e.py` — overuje **robots.txt a jeho súlad s indexovaním**:
 
 1. `/robots.txt` vracia 200 s `text/plain`, má validnú syntax a skupinu `User-agent: *`, ktorá neblokuje celý web.

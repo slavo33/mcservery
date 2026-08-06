@@ -151,6 +151,9 @@ jobs:
       - name: E2E vyhľadávanie a stránkovanie na mobile
         run: python3 e2e/servers_search_pagination_mobile_e2e.py
 
+      - name: E2E rozloženie detailu servera
+        run: python3 e2e/server_detail_sections_e2e.py
+
       - name: E2E vytvorenie servera, nahrávanie médií a lajkovanie
         run: python3 e2e/server_create_media_e2e.py
 
