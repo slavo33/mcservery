@@ -336,7 +336,7 @@ const ServerDetailPage = () => {
         </Link>
 
         <div className="gradient-card rounded-lg border border-border shadow-card overflow-hidden">
-          <div className="relative h-48 bg-secondary">
+          <div data-detail-section="media" className="relative h-48 bg-secondary">
             <div className="absolute inset-0 gradient-hero z-10" />
             {server.images && server.images.length > 0 ? (
               <img src={server.images[0]} alt={server.name} className="absolute inset-0 w-full h-full object-cover" />
@@ -358,7 +358,7 @@ const ServerDetailPage = () => {
 
           {/* Image gallery */}
           {server.images && server.images.length > 1 && (
-            <div className="grid grid-cols-2 sm:grid-cols-3 gap-2 px-6 pt-4">
+            <div data-detail-section="gallery" className="grid grid-cols-2 sm:grid-cols-3 gap-2 px-6 pt-4">
               {server.images.map((url, i) => (
                 <a key={i} href={url} target="_blank" rel="noopener noreferrer" className="rounded-md overflow-hidden border border-border aspect-video hover:border-primary/40 transition-colors">
                   <img src={url} alt={`${server.name} ${i + 1}`} className="w-full h-full object-cover" />
@@ -369,7 +369,7 @@ const ServerDetailPage = () => {
 
           <div className="p-6 space-y-6">
             {/* Owner profile card */}
-            <Link to={`/user/${server.owner_id}`} className="flex items-center gap-3 rounded-md border border-border bg-secondary/30 p-3 hover:border-primary/40 transition-colors">
+            <Link data-detail-section="owner" to={`/user/${server.owner_id}`} className="flex items-center gap-3 rounded-md border border-border bg-secondary/30 p-3 hover:border-primary/40 transition-colors">
               <Avatar className="h-12 w-12 border border-border">
                 {server.ownerAvatar ? (
                   <AvatarImage src={server.ownerAvatar} alt={server.ownerNickname} />
@@ -405,7 +405,7 @@ const ServerDetailPage = () => {
               );
             })()}
 
-            <div className="flex items-start justify-between">
+            <div data-detail-section="title" className="flex items-start justify-between">
               <div>
                 <h1 className="font-display text-3xl font-bold text-foreground">{server.name}</h1>
                 <p className="text-sm text-muted-foreground mt-1">
@@ -442,10 +442,10 @@ const ServerDetailPage = () => {
               </div>
             </div>
 
-            <p className="text-foreground/90 whitespace-pre-line leading-relaxed break-words">{server.description}</p>
+            <p data-detail-section="description" className="text-foreground/90 whitespace-pre-line leading-relaxed break-words overflow-hidden [overflow-wrap:anywhere]">{server.description}</p>
 
             {/* Tags + badges */}
-            <div className="flex flex-wrap gap-2">
+            <div data-detail-section="loader-info" className="flex flex-wrap gap-2">
               {server.platform.map((p) => (
                 <span key={p} data-server-platform={p === "java" ? "Java" : "Bedrock"} className="badge-platform">{p === "java" ? "Java" : "Bedrock"}</span>
               ))}
@@ -475,7 +475,7 @@ const ServerDetailPage = () => {
             </div>
 
             {server.minigames.length > 0 && (
-              <div>
+              <div data-detail-section="minigames">
                 <h3 className="text-sm font-semibold text-foreground mb-2">{t("detail_minigames")}</h3>
                 <div className="flex flex-wrap gap-1.5">
                   {server.minigames.map((mg) => (
@@ -487,7 +487,7 @@ const ServerDetailPage = () => {
 
             {/* Social Links */}
             {links.length > 0 && (
-              <div>
+              <div data-detail-section="links">
                 <h3 className="text-sm font-semibold text-foreground mb-2">{t("add_links")}</h3>
                 <div className="flex flex-wrap gap-2">
                   {links.map((link) => (
@@ -507,14 +507,14 @@ const ServerDetailPage = () => {
             )}
 
             {/* IP */}
-            <button onClick={copyIp} className="flex w-full items-center justify-between rounded-md border border-border bg-secondary/50 px-4 py-3 text-foreground font-mono transition-all hover:border-primary/40 glow-border-hover">
+            <button data-detail-section="ip" onClick={copyIp} className="flex w-full items-center justify-between rounded-md border border-border bg-secondary/50 px-4 py-3 text-foreground font-mono transition-all hover:border-primary/40 glow-border-hover">
               <span data-server-ip={server.ip}>{server.ip}</span>
               <span className="flex items-center gap-1 text-sm text-muted-foreground">
                 <Copy className="h-4 w-4" /> {t("detail_copy")}
               </span>
             </button>
 
-            <div className="border-t border-border pt-6 space-y-4">
+            <div data-detail-section="votes" className="border-t border-border pt-6 space-y-4">
               <VoteSection
                 serverId={server.id}
                 voteCount={voteCount}
@@ -527,7 +527,7 @@ const ServerDetailPage = () => {
               <TopVoters serverId={server.id} refreshKey={voteRefreshKey} />
             </div>
 
-            <div className="border-t border-border pt-6">
+            <div data-detail-section="comments" className="border-t border-border pt-6">
               <CommentSection serverId={server.id} />
             </div>
           </div>
