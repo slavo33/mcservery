@@ -336,3 +336,22 @@ E2E_MAX_URLS=8 E2E_A11Y_FAIL_ON=moderate python3 e2e/accessibility_axe_e2e.py
 python3 e2e/layout_visual_regression_e2e.py
 UPDATE_BASELINES=1 python3 e2e/layout_visual_regression_e2e.py   # zámerná zmena dizajnu
 ```
+
+## Výkonnostná kontrola (Lighthouse CI)
+
+Job `performance` v `.github/workflows/ci.yml` spustí Lighthouse CI nad produkčným
+buildom (`vite preview`, 3 behy na URL `/`, `/servers`, `/staff`).
+
+Rozpočty sú v `lighthouse-budget.json`, prahy v `lighthouserc.json`:
+
+| Metrika | Rozpočet |
+| --- | --- |
+| LCP | ≤ 2500 ms (error) |
+| CLS | ≤ 0.1 (error) |
+| FCP | ≤ 1800 ms (error) |
+| TBT | ≤ 300 ms (error) |
+| Performance skóre | ≥ 0.80 (error) |
+| JS / celkové zdroje | ≤ 700 kB / 2 MB (warn) |
+
+Lokálne: `bun run build && bun run perf`. HTML reporty sa ukladajú do
+`.lighthouseci/` a v CI sa nahrávajú ako artefakt `lighthouse-reports`.
