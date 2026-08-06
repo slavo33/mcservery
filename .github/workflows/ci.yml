@@ -65,8 +65,14 @@ jobs:
           VITE_SUPABASE_PUBLISHABLE_KEY: ${{ secrets.VITE_SUPABASE_PUBLISHABLE_KEY }}
           VITE_SUPABASE_PROJECT_ID: ${{ secrets.VITE_SUPABASE_PROJECT_ID }}
 
+      - name: Zoznam URL pre Lighthouse (vrátane detailu s najdlhším popisom)
+        run: bunx tsx scripts/lighthouse-urls.ts
+        env:
+          VITE_SUPABASE_URL: ${{ secrets.VITE_SUPABASE_URL }}
+          VITE_SUPABASE_PUBLISHABLE_KEY: ${{ secrets.VITE_SUPABASE_PUBLISHABLE_KEY }}
+
       - name: Lighthouse CI (rozpočet LCP <= 2500 ms, CLS <= 0.1)
-        run: npx --yes @lhci/cli@0.14.x autorun --config=lighthouserc.json
+        run: npx --yes @lhci/cli@0.14.x autorun --config=lighthouserc.cjs
 
       - name: Zhrnutie Lighthouse reportov
         if: always()
