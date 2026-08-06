@@ -70,6 +70,7 @@ const Servers = () => {
     const next = new URLSearchParams(searchParams);
     if (value) next.set(key, value);
     else next.delete(key);
+    next.delete("page"); // zmena filtra vždy vracia na prvú stranu
     setSearchParams(next, { replace: true });
   };
 
@@ -167,6 +168,28 @@ const Servers = () => {
     return result;
   }, [search, platform, version, software, minigame, allServers, sortBy, sortDir, statuses, showVipOnly]);
 
+  // ---- Stránkovanie ----
+  const PER_PAGE = 12;
+  const pageCount = Math.max(1, Math.ceil(filtered.length / PER_PAGE));
+  const rawPage = parseInt(searchParams.get("page") ?? "1", 10);
+  const page = Number.isFinite(rawPage) && rawPage >= 1 ? Math.min(rawPage, pageCount) : 1;
+  const paginated = filtered.slice((page - 1) * PER_PAGE, page * PER_PAGE);
+
+  const goToPage = (p: number) => {
+    const target = Math.min(Math.max(1, p), pageCount);
+    const next = new URLSearchParams(searchParams);
+    if (target > 1) next.set("page", String(target));
+    else next.delete("page");
+    setSearchParams(next, { replace: true });
+    window.scrollTo({ top: 0, behavior: "smooth" });
+  };
+
+  // Zmena filtrov musí zresetovať stránku, aby sa nezobrazila prázdna strana
+  useEffect(() => {
+    if (searchParams.get("page") && page > pageCount) goToPage(1);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [pageCount]);
+
   return (
     <div className="min-h-screen flex flex-col bg-background">
       <SEO
@@ -226,13 +249,63 @@ const Servers = () => {
         </div>
 
         {filtered.length > 0 ? (
-          <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
-            {filtered.map((server) => (
-              <ServerCard key={server.id} server={server} dbMode={!!server.dbId} dbId={server.dbId} />
-            ))}
-          </div>
+          <>
+            <div
+              className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3"
+              data-results-count={filtered.length}
+              data-page={page}
+              data-page-count={pageCount}
+            >
+              {paginated.map((server) => (
+                <ServerCard key={server.id} server={server} dbMode={!!server.dbId} dbId={server.dbId} />
+              ))}
+            </div>
+
+            {pageCount > 1 && (
+              <nav
+                aria-label="Stránkovanie serverov"
+                data-pagination
+                className="mt-8 flex flex-wrap items-center justify-center gap-2"
+              >
+                <button
+                  data-page-prev
+                  onClick={() => goToPage(page - 1)}
+                  disabled={page === 1}
+                  aria-label="Predchádzajúca strana"
+                  className="min-h-11 min-w-11 rounded-md border border-border px-3 text-sm text-muted-foreground transition-colors hover:border-primary/40 hover:text-foreground disabled:opacity-40 disabled:pointer-events-none"
+                >
+                  ‹
+                </button>
+                {Array.from({ length: pageCount }, (_, i) => i + 1).map((p) => (
+                  <button
+                    key={p}
+                    data-page-btn={p}
+                    aria-current={p === page ? "page" : undefined}
+                    aria-label={`Strana ${p}`}
+                    onClick={() => goToPage(p)}
+                    className={`min-h-11 min-w-11 rounded-md border px-3 text-sm transition-colors ${
+                      p === page
+                        ? "border-primary bg-primary/10 text-primary font-bold"
+                        : "border-border text-muted-foreground hover:border-primary/40 hover:text-foreground"
+                    }`}
+                  >
+                    {p}
+                  </button>
+                ))}
+                <button
+                  data-page-next
+                  onClick={() => goToPage(page + 1)}
+                  disabled={page === pageCount}
+                  aria-label="Nasledujúca strana"
+                  className="min-h-11 min-w-11 rounded-md border border-border px-3 text-sm text-muted-foreground transition-colors hover:border-primary/40 hover:text-foreground disabled:opacity-40 disabled:pointer-events-none"
+                >
+                  ›
+                </button>
+              </nav>
+            )}
+          </>
         ) : (
-          <div className="text-center py-20">
+          <div className="text-center py-20" data-results-count={0}>
             <p className="text-muted-foreground font-display text-xl">{t("servers_none")}</p>
             <p className="text-sm text-muted-foreground mt-2">{t("servers_none_hint")}</p>
           </div>

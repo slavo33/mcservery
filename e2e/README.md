@@ -224,6 +224,19 @@ python3 e2e/servers_filters_e2e.py
 ```
 
 
+`servers_search_pagination_mobile_e2e.py` — overuje **vyhľadávanie, filtre a stránkovanie na mobile** (390x844):
+
+1. Vyhľadávanie a filtre okamžite aktualizujú výsledky aj URL parametre.
+2. Stránkovanie zobrazí max 12 kariet na stranu, strany sa neprekrývajú, `?page=` sa správne mení.
+3. Prev/next sú zakázané na hraničných stranách a aktívny chip zodpovedá strane.
+4. Zmena filtra resetuje stránku na 1; deep link `?page=N` funguje a neplatná strana sa oreže.
+5. Dotykové ciele stránkovania majú aspoň 44x44 px a stránka horizontálne nepreteká.
+
+```bash
+python3 e2e/servers_search_pagination_mobile_e2e.py
+```
+
+
 `robots_indexability_e2e.py` — overuje **robots.txt a jeho súlad s indexovaním**:
 
 1. `/robots.txt` vracia 200 s `text/plain`, má validnú syntax a skupinu `User-agent: *`, ktorá neblokuje celý web.
