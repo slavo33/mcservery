@@ -405,9 +405,9 @@ const ServerDetailPage = () => {
               );
             })()}
 
-            <div data-detail-section="title" className="flex items-start justify-between">
-              <div>
-                <h1 className="font-display text-3xl font-bold text-foreground">{server.name}</h1>
+            <div data-detail-section="title" className="flex items-start justify-between gap-4">
+              <div className="min-w-0">
+                <h1 className="font-display text-3xl font-bold text-foreground break-words [overflow-wrap:anywhere]">{server.name}</h1>
                 <p className="text-sm text-muted-foreground mt-1">
                   {t("detail_added_by")} {server.ownerNickname || t("comments_player")}
                 </p>
