@@ -340,9 +340,15 @@ UPDATE_BASELINES=1 python3 e2e/layout_visual_regression_e2e.py   # zámerná zme
 ## Výkonnostná kontrola (Lighthouse CI)
 
 Job `performance` v `.github/workflows/ci.yml` spustí Lighthouse CI nad produkčným
-buildom (`vite preview`, 3 behy na URL `/`, `/servers`, `/staff`).
+buildom (`vite preview`, 3 behy na každú URL).
 
-Rozpočty sú v `lighthouse-budget.json`, prahy v `lighthouserc.json`:
+Zoznam URL generuje `scripts/lighthouse-urls.ts` do `.lighthouseci/urls.json`:
+statické stránky `/`, `/servers`, `/staff`, formulár `/add-server` a **dynamický
+detail servera s najdlhším popisom a najviac médiami** (worst-case pre LCP/CLS).
+Počet detailov sa dá zmeniť cez `LH_SERVER_URLS`, origin cez `LH_ORIGIN`.
+Ak DB nie je dostupná, slugy sa načítajú zo `public/sitemap.xml`.
+
+Rozpočty sú v `lighthouse-budget.json`, prahy v `lighthouserc.cjs`:
 
 | Metrika | Rozpočet |
 | --- | --- |
