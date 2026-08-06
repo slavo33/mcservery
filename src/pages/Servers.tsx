@@ -70,6 +70,7 @@ const Servers = () => {
     const next = new URLSearchParams(searchParams);
     if (value) next.set(key, value);
     else next.delete(key);
+    next.delete("page"); // zmena filtra vždy vracia na prvú stranu
     setSearchParams(next, { replace: true });
   };
 
