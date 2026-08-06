@@ -96,7 +96,9 @@ JS_NAMES = """
     + (el.getAttribute('type') ? '[type=' + el.getAttribute('type') + ']' : '');
 
   const fields = Array.from(document.querySelectorAll('main input, main select, main textarea'))
-    .filter(el => visible(el) && el.type !== 'hidden')
+    .filter(el => visible(el) && el.type !== 'hidden'
+                  && el.getAttribute('aria-hidden') !== 'true'
+                  && el.tabIndex !== -1)
     .map(el => ({ el: desc(el), name: name(el) }));
   const controls = Array.from(document.querySelectorAll('main button, main a[href], main [role="button"]'))
     .filter(visible)
