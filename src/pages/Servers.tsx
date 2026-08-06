@@ -167,6 +167,28 @@ const Servers = () => {
     return result;
   }, [search, platform, version, software, minigame, allServers, sortBy, sortDir, statuses, showVipOnly]);
 
+  // ---- Stránkovanie ----
+  const PER_PAGE = 12;
+  const pageCount = Math.max(1, Math.ceil(filtered.length / PER_PAGE));
+  const rawPage = parseInt(searchParams.get("page") ?? "1", 10);
+  const page = Number.isFinite(rawPage) && rawPage >= 1 ? Math.min(rawPage, pageCount) : 1;
+  const paginated = filtered.slice((page - 1) * PER_PAGE, page * PER_PAGE);
+
+  const goToPage = (p: number) => {
+    const target = Math.min(Math.max(1, p), pageCount);
+    const next = new URLSearchParams(searchParams);
+    if (target > 1) next.set("page", String(target));
+    else next.delete("page");
+    setSearchParams(next, { replace: true });
+    window.scrollTo({ top: 0, behavior: "smooth" });
+  };
+
+  // Zmena filtrov musí zresetovať stránku, aby sa nezobrazila prázdna strana
+  useEffect(() => {
+    if (searchParams.get("page") && page > pageCount) goToPage(1);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [pageCount]);
+
   return (
     <div className="min-h-screen flex flex-col bg-background">
       <SEO
