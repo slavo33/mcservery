@@ -353,5 +353,13 @@ Rozpočty sú v `lighthouse-budget.json`, prahy v `lighthouserc.json`:
 | Performance skóre | ≥ 0.80 (error) |
 | JS / celkové zdroje | ≤ 700 kB / 2 MB (warn) |
 
-Lokálne: `bun run build && bun run perf`. HTML reporty sa ukladajú do
-`.lighthouseci/` a v CI sa nahrávajú ako artefakt `lighthouse-reports`.
+Lokálne: `bun run build && bun run perf`. Reporty (HTML aj JSON) sa ukladajú do
+`.lighthouseci/reports/` s názvom `<cesta>-<datum>-report.html|json`.
+
+V CI sa každý beh nahráva ako artefakt a dá sa stiahnuť priamo zo stránky jobu:
+
+- `lighthouse-html-reports` — otvoriteľné HTML reporty (30 dní)
+- `lighthouse-json-reports` — surové JSON dáta pre porovnania (30 dní)
+- `lighthouse-raw` — celý obsah `.lighthouseci/` vrátane assertion logov (7 dní)
+
+Zoznam vygenerovaných reportov sa vypíše aj do zhrnutia jobu (GitHub Step Summary).

@@ -68,13 +68,49 @@ jobs:
       - name: Lighthouse CI (rozpočet LCP <= 2500 ms, CLS <= 0.1)
         run: npx --yes @lhci/cli@0.14.x autorun --config=lighthouserc.json
 
-      - name: Lighthouse reporty
+      - name: Zhrnutie Lighthouse reportov
+        if: always()
+        run: |
+          {
+            echo "## Lighthouse reporty"
+            echo ""
+            echo "Stiahni artefakty **lighthouse-html-reports** (otvor \`.html\` v prehliadači) alebo **lighthouse-json-reports**."
+            echo ""
+            echo "| Report | Typ |"
+            echo "| --- | --- |"
+            for f in $(find .lighthouseci -type f \( -name '*.html' -o -name '*.json' \) | sort); do
+              echo "| \`$(basename "$f")\` | ${f##*.} |"
+            done
+          } >> "$GITHUB_STEP_SUMMARY"
+
+      - name: Lighthouse HTML reporty
         if: always()
         uses: actions/upload-artifact@v4
         with:
-          name: lighthouse-reports
+          name: lighthouse-html-reports
+          path: |
+            .lighthouseci/**/*.html
+          if-no-files-found: warn
+          retention-days: 30
+
+      - name: Lighthouse JSON reporty
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: lighthouse-json-reports
+          path: |
+            .lighthouseci/**/*.json
+          if-no-files-found: warn
+          retention-days: 30
+
+      - name: Lighthouse kompletný výstup (vrátane assertion logov)
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: lighthouse-raw
           path: .lighthouseci/
           if-no-files-found: ignore
+          retention-days: 7
 
   e2e:
     name: E2E (manuálne)
