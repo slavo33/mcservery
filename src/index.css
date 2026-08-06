@@ -134,6 +134,11 @@
     border: 1px solid hsl(0 0% 20%);
   }
 
+  .filter-chip:focus-visible {
+    outline: 2px solid hsl(0 72% 51%);
+    outline-offset: 2px;
+  }
+
   .filter-chip:hover {
     border-color: hsla(0, 72%, 51%, 0.4);
     color: hsl(0 0% 90%);

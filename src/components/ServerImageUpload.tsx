@@ -140,7 +140,7 @@ const ServerImageUpload = ({ images, onImagesChange, serverId, maxImages = 5 }: 
 
   return (
     <div>
-      <label className="text-sm font-semibold text-foreground mb-2 block">{t("add_photos")}</label>
+      <span className="text-sm font-semibold text-foreground mb-2 block">{t("add_photos")}</span>
       
       {images.length > 0 && (
         <div className="grid grid-cols-2 sm:grid-cols-3 gap-2 mb-3">
@@ -150,6 +150,7 @@ const ServerImageUpload = ({ images, onImagesChange, serverId, maxImages = 5 }: 
               <button
                 type="button"
                 onClick={() => removeImage(i)}
+                aria-label={`${t("add_photos")} ${i + 1} — odstrániť`}
                 className="absolute top-1 right-1 bg-background/80 rounded-full p-1 opacity-0 group-hover:opacity-100 transition-opacity"
               >
                 <X className="h-3.5 w-3.5 text-foreground" />
@@ -160,9 +161,11 @@ const ServerImageUpload = ({ images, onImagesChange, serverId, maxImages = 5 }: 
       )}
 
       {images.length < maxImages && (
-        <div
+        <button
+          type="button"
           onClick={() => !uploading && fileInputRef.current?.click()}
-          className="flex items-center justify-center rounded-md border-2 border-dashed border-border bg-secondary/30 py-10 cursor-pointer hover:border-primary/40 transition-colors"
+          aria-label={t("add_photos_hint")}
+          className="flex w-full items-center justify-center rounded-md border-2 border-dashed border-border bg-secondary/30 py-10 cursor-pointer hover:border-primary/40 transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 focus-visible:ring-offset-background"
         >
           <div className="text-center">
             {uploading ? (
@@ -174,7 +177,7 @@ const ServerImageUpload = ({ images, onImagesChange, serverId, maxImages = 5 }: 
             <p className="text-xs text-muted-foreground mt-1">{t("add_photos_formats")}</p>
             <p className="text-xs text-muted-foreground/60 mt-0.5">{t("add_photos_resolution")}</p>
           </div>
-        </div>
+        </button>
       )}
 
       <input
@@ -183,6 +186,8 @@ const ServerImageUpload = ({ images, onImagesChange, serverId, maxImages = 5 }: 
         accept="image/*"
         multiple
         onChange={handleFileSelect}
+        aria-label={t("add_photos")}
+        tabIndex={-1}
         className="hidden"
       />
     </div>

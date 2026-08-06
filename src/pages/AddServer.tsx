@@ -267,18 +267,18 @@ const AddServer = () => {
 
         <form onSubmit={handleSubmit} className="gradient-card rounded-lg border border-border shadow-card p-6 space-y-6">
           <div>
-            <label className="text-sm font-semibold text-foreground mb-1.5 block">{t("add_name")} *</label>
-            <input type="text" value={name} onChange={(e) => setName(e.target.value)} placeholder="MôjServer" maxLength={50} className={inputClass} required />
+            <label htmlFor="add-name" className="text-sm font-semibold text-foreground mb-1.5 block">{t("add_name")} *</label>
+            <input id="add-name" type="text" value={name} onChange={(e) => setName(e.target.value)} placeholder="MôjServer" maxLength={50} className={inputClass} required />
           </div>
 
           <div>
-            <label className="text-sm font-semibold text-foreground mb-1.5 block">{t("add_ip")} *</label>
-            <input type="text" value={ip} onChange={(e) => setIp(e.target.value)} placeholder="play.mojserver.sk" maxLength={100} className={inputClass} required />
+            <label htmlFor="add-ip" className="text-sm font-semibold text-foreground mb-1.5 block">{t("add_ip")} *</label>
+            <input id="add-ip" type="text" value={ip} onChange={(e) => setIp(e.target.value)} placeholder="play.mojserver.sk" maxLength={100} className={inputClass} required />
           </div>
 
           <div>
-            <label className="text-sm font-semibold text-foreground mb-1.5 block">{t("add_desc")}</label>
-            <textarea rows={4} value={description} onChange={(e) => setDescription(e.target.value)} placeholder="Opíš svoj server..." maxLength={1000} className={`${inputClass} resize-none`} />
+            <label htmlFor="add-desc" className="text-sm font-semibold text-foreground mb-1.5 block">{t("add_desc")}</label>
+            <textarea id="add-desc" rows={4} value={description} onChange={(e) => setDescription(e.target.value)} placeholder="Opíš svoj server..." maxLength={1000} className={`${inputClass} resize-none`} />
           </div>
 
           {/* Warez + Whitelist */}
@@ -300,10 +300,11 @@ const AddServer = () => {
           </div>
 
           <div>
-            <label className="text-sm font-semibold text-foreground mb-2 block">{t("add_platform")}</label>
-            <div className="flex gap-2">
+            <span id="add-platform-label" className="text-sm font-semibold text-foreground mb-2 block">{t("add_platform")}</span>
+            <div role="group" aria-labelledby="add-platform-label" className="flex gap-2">
               {availablePlatforms.map((p) => (
                 <button key={p} type="button" onClick={() => togglePlatform(p)}
+                  aria-pressed={selectedPlatform.includes(p)}
                   className={`filter-chip ${selectedPlatform.includes(p) ? "active" : ""}`}>{p}</button>
               ))}
             </div>
@@ -363,10 +364,11 @@ const AddServer = () => {
           </div>
 
           <div>
-            <label className="text-sm font-semibold text-foreground mb-2 block">{t("add_minigames")}</label>
-            <div className="flex flex-wrap gap-1.5">
+            <span id="add-minigames-label" className="text-sm font-semibold text-foreground mb-2 block">{t("add_minigames")}</span>
+            <div role="group" aria-labelledby="add-minigames-label" className="flex flex-wrap gap-1.5">
               {minigameOptions.map((m) => (
                 <button key={m} type="button" onClick={() => toggleMinigame(m)}
+                  aria-pressed={selectedMinigames.includes(m)}
                   className={`filter-chip ${selectedMinigames.includes(m) ? "active" : ""}`}>{m}</button>
               ))}
             </div>
@@ -374,31 +376,31 @@ const AddServer = () => {
 
           {/* Links */}
           <div>
-            <label className="text-sm font-semibold text-foreground mb-3 block">{t("add_links")}</label>
+            <span className="text-sm font-semibold text-foreground mb-3 block">{t("add_links")}</span>
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
               <div>
-                <label className="text-xs text-muted-foreground mb-1 block">{t("add_discord")}</label>
-                <input type="url" value={discordUrl} onChange={(e) => setDiscordUrl(e.target.value)} placeholder="https://discord.gg/..." className={inputClass} />
+                <label htmlFor="add-discord" className="text-xs text-muted-foreground mb-1 block">{t("add_discord")}</label>
+                <input id="add-discord" type="url" value={discordUrl} onChange={(e) => setDiscordUrl(e.target.value)} placeholder="https://discord.gg/..." className={inputClass} />
               </div>
               <div>
-                <label className="text-xs text-muted-foreground mb-1 block">{t("add_website")}</label>
-                <input type="url" value={websiteUrl} onChange={(e) => setWebsiteUrl(e.target.value)} placeholder="https://..." className={inputClass} />
+                <label htmlFor="add-website" className="text-xs text-muted-foreground mb-1 block">{t("add_website")}</label>
+                <input id="add-website" type="url" value={websiteUrl} onChange={(e) => setWebsiteUrl(e.target.value)} placeholder="https://..." className={inputClass} />
               </div>
               <div>
-                <label className="text-xs text-muted-foreground mb-1 block">{t("add_instagram")}</label>
-                <input type="url" value={instagramUrl} onChange={(e) => setInstagramUrl(e.target.value)} placeholder="https://instagram.com/..." className={inputClass} />
+                <label htmlFor="add-instagram" className="text-xs text-muted-foreground mb-1 block">{t("add_instagram")}</label>
+                <input id="add-instagram" type="url" value={instagramUrl} onChange={(e) => setInstagramUrl(e.target.value)} placeholder="https://instagram.com/..." className={inputClass} />
               </div>
               <div>
-                <label className="text-xs text-muted-foreground mb-1 block">{t("add_tiktok")}</label>
-                <input type="url" value={tiktokUrl} onChange={(e) => setTiktokUrl(e.target.value)} placeholder="https://tiktok.com/@..." className={inputClass} />
+                <label htmlFor="add-tiktok" className="text-xs text-muted-foreground mb-1 block">{t("add_tiktok")}</label>
+                <input id="add-tiktok" type="url" value={tiktokUrl} onChange={(e) => setTiktokUrl(e.target.value)} placeholder="https://tiktok.com/@..." className={inputClass} />
               </div>
               <div>
-                <label className="text-xs text-muted-foreground mb-1 block">{t("add_youtube")}</label>
-                <input type="url" value={youtubeUrl} onChange={(e) => setYoutubeUrl(e.target.value)} placeholder="https://youtube.com/..." className={inputClass} />
+                <label htmlFor="add-youtube" className="text-xs text-muted-foreground mb-1 block">{t("add_youtube")}</label>
+                <input id="add-youtube" type="url" value={youtubeUrl} onChange={(e) => setYoutubeUrl(e.target.value)} placeholder="https://youtube.com/..." className={inputClass} />
               </div>
               <div>
-                <label className="text-xs text-muted-foreground mb-1 block">{t("add_twitter")}</label>
-                <input type="url" value={twitterUrl} onChange={(e) => setTwitterUrl(e.target.value)} placeholder="https://x.com/..." className={inputClass} />
+                <label htmlFor="add-twitter" className="text-xs text-muted-foreground mb-1 block">{t("add_twitter")}</label>
+                <input id="add-twitter" type="url" value={twitterUrl} onChange={(e) => setTwitterUrl(e.target.value)} placeholder="https://x.com/..." className={inputClass} />
               </div>
             </div>
           </div>
