@@ -13,7 +13,8 @@
     "lint": "eslint .",
     "preview": "vite preview",
     "test": "vitest run",
-    "test:watch": "vitest"
+    "test:watch": "vitest",
+    "perf": "bunx --bun @lhci/cli@0.14.x autorun --config=lighthouserc.json"
   },
   "dependencies": {
     "@hookform/resolvers": "^3.10.0",
