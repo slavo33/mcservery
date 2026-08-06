@@ -129,6 +129,7 @@ const CommentSection = ({ serverId }: CommentSectionProps) => {
         <form onSubmit={handleSubmit} className="flex gap-2">
           <input
             type="text"
+            aria-label={t("comments_placeholder")}
             value={newComment}
             onChange={(e) => setNewComment(e.target.value)}
             placeholder={t("comments_placeholder")}

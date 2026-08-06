@@ -250,6 +250,20 @@ E2E_MAX_SERVERS=3 python3 e2e/server_detail_sections_e2e.py
 ```
 
 
+`a11y_forms_detail_e2e.py` — **dostupnosť formulára `/add-server` a detailu servera** (390 / 1280 px):
+
+1. axe-core (WCAG 2.1 A/AA + best-practice) bez porušení so závažnosťou >= `serious`.
+2. Každé pole má label/aria-label, každé tlačidlo a odkaz (aj ikonový) má prístupný názov.
+3. Kontrast textu (`color-contrast`) sa vypisuje samostatne po uzloch.
+4. Poradie fokusu kopíruje DOM, žiadny `tabindex > 0`, každý fokusovaný prvok má viditeľný indikátor.
+5. Chyby formulára sú oznámené prístupne (`role=alert` / `aria-invalid` / natívna validácia).
+
+```bash
+python3 e2e/a11y_forms_detail_e2e.py
+E2E_A11Y_FAIL_ON=critical python3 e2e/a11y_forms_detail_e2e.py
+```
+
+
 `robots_indexability_e2e.py` — overuje **robots.txt a jeho súlad s indexovaním**:
 
 1. `/robots.txt` vracia 200 s `text/plain`, má validnú syntax a skupinu `User-agent: *`, ktorá neblokuje celý web.

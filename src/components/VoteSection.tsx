@@ -188,6 +188,7 @@ const VoteSection = ({ serverId, voteCount, cooldownHours = 24, onVoted }: VoteS
         </div>
 
         <Input
+          aria-label={t("vote_nick_placeholder")}
           value={nick}
           onChange={(e) => setNick(e.target.value)}
           placeholder={t("vote_nick_placeholder")}

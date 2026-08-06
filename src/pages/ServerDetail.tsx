@@ -507,7 +507,7 @@ const ServerDetailPage = () => {
             )}
 
             {/* IP */}
-            <button data-detail-section="ip" onClick={copyIp} className="flex w-full items-center justify-between rounded-md border border-border bg-secondary/50 px-4 py-3 text-foreground font-mono transition-all hover:border-primary/40 glow-border-hover">
+            <button data-detail-section="ip" onClick={copyIp} aria-label={`${t("detail_copy")}: ${server.ip}`} className="flex w-full items-center justify-between rounded-md border border-border bg-secondary/50 px-4 py-3 text-foreground font-mono transition-all hover:border-primary/40 glow-border-hover focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 focus-visible:ring-offset-background">
               <span data-server-ip={server.ip}>{server.ip}</span>
               <span className="flex items-center gap-1 text-sm text-muted-foreground">
                 <Copy className="h-4 w-4" /> {t("detail_copy")}
