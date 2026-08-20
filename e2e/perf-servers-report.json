@@ -1,0 +1,86 @@
+{
+  "budgets": {
+    "ttfb_ms": 800.0,
+    "fcp_ms": 2500.0,
+    "lcp_ms": 4000.0,
+    "dcl_ms": 3000.0,
+    "cls": 0.1,
+    "longtask_total_ms": 2500.0,
+    "filter_median_ms": 400.0,
+    "filter_p95_ms": 700.0,
+    "search_median_ms": 600.0,
+    "sort_median_ms": 500.0,
+    "filter_cls": 0.1
+  },
+  "runs": [
+    {
+      "ttfb": 10,
+      "dcl": 976,
+      "fcp": 156,
+      "lcp": null,
+      "cls": 0,
+      "longtasks": [],
+      "longtaskTotal": 0,
+      "resources": 100,
+      "transferKb": 4867
+    },
+    {
+      "ttfb": 8,
+      "dcl": 477,
+      "fcp": 104,
+      "lcp": null,
+      "cls": 0,
+      "longtasks": [],
+      "longtaskTotal": 0,
+      "resources": 108,
+      "transferKb": 12
+    },
+    {
+      "ttfb": 7,
+      "dcl": 319,
+      "fcp": 80,
+      "lcp": null,
+      "cls": 0,
+      "longtasks": [],
+      "longtaskTotal": 0,
+      "resources": 116,
+      "transferKb": 12
+    }
+  ],
+  "interactions": {
+    "filters": [
+      2039,
+      2029,
+      144,
+      517,
+      71,
+      327,
+      2030,
+      365,
+      2032,
+      423,
+      121,
+      529,
+      2041,
+      309,
+      2028,
+      390,
+      281,
+      292,
+      127,
+      371,
+      132,
+      415
+    ],
+    "search": [
+      2652,
+      2591,
+      2590
+    ],
+    "sort": [
+      234,
+      311,
+      261
+    ]
+  }
+}
