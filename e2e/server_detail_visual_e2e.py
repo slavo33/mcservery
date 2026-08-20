@@ -46,6 +46,11 @@ STABILIZE_CSS = """
   transition: none !important;
   caret-color: transparent !important;
 }
+[data-detail-section="media"] img,
+[data-detail-section="media"] video,
+[data-detail-section="gallery"] img {
+  visibility: hidden !important;
+}
 [data-live-players], [data-vote-count], [data-relative-time] {
   color: transparent !important;
 }
