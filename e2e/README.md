@@ -381,3 +381,25 @@ V CI beží job `performance` ako matica `[mobile, desktop]` a artefakty sú:
 
 Job `performance-compare` stiahne JSON reporty z oboch profilov a vypíše mediány
 (Perf, LCP, CLS, FCP, TBT, Speed Index) mobile vs. desktop do zhrnutia jobu.
+
+## Veľkosť buildu (gzip / brotli)
+
+CI job `bundle-size` po builde zmeria všetky `.js` a `.css` súbory v `dist/`
+po gzip aj brotli kompresii a porovná ich s prahmi v `bundle-size-budget.json`:
+
+| Kontrola | gzip | brotli |
+| --- | --- | --- |
+| Celkom JS | 350 kB | 297 kB |
+| Celkom CSS | 20 kB | 17 kB |
+| Celkom (JS+CSS) | 365 kB | 310 kB |
+| Najväčší JS súbor | 257 kB | 215 kB |
+| Najväčší CSS súbor | 20 kB | 17 kB |
+
+Pri využití ≥ 90 % prahu sa vypíše varovanie, pri prekročení job zlyhá — takže
+zmena dizajnu alebo nová knižnica nezväčší zdroje nepozorovane.
+
+Lokálne: `bun run build && bun run size`. Report sa ukladá do
+`.bundle-size/report.json` a `.bundle-size/report.md`, v CI aj do zhrnutia jobu
+a ako artefakt `bundle-size-report`.
+
+Ak je rast zámerný, vedome zvýš prah v `bundle-size-budget.json` v tom istom commite.

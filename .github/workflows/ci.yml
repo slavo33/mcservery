@@ -40,6 +40,41 @@ jobs:
           VITE_SUPABASE_PUBLISHABLE_KEY: ${{ secrets.VITE_SUPABASE_PUBLISHABLE_KEY }}
           VITE_SUPABASE_PROJECT_ID: ${{ secrets.VITE_SUPABASE_PROJECT_ID }}
 
+  bundle-size:
+    name: Veľkosť buildu (gzip/brotli prah)
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: oven-sh/setup-bun@v2
+        with:
+          bun-version: latest
+
+      - name: Inštalácia závislostí
+        run: bun install --frozen-lockfile
+
+      - name: Build
+        run: bun run build
+        env:
+          VITE_SUPABASE_URL: ${{ secrets.VITE_SUPABASE_URL }}
+          VITE_SUPABASE_PUBLISHABLE_KEY: ${{ secrets.VITE_SUPABASE_PUBLISHABLE_KEY }}
+          VITE_SUPABASE_PROJECT_ID: ${{ secrets.VITE_SUPABASE_PROJECT_ID }}
+
+      - name: Kontrola veľkosti bundle (gzip + brotli)
+        run: bunx tsx scripts/check-bundle-size.ts
+
+      - name: Artefakt s reportom veľkosti
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: bundle-size-report
+          path: |
+            .bundle-size/report.json
+            .bundle-size/report.md
+          if-no-files-found: warn
+          retention-days: 30
+
   performance:
     name: Lighthouse ${{ matrix.form_factor }} (LCP/CLS rozpočet)
     runs-on: ubuntu-latest
