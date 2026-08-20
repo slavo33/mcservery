@@ -91,6 +91,7 @@ COLLECT_JS = """
       scriptKb: kb(res.filter((r) => r.initiatorType === 'script' || /\\.m?js(\\?|$)/.test(r.name))),
       cssKb: kb(res.filter((r) => r.initiatorType === 'link' || /\\.css(\\?|$)/.test(r.name))),
       totalKb: kb(res),
+      isDev: res.some((r) => r.name.includes('/@vite/') || r.name.includes('/src/')),
     });
   }, 3500);
 })
@@ -211,10 +212,19 @@ async def audit_perf(browser, device):
         m["cls"] <= budget["cls"],
     )
     num("long tasks spolu", m["longtask"], budget["longtask_total_ms"], "ms")
-    num("JS prenos", m["scriptKb"], budget["script_kb"], "kB")
-    num("CSS prenos", m["cssKb"], budget["stylesheet_kb"], "kB")
-    num("celkový prenos", m["totalKb"], budget["total_kb"], "kB")
-    num("počet requestov", m["requests"], budget["requests"])
+    # Veľkosti zdrojov a počet requestov majú zmysel len na produkčnom builde
+    # (dev server servíruje stovky nezbalených modulov).
+    if m.get("isDev") and os.environ.get("E2E_PERF_BUILD") != "1":
+        check(
+            f"perf[{device}]: rozpočty zdrojov (preskočené na dev serveri)",
+            True,
+            "spusti proti `vite preview` alebo s E2E_PERF_BUILD=1",
+        )
+    else:
+        num("JS prenos", m["scriptKb"], budget["script_kb"], "kB")
+        num("CSS prenos", m["cssKb"], budget["stylesheet_kb"], "kB")
+        num("celkový prenos", m["totalKb"], budget["total_kb"], "kB")
+        num("počet requestov", m["requests"], budget["requests"])
 
 
 async def main():

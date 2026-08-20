@@ -81,7 +81,7 @@
       "twitter:description": "Prehľadávaj a filtruj Minecraft servery podľa verzie, platformy a herných módov. Nájdi si ten najlepší server pre seba."
     },
     "jsonLdTypes": [
-      "WebPage",
+      "CollectionPage",
       "Organization",
       "BreadcrumbList"
     ],
@@ -92,32 +92,34 @@
   },
   "performance": {
     "desktop": {
-      "ttfb": 9.39999999999418,
-      "dcl": 534.8999999999942,
-      "fcp": 88,
-      "lcp": 1420,
-      "cls": 0.26027094328703704,
-      "longtask": 267,
+      "ttfb": 8.300000000017462,
+      "dcl": 559.6000000000058,
+      "fcp": 84,
+      "lcp": 1804,
+      "cls": 0.11270384388864778,
+      "longtask": 378,
       "requests": 107,
-      "scriptKb": 4866.15234375,
-      "cssKb": 103.6279296875,
-      "totalKb": 4867.3828125
+      "scriptKb": 4872.8349609375,
+      "cssKb": 103.7001953125,
+      "totalKb": 4874.0654296875,
+      "isDev": true
     },
     "mobile": {
-      "ttfb": 10.60000000000582,
-      "dcl": 928.1000000000058,
-      "fcp": 160,
-      "lcp": 1700,
+      "ttfb": 6.600000000005821,
+      "dcl": 1203.7000000000116,
+      "fcp": 196,
+      "lcp": 2176,
       "cls": 0.0800828616650839,
-      "longtask": 1900,
-      "requests": 104,
-      "scriptKb": 4866.15234375,
-      "cssKb": 103.6279296875,
-      "totalKb": 4867.3828125
+      "longtask": 2556,
+      "requests": 110,
+      "scriptKb": 4872.8349609375,
+      "cssKb": 103.7001953125,
+      "totalKb": 4874.0654296875,
+      "isDev": true
     }
   },
   "summary": {
-    "passed": 30,
-    "total": 38
+    "passed": 31,
+    "total": 32
   }
 }
