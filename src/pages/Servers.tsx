@@ -14,6 +14,7 @@ import { useMultiServerStatus } from "@/hooks/useMultiServerStatus";
 import { useSearchParams } from "react-router-dom";
 import { versions, platforms, softwareOptions, minigameOptions } from "@/lib/mockData";
 import { sortServers } from "@/lib/serverSorting";
+import { serverListStore, queryCache, buildQueryKey, buildDataVersion } from "@/lib/serverListCache";
 
 interface DbServer {
   id: string;
