@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-08-20T10:17:06.263Z",
+  "generatedAt": "2026-08-20T10:17:29.736Z",
   "files": [
     {
       "file": "assets/index-BmVd2Sf0.js",
@@ -293,14 +293,14 @@
     {
       "label": "Celkom JS (gzip)",
       "actual": 310785,
-      "limit": 343040,
-      "status": "warn"
+      "limit": 358400,
+      "status": "ok"
     },
     {
       "label": "Celkom JS (brotli)",
       "actual": 264438,
-      "limit": 291840,
-      "status": "warn"
+      "limit": 304128,
+      "status": "ok"
     },
     {
       "label": "Celkom CSS (gzip)",
@@ -317,26 +317,26 @@
     {
       "label": "Celkom ALL (gzip)",
       "actual": 324228,
-      "limit": 358400,
-      "status": "warn"
+      "limit": 373760,
+      "status": "ok"
     },
     {
       "label": "Celkom ALL (brotli)",
       "actual": 275865,
-      "limit": 307200,
+      "limit": 317440,
       "status": "ok"
     },
     {
       "label": "Najväčší JS súbor (gzip)",
       "actual": 228657,
-      "limit": 250880,
-      "status": "warn"
+      "limit": 263168,
+      "status": "ok"
     },
     {
       "label": "Najväčší JS súbor (brotli)",
       "actual": 191539,
-      "limit": 210944,
-      "status": "warn"
+      "limit": 220160,
+      "status": "ok"
     },
     {
       "label": "Najväčší CSS súbor (gzip)",

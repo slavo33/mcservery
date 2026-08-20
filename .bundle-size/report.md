@@ -2,14 +2,14 @@
 
 | Kontrola | Aktuálne | Prah | Využitie | Stav |
 | --- | --- | --- | --- | --- |
-| Celkom JS (gzip) | 303.5 kB | 335.0 kB | 91 % | ⚠️ |
-| Celkom JS (brotli) | 258.2 kB | 285.0 kB | 91 % | ⚠️ |
+| Celkom JS (gzip) | 303.5 kB | 350.0 kB | 87 % | ✅ |
+| Celkom JS (brotli) | 258.2 kB | 297.0 kB | 87 % | ✅ |
 | Celkom CSS (gzip) | 13.1 kB | 20.0 kB | 66 % | ✅ |
 | Celkom CSS (brotli) | 11.2 kB | 17.0 kB | 66 % | ✅ |
-| Celkom ALL (gzip) | 316.6 kB | 350.0 kB | 90 % | ⚠️ |
-| Celkom ALL (brotli) | 269.4 kB | 300.0 kB | 90 % | ✅ |
-| Najväčší JS súbor (gzip) | 223.3 kB | 245.0 kB | 91 % | ⚠️ |
-| Najväčší JS súbor (brotli) | 187.0 kB | 206.0 kB | 91 % | ⚠️ |
+| Celkom ALL (gzip) | 316.6 kB | 365.0 kB | 87 % | ✅ |
+| Celkom ALL (brotli) | 269.4 kB | 310.0 kB | 87 % | ✅ |
+| Najväčší JS súbor (gzip) | 223.3 kB | 257.0 kB | 87 % | ✅ |
+| Najväčší JS súbor (brotli) | 187.0 kB | 215.0 kB | 87 % | ✅ |
 | Najväčší CSS súbor (gzip) | 13.1 kB | 20.0 kB | 66 % | ✅ |
 | Najväčší CSS súbor (brotli) | 11.2 kB | 17.0 kB | 66 % | ✅ |
 

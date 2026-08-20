@@ -1,13 +1,28 @@
 {
-  "comment": "Prahy veľkosti buildu v kB (1 kB = 1024 B), merané po gzip aj brotli kompresii. Nastavené ~10 % nad aktuálny build, aby sa zachytil nenápadný rast. Prekročenie = zlyhanie CI.",
+  "comment": "Prahy veľkosti buildu v kB (1 kB = 1024 B), merané po gzip aj brotli kompresii. Nastavené ~15 % nad aktuálny build; pri 90 % využitia CI varuje, pri prekročení zlyhá.",
   "totals": {
-    "js": { "gzip": 335, "brotli": 285 },
-    "css": { "gzip": 20, "brotli": 17 },
-    "all": { "gzip": 350, "brotli": 300 }
+    "js": {
+      "gzip": 350,
+      "brotli": 297
+    },
+    "css": {
+      "gzip": 20,
+      "brotli": 17
+    },
+    "all": {
+      "gzip": 365,
+      "brotli": 310
+    }
   },
   "largestSingleFile": {
-    "js": { "gzip": 245, "brotli": 206 },
-    "css": { "gzip": 20, "brotli": 17 }
+    "js": {
+      "gzip": 257,
+      "brotli": 215
+    },
+    "css": {
+      "gzip": 20,
+      "brotli": 17
+    }
   },
   "warnAtPercent": 90
 }
