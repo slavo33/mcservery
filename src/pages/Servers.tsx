@@ -14,6 +14,7 @@ import { useMultiServerStatus } from "@/hooks/useMultiServerStatus";
 import { useSearchParams } from "react-router-dom";
 import { versions, platforms, softwareOptions, minigameOptions } from "@/lib/mockData";
 import { sortServers } from "@/lib/serverSorting";
+import { serverListStore, queryCache, buildQueryKey, buildDataVersion } from "@/lib/serverListCache";
 
 interface DbServer {
   id: string;
@@ -99,12 +100,39 @@ const Servers = () => {
 
 
   useEffect(() => {
-    const fetch = async () => {
+    let cancelled = false;
+
+    // 1) Okamžité vykreslenie z cache (stale-while-revalidate) — šetrí TTFB pri návrate na stránku
+    const cached = serverListStore.read<DbServer[]>();
+    if (cached) {
+      setDbServers(cached.data);
+      setLoading(false);
+    }
+
+    const load = async () => {
       const { data } = await supabase.from("servers").select("*").order("vote_count", { ascending: false });
-      if (data) setDbServers(data as unknown as DbServer[]);
+      if (cancelled) return;
+      if (data) {
+        setDbServers(data as unknown as DbServer[]);
+        serverListStore.write(data);
+        queryCache.clear();
+      }
       setLoading(false);
     };
-    fetch();
+
+    // Ak sú dáta čerstvé, revalidáciu odložíme mimo kritickej cesty renderu
+    if (cached?.fresh) {
+      const id = window.setTimeout(load, 800);
+      return () => {
+        cancelled = true;
+        window.clearTimeout(id);
+      };
+    }
+
+    load();
+    return () => {
+      cancelled = true;
+    };
   }, []);
 
   const allServers: (MinecraftServer & { dbId?: string; is_warez?: boolean; has_whitelist?: boolean; slug?: string })[] = useMemo(() => {
@@ -137,6 +165,27 @@ const Servers = () => {
   const { statuses } = useMultiServerStatus(serverIps);
 
   const filtered = useMemo(() => {
+    // Kľúč cache: filtre + zoradenie + podpis datasetu (a live stavov pri triedení podľa hráčov)
+    const dataVersion = buildDataVersion(
+      allServers.map((s) => s.id),
+      statuses as any,
+      sortBy,
+    );
+    const key = buildQueryKey({
+      search,
+      platform,
+      version,
+      software,
+      minigame,
+      vipOnly: showVipOnly,
+      sortBy,
+      sortDir,
+      dataVersion,
+    });
+
+    const cachedResult = queryCache.get(key);
+    if (cachedResult) return cachedResult as typeof allServers;
+
     let result = allServers.filter((s) => {
       if (showVipOnly) {
         const vipExpires = (s as any).vip_expires_at;
@@ -157,8 +206,11 @@ const Servers = () => {
     });
 
     // Sort (zdieľaná logika – kryté unit testami v src/lib/__tests__/serverSorting.test.ts)
-    return sortServers(result as any, sortBy, sortDir, statuses as any) as typeof result;
+    const sorted = sortServers(result as any, sortBy, sortDir, statuses as any) as typeof result;
+    queryCache.set(key, sorted as unknown[]);
+    return sorted;
   }, [search, platform, version, software, minigame, allServers, sortBy, sortDir, statuses, showVipOnly]);
+
 
   // ---- Stránkovanie ----
   const PER_PAGE = 12;
