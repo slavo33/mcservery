@@ -350,22 +350,34 @@ Ak DB nie je dostupná, slugy sa načítajú zo `public/sitemap.xml`.
 
 Rozpočty sú v `lighthouse-budget.json`, prahy v `lighthouserc.cjs`:
 
-| Metrika | Rozpočet |
-| --- | --- |
-| LCP | ≤ 2500 ms (error) |
-| CLS | ≤ 0.1 (error) |
-| FCP | ≤ 1800 ms (error) |
-| TBT | ≤ 300 ms (error) |
-| Performance skóre | ≥ 0.80 (error) |
-| JS / celkové zdroje | ≤ 700 kB / 2 MB (warn) |
+### Throttling profily (konzistentné naprieč behmi)
 
-Lokálne: `bun run build && bun run perf`. Reporty (HTML aj JSON) sa ukladajú do
-`.lighthouseci/reports/` s názvom `<cesta>-<datum>-report.html|json`.
+| Profil | Sieť | CPU | Viewport | Budget súbor |
+| --- | --- | --- | --- | --- |
+| mobile | 1.6 Mbps / 150 ms RTT (simulate) | 4× spomalenie | 412×823 @1.75 | `lighthouse-budget.mobile.json` |
+| desktop | 10 Mbps / 40 ms RTT (simulate) | 1× | 1350×940 @1 | `lighthouse-budget.json` |
 
-V CI sa každý beh nahráva ako artefakt a dá sa stiahnuť priamo zo stránky jobu:
+Profil sa volí cez `LH_FORM_FACTOR=mobile|desktop` (default `mobile`).
 
-- `lighthouse-html-reports` — otvoriteľné HTML reporty (30 dní)
-- `lighthouse-json-reports` — surové JSON dáta pre porovnania (30 dní)
-- `lighthouse-raw` — celý obsah `.lighthouseci/` vrátane assertion logov (7 dní)
+| Metrika | Rozpočet desktop | Rozpočet mobile |
+| --- | --- | --- |
+| LCP | ≤ 2500 ms (error) | ≤ 4000 ms (error) |
+| CLS | ≤ 0.1 (error) | ≤ 0.1 (error) |
+| FCP | ≤ 1800 ms (error) | ≤ 3000 ms (error) |
+| TBT | ≤ 300 ms (error) | ≤ 600 ms (error) |
+| Performance skóre | ≥ 0.80 (error) | ≥ 0.75 (error) |
+| JS / celkové zdroje | ≤ 700 kB / 2 MB (warn) | ≤ 700 kB / 2 MB (warn) |
 
-Zoznam vygenerovaných reportov sa vypíše aj do zhrnutia jobu (GitHub Step Summary).
+Lokálne: `bun run build`, potom `bun run perf:mobile` a `bun run perf:desktop`,
+nakoniec `bun run perf:compare` pre porovnávaciu tabuľku. Reporty sa ukladajú do
+`.lighthouseci/reports/<mobile|desktop>/`.
+
+V CI beží job `performance` ako matica `[mobile, desktop]` a artefakty sú:
+
+- `lighthouse-html-reports-<profil>` — otvoriteľné HTML reporty (30 dní)
+- `lighthouse-json-reports-<profil>` — surové JSON dáta (30 dní)
+- `lighthouse-raw-<profil>` — celý `.lighthouseci/` vrátane assertion logov (7 dní)
+- `lighthouse-comparison` — `comparison.md` / `comparison.json` z jobu `performance-compare`
+
+Job `performance-compare` stiahne JSON reporty z oboch profilov a vypíše mediány
+(Perf, LCP, CLS, FCP, TBT, Speed Index) mobile vs. desktop do zhrnutia jobu.

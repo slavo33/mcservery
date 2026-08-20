@@ -41,9 +41,13 @@ jobs:
           VITE_SUPABASE_PROJECT_ID: ${{ secrets.VITE_SUPABASE_PROJECT_ID }}
 
   performance:
-    name: Lighthouse výkon (LCP/CLS rozpočet)
+    name: Lighthouse ${{ matrix.form_factor }} (LCP/CLS rozpočet)
     runs-on: ubuntu-latest
-    timeout-minutes: 20
+    timeout-minutes: 25
+    strategy:
+      fail-fast: false
+      matrix:
+        form_factor: [mobile, desktop]
     steps:
       - uses: actions/checkout@v4
 
@@ -71,16 +75,18 @@ jobs:
           VITE_SUPABASE_URL: ${{ secrets.VITE_SUPABASE_URL }}
           VITE_SUPABASE_PUBLISHABLE_KEY: ${{ secrets.VITE_SUPABASE_PUBLISHABLE_KEY }}
 
-      - name: Lighthouse CI (rozpočet LCP <= 2500 ms, CLS <= 0.1)
+      - name: Lighthouse CI (${{ matrix.form_factor }} throttling profil)
         run: npx --yes @lhci/cli@0.14.x autorun --config=lighthouserc.cjs
+        env:
+          LH_FORM_FACTOR: ${{ matrix.form_factor }}
 
       - name: Zhrnutie Lighthouse reportov
         if: always()
         run: |
           {
-            echo "## Lighthouse reporty"
+            echo "## Lighthouse reporty (${{ matrix.form_factor }})"
             echo ""
-            echo "Stiahni artefakty **lighthouse-html-reports** (otvor \`.html\` v prehliadači) alebo **lighthouse-json-reports**."
+            echo "Throttling profil: **${{ matrix.form_factor }}** (konzistentný CPU aj sieťový throttling)."
             echo ""
             echo "| Report | Typ |"
             echo "| --- | --- |"
@@ -93,7 +99,7 @@ jobs:
         if: always()
         uses: actions/upload-artifact@v4
         with:
-          name: lighthouse-html-reports
+          name: lighthouse-html-reports-${{ matrix.form_factor }}
           path: |
             .lighthouseci/**/*.html
           if-no-files-found: warn
@@ -103,7 +109,7 @@ jobs:
         if: always()
         uses: actions/upload-artifact@v4
         with:
-          name: lighthouse-json-reports
+          name: lighthouse-json-reports-${{ matrix.form_factor }}
           path: |
             .lighthouseci/**/*.json
           if-no-files-found: warn
@@ -113,10 +119,53 @@ jobs:
         if: always()
         uses: actions/upload-artifact@v4
         with:
-          name: lighthouse-raw
+          name: lighthouse-raw-${{ matrix.form_factor }}
           path: .lighthouseci/
           if-no-files-found: ignore
           retention-days: 7
+
+  performance-compare:
+    name: Lighthouse porovnanie mobile vs. desktop
+    runs-on: ubuntu-latest
+    needs: performance
+    if: always()
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: oven-sh/setup-bun@v2
+        with:
+          bun-version: latest
+
+      - name: Stiahnutie mobile reportov
+        uses: actions/download-artifact@v4
+        with:
+          name: lighthouse-json-reports-mobile
+          path: lh-artifacts/mobile
+        continue-on-error: true
+
+      - name: Stiahnutie desktop reportov
+        uses: actions/download-artifact@v4
+        with:
+          name: lighthouse-json-reports-desktop
+          path: lh-artifacts/desktop
+        continue-on-error: true
+
+      - name: Porovnanie reportov
+        run: bunx tsx scripts/lighthouse-compare.ts
+        env:
+          LH_MOBILE_DIR: lh-artifacts/mobile/reports/mobile
+          LH_DESKTOP_DIR: lh-artifacts/desktop/reports/desktop
+
+      - name: Artefakt porovnania
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: lighthouse-comparison
+          path: |
+            .lighthouseci/comparison.json
+            .lighthouseci/comparison.md
+          if-no-files-found: warn
+          retention-days: 30
 
   e2e:
     name: E2E (manuálne)
