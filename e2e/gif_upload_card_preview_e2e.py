@@ -45,6 +45,7 @@ results = []
 def check(label, ok, extra=""):
     results.append((label, bool(ok), extra))
     print(("PASS " if ok else "FAIL ") + label + ((" :: " + str(extra)) if extra else ""))
+    return bool(ok)
 
 
 def gif_frame_count(data: bytes) -> int:
@@ -61,7 +62,8 @@ def make_fixtures():
     big = TMP / "too-big.gif"
     txt = TMP / "not-an-image.txt"
     if not gif.exists():
-        frames = [Image.new("P", (320, 180), i * 40) for i in range(1, 5)]
+        colors = [(200, 30, 40), (30, 200, 40), (40, 30, 200), (220, 200, 30)]
+        frames = [Image.new("RGB", (320, 180), c).convert("P", palette=Image.ADAPTIVE) for c in colors]
         frames[0].save(gif, save_all=True, append_images=frames[1:], duration=100, loop=0)
     if not big.exists():
         big.write_bytes(gif.read_bytes() + b"\x00" * (11 * 1024 * 1024))
