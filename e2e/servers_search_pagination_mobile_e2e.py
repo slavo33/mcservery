@@ -17,6 +17,11 @@ from urllib.parse import parse_qs, urlparse
 
 from playwright.async_api import async_playwright
 
+import sys as _sys
+from pathlib import Path as _Path
+_sys.path.insert(0, str(_Path(__file__).parent))
+from filters_drawer import open_filters_if_needed  # noqa: E402
+
 BASE_URL = "http://localhost:8080"
 SERVERS_URL = f"{BASE_URL}/servers"
 SCREENSHOTS = Path(__file__).parent / "screenshots"
@@ -45,15 +50,35 @@ async def settle(page) -> None:
     await page.wait_for_timeout(400)
 
 
+EXTRACT_JS = """els => els.map(e => ({
+    name: e.dataset.serverName || "",
+    ip: e.dataset.serverIp || "",
+    version: e.dataset.serverVersion || "",
+}))"""
+
+
+async def _collect_scrolled(page, extract_js):
+    """Virtualizovaná mriežka renderuje len viditeľné riadky – preskrolujeme ju."""
+    seen = {}
+    height = await page.evaluate("() => window.innerHeight")
+    pos, guard = 0, 0
+    while guard < 40:
+        for c in await page.eval_on_selector_all("[data-server-card]", extract_js):
+            seen[c["ip"]] = c
+        limit = await page.evaluate("() => document.documentElement.scrollHeight")
+        if pos >= limit:
+            break
+        pos += int(height * 0.7)
+        await page.evaluate(f"window.scrollTo(0, {pos})")
+        await page.wait_for_timeout(250)
+        guard += 1
+    await page.evaluate("window.scrollTo(0, 0)")
+    await page.wait_for_timeout(250)
+    return list(seen.values())
+
+
 async def cards(page):
-    return await page.eval_on_selector_all(
-        "[data-server-card]",
-        """els => els.map(e => ({
-            name: e.dataset.serverName || "",
-            ip: e.dataset.serverIp || "",
-            version: e.dataset.serverVersion || "",
-        }))""",
-    )
+    return await _collect_scrolled(page, EXTRACT_JS)
 
 
 async def grid_meta(page) -> dict:
@@ -77,7 +102,7 @@ async def main() -> int:
         page = await context.new_page()
 
         await page.goto(SERVERS_URL, wait_until="domcontentloaded")
-        await page.wait_for_selector("[data-filter-group='version']", timeout=15000)
+        await page.wait_for_selector("[data-filter-drawer-trigger], [data-filter-group='version']", timeout=15000)
         await settle(page)
 
         meta = await grid_meta(page)
@@ -125,13 +150,19 @@ async def main() -> int:
         # ---------- 2. Filter aktualizuje výsledky aj na mobile ----------
         version = first_page_cards[0]["version"]
         if version:
+            drawer = await open_filters_if_needed(page)
             await page.click(f"[data-filter-group='version'] [data-filter-value='{version}']")
+            if drawer:
+                await page.click("[data-filter-apply]")
             await settle(page)
             check(qs(page).get("version") == version, f"URL nemá ?version={version}")
             res = await cards(page)
             for c in res:
                 check(c["version"] == version, f"filter verzie: karta {c['ip']} má {c['version']}")
+            drawer = await open_filters_if_needed(page)
             await page.click(f"[data-filter-group='version'] [data-filter-value='{version}']")
+            if drawer:
+                await page.click("[data-filter-apply]")
             await settle(page)
             check("version" not in qs(page), "po zrušení zostal parameter version")
 

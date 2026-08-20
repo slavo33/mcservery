@@ -1,7 +1,9 @@
-import { useId } from "react";
-import { Search } from "lucide-react";
+import { useEffect, useId, useState } from "react";
+import { Search, SlidersHorizontal, RotateCcw, Check } from "lucide-react";
 import { versions, platforms, softwareOptions, minigameOptions } from "@/lib/mockData";
 import { useLanguage } from "@/i18n/LanguageContext";
+import { Sheet, SheetContent, SheetHeader, SheetTitle } from "@/components/ui/sheet";
+import { useIsMobile } from "@/hooks/use-mobile";
 
 interface ServerFiltersProps {
   search: string;
@@ -14,7 +16,59 @@ interface ServerFiltersProps {
   onSoftwareChange: (v: string) => void;
   selectedMinigame?: string;
   onMinigameChange?: (v: string) => void;
+  /** Dávkové aplikovanie všetkých filtrov naraz (mobilný drawer) */
+  onFiltersApply?: (v: { platform: string; version: string; software: string; minigame: string }) => void;
 }
+
+interface Draft {
+  platform: string;
+  version: string;
+  software: string;
+  minigame: string;
+}
+
+const EMPTY_DRAFT: Draft = { platform: "", version: "", software: "", minigame: "" };
+
+interface ChipGroupProps {
+  group: string;
+  label: string;
+  labelId: string;
+  options: readonly string[];
+  value: string;
+  allLabel: string;
+  scroll?: boolean;
+  onChange: (v: string) => void;
+}
+
+const ChipGroup = ({ group, label, labelId, options, value, allLabel, scroll, onChange }: ChipGroupProps) => (
+  <div data-filter-group={group} role="group" aria-labelledby={labelId}>
+    <span id={labelId} className="text-xs font-semibold uppercase tracking-wider text-muted-foreground mb-2 block">
+      {label}
+    </span>
+    <div className={`flex flex-wrap gap-1.5${scroll ? " max-h-40 overflow-y-auto pr-1" : ""}`}>
+      <button
+        type="button"
+        aria-pressed={value === ""}
+        onClick={() => onChange("")}
+        className={`filter-chip ${value === "" ? "active" : ""}`}
+      >
+        {allLabel}
+      </button>
+      {options.map((o) => (
+        <button
+          key={o}
+          type="button"
+          data-filter-value={o}
+          aria-pressed={value === o}
+          onClick={() => onChange(o === value ? "" : o)}
+          className={`filter-chip ${value === o ? "active" : ""}`}
+        >
+          {o}
+        </button>
+      ))}
+    </div>
+  </div>
+);
 
 const ServerFilters = ({
   search,
@@ -27,15 +81,94 @@ const ServerFilters = ({
   onSoftwareChange,
   selectedMinigame = "",
   onMinigameChange,
+  onFiltersApply,
 }: ServerFiltersProps) => {
   const { t } = useLanguage();
   const uid = useId();
+  const isMobile = useIsMobile();
 
   const searchId = `${uid}-search`;
-  const platformLabelId = `${uid}-platform`;
-  const versionLabelId = `${uid}-version`;
-  const softwareLabelId = `${uid}-software`;
-  const minigameLabelId = `${uid}-minigame`;
+
+  const [drawerOpen, setDrawerOpen] = useState(false);
+  const [draft, setDraft] = useState<Draft>(EMPTY_DRAFT);
+
+  // Pri otvorení drawer prevezme aktuálne aplikované filtre.
+  useEffect(() => {
+    if (drawerOpen)
+      setDraft({
+        platform: selectedPlatform,
+        version: selectedVersion,
+        software: selectedSoftware,
+        minigame: selectedMinigame,
+      });
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [drawerOpen]);
+
+  const activeCount =
+    (selectedPlatform ? 1 : 0) + (selectedVersion ? 1 : 0) + (selectedSoftware ? 1 : 0) + (selectedMinigame ? 1 : 0);
+
+  const applyDraft = () => {
+    if (onFiltersApply) {
+      onFiltersApply({ ...draft });
+    } else {
+      onPlatformChange(draft.platform);
+      onVersionChange(draft.version);
+      onSoftwareChange(draft.software);
+      onMinigameChange?.(draft.minigame);
+    }
+    setDrawerOpen(false);
+  };
+
+  const resetDraft = () => setDraft(EMPTY_DRAFT);
+
+  const groups = (
+    values: Draft,
+    onChange: (patch: Partial<Draft>) => void,
+    idScope: string,
+    wrapperClass: string,
+  ) => (
+    <div className={wrapperClass}>
+      <ChipGroup
+        group="platform"
+        label={t("filter_platform")}
+        labelId={`${idScope}-platform`}
+        options={platforms}
+        value={values.platform}
+        allLabel={t("filter_all")}
+        onChange={(v) => onChange({ platform: v })}
+      />
+      <ChipGroup
+        group="version"
+        label={t("filter_version")}
+        labelId={`${idScope}-version`}
+        options={versions}
+        value={values.version}
+        allLabel={t("filter_all")}
+        onChange={(v) => onChange({ version: v })}
+      />
+      <ChipGroup
+        group="software"
+        label={t("filter_software")}
+        labelId={`${idScope}-software`}
+        options={softwareOptions}
+        value={values.software}
+        allLabel={t("filter_all")}
+        onChange={(v) => onChange({ software: v })}
+      />
+      {onMinigameChange && (
+        <ChipGroup
+          group="minigame"
+          label={t("detail_minigames")}
+          labelId={`${idScope}-minigame`}
+          options={minigameOptions}
+          value={values.minigame}
+          allLabel={t("filter_all")}
+          scroll
+          onChange={(v) => onChange({ minigame: v })}
+        />
+      )}
+    </div>
+  );
 
   return (
     <section
@@ -59,120 +192,78 @@ const ServerFilters = ({
         />
       </div>
 
-      {/* Filter rows */}
-      <div className="flex flex-wrap gap-6">
-        {/* Platform */}
-        <div data-filter-group="platform" role="group" aria-labelledby={platformLabelId}>
-          <span id={platformLabelId} className="text-xs font-semibold uppercase tracking-wider text-muted-foreground mb-2 block">{t("filter_platform")}</span>
-          <div className="flex flex-wrap gap-1.5">
-            <button
-              type="button"
-              aria-pressed={selectedPlatform === ""}
-              onClick={() => onPlatformChange("")}
-              className={`filter-chip ${selectedPlatform === "" ? "active" : ""}`}
-            >
-              {t("filter_all")}
-            </button>
-            {platforms.map((p) => (
-              <button
-                key={p}
-                type="button"
-                data-filter-value={p}
-                aria-pressed={selectedPlatform === p}
-                onClick={() => onPlatformChange(p === selectedPlatform ? "" : p)}
-                className={`filter-chip ${selectedPlatform === p ? "active" : ""}`}
-              >
-                {p}
-              </button>
-            ))}
-          </div>
-        </div>
-
-        {/* Version */}
-        <div data-filter-group="version" role="group" aria-labelledby={versionLabelId}>
-          <span id={versionLabelId} className="text-xs font-semibold uppercase tracking-wider text-muted-foreground mb-2 block">{t("filter_version")}</span>
-          <div className="flex flex-wrap gap-1.5">
-            <button
-              type="button"
-              aria-pressed={selectedVersion === ""}
-              onClick={() => onVersionChange("")}
-              className={`filter-chip ${selectedVersion === "" ? "active" : ""}`}
-            >
-              {t("filter_all")}
-            </button>
-            {versions.map((v) => (
-              <button
-                key={v}
-                type="button"
-                data-filter-value={v}
-                aria-pressed={selectedVersion === v}
-                onClick={() => onVersionChange(v === selectedVersion ? "" : v)}
-                className={`filter-chip ${selectedVersion === v ? "active" : ""}`}
-              >
-                {v}
-              </button>
-            ))}
-          </div>
-        </div>
-
-
-        {/* Software / loader */}
-        <div data-filter-group="software" role="group" aria-labelledby={softwareLabelId}>
-          <span id={softwareLabelId} className="text-xs font-semibold uppercase tracking-wider text-muted-foreground mb-2 block">{t("filter_software")}</span>
-          <div className="flex flex-wrap gap-1.5">
-            <button
-              type="button"
-              aria-pressed={selectedSoftware === ""}
-              onClick={() => onSoftwareChange("")}
-              className={`filter-chip ${selectedSoftware === "" ? "active" : ""}`}
-            >
-              {t("filter_all")}
-            </button>
-            {softwareOptions.map((s) => (
-              <button
-                key={s}
-                type="button"
-                data-filter-value={s}
-                aria-pressed={selectedSoftware === s}
-                onClick={() => onSoftwareChange(s === selectedSoftware ? "" : s)}
-                className={`filter-chip ${selectedSoftware === s ? "active" : ""}`}
-              >
-                {s}
-              </button>
-            ))}
-          </div>
-        </div>
-
-        {/* Minigames */}
-        {onMinigameChange && (
-          <div data-filter-group="minigame" role="group" aria-labelledby={minigameLabelId}>
-            <span id={minigameLabelId} className="text-xs font-semibold uppercase tracking-wider text-muted-foreground mb-2 block">{t("detail_minigames")}</span>
-            <div className="flex flex-wrap gap-1.5 max-h-40 overflow-y-auto pr-1">
-              <button
-                type="button"
-                aria-pressed={selectedMinigame === ""}
-                onClick={() => onMinigameChange("")}
-                className={`filter-chip ${selectedMinigame === "" ? "active" : ""}`}
-              >
-                {t("filter_all")}
-              </button>
-              {minigameOptions.map((m) => (
-                <button
-                  key={m}
-                  type="button"
-                  data-filter-value={m}
-                  aria-pressed={selectedMinigame === m}
-                  onClick={() => onMinigameChange(m === selectedMinigame ? "" : m)}
-                  className={`filter-chip ${selectedMinigame === m ? "active" : ""}`}
-                >
-                  {m}
-                </button>
-              ))}
-            </div>
-          </div>
+      {/* Mobil: spúšťač drawera */}
+      {isMobile && (
+      <button
+        type="button"
+        data-filter-drawer-trigger=""
+        aria-expanded={drawerOpen}
+        aria-haspopup="dialog"
+        onClick={() => setDrawerOpen(true)}
+        className="md:hidden w-full min-h-11 flex items-center justify-center gap-2 rounded-md border border-border bg-secondary/50 px-4 text-sm text-foreground transition-colors hover:border-primary/40 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/60"
+      >
+        <SlidersHorizontal className="h-4 w-4" aria-hidden="true" />
+        {t("filters_open")}
+        {activeCount > 0 && (
+          <span
+            data-filter-active-count={activeCount}
+            className="ml-1 rounded-full bg-primary/15 px-2 py-0.5 text-xs font-bold text-primary"
+          >
+            {activeCount}
+          </span>
         )}
-      </div>
+      </button>
+      )}
 
+      {/* Desktop: filtre priamo v paneli */}
+      {!isMobile && groups(
+        { platform: selectedPlatform, version: selectedVersion, software: selectedSoftware, minigame: selectedMinigame },
+        (patch) => {
+          if (patch.platform !== undefined) onPlatformChange(patch.platform);
+          if (patch.version !== undefined) onVersionChange(patch.version);
+          if (patch.software !== undefined) onSoftwareChange(patch.software);
+          if (patch.minigame !== undefined) onMinigameChange?.(patch.minigame);
+        },
+        `${uid}-d`,
+        "flex flex-wrap gap-6",
+      )}
+
+      {/* Mobil: drawer s filtrami */}
+      {isMobile && (
+      <Sheet open={drawerOpen} onOpenChange={setDrawerOpen}>
+        <SheetContent side="bottom" className="md:hidden max-h-[85vh] overflow-y-auto" data-filter-drawer="">
+          <SheetHeader className="text-left">
+            <SheetTitle className="font-display">{t("filters_open")}</SheetTitle>
+          </SheetHeader>
+          {groups(
+            draft,
+            (patch) => setDraft((d) => ({ ...d, ...patch })),
+            `${uid}-m`,
+            "flex flex-col gap-5 py-4",
+          )}
+          <div className="sticky bottom-0 flex gap-2 bg-background pt-3">
+            <button
+              type="button"
+              data-filter-reset=""
+              onClick={resetDraft}
+              className="min-h-11 flex-1 flex items-center justify-center gap-2 rounded-md border border-border px-4 text-sm text-muted-foreground transition-colors hover:border-primary/40 hover:text-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/60"
+            >
+              <RotateCcw className="h-4 w-4" aria-hidden="true" />
+              {t("filters_reset")}
+            </button>
+            <button
+              type="button"
+              data-filter-apply=""
+              onClick={applyDraft}
+              className="min-h-11 flex-1 flex items-center justify-center gap-2 rounded-md border border-primary bg-primary/10 px-4 text-sm font-bold text-primary transition-colors hover:bg-primary/20 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/60"
+            >
+              <Check className="h-4 w-4" aria-hidden="true" />
+              {t("filters_apply")}
+            </button>
+          </div>
+        </SheetContent>
+      </Sheet>
+      )}
     </section>
   );
 };

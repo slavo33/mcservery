@@ -29,6 +29,11 @@ from pathlib import Path
 
 from playwright.async_api import async_playwright
 
+import sys as _sys
+from pathlib import Path as _Path
+_sys.path.insert(0, str(_Path(__file__).parent))
+from filters_drawer import open_filters_if_needed  # noqa: E402
+
 BASE = os.environ.get("E2E_BASE_URL", "http://localhost:8080").rstrip("/")
 ROOT = Path(__file__).parent
 SHOTS = ROOT / "screenshots"
@@ -78,10 +83,11 @@ JS_STRUCTURE = """
     if (wrap && (wrap.textContent || '').trim()) return wrap.textContent.trim();
     return (el.textContent || '').trim();
   };
-  const panel = document.querySelector('[data-server-filters]');
+  const panel = document.querySelector('[data-filter-drawer]') || document.querySelector('[data-server-filters]');
   const bar = document.querySelector('[data-sort-bar]');
   if (!panel || !bar) return { missing: true, panel: !!panel, bar: !!bar };
-  const input = panel.querySelector('input[type="text"], input:not([type])');
+  const section = document.querySelector('[data-server-filters]');
+  const input = section && section.querySelector('input[type="text"], input:not([type])');
   const groups = Array.from(panel.querySelectorAll('[data-filter-group]')).map(g => ({
     key: g.getAttribute('data-filter-group'),
     role: g.getAttribute('role'),
@@ -157,9 +163,12 @@ async def main():
             await page.goto(f"{BASE}/servers", wait_until="domcontentloaded")
             await page.wait_for_selector("[data-server-filters]", timeout=15000)
             await page.wait_for_selector("[data-sort-bar]", timeout=15000)
+            # na mobile sú filtre v drawer-i – otvoríme ho, aby sa dali auditovať
+            await open_filters_if_needed(page)
 
             # --- 1. axe ---
-            for sel, label in (("[data-server-filters]", "panel filtrov"), ("[data-sort-bar]", "lišta zoradenia")):
+            filters_scope = "[data-filter-drawer]" if await page.locator("[data-filter-drawer]").count() else "[data-server-filters]"
+            for sel, label in ((filters_scope, "panel filtrov"), ("[data-sort-bar]", "lišta zoradenia")):
                 res = await run_axe(page, sel)
                 bad = [v for v in res["violations"] if SEVERITY_ORDER.index(v.get("impact") or "minor") >= FAIL_LEVEL]
                 report_data.append({"viewport": vp_name, "scope": label, "violations": [
@@ -209,6 +218,11 @@ async def main():
             await page.wait_for_timeout(250)
             check(await chip.get_attribute("aria-pressed") == "false",
                   f"[{vp_name}] chip sa deaktivuje medzerníkom")
+
+            # drawer (ak je otvorený) zachytáva fokus – pred testom lišty ho zavrieme
+            if await page.locator("[data-filter-drawer]").count():
+                await page.keyboard.press("Escape")
+                await page.wait_for_timeout(400)
 
             sort_btn = page.locator("[data-sort-bar] button[data-sort='players']")
             await sort_btn.focus()

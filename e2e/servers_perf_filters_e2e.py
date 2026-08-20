@@ -29,6 +29,11 @@ from pathlib import Path
 
 from playwright.async_api import async_playwright
 
+import sys as _sys
+from pathlib import Path as _Path
+_sys.path.insert(0, str(_Path(__file__).parent))
+from filters_drawer import open_filters_if_needed  # noqa: E402
+
 BASE = os.environ.get("E2E_BASE_URL", "http://localhost:8080").rstrip("/")
 ROOT = Path(__file__).parent
 SHOTS = ROOT / "screenshots"

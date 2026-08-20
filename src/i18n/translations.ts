@@ -49,6 +49,9 @@ type TranslationKeys = {
   filter_version: string;
   filter_software: string;
   filter_all: string;
+  filters_open: string;
+  filters_apply: string;
+  filters_reset: string;
   // Server detail
   detail_back: string;
   detail_added_by: string;
@@ -455,6 +458,9 @@ const sk: TranslationKeys = {
   filter_version: "Verzia",
   filter_software: "Software",
   filter_all: "Všetky",
+  filters_open: "Filtre",
+  filters_apply: "Použiť filtre",
+  filters_reset: "Zrušiť filtre",
   detail_back: "Späť na servery",
   detail_added_by: "Pridané:",
   detail_minigames: "Minihry",
@@ -837,6 +843,9 @@ const cs: TranslationKeys = {
   filter_version: "Verze",
   filter_software: "Software",
   filter_all: "Všechny",
+  filters_open: "Filtry",
+  filters_apply: "Použít filtry",
+  filters_reset: "Zrušit filtry",
   detail_back: "Zpět na servery",
   detail_added_by: "Přidal:",
   detail_copy: "Kopírovat",
@@ -1098,6 +1107,9 @@ const en: TranslationKeys = {
   filter_version: "Version",
   filter_software: "Software",
   filter_all: "All",
+  filters_open: "Filters",
+  filters_apply: "Apply filters",
+  filters_reset: "Reset filters",
   detail_back: "Back to servers",
   detail_added_by: "Added by:",
   detail_minigames: "Minigames",
@@ -1481,6 +1493,9 @@ const de: TranslationKeys = {
   filter_platform: "Plattform",
   filter_version: "Version",
   filter_all: "Alle",
+  filters_open: "Filter",
+  filters_apply: "Filter anwenden",
+  filters_reset: "Filter zurücksetzen",
   detail_back: "Zurück zu Servern",
   detail_added_by: "Hinzugefügt von:",
   detail_minigames: "Minispiele",
@@ -1746,6 +1761,9 @@ const fr: TranslationKeys = {
   filter_version: "Version",
   filter_software: "Logiciel",
   filter_all: "Tous",
+  filters_open: "Filtres",
+  filters_apply: "Appliquer les filtres",
+  filters_reset: "Réinitialiser les filtres",
   detail_back: "Retour aux serveurs",
   detail_added_by: "Ajouté par :",
   detail_minigames: "Mini-jeux",
