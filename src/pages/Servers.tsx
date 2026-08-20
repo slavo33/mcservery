@@ -13,6 +13,7 @@ import { useLanguage } from "@/i18n/LanguageContext";
 import { useMultiServerStatus } from "@/hooks/useMultiServerStatus";
 import { useSearchParams } from "react-router-dom";
 import { versions, platforms, softwareOptions, minigameOptions } from "@/lib/mockData";
+import { sortServers } from "@/lib/serverSorting";
 
 interface DbServer {
   id: string;
@@ -153,21 +154,8 @@ const Servers = () => {
       return true;
     });
 
-    // Sort
-    const num = (v: unknown) => (typeof v === "number" && Number.isFinite(v) ? v : 0);
-    result = [...result].sort((a, b) => {
-      let valA = 0, valB = 0;
-      if (sortBy === "votes") { valA = num((a as any).votes); valB = num((b as any).votes); }
-      else if (sortBy === "likes") { valA = num(a.likes); valB = num(b.likes); }
-      else if (sortBy === "players") {
-        valA = num(statuses[a.ip]?.players?.online ?? a.players?.online);
-        valB = num(statuses[b.ip]?.players?.online ?? b.players?.online);
-      }
-      if (valA === valB) return a.name.localeCompare(b.name);
-      return sortDir === "desc" ? valB - valA : valA - valB;
-    });
-
-    return result;
+    // Sort (zdieľaná logika – kryté unit testami v src/lib/__tests__/serverSorting.test.ts)
+    return sortServers(result as any, sortBy, sortDir, statuses as any) as typeof result;
   }, [search, platform, version, software, minigame, allServers, sortBy, sortDir, statuses, showVipOnly]);
 
   // ---- Stránkovanie ----
