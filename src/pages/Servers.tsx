@@ -13,6 +13,7 @@ import { useLanguage } from "@/i18n/LanguageContext";
 import { useMultiServerStatus } from "@/hooks/useMultiServerStatus";
 import { useSearchParams } from "react-router-dom";
 import { versions, platforms, softwareOptions, minigameOptions } from "@/lib/mockData";
+import { sortServers } from "@/lib/serverSorting";
 
 interface DbServer {
   id: string;
