@@ -120,6 +120,21 @@ const UserProfile = () => {
       title={`${profile.nickname} — profil používateľa | MCServery`}
       description={`Servery a profil používateľa ${profile.nickname} na MCServery.`}
       path={`/user/${userId ?? ""}`}
+      image={profile.avatar_url || undefined}
+      imageAlt={`Avatar používateľa ${profile.nickname}`}
+      jsonLd={{
+        "@context": "https://schema.org",
+        "@type": "ProfilePage",
+        dateCreated: profile.created_at,
+        mainEntity: {
+          "@type": "Person",
+          name: profile.nickname,
+          identifier: userId ?? undefined,
+          ...(profile.avatar_url ? { image: profile.avatar_url } : {}),
+          ...(profile.bio ? { description: profile.bio } : {}),
+          url: `https://mcservery.one/user/${userId ?? ""}`,
+        },
+      }}
     />
       <Header />
       <main className="flex-1 container mx-auto px-4 py-10 max-w-3xl">
