@@ -191,6 +191,7 @@ const Servers = () => {
           description:
             "Prehľadávaj a filtruj Minecraft servery podľa verzie, platformy a herných módov. Nájdi si ten najlepší server pre seba.",
           path: "/servers",
+          pageType: "CollectionPage",
           breadcrumbs: [["Servery", "/servers"]],
         })}
       />

@@ -16,6 +16,8 @@ export interface PageJsonLdInput {
   path: string;
   /** Voliteľné drobečky ako dvojice [názov, cesta] okrem domovskej stránky. */
   breadcrumbs?: [string, string][];
+  /** Typ stránky — zoznamy (napr. /servers) sú CollectionPage, inak WebPage. */
+  pageType?: "WebPage" | "CollectionPage";
 }
 
 /** WebPage entita pre verejnú stránku (okrem profilov serverov). */
@@ -23,9 +25,10 @@ export const buildWebPageJsonLd = ({
   name,
   description,
   path,
+  pageType = "WebPage",
 }: PageJsonLdInput): Record<string, unknown> => ({
   "@context": "https://schema.org",
-  "@type": "WebPage",
+  "@type": pageType,
   name,
   description,
   url: `${SITE_URL}${path === "/" ? "/" : path}`,
