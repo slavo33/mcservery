@@ -343,6 +343,16 @@ jobs:
       - name: E2E SEO a performance rozpočty (/servers)
         run: python3 e2e/servers_seo_perf_budget_e2e.py
 
+      - name: E2E load test /servers (súbežní používatelia)
+        run: E2E_LOAD_USERS=6 E2E_LOAD_WAVES=2 python3 e2e/servers_load_test.py
+
+      - name: Upload load test reportu
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: load-servers-report
+          path: e2e/load-servers-report.json
+
 
       - name: E2E breadcrumbs JSON-LD vs viditeľná navigácia
         run: python3 e2e/breadcrumbs_jsonld_e2e.py
