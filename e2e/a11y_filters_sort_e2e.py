@@ -154,7 +154,7 @@ async def main():
             print(f"\n=== {vp_name} ({w}x{h}) ===")
             context = await browser.new_context(viewport={"width": w, "height": h})
             page = await context.new_page()
-            await page.goto(f"{BASE}/servers", wait_until="networkidle")
+            await page.goto(f"{BASE}/servers", wait_until="domcontentloaded")
             await page.wait_for_selector("[data-server-filters]", timeout=15000)
             await page.wait_for_selector("[data-sort-bar]", timeout=15000)
 
