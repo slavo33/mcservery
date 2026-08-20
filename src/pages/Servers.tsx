@@ -377,7 +377,7 @@ const Servers = () => {
             )}
           </>
         ) : (
-          <div className="text-center py-20" data-results-count={0}>
+          <div className="text-center py-20" data-empty-state="" data-results-count={0}>
             <p className="text-muted-foreground font-display text-xl">{t("servers_none")}</p>
             <p className="text-sm text-muted-foreground mt-2">{t("servers_none_hint")}</p>
           </div>

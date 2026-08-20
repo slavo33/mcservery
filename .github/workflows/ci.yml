@@ -298,6 +298,21 @@ jobs:
       - name: E2E vizuálna regresia stránky /servers (stavy a breakpointy)
         run: python3 e2e/servers_page_visual_regression_e2e.py
 
+      - name: E2E vizuálna regresia stavov kariet, prázdnych filtrov a skeletonu
+        run: python3 e2e/servers_states_visual_e2e.py
+
+      - name: Nahranie screenshot diff artefaktov (baseline/aktuálny/rozdiel)
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: visual-regression-diffs
+          path: |
+            e2e/diffs/
+            e2e/screenshots/
+            e2e/baselines/
+          if-no-files-found: ignore
+          retention-days: 14
+
 
 
 
