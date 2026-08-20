@@ -260,7 +260,7 @@ const Servers = () => {
               data-page-count={pageCount}
             >
               {paginated.map((server) => (
-                <ServerCard key={server.id} server={server} dbMode={!!server.dbId} dbId={server.dbId} />
+                <ServerCard key={server.id} server={server} dbMode={!!server.dbId} dbId={server.dbId} liveStatus={statuses[server.ip] ?? null} />
               ))}
             </div>
 

@@ -10,13 +10,16 @@ interface ServerCardProps {
   server: MinecraftServer & { is_warez?: boolean; has_whitelist?: boolean; votes?: number; vip_expires_at?: string | null; vote_cooldown_hours?: number };
   dbMode?: boolean;
   dbId?: string;
+  /** Stav získaný hromadne v zozname – zaručuje zhodu s poradím pri zoradení podľa hráčov. */
+  liveStatus?: { online: boolean; players: { online: number; max: number } } | null;
 }
 
-const ServerCard = ({ server, dbMode, dbId }: ServerCardProps) => {
+const ServerCard = ({ server, dbMode, dbId, liveStatus }: ServerCardProps) => {
   const [liked, setLiked] = useState(false);
   const [copied, setCopied] = useState(false);
   const { t } = useLanguage();
-  const { status } = useServerStatus(server.ip);
+  const own = useServerStatus(liveStatus ? "" : server.ip);
+  const status = liveStatus ?? own.status;
   const isVip = server.vip_expires_at && new Date(server.vip_expires_at) > new Date();
 
   const isOnline = status ? status.online : server.isOnline;
