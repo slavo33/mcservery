@@ -4,7 +4,7 @@ import Footer from "@/components/Footer";
 import SEO from "@/components/SEO";
 import PageBreadcrumbs from "@/components/PageBreadcrumbs";
 import { buildPageJsonLdGraph } from "@/lib/pageJsonLd";
-import ServerCard from "@/components/ServerCard";
+import VirtualServerGrid from "@/components/VirtualServerGrid";
 import ServerFilters from "@/components/ServerFilters";
 import { ArrowUpDown, Crown } from "lucide-react";
 import type { MinecraftServer } from "@/lib/mockData";
@@ -268,17 +268,18 @@ const Servers = () => {
           </div>
         ) : filtered.length > 0 ? (
           <>
-            <div
-              className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3"
-              data-server-grid=""
-              data-results-count={filtered.length}
-              data-page={page}
-              data-page-count={pageCount}
-            >
-              {paginated.map((server) => (
-                <ServerCard key={server.id} server={server} dbMode={!!server.dbId} dbId={server.dbId} liveStatus={statuses[server.ip] ?? null} />
-              ))}
-            </div>
+            <VirtualServerGrid
+              servers={paginated}
+              statuses={statuses}
+              gridProps={{
+                "data-server-grid": "",
+                "data-virtualized": "true",
+                "data-results-count": filtered.length,
+                "data-page": page,
+                "data-page-count": pageCount,
+              } as any}
+            />
+
 
             {pageCount > 1 && (
               <nav
