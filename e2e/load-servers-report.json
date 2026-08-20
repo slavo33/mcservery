@@ -1,0 +1,385 @@
+{
+  "base_url": "http://localhost:8080",
+  "config": {
+    "users": 6,
+    "waves": 2,
+    "ramp_ms": 150
+  },
+  "budgets": {
+    "p95_ttfb_ms": 2000.0,
+    "p95_fcp_ms": 5000.0,
+    "p95_dcl_ms": 6000.0,
+    "p95_lcp_ms": 8000.0,
+    "p95_grid_ms": 10000.0,
+    "p95_cls": 0.1,
+    "max_cls": 0.25,
+    "error_rate": 0.0,
+    "failure_rate": 0.0,
+    "degradation_ratio": 2.5
+  },
+  "waves": [
+    {
+      "wave": 1,
+      "entries": [
+        {
+          "user": 0,
+          "wave": 1,
+          "ok": true,
+          "grid_ms": 3209.4983509999793,
+          "cards": 12,
+          "filter_ms": 936.4136929999631,
+          "search_ms": 426.51704799993695,
+          "ttfb": 12.099999999976717,
+          "fcp": 136,
+          "dcl": 1517.7000000000698,
+          "load": 1521.7000000000698,
+          "lcp": 2564,
+          "cls": 8.339210792824074e-06,
+          "js_errors": [],
+          "http_errors": []
+        },
+        {
+          "user": 1,
+          "wave": 1,
+          "ok": true,
+          "grid_ms": 3274.1117549999217,
+          "cards": 12,
+          "filter_ms": 1011.9152720000102,
+          "search_ms": 374.99681499991766,
+          "ttfb": 27.699999999953434,
+          "fcp": 148,
+          "dcl": 2165.29999999993,
+          "load": 2172.9000000000233,
+          "lcp": 2840,
+          "cls": 8.339210792824074e-06,
+          "js_errors": [],
+          "http_errors": []
+        },
+        {
+          "user": 2,
+          "wave": 1,
+          "ok": true,
+          "grid_ms": 3929.1984909999655,
+          "cards": 12,
+          "filter_ms": 539.5520719999922,
+          "search_ms": 437.73347400008333,
+          "ttfb": 7.100000000093132,
+          "fcp": 156,
+          "dcl": 2220.5999999999767,
+          "load": 2224.4000000000233,
+          "lcp": 2820,
+          "cls": 8.339210792824074e-06,
+          "js_errors": [],
+          "http_errors": []
+        },
+        {
+          "user": 3,
+          "wave": 1,
+          "ok": true,
+          "grid_ms": 3422.558558999981,
+          "cards": 12,
+          "filter_ms": 550.889667999968,
+          "search_ms": 521.1758640000426,
+          "ttfb": 14.70000000006985,
+          "fcp": 176,
+          "dcl": 2254.9000000000233,
+          "load": 2258.8000000000466,
+          "lcp": 2940,
+          "cls": 2.8694058641975307e-06,
+          "js_errors": [],
+          "http_errors": []
+        },
+        {
+          "user": 4,
+          "wave": 1,
+          "ok": true,
+          "grid_ms": 3882.8923180000174,
+          "cards": 12,
+          "filter_ms": 713.3649570000671,
+          "search_ms": 432.91846600004646,
+          "ttfb": 43.40000000002328,
+          "fcp": 300,
+          "dcl": 2227.5,
+          "load": 2238.3000000000466,
+          "lcp": 2972,
+          "cls": 8.339210792824074e-06,
+          "js_errors": [],
+          "http_errors": []
+        },
+        {
+          "user": 5,
+          "wave": 1,
+          "ok": true,
+          "grid_ms": 3383.7873150000632,
+          "cards": 12,
+          "filter_ms": 487.267533000022,
+          "search_ms": 410.6582100000651,
+          "ttfb": 46.5,
+          "fcp": 332,
+          "dcl": 2106.4000000000233,
+          "load": 2110.5,
+          "lcp": 2804,
+          "cls": 2.8694058641975307e-06,
+          "js_errors": [],
+          "http_errors": []
+        }
+      ],
+      "grid_ms": {
+        "count": 6,
+        "min": 3209.498,
+        "p50": 3403.173,
+        "p95": 3917.622,
+        "max": 3929.198,
+        "avg": 3517.008
+      }
+    },
+    {
+      "wave": 2,
+      "entries": [
+        {
+          "user": 0,
+          "wave": 2,
+          "ok": true,
+          "grid_ms": 1698.335881999924,
+          "cards": 12,
+          "filter_ms": 432.7001439999094,
+          "search_ms": 751.3243500000044,
+          "ttfb": 6.400000000023283,
+          "fcp": 64,
+          "dcl": 575,
+          "load": 578.1999999999534,
+          "lcp": 1588,
+          "cls": 0,
+          "js_errors": [],
+          "http_errors": []
+        },
+        {
+          "user": 1,
+          "wave": 2,
+          "ok": true,
+          "grid_ms": 2461.0526390000587,
+          "cards": 12,
+          "filter_ms": 798.7465580000617,
+          "search_ms": 428.6751380000169,
+          "ttfb": 19.29999999993015,
+          "fcp": 104,
+          "dcl": 1213.5999999999767,
+          "load": 1220.2999999999302,
+          "lcp": 1772,
+          "cls": 1.3809015721450616e-05,
+          "js_errors": [],
+          "http_errors": []
+        },
+        {
+          "user": 2,
+          "wave": 2,
+          "ok": true,
+          "grid_ms": 2659.4945420000613,
+          "cards": 12,
+          "filter_ms": 666.4148890000661,
+          "search_ms": 438.5890410000002,
+          "ttfb": 25.5,
+          "fcp": 104,
+          "dcl": 1382,
+          "load": 1390.8999999999069,
+          "lcp": 2612,
+          "cls": 0,
+          "js_errors": [],
+          "http_errors": []
+        },
+        {
+          "user": 3,
+          "wave": 2,
+          "ok": true,
+          "grid_ms": 2926.094048999971,
+          "cards": 12,
+          "filter_ms": 767.4465840000266,
+          "search_ms": 458.30331900003785,
+          "ttfb": 34.20000000006985,
+          "fcp": 128,
+          "dcl": 1727.8000000000466,
+          "load": 1731.6999999999534,
+          "lcp": 2380,
+          "cls": 2.8694058641975307e-06,
+          "js_errors": [],
+          "http_errors": []
+        },
+        {
+          "user": 4,
+          "wave": 2,
+          "ok": true,
+          "grid_ms": 3043.087100999969,
+          "cards": 12,
+          "filter_ms": 424.2474339999944,
+          "search_ms": 476.87257799998406,
+          "ttfb": 5.5,
+          "fcp": 116,
+          "dcl": 1750,
+          "load": 1757.2999999999302,
+          "lcp": 2472,
+          "cls": 0,
+          "js_errors": [],
+          "http_errors": []
+        },
+        {
+          "user": 5,
+          "wave": 2,
+          "ok": true,
+          "grid_ms": 2883.7042469999687,
+          "cards": 12,
+          "filter_ms": 598.7021509999977,
+          "search_ms": 410.08070999998836,
+          "ttfb": 18.599999999976717,
+          "fcp": 132,
+          "dcl": 1762.7000000000698,
+          "load": 1766.3000000000466,
+          "lcp": 2452,
+          "cls": 0,
+          "js_errors": [],
+          "http_errors": []
+        }
+      ],
+      "grid_ms": {
+        "count": 6,
+        "min": 1698.336,
+        "p50": 2771.599,
+        "p95": 3013.839,
+        "max": 3043.087,
+        "avg": 2611.961
+      }
+    }
+  ],
+  "aggregate": {
+    "requests": 12,
+    "successful": 12,
+    "failures": 0,
+    "failure_rate": 0.0,
+    "error_rate": 0.0,
+    "ttfb_ms": {
+      "count": 12,
+      "min": 5.5,
+      "p50": 18.95,
+      "p95": 44.795,
+      "max": 46.5,
+      "avg": 21.75
+    },
+    "fcp_ms": {
+      "count": 12,
+      "min": 64,
+      "p50": 134.0,
+      "p95": 314.4,
+      "max": 332,
+      "avg": 158.0
+    },
+    "dcl_ms": {
+      "count": 12,
+      "min": 575,
+      "p50": 1756.35,
+      "p95": 2239.83,
+      "max": 2254.9,
+      "avg": 1741.958
+    },
+    "lcp_ms": {
+      "count": 12,
+      "min": 1588,
+      "p50": 2588.0,
+      "p95": 2954.4,
+      "max": 2972,
+      "avg": 2518.0
+    },
+    "cls": {
+      "count": 12,
+      "min": 0,
+      "p50": 0.0,
+      "p95": 0.0,
+      "max": 0.0,
+      "avg": 0.0
+    },
+    "grid_ms": {
+      "count": 12,
+      "min": 1698.336,
+      "p50": 3126.293,
+      "p95": 3903.73,
+      "max": 3929.198,
+      "avg": 3064.485
+    },
+    "filter_ms": {
+      "count": 12,
+      "min": 424.247,
+      "p50": 632.559,
+      "p95": 970.389,
+      "max": 1011.915,
+      "avg": 660.638
+    },
+    "search_ms": {
+      "count": 12,
+      "min": 374.997,
+      "p50": 435.326,
+      "p95": 624.743,
+      "max": 751.324,
+      "avg": 463.987
+    }
+  },
+  "checks": [
+    {
+      "label": "Všetci virtuálni používatelia načítali /servers",
+      "ok": true,
+      "detail": "0/12 zlyhaní"
+    },
+    {
+      "label": "Chybovosť (JS/HTTP) v rámci rozpočtu",
+      "ok": true,
+      "detail": "0.00% <= 0.00%"
+    },
+    {
+      "label": "Miera zlyhaní v rámci rozpočtu",
+      "ok": true,
+      "detail": "0.00%"
+    },
+    {
+      "label": "Každý používateľ videl karty serverov",
+      "ok": true,
+      "detail": "min kariet: 12"
+    },
+    {
+      "label": "p95 ttfb_ms <= 2000.0",
+      "ok": true,
+      "detail": "nameraných 44.795"
+    },
+    {
+      "label": "p95 fcp_ms <= 5000.0",
+      "ok": true,
+      "detail": "nameraných 314.4"
+    },
+    {
+      "label": "p95 dcl_ms <= 6000.0",
+      "ok": true,
+      "detail": "nameraných 2239.83"
+    },
+    {
+      "label": "p95 lcp_ms <= 8000.0",
+      "ok": true,
+      "detail": "nameraných 2954.4"
+    },
+    {
+      "label": "p95 grid_ms <= 10000.0",
+      "ok": true,
+      "detail": "nameraných 3903.73"
+    },
+    {
+      "label": "p95 cls <= 0.1",
+      "ok": true,
+      "detail": "nameraných 0.0"
+    },
+    {
+      "label": "max CLS <= 0.25",
+      "ok": true,
+      "detail": "0.0"
+    },
+    {
+      "label": "Bez degradácie medzi vlnami (p50 pomer <= 2.5)",
+      "ok": true,
+      "detail": "3403.173ms -> 2771.599ms (x0.81)"
+    }
+  ]
+}
