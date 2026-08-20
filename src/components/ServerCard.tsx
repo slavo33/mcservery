@@ -1,4 +1,5 @@
 import VersionBadge from "@/components/VersionBadge";
+import ServerTag from "@/components/ServerTag";
 import { Heart, Users, Wifi, WifiOff, Copy, Shield, ShieldOff, Vote, Crown } from "lucide-react";
 import type { MinecraftServer } from "@/lib/mockData";
 import { useState } from "react";
