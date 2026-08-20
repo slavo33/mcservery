@@ -346,6 +346,7 @@ type TranslationKeys = {
   vip_tier_pro: string;
   vip_tier_max: string;
   vip_most_popular: string;
+  vip_tiers_heading: string;
   vip_duration_prefix: string;
   vip_days: string;
   vip_feature_pinned: string;
@@ -731,6 +732,7 @@ const sk: TranslationKeys = {
   vip_tier_pro: "Pro",
   vip_tier_max: "Max",
   vip_most_popular: "Najobľúbenejší",
+  vip_tiers_heading: "VIP balíky",
   vip_duration_prefix: "na",
   vip_days: "dní",
   vip_feature_pinned: "Server pripnutý v odporúčaných na hlavnej stránke",
@@ -988,6 +990,7 @@ const cs: TranslationKeys = {
   vip_title_1: "Získej",
   vip_subtitle: "Připni svůj server do doporučených a odemkni výhody pro hlasující hráče.",
   vip_most_popular: "Nejoblíbenější",
+  vip_tiers_heading: "VIP balíčky",
   vip_duration_prefix: "na",
   vip_days: "dní",
   vip_feature_pinned: "Server připnutý v doporučených na hlavní stránce",
@@ -1372,6 +1375,7 @@ const en: TranslationKeys = {
   vip_tier_pro: "Pro",
   vip_tier_max: "Max",
   vip_most_popular: "Most Popular",
+  vip_tiers_heading: "VIP plans",
   vip_duration_prefix: "for",
   vip_days: "days",
   vip_feature_pinned: "Server pinned in recommended on the homepage",
@@ -1634,6 +1638,7 @@ const de: TranslationKeys = {
   vip_title_1: "Hol dir",
   vip_subtitle: "Hefte deinen Server in die empfohlenen an und schalte Vorteile für Abstimmende frei.",
   vip_most_popular: "Beliebteste",
+  vip_tiers_heading: "VIP-Pakete",
   vip_duration_prefix: "für",
   vip_days: "Tage",
   vip_feature_pinned: "Server in den Empfehlungen auf der Startseite angeheftet",
@@ -1899,6 +1904,7 @@ const fr: TranslationKeys = {
   vip_title_1: "Obtiens",
   vip_subtitle: "Épingle ton serveur dans les recommandés et débloque des avantages pour les votants.",
   vip_most_popular: "Le plus populaire",
+  vip_tiers_heading: "Offres VIP",
   vip_duration_prefix: "pour",
   vip_days: "jours",
   vip_feature_pinned: "Serveur épinglé dans les recommandés sur la page d'accueil",
@@ -2009,6 +2015,7 @@ const ru: TranslationKeys = {
   vip_title_2: "VIP",
   vip_subtitle: "Закрепи свой сервер в рекомендуемых и разблокируй преимущества для голосующих.",
   vip_most_popular: "Самый популярный",
+  vip_tiers_heading: "VIP-тарифы",
   vip_duration_prefix: "на",
   vip_days: "дней",
   vip_feature_pinned: "Сервер закреплён в рекомендуемых на главной",
@@ -2117,6 +2124,7 @@ const uk: TranslationKeys = {
   vip_title_1: "Отримай",
   vip_subtitle: "Закріпи свій сервер у рекомендованих та розблокуй переваги для голосуючих.",
   vip_most_popular: "Найпопулярніший",
+  vip_tiers_heading: "VIP-тарифи",
   vip_duration_prefix: "на",
   vip_days: "днів",
   vip_feature_pinned: "Сервер закріплений у рекомендованих на головній",
@@ -2224,6 +2232,7 @@ const es: TranslationKeys = {
   vip_title_1: "Obtén",
   vip_subtitle: "Fija tu servidor en los recomendados y desbloquea ventajas para los votantes.",
   vip_most_popular: "Más popular",
+  vip_tiers_heading: "Planes VIP",
   vip_duration_prefix: "por",
   vip_days: "días",
   vip_feature_pinned: "Servidor fijado en recomendados en la página principal",
@@ -2330,6 +2339,7 @@ const pt: TranslationKeys = {
   vip_title_1: "Obtém",
   vip_subtitle: "Fixa o teu servidor nos recomendados e desbloqueia vantagens para quem vota.",
   vip_most_popular: "Mais popular",
+  vip_tiers_heading: "Planos VIP",
   vip_duration_prefix: "por",
   vip_days: "dias",
   vip_feature_pinned: "Servidor fixado nos recomendados na página principal",
@@ -2443,6 +2453,7 @@ const zh: TranslationKeys = {
   vip_title_1: "获取",
   vip_subtitle: "将你的服务器固定在推荐中，解锁投票者专属福利。",
   vip_most_popular: "最受欢迎",
+  vip_tiers_heading: "VIP 套餐",
   vip_duration_prefix: "",
   vip_days: "天",
   vip_feature_pinned: "服务器固定在首页推荐中",
@@ -2550,6 +2561,7 @@ const ja: TranslationKeys = {
   vip_title_1: "入手",
   vip_subtitle: "サーバーをおすすめに固定し、投票者向けの特典をアンロックしましょう。",
   vip_most_popular: "最も人気",
+  vip_tiers_heading: "VIPプラン",
   vip_duration_prefix: "",
   vip_days: "日間",
   vip_feature_pinned: "トップページのおすすめにサーバーを固定",
