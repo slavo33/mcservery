@@ -55,6 +55,7 @@ const Servers = () => {
   const [sortDir, setSortDir] = useState<"desc" | "asc">("desc");
   const [showVipOnly, setShowVipOnly] = useState(false);
   const [dbServers, setDbServers] = useState<DbServer[]>([]);
+  const [loading, setLoading] = useState(true);
 
   // Synchronizácia URL -> stav (napr. späť/vpred v prehliadači alebo zdieľaný odkaz)
   useEffect(() => {
@@ -101,6 +102,7 @@ const Servers = () => {
     const fetch = async () => {
       const { data } = await supabase.from("servers").select("*").order("vote_count", { ascending: false });
       if (data) setDbServers(data as unknown as DbServer[]);
+      setLoading(false);
     };
     fetch();
   }, []);
