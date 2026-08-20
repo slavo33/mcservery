@@ -445,33 +445,32 @@ const ServerDetailPage = () => {
             <p data-detail-section="description" className="text-foreground/90 whitespace-pre-line leading-relaxed break-words overflow-hidden [overflow-wrap:anywhere]">{server.description}</p>
 
             {/* Tags + badges */}
-            <div data-detail-section="loader-info" className="flex flex-wrap gap-2">
+            <div data-detail-section="loader-info" className="flex flex-wrap items-center gap-2">
               {server.platform.map((p) => (
-                <span key={p} data-server-platform={p === "java" ? "Java" : "Bedrock"} className="badge-platform">{p === "java" ? "Java" : "Bedrock"}</span>
+                <ServerTag key={p} data-server-platform={p === "java" ? "Java" : "Bedrock"}>
+                  {p === "java" ? "Java" : "Bedrock"}
+                </ServerTag>
               ))}
-              <span data-server-software={server.software} className="badge-tag">{server.software}</span>
+              <ServerTag variant="accent" data-server-software={server.software}>{server.software}</ServerTag>
               {safeVersion ? (
                 <VersionBadge version={safeVersion} linkToFilter />
               ) : (
-                <span
-                  className="inline-flex items-center gap-1 rounded-md border border-border bg-muted px-2 py-0.5 text-xs text-muted-foreground"
-                  title="Verzia servera nie je nastavená"
-                >
+                <ServerTag variant="muted" title="Verzia servera nie je nastavená">
                   Verzia neuvedená
-                </span>
+                </ServerTag>
               )}
 
-              {server.proxy && <span className="badge-platform">{server.proxy}</span>}
-              <span className={`badge-tag ${server.is_warez ? "" : ""}`}>
+              {server.proxy && <ServerTag>{server.proxy}</ServerTag>}
+              <ServerTag variant="accent">
                 {server.is_warez ? t("detail_warez") : t("detail_original")}
-              </span>
-              <span className="badge-platform">
+              </ServerTag>
+              <ServerTag>
                 {server.has_whitelist ? (
-                  <><Shield className="h-3 w-3 mr-1" /> {t("detail_whitelist")}</>
+                  <><Shield className="h-3 w-3" /> {t("detail_whitelist")}</>
                 ) : (
-                  <><ShieldOff className="h-3 w-3 mr-1" /> {t("detail_no_whitelist")}</>
+                  <><ShieldOff className="h-3 w-3" /> {t("detail_no_whitelist")}</>
                 )}
-              </span>
+              </ServerTag>
             </div>
 
             {server.minigames.length > 0 && (
