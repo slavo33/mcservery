@@ -141,8 +141,8 @@ async def run():
         # Nájdi prvý dostupný profil servera.
         ctx = await browser.new_context(viewport={"width": 1440, "height": 900}, locale="sk-SK")
         page = await ctx.new_page()
-        await page.goto(BASE + "/servers", wait_until="networkidle", timeout=45000)
-        await page.wait_for_timeout(1500)
+        await page.goto(BASE + "/servers", wait_until="domcontentloaded", timeout=45000)
+        await page.wait_for_timeout(3000)
         hrefs = await page.eval_on_selector_all(
             'a[href^="/server/"]',
             "els => Array.from(new Set(els.map(e => e.getAttribute('href'))))",
@@ -165,13 +165,13 @@ async def run():
             )
             page = await context.new_page()
             try:
-                await page.goto(BASE + href, wait_until="networkidle", timeout=45000)
+                await page.goto(BASE + href, wait_until="domcontentloaded", timeout=45000)
             except Exception as exc:
                 check(f"[{vp_name}] načítanie detailu servera", False, str(exc)[:120])
                 await context.close()
                 continue
             await page.add_style_tag(content=STABILIZE_CSS)
-            await page.wait_for_timeout(900)
+            await page.wait_for_timeout(3000)
 
             # 1) sekcie
             for sec in SECTIONS:
