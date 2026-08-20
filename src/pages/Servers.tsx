@@ -239,6 +239,7 @@ const Servers = () => {
           {(["votes", "likes", "players"] as const).map((opt) => (
             <button
               key={opt}
+              data-sort={opt}
               onClick={() => {
                 if (sortBy === opt) setSortDir(sortDir === "desc" ? "asc" : "desc");
                 else { setSortBy(opt); setSortDir("desc"); }
