@@ -337,6 +337,10 @@ jobs:
       - name: E2E nahranie GIFu a náhľad na karte servera
         run: python3 e2e/gif_upload_card_preview_e2e.py
 
+      - name: E2E performance načítania a prepínania filtrov (/servers)
+        run: python3 e2e/servers_perf_filters_e2e.py
+
+
       - name: E2E breadcrumbs JSON-LD vs viditeľná navigácia
         run: python3 e2e/breadcrumbs_jsonld_e2e.py
 

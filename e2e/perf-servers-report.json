@@ -1,0 +1,86 @@
+{
+  "budgets": {
+    "ttfb_ms": 800.0,
+    "fcp_ms": 2500.0,
+    "lcp_ms": 4000.0,
+    "dcl_ms": 3000.0,
+    "cls": 0.1,
+    "longtask_total_ms": 2500.0,
+    "filter_median_ms": 400.0,
+    "filter_p95_ms": 700.0,
+    "search_median_ms": 600.0,
+    "sort_median_ms": 500.0,
+    "filter_cls": 0.1
+  },
+  "runs": [
+    {
+      "ttfb": 9,
+      "dcl": 986,
+      "fcp": 184,
+      "lcp": null,
+      "cls": 0,
+      "longtasks": [],
+      "longtaskTotal": 0,
+      "resources": 106,
+      "transferKb": 4867
+    },
+    {
+      "ttfb": 8,
+      "dcl": 461,
+      "fcp": 96,
+      "lcp": null,
+      "cls": 0,
+      "longtasks": [],
+      "longtaskTotal": 0,
+      "resources": 124,
+      "transferKb": 12
+    },
+    {
+      "ttfb": 7,
+      "dcl": 399,
+      "fcp": 120,
+      "lcp": null,
+      "cls": 0,
+      "longtasks": [],
+      "longtaskTotal": 0,
+      "resources": 115,
+      "transferKb": 12
+    }
+  ],
+  "interactions": {
+    "filters": [
+      254,
+      206,
+      163,
+      480,
+      120,
+      367,
+      74,
+      409,
+      77,
+      440,
+      92,
+      356,
+      79,
+      352,
+      63,
+      307,
+      225,
+      253,
+      86,
+      313,
+      108,
+      409
+    ],
+    "search": [
+      606,
+      527,
+      486
+    ],
+    "sort": [
+      264,
+      251,
+      253
+    ]
+  }
+}

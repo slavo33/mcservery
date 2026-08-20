@@ -252,6 +252,7 @@ const Servers = () => {
           <>
             <div
               className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3"
+              data-server-grid=""
               data-results-count={filtered.length}
               data-page={page}
               data-page-count={pageCount}
