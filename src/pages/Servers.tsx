@@ -212,7 +212,7 @@ const Servers = () => {
 
 
         {/* Sorting + VIP filter */}
-        <div className="flex items-center gap-2 mb-6 flex-wrap">
+        <div className="flex items-center gap-2 mb-6 flex-wrap" data-sort-bar="">
           <button
             onClick={() => setShowVipOnly(!showVipOnly)}
             className={`text-sm px-3 py-1 rounded-full border transition-colors flex items-center gap-1.5 ${showVipOnly ? "border-amber-500 bg-amber-500/10 text-amber-400 font-bold" : "border-border text-muted-foreground hover:border-amber-500/40"}`}
