@@ -98,7 +98,12 @@ async def prepare(page):
     await page.goto(BASE + "/servers", wait_until="domcontentloaded", timeout=30000)
     await page.add_style_tag(content=STABILIZE_CSS)
     await page.evaluate("window.scrollTo(0, 0)")
-    await page.wait_for_timeout(600)
+    # počkaj na dokončenie načítania zoznamu (skeleton zmizne / karty sa objavia)
+    try:
+        await page.wait_for_selector("[data-server-grid], [data-server-card]", timeout=15000)
+    except Exception:
+        pass
+    await page.wait_for_timeout(1200)
 
 
 async def search(page, text: str):
