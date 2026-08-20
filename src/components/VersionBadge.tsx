@@ -50,20 +50,21 @@ const VersionBadge = ({
 
   const descriptionId = `version-badge-desc-${plain.replace(/\./g, "-")}`;
 
-  const classes = cn(
-    "inline-flex items-center gap-1 rounded-md border font-medium",
-    "whitespace-nowrap text-nowrap font-body tabular-nums leading-none",
-    "px-1.5 py-0.5 text-xs sm:px-2.5 sm:py-1 sm:text-sm",
-    // Sémantické tokeny → kontrast drží v svetlej aj tmavej schéme
-    "bg-primary/90 text-primary-foreground border-primary/50",
-    // Vyšší kontrast pre používateľov s prefers-contrast a Windows High Contrast
-    "contrast-more:bg-primary contrast-more:border-primary-foreground",
-    "forced-colors:bg-[ButtonFace] forced-colors:text-[ButtonText] forced-colors:border-[ButtonText]",
-    "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-1 focus-visible:ring-offset-background",
-    linkToFilter &&
-      "cursor-pointer transition-colors hover:bg-primary hover:text-primary-foreground",
-    showTooltip && !linkToFilter && "cursor-help",
-    className
+  // Rovnaká základňa ako všetky ostatné tagy (edícia, proxy, software) — líši sa len variantom.
+  const classes = serverTagClasses(
+    "primary",
+    "md",
+    cn(
+      "tabular-nums",
+      // Vyšší kontrast pre používateľov s prefers-contrast a Windows High Contrast
+      "contrast-more:bg-primary contrast-more:border-primary-foreground",
+      "forced-colors:bg-[ButtonFace] forced-colors:text-[ButtonText] forced-colors:border-[ButtonText]",
+      "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-1 focus-visible:ring-offset-background",
+      linkToFilter &&
+        "cursor-pointer transition-colors hover:bg-primary hover:text-primary-foreground",
+      showTooltip && !linkToFilter && "cursor-help",
+      className
+    )
   );
 
   const content = (
