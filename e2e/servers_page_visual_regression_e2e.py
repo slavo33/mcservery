@@ -61,20 +61,11 @@ def note(label, extra=""):
 
 
 def compare_baseline(name: str, shot: Path):
-    from PIL import Image, ImageChops
+    sys.path.insert(0, str(ROOT))
+    from visual_diff import compare_with_baseline
 
-    baseline = BASELINES / f"{name}.png"
-    if UPDATE or not baseline.exists():
-        baseline.write_bytes(shot.read_bytes())
-        return "new", baseline.name
-    a = Image.open(baseline).convert("RGB")
-    b = Image.open(shot).convert("RGB")
-    if a.size != b.size:
-        return "fail", f"rozmery {a.size} != {b.size}"
-    diff = ImageChops.difference(a, b).convert("L")
-    changed = sum(1 for px in diff.getdata() if px > 12)
-    ratio = changed / (a.size[0] * a.size[1])
-    return ("pass" if ratio <= DIFF_TOLERANCE else "fail"), f"odlišných pixelov {ratio:.2%}"
+    return compare_with_baseline(name, shot, DIFF_TOLERANCE, UPDATE)
+
 
 
 async def snapshot(page, label: str, name: str, selector=None):
