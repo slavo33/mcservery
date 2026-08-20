@@ -8,6 +8,7 @@ import CommentSection from "@/components/CommentSection";
 import VoteSection from "@/components/VoteSection";
 import TopVoters from "@/components/TopVoters";
 import VersionBadge, { formatVersion } from "@/components/VersionBadge";
+import ServerTag from "@/components/ServerTag";
 import { buildServerMeta } from "@/lib/serverJsonLd";
 import { Heart, Users, Copy, ArrowLeft, Shield, ShieldOff, ExternalLink, Trash2, Pencil, User, Crown } from "lucide-react";
 import ReportDialog from "@/components/ReportDialog";
