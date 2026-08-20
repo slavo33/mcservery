@@ -113,13 +113,15 @@ const ServerCard = ({ server, dbMode, dbId, liveStatus }: ServerCardProps) => {
 
         <p className="text-sm text-muted-foreground mb-3 line-clamp-2 break-words">{server.description}</p>
 
-        <div className="flex flex-wrap gap-1.5 mb-3">
+        <div className="flex flex-wrap items-center gap-1.5 mb-3">
           {server.platform.map((p) => (
-            <span key={p} className="badge-platform">{p === "java" ? "Java" : "Bedrock"}</span>
+            <ServerTag key={p} data-server-platform={p === "java" ? "Java" : "Bedrock"}>
+              {p === "java" ? "Java" : "Bedrock"}
+            </ServerTag>
           ))}
-          <span className="badge-tag">{server.software}</span>
+          <ServerTag variant="accent" data-server-software={server.software}>{server.software}</ServerTag>
           <VersionBadge version={server.version} />
-          {server.proxy && <span className="badge-platform">{server.proxy}</span>}
+          {server.proxy && <ServerTag>{server.proxy}</ServerTag>}
         </div>
 
         <div className="flex flex-wrap gap-1 mb-3">
