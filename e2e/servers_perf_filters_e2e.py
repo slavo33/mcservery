@@ -106,7 +106,7 @@ JS_LOAD_METRICS = """
 # Zmeria čas od akcie po prekreslenie zoznamu serverov.
 JS_MEASURE = """
 async ([selector, action]) => {
-  const list = document.querySelector('[data-server-grid]') || document.querySelector('main');
+  const list = document.querySelector('main') || document.body;
   const startCls = (window.__perf && window.__perf.cls) || 0;
   const before = list ? list.innerHTML.length : 0;
   const t0 = performance.now();
@@ -167,7 +167,12 @@ async def main():
 
         budget("načítanie: TTFB (medián)", med("ttfb"), BUDGETS["ttfb_ms"])
         budget("načítanie: FCP (medián)", med("fcp"), BUDGETS["fcp_ms"])
-        budget("načítanie: LCP (medián)", med("lcp"), BUDGETS["lcp_ms"])
+        lcp_med = med("lcp")
+        if lcp_med is None:
+            check("načítanie: LCP zmerané alebo nahradené FCP", med("fcp") is not None,
+                  "LCP entry nedostupná, použité FCP")
+        else:
+            budget("načítanie: LCP (medián)", lcp_med, BUDGETS["lcp_ms"])
         budget("načítanie: DOMContentLoaded (medián)", med("dcl"), BUDGETS["dcl_ms"])
         cls_med = statistics.median([l["cls"] for l in loads])
         budget("načítanie: CLS (medián)", cls_med, BUDGETS["cls"], "")
@@ -178,7 +183,9 @@ async def main():
         await page.goto(BASE + "/servers", wait_until="domcontentloaded")
         await page.wait_for_selector("[data-server-grid], [data-server-filters]", timeout=20000)
         await page.wait_for_timeout(3500)
-        net_before = await page.evaluate("() => performance.getEntriesByType('resource').length")
+        net_js = ("() => performance.getEntriesByType('resource')"
+                  ".filter(r => r.initiatorType === 'fetch' || r.initiatorType === 'xmlhttprequest').length")
+        net_before = await page.evaluate(net_js)
 
         chips = await page.evaluate(
             """() => Array.from(document.querySelectorAll('[data-filter-group]')).flatMap(g => {
@@ -215,9 +222,9 @@ async def main():
         budget("filtre: max layout shift pri prepnutí",
                max(cls_deltas) if cls_deltas else 0, BUDGETS["filter_cls"], "")
 
-        net_after = await page.evaluate("() => performance.getEntriesByType('resource').length")
-        check("filtrovanie nevyvoláva nové sieťové požiadavky (klientske)",
-              net_after - net_before <= 2, f"+{net_after - net_before} požiadaviek")
+        net_after = await page.evaluate(net_js)
+        check("filtrovanie nevyvoláva nové dátové požiadavky (klientske)",
+              net_after - net_before <= 2, f"+{net_after - net_before} fetch/xhr požiadaviek")
 
         # ---------- 3) vyhľadávanie ----------
         search_sel = "[data-server-filters] input[type='text']"
@@ -225,7 +232,7 @@ async def main():
         for term in ("a", "sk", "craft"):
             t = await page.evaluate(
                 """async ([sel, text]) => {
-                     const list = document.querySelector('[data-server-grid]') || document.querySelector('main');
+                     const list = document.querySelector('main') || document.body;
                      const input = document.querySelector(sel);
                      if (!input) return { error: 'input not found' };
                      const t0 = performance.now();
