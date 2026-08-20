@@ -1,77 +1,89 @@
 import { useState, useEffect, useRef } from "react";
-import { supabase } from "@/integrations/supabase/client";
+import {
+  ServerStatus,
+  fetchStatus,
+  getCachedStatus,
+  setCachedStatus,
+  subscribeStatus,
+} from "@/lib/serverStatusStore";
 
-interface ServerStatus {
-  online: boolean;
-  players: { online: number; max: number };
-}
+export type { ServerStatus };
 
-const cache = new Map<string, { data: ServerStatus; ts: number }>();
-const CACHE_TTL = 60_000;
-
+/**
+ * Živý stav viacerých serverov naraz. Používa ten istý zdieľaný store ako
+ * `useServerStatus`, takže zoznam, karty aj detail zobrazujú rovnaké čísla
+ * a triedenie/filtrovanie podľa hráčov vždy sedí s tým, čo používateľ vidí.
+ */
 export const useMultiServerStatus = (ips: string[]) => {
+  const key = ips.join(",");
   const [statuses, setStatuses] = useState<Record<string, ServerStatus>>(() => {
     const initial: Record<string, ServerStatus> = {};
     for (const ip of ips) {
-      const c = cache.get(ip);
-      if (c && Date.now() - c.ts < CACHE_TTL) initial[ip] = c.data;
+      const cached = getCachedStatus(ip);
+      if (cached) initial[ip] = cached;
     }
     return initial;
   });
   const [loading, setLoading] = useState(true);
-  const prevIps = useRef<string>("");
+  const prevKey = useRef<string>("");
 
   useEffect(() => {
-    const key = ips.slice().sort().join(",");
-    if (key === prevIps.current && !loading) return;
-    prevIps.current = key;
+    const list = key ? key.split(",").filter(Boolean) : [];
 
-    if (ips.length === 0) { setLoading(false); return; }
+    // Zmeny z iných komponentov (napr. detail servera) sa premietnu aj sem.
+    const unsubscribe = subscribeStatus((changedIp, next) => {
+      if (!list.includes(changedIp)) return;
+      setStatuses((prev) => (prev[changedIp] === next ? prev : { ...prev, [changedIp]: next }));
+    });
+
+    if (list.length === 0) {
+      setLoading(false);
+      return unsubscribe;
+    }
+
+    const sortedKey = list.slice().sort().join(",");
+    if (sortedKey === prevKey.current && !loading) return unsubscribe;
+    prevKey.current = sortedKey;
 
     let cancelled = false;
 
     const fetchAll = async () => {
-      const toFetch = ips.filter((ip) => {
-        const c = cache.get(ip);
-        return !c || Date.now() - c.ts >= CACHE_TTL;
-      });
-
-      // Start with cached values
       const result: Record<string, ServerStatus> = {};
-      for (const ip of ips) {
-        const c = cache.get(ip);
-        if (c && Date.now() - c.ts < CACHE_TTL) result[ip] = c.data;
+      const toFetch: string[] = [];
+      for (const ip of list) {
+        const cached = getCachedStatus(ip);
+        if (cached) result[ip] = cached;
+        else toFetch.push(ip);
       }
+      if (!cancelled && Object.keys(result).length) setStatuses((prev) => ({ ...prev, ...result }));
 
-      // Fetch missing ones in parallel (max 10 concurrent)
       const batchSize = 10;
       for (let i = 0; i < toFetch.length; i += batchSize) {
         if (cancelled) return;
         const batch = toFetch.slice(i, i + batchSize);
         const results = await Promise.allSettled(
-          batch.map(async (ip) => {
-            const { data, error } = await supabase.functions.invoke("mc-ping", { body: { ip } });
-            if (error || !data) return { ip, status: { online: false, players: { online: 0, max: 0 } } as ServerStatus };
-            return { ip, status: { online: data.online, players: data.players } as ServerStatus };
-          })
+          batch.map(async (ip) => ({ ip, status: await fetchStatus(ip) })),
         );
 
         for (const r of results) {
-          if (r.status === "fulfilled") {
-            cache.set(r.value.ip, { data: r.value.status, ts: Date.now() });
-            result[r.value.ip] = r.value.status;
-          }
+          if (r.status !== "fulfilled") continue;
+          result[r.value.ip] = r.value.status;
+          // Zápis do zdieľaného store notifikuje aj ostatné komponenty.
+          setCachedStatus(r.value.ip, r.value.status);
         }
 
-        if (!cancelled) setStatuses({ ...result });
+        if (!cancelled) setStatuses((prev) => ({ ...prev, ...result }));
       }
 
       if (!cancelled) setLoading(false);
     };
 
     fetchAll();
-    return () => { cancelled = true; };
-  }, [ips.join(",")]);
+    return () => {
+      cancelled = true;
+      unsubscribe();
+    };
+  }, [key]);
 
   return { statuses, loading };
 };

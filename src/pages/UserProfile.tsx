@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useMemo } from "react";
 import { useParams, Link } from "react-router-dom";
 import { supabase } from "@/integrations/supabase/client";
 import Header from "@/components/Header";
@@ -9,6 +9,7 @@ import { Avatar, AvatarImage, AvatarFallback } from "@/components/ui/avatar";
 import { useLanguage } from "@/i18n/LanguageContext";
 import type { MinecraftServer } from "@/lib/mockData";
 import SEO from "@/components/SEO";
+import { useMultiServerStatus } from "@/hooks/useMultiServerStatus";
 
 interface UserProfileData {
   id: string;
@@ -24,6 +25,9 @@ const UserProfile = () => {
   const [profile, setProfile] = useState<UserProfileData | null>(null);
   const [servers, setServers] = useState<(MinecraftServer & { dbId: string; is_warez: boolean; has_whitelist: boolean })[]>([]);
   const [loading, setLoading] = useState(true);
+  // Jeden zdieľaný live zdroj stavu pre karty servera na profile.
+  const serverIps = useMemo(() => Array.from(new Set(servers.map((s) => s.ip))), [servers]);
+  const { statuses } = useMultiServerStatus(serverIps);
 
   useEffect(() => {
     if (!userId) return;
@@ -164,6 +168,7 @@ const UserProfile = () => {
                 server={server}
                 dbMode
                 dbId={server.dbId}
+                liveStatus={statuses[server.ip] ?? null}
               />
             ))}
           </div>
