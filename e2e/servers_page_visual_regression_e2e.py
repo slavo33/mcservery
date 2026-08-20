@@ -95,7 +95,7 @@ async def snapshot(page, label: str, name: str, selector=None):
 
 
 async def prepare(page):
-    await page.goto(BASE + "/servers", wait_until="networkidle", timeout=30000)
+    await page.goto(BASE + "/servers", wait_until="domcontentloaded", timeout=30000)
     await page.add_style_tag(content=STABILIZE_CSS)
     await page.evaluate("window.scrollTo(0, 0)")
     await page.wait_for_timeout(600)
@@ -136,18 +136,18 @@ async def run():
             check(f"[{vp_name}] /servers bez horizontálneho pretoku", m["s"] <= m["c"] + 1, f"{m['s']} > {m['c']}")
 
             # 1) základný stav
-            await snapshot(page, f"[{vp_name}] /servers základný stav", f"vr_servers_{vp_name}")
-            await snapshot(page, f"[{vp_name}] mriežka serverov", f"vr_servers_grid_{vp_name}", "[data-server-grid]")
+            await snapshot(page, f"[{vp_name}] /servers základný stav", f"vr_serverspage_{vp_name}")
+            await snapshot(page, f"[{vp_name}] mriežka serverov", f"vr_serverspage_grid_{vp_name}", "[data-server-grid]")
 
             # 2) aktívne vyhľadávanie s výsledkami
             if await search(page, "s"):
-                await snapshot(page, f"[{vp_name}] /servers vyhľadávanie", f"vr_servers_search_{vp_name}")
+                await snapshot(page, f"[{vp_name}] /servers vyhľadávanie", f"vr_serverspage_search_{vp_name}")
 
             # 3) prázdny stav
             if await search(page, "zzzz-neexistujuci-server-zzzz"):
                 count = await page.locator("[data-server-card]").count()
                 check(f"[{vp_name}] prázdny stav nemá karty", count == 0, f"kariet: {count}")
-                await snapshot(page, f"[{vp_name}] /servers prázdny stav", f"vr_servers_empty_{vp_name}")
+                await snapshot(page, f"[{vp_name}] /servers prázdny stav", f"vr_serverspage_empty_{vp_name}")
                 await search(page, "")
 
             # 4) aktívne zoradenie podľa hráčov
@@ -156,7 +156,7 @@ async def run():
                 await sort_players.click()
                 await page.mouse.move(0, 0)
                 await page.wait_for_timeout(600)
-                await snapshot(page, f"[{vp_name}] /servers zoradenie podľa hráčov", f"vr_servers_sort_players_{vp_name}")
+                await snapshot(page, f"[{vp_name}] /servers zoradenie podľa hráčov", f"vr_serverspage_sort_players_{vp_name}")
             else:
                 note(f"[{vp_name}] zoradenie podľa hráčov preskočené", "chýba [data-sort='players']")
 
@@ -166,7 +166,7 @@ async def run():
                 await next_btn.first.click()
                 await page.evaluate("window.scrollTo(0, 0)")
                 await page.wait_for_timeout(700)
-                await snapshot(page, f"[{vp_name}] /servers strana 2", f"vr_servers_page2_{vp_name}")
+                await snapshot(page, f"[{vp_name}] /servers strana 2", f"vr_serverspage_page2_{vp_name}")
             else:
                 note(f"[{vp_name}] strana 2 preskočená", "stránkovanie nie je dostupné")
 
