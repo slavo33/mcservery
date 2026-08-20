@@ -173,6 +173,32 @@ async function fetchDynamicEntries(): Promise<SitemapEntry[]> {
     console.warn("sitemap: failed to fetch staff posts", e);
   }
 
+  try {
+    // Verejné profily používateľov (/user/:id) — indexovateľné len s prezývkou.
+    const profilesRes = await fetch(
+      `${url}/rest/v1/profiles?select=id,nickname,updated_at&nickname=not.is.null&limit=45000`,
+      { headers }
+    );
+    if (profilesRes.ok) {
+      const profiles = (await profilesRes.json()) as {
+        id: string;
+        nickname?: string;
+        updated_at?: string;
+      }[];
+      for (const pr of profiles) {
+        if (pr.id && pr.nickname?.trim())
+          entries.push({
+            path: `/user/${pr.id}`,
+            changefreq: "weekly",
+            priority: "0.5",
+            lastmod: toW3C(pr.updated_at),
+          });
+      }
+    }
+  } catch (e) {
+    console.warn("sitemap: failed to fetch profiles", e);
+  }
+
   return entries;
 }
 

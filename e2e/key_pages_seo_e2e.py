@@ -170,8 +170,8 @@ def validate_head(label, path, d):
 
 async def run():
     paths = sitemap_paths()
-    server_path = pick(paths, "/servers/")
-    profile_path = pick(paths, "/u/") or pick(paths, "/user/") or pick(paths, "/profile/")
+    server_path = pick(paths, "/server/")
+    profile_path = pick(paths, "/user/")
 
     pages = [("hlavná", "/"), ("/servers", "/servers"), ("/vip", "/vip")]
     if server_path:
@@ -197,7 +197,7 @@ async def run():
         await browser.close()
 
     if not server_path:
-        note("detail servera preskočený", "v sitemape nie je /servers/<slug>")
+        note("detail servera preskočený", "v sitemape nie je /server/<slug>")
     if not profile_path:
         note("profil preskočený", "v sitemape nie je profilová URL")
 
