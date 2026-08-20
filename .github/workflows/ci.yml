@@ -325,6 +325,9 @@ jobs:
       - name: E2E dostupnosť formulára a detailu servera
         run: python3 e2e/a11y_forms_detail_e2e.py
 
+      - name: E2E dostupnosť filtrov a zoradenia
+        run: python3 e2e/a11y_filters_sort_e2e.py
+
       - name: E2E rozloženie detailu servera
         run: python3 e2e/server_detail_sections_e2e.py
 

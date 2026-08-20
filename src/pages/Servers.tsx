@@ -212,32 +212,41 @@ const Servers = () => {
 
 
         {/* Sorting + VIP filter */}
-        <div className="flex items-center gap-2 mb-6 flex-wrap" data-sort-bar="">
+        <div className="flex items-center gap-2 mb-6 flex-wrap" data-sort-bar="" role="group" aria-label={t("sort_label")}>
           <button
+            type="button"
+            aria-pressed={showVipOnly}
             onClick={() => setShowVipOnly(!showVipOnly)}
-            className={`text-sm px-3 py-1 rounded-full border transition-colors flex items-center gap-1.5 ${showVipOnly ? "border-amber-500 bg-amber-500/10 text-amber-400 font-bold" : "border-border text-muted-foreground hover:border-amber-500/40"}`}
+            className={`text-sm px-3 py-1 rounded-full border transition-colors flex items-center gap-1.5 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/60 ${showVipOnly ? "border-amber-500 bg-amber-500/10 text-amber-400 font-bold" : "border-border text-muted-foreground hover:border-amber-500/40"}`}
           >
-            <Crown className="h-3.5 w-3.5" />
+            <Crown className="h-3.5 w-3.5" aria-hidden="true" />
             {t("filter_vip")}
           </button>
           <span className="text-muted-foreground" aria-hidden="true">|</span>
-          <span className="text-sm text-muted-foreground flex items-center gap-1">
-            <ArrowUpDown className="h-4 w-4" /> {t("sort_label")}:
+          <span className="text-sm text-muted-foreground flex items-center gap-1" id="sort-bar-label">
+            <ArrowUpDown className="h-4 w-4" aria-hidden="true" /> {t("sort_label")}:
           </span>
           {(["votes", "likes", "players"] as const).map((opt) => (
             <button
               key={opt}
+              type="button"
               data-sort={opt}
+              aria-pressed={sortBy === opt}
+              aria-label={`${t("sort_label")}: ${t(`sort_${opt}` as any)}${sortBy === opt ? ` (${sortDir === "desc" ? "↓" : "↑"})` : ""}`}
               onClick={() => {
                 if (sortBy === opt) setSortDir(sortDir === "desc" ? "asc" : "desc");
                 else { setSortBy(opt); setSortDir("desc"); }
               }}
-              className={`text-sm px-3 py-1 rounded-full border transition-colors ${sortBy === opt ? "border-primary bg-primary/10 text-primary" : "border-border text-muted-foreground hover:border-primary/40"}`}
+              className={`text-sm px-3 py-1 rounded-full border transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/60 ${sortBy === opt ? "border-primary bg-primary/10 text-primary" : "border-border text-muted-foreground hover:border-primary/40"}`}
             >
-              {t(`sort_${opt}` as any)} {sortBy === opt ? (sortDir === "desc" ? "↓" : "↑") : ""}
+              <span aria-hidden="true">{t(`sort_${opt}` as any)} {sortBy === opt ? (sortDir === "desc" ? "↓" : "↑") : ""}</span>
             </button>
           ))}
+          <span className="sr-only" aria-live="polite">
+            {t("sort_label")}: {t(`sort_${sortBy}` as any)} {sortDir === "desc" ? "↓" : "↑"}
+          </span>
         </div>
+
 
         {filtered.length > 0 ? (
           <>

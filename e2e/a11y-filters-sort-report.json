@@ -1,0 +1,22 @@
+[
+  {
+    "viewport": "mobil-390",
+    "scope": "panel filtrov",
+    "violations": []
+  },
+  {
+    "viewport": "mobil-390",
+    "scope": "lišta zoradenia",
+    "violations": []
+  },
+  {
+    "viewport": "desktop-1280",
+    "scope": "panel filtrov",
+    "violations": []
+  },
+  {
+    "viewport": "desktop-1280",
+    "scope": "lišta zoradenia",
+    "violations": []
+  }
+]
