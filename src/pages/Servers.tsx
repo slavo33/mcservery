@@ -5,6 +5,7 @@ import SEO from "@/components/SEO";
 import PageBreadcrumbs from "@/components/PageBreadcrumbs";
 import { buildPageJsonLdGraph } from "@/lib/pageJsonLd";
 import ServerCard from "@/components/ServerCard";
+import VirtualServerGrid from "@/components/VirtualServerGrid";
 import ServerFilters from "@/components/ServerFilters";
 import { ArrowUpDown, Crown } from "lucide-react";
 import type { MinecraftServer } from "@/lib/mockData";
