@@ -93,25 +93,37 @@ async def typography_checks(page, vp_name: str):
     data = await page.evaluate(
         """() => {
           const card = document.querySelector('[data-server-card]');
-          const tagFonts = card ? [...card.querySelectorAll('[data-server-tag]')].map(el => {
-            const s = getComputedStyle(el);
-            return s.fontFamily + '|' + s.fontSize + '|' + s.fontWeight;
-          }) : [];
+          // tagy zoskupené podľa rodičovského riadku – v rámci riadku musia byť identické
+          const groups = {};
+          if (card) {
+            [...card.querySelectorAll('[data-server-tag]')].forEach((el, i) => {
+              const s = getComputedStyle(el);
+              const parent = el.parentElement;
+              const key = parent ? (parent.getAttribute('data-tag-row') || parent.className || 'row') : 'root';
+              (groups[key] = groups[key] || []).push(s.fontFamily + '|' + s.fontSize + '|' + s.fontWeight);
+            });
+          }
           const chipFonts = [...document.querySelectorAll('[data-server-filters] .filter-chip')].map(el => {
             const s = getComputedStyle(el);
             return s.fontFamily + '|' + s.fontSize;
           });
-          return { tagFonts, chipFonts, hasCard: !!card };
+          const families = card ? [...new Set([...card.querySelectorAll('[data-server-tag]')]
+            .map(el => getComputedStyle(el).fontFamily))] : [];
+          return { groups, chipFonts, families, hasCard: !!card };
         }"""
     )
-    if data["hasCard"] and data["tagFonts"]:
-        uniq = sorted(set(data["tagFonts"]))
-        check(f"[{vp_name}] tagy na karte majú jednotnú typografiu", len(uniq) == 1, "; ".join(uniq))
+    if data["hasCard"]:
+        for idx, (key, fonts) in enumerate(data["groups"].items()):
+            uniq = sorted(set(fonts))
+            check(f"[{vp_name}] tagy v riadku #{idx + 1} majú jednotnú typografiu", len(uniq) == 1, "; ".join(uniq))
+        check(f"[{vp_name}] všetky tagy karty majú rovnaký font-family", len(data["families"]) == 1,
+              "; ".join(data["families"]))
     if data["chipFonts"]:
         uniq = sorted(set(data["chipFonts"]))
         check(f"[{vp_name}] filter-chipy majú jednotnú typografiu", len(uniq) == 1, "; ".join(uniq))
     else:
         check(f"[{vp_name}] filter-chipy nájdené", False, "žiadny .filter-chip")
+
 
 
 async def run():
