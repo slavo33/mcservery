@@ -154,14 +154,16 @@ const Servers = () => {
     });
 
     // Sort
-    result.sort((a, b) => {
+    const num = (v: unknown) => (typeof v === "number" && Number.isFinite(v) ? v : 0);
+    result = [...result].sort((a, b) => {
       let valA = 0, valB = 0;
-      if (sortBy === "votes") { valA = (a as any).votes || 0; valB = (b as any).votes || 0; }
-      else if (sortBy === "likes") { valA = a.likes; valB = b.likes; }
+      if (sortBy === "votes") { valA = num((a as any).votes); valB = num((b as any).votes); }
+      else if (sortBy === "likes") { valA = num(a.likes); valB = num(b.likes); }
       else if (sortBy === "players") {
-        valA = statuses[a.ip]?.players.online ?? a.players.online;
-        valB = statuses[b.ip]?.players.online ?? b.players.online;
+        valA = num(statuses[a.ip]?.players?.online ?? a.players?.online);
+        valB = num(statuses[b.ip]?.players?.online ?? b.players?.online);
       }
+      if (valA === valB) return a.name.localeCompare(b.name);
       return sortDir === "desc" ? valB - valA : valA - valB;
     });
 

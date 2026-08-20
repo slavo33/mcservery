@@ -52,7 +52,7 @@ const VersionBadge = ({
 
   const classes = cn(
     "inline-flex items-center gap-1 rounded-md border font-medium",
-    "whitespace-nowrap text-nowrap tabular-nums font-display tracking-tight leading-none",
+    "whitespace-nowrap text-nowrap font-body leading-none",
     "px-1.5 py-0.5 text-xs sm:px-2.5 sm:py-1 sm:text-sm",
     // Sémantické tokeny → kontrast drží v svetlej aj tmavej schéme
     "bg-primary/90 text-primary-foreground border-primary/50",
