@@ -14,6 +14,7 @@
     "preview": "vite preview",
     "test": "vitest run",
     "test:watch": "vitest",
+    "size": "bunx tsx scripts/check-bundle-size.ts",
     "perf:urls": "bunx tsx scripts/lighthouse-urls.ts",
     "perf": "bun run perf:urls && npx --yes @lhci/cli@0.14.x autorun --config=lighthouserc.cjs",
     "perf:mobile": "LH_FORM_FACTOR=mobile bun run perf",

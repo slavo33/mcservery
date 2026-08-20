@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-08-20T10:16:43.392Z",
+  "generatedAt": "2026-08-20T10:17:06.263Z",
   "files": [
     {
       "file": "assets/index-BmVd2Sf0.js",
@@ -293,61 +293,61 @@
     {
       "label": "Celkom JS (gzip)",
       "actual": 310785,
-      "limit": 430080,
-      "status": "ok"
+      "limit": 343040,
+      "status": "warn"
     },
     {
       "label": "Celkom JS (brotli)",
       "actual": 264438,
-      "limit": 368640,
-      "status": "ok"
+      "limit": 291840,
+      "status": "warn"
     },
     {
       "label": "Celkom CSS (gzip)",
       "actual": 13443,
-      "limit": 92160,
+      "limit": 20480,
       "status": "ok"
     },
     {
       "label": "Celkom CSS (brotli)",
       "actual": 11427,
-      "limit": 76800,
+      "limit": 17408,
       "status": "ok"
     },
     {
       "label": "Celkom ALL (gzip)",
       "actual": 324228,
-      "limit": 921600,
-      "status": "ok"
+      "limit": 358400,
+      "status": "warn"
     },
     {
       "label": "Celkom ALL (brotli)",
       "actual": 275865,
-      "limit": 819200,
+      "limit": 307200,
       "status": "ok"
     },
     {
       "label": "Najväčší JS súbor (gzip)",
       "actual": 228657,
-      "limit": 307200,
-      "status": "ok"
+      "limit": 250880,
+      "status": "warn"
     },
     {
       "label": "Najväčší JS súbor (brotli)",
       "actual": 191539,
-      "limit": 266240,
-      "status": "ok"
+      "limit": 210944,
+      "status": "warn"
     },
     {
       "label": "Najväčší CSS súbor (gzip)",
       "actual": 13443,
-      "limit": 92160,
+      "limit": 20480,
       "status": "ok"
     },
     {
       "label": "Najväčší CSS súbor (brotli)",
       "actual": 11427,
-      "limit": 76800,
+      "limit": 17408,
       "status": "ok"
     }
   ]
