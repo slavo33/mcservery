@@ -125,7 +125,10 @@ const UserProfile = () => {
       jsonLd={{
         "@context": "https://schema.org",
         "@type": "ProfilePage",
+        name: `${profile.nickname} — profil používateľa`,
+        url: `https://mcservery.one/user/${userId ?? ""}`,
         dateCreated: profile.created_at,
+
         mainEntity: {
           "@type": "Person",
           name: profile.nickname,
