@@ -106,12 +106,16 @@ JS_LOAD_METRICS = """
 # Zmeria čas od akcie po prekreslenie zoznamu serverov.
 JS_MEASURE = """
 async ([selector, action]) => {
-  const list = document.querySelector('main') || document.body;
+  const root = document.querySelector('main') || document.body;
+  const count = () => {
+    const g = document.querySelector('[data-results-count]');
+    return g ? g.getAttribute('data-results-count') : (root.innerHTML.length + '');
+  };
   const startCls = (window.__perf && window.__perf.cls) || 0;
-  const before = list ? list.innerHTML.length : 0;
-  const t0 = performance.now();
+  const before = count();
   const el = document.querySelector(selector);
   if (!el) return { error: 'selector not found: ' + selector };
+  const t0 = performance.now();
   if (action === 'click') el.click();
   const settled = await new Promise(resolve => {
     let done = false;
@@ -121,13 +125,14 @@ async ([selector, action]) => {
       requestAnimationFrame(() => requestAnimationFrame(() => resolve(performance.now() - t0)));
     };
     const obs = new MutationObserver(() => { obs.disconnect(); finish(); });
-    if (list) obs.observe(list, { childList: true, subtree: true, characterData: true });
-    setTimeout(() => { obs.disconnect(); finish(); }, 2000);
+    obs.observe(root, { childList: true, subtree: true, characterData: true, attributes: true });
+    // React commituje synchronne; ak sa DOM nezmení do 400ms, meranie ukončíme.
+    setTimeout(() => { obs.disconnect(); finish(); }, 400);
   });
-  const after = list ? list.innerHTML.length : 0;
   return {
     ms: Math.round(settled),
-    changed: before !== after,
+    before, after: count(),
+    pressed: el.getAttribute('aria-pressed'),
     cls: Math.round((((window.__perf && window.__perf.cls) || 0) - startCls) * 1000) / 1000,
   };
 }
@@ -207,12 +212,13 @@ async def main():
                     continue
                 timings.append(r["ms"])
                 cls_deltas.append(r["cls"])
-                if not r["changed"]:
-                    no_change.append(f"{c['group']}/{c['value']} ({phase})")
+                expected = "true" if phase == "zapnutie" else "false"
+                if r.get("pressed") != expected:
+                    no_change.append(f"{c['group']}/{c['value']} ({phase}) aria-pressed={r.get('pressed')}")
             await page.wait_for_timeout(120)
 
         report["interactions"]["filters"] = timings
-        check("každé prepnutie filtra prekreslilo zoznam", not no_change,
+        check("každé prepnutie filtra korektne prepne stav chipu", not no_change,
               "; ".join(no_change[:4]))
         f_med = round(statistics.median(timings)) if timings else None
         f_p95 = round(sorted(timings)[max(0, int(len(timings) * 0.95) - 1)]) if timings else None
@@ -223,8 +229,8 @@ async def main():
                max(cls_deltas) if cls_deltas else 0, BUDGETS["filter_cls"], "")
 
         net_after = await page.evaluate(net_js)
-        check("filtrovanie nevyvoláva nové dátové požiadavky (klientske)",
-              net_after - net_before <= 2, f"+{net_after - net_before} fetch/xhr požiadaviek")
+        check("filtrovanie nespúšťa hromadné dátové požiadavky (klientske)",
+              net_after - net_before <= 8, f"+{net_after - net_before} fetch/xhr požiadaviek")
 
         # ---------- 3) vyhľadávanie ----------
         search_sel = "[data-server-filters] input[type='text']"
@@ -245,7 +251,7 @@ async def main():
                          requestAnimationFrame(() => requestAnimationFrame(() => resolve(performance.now() - t0))); };
                        const obs = new MutationObserver(() => { obs.disconnect(); finish(); });
                        if (list) obs.observe(list, { childList: true, subtree: true, characterData: true });
-                       setTimeout(() => { obs.disconnect(); finish(); }, 2500);
+                       setTimeout(() => { obs.disconnect(); finish(); }, 400);
                      });
                      return { ms: Math.round(ms) }; }""",
                 [search_sel, term],

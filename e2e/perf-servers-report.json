@@ -14,73 +14,73 @@
   },
   "runs": [
     {
-      "ttfb": 8,
-      "dcl": 806,
-      "fcp": 160,
+      "ttfb": 9,
+      "dcl": 986,
+      "fcp": 184,
       "lcp": null,
       "cls": 0,
       "longtasks": [],
       "longtaskTotal": 0,
-      "resources": 107,
+      "resources": 106,
       "transferKb": 4867
     },
     {
-      "ttfb": 6,
-      "dcl": 355,
-      "fcp": 100,
+      "ttfb": 8,
+      "dcl": 461,
+      "fcp": 96,
+      "lcp": null,
+      "cls": 0,
+      "longtasks": [],
+      "longtaskTotal": 0,
+      "resources": 124,
+      "transferKb": 12
+    },
+    {
+      "ttfb": 7,
+      "dcl": 399,
+      "fcp": 120,
       "lcp": null,
       "cls": 0,
       "longtasks": [],
       "longtaskTotal": 0,
       "resources": 115,
       "transferKb": 12
-    },
-    {
-      "ttfb": 8,
-      "dcl": 365,
-      "fcp": 104,
-      "lcp": null,
-      "cls": 0,
-      "longtasks": [],
-      "longtaskTotal": 0,
-      "resources": 126,
-      "transferKb": 12
     }
   ],
   "interactions": {
     "filters": [
-      2049,
-      2032,
+      254,
+      206,
+      163,
+      480,
       120,
-      442,
-      110,
-      329,
-      77,
-      372,
+      367,
       74,
-      349,
-      87,
-      299,
-      57,
-      300,
-      56,
-      300,
-      209,
-      238,
-      90,
-      323,
-      116,
-      424
+      409,
+      77,
+      440,
+      92,
+      356,
+      79,
+      352,
+      63,
+      307,
+      225,
+      253,
+      86,
+      313,
+      108,
+      409
     ],
     "search": [
-      2715,
-      2592,
-      2573
+      606,
+      527,
+      486
     ],
     "sort": [
-      296,
-      371,
-      427
+      264,
+      251,
+      253
     ]
   }
 }
