@@ -295,6 +295,9 @@ jobs:
       - name: E2E vizuálna regresia detailu servera (tagy, médiá, stavy)
         run: python3 e2e/server_detail_visual_e2e.py
 
+      - name: E2E vizuálna regresia stránky /servers (stavy a breakpointy)
+        run: python3 e2e/servers_page_visual_regression_e2e.py
+
 
 
 
