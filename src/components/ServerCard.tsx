@@ -1,4 +1,5 @@
 import VersionBadge from "@/components/VersionBadge";
+import ServerTag from "@/components/ServerTag";
 import { Heart, Users, Wifi, WifiOff, Copy, Shield, ShieldOff, Vote, Crown } from "lucide-react";
 import type { MinecraftServer } from "@/lib/mockData";
 import { useState } from "react";
@@ -62,35 +63,27 @@ const ServerCard = ({ server, dbMode, dbId, liveStatus }: ServerCardProps) => {
         )}
         <div className="absolute top-3 left-3 z-20 flex gap-1.5">
           {isOnline ? (
-            <span className="badge-platform" style={{ background: "hsla(145, 63%, 42%, 0.2)", color: "hsl(145 63% 55%)", borderColor: "hsla(145, 63%, 42%, 0.3)" }}>
-              <Wifi className="h-3 w-3 mr-1" /> {t("online")}
-            </span>
+            <ServerTag variant="success" size="sm">
+              <Wifi className="h-3 w-3" /> {t("online")}
+            </ServerTag>
           ) : (
-            <span className="badge-tag">
-              <WifiOff className="h-3 w-3 mr-1" /> {t("offline")}
-            </span>
+            <ServerTag variant="accent" size="sm">
+              <WifiOff className="h-3 w-3" /> {t("offline")}
+            </ServerTag>
           )}
-          {server.is_warez && (
-            <span className="badge-tag text-xs">Warez</span>
-          )}
+          {server.is_warez && <ServerTag variant="accent" size="sm">Warez</ServerTag>}
           {server.has_whitelist && (
-            <span className="badge-platform text-xs">
-              <Shield className="h-3 w-3 mr-1" /> WL
-            </span>
+            <ServerTag variant="neutral" size="sm">
+              <Shield className="h-3 w-3" /> WL
+            </ServerTag>
           )}
           {isVip && (() => {
             const ch = server.vote_cooldown_hours || 24;
             const tier = ch <= 2 ? "max" : ch <= 4 ? "pro" : "basic";
-            const styles: Record<string, { bg: string; color: string; border: string }> = {
-              basic: { bg: "hsla(210, 100%, 56%, 0.2)", color: "hsl(210 100% 65%)", border: "hsla(210, 100%, 56%, 0.3)" },
-              pro: { bg: "hsla(270, 70%, 55%, 0.2)", color: "hsl(270 70% 65%)", border: "hsla(270, 70%, 55%, 0.3)" },
-              max: { bg: "hsla(45, 93%, 47%, 0.2)", color: "hsl(45 93% 55%)", border: "hsla(45, 93%, 47%, 0.3)" },
-            };
-            const s = styles[tier];
             return (
-              <span className="badge-platform text-xs" style={{ background: s.bg, color: s.color, borderColor: s.border }}>
-                <Crown className="h-3 w-3 mr-1" /> VIP {tier.toUpperCase()}
-              </span>
+              <ServerTag variant={`vip-${tier}` as const} size="sm">
+                <Crown className="h-3 w-3" /> VIP {tier.toUpperCase()}
+              </ServerTag>
             );
           })()}
         </div>
@@ -120,13 +113,15 @@ const ServerCard = ({ server, dbMode, dbId, liveStatus }: ServerCardProps) => {
 
         <p className="text-sm text-muted-foreground mb-3 line-clamp-2 break-words">{server.description}</p>
 
-        <div className="flex flex-wrap gap-1.5 mb-3">
+        <div className="flex flex-wrap items-center gap-1.5 mb-3">
           {server.platform.map((p) => (
-            <span key={p} className="badge-platform">{p === "java" ? "Java" : "Bedrock"}</span>
+            <ServerTag key={p} data-server-platform={p === "java" ? "Java" : "Bedrock"}>
+              {p === "java" ? "Java" : "Bedrock"}
+            </ServerTag>
           ))}
-          <span className="badge-tag">{server.software}</span>
+          <ServerTag variant="accent" data-server-software={server.software}>{server.software}</ServerTag>
           <VersionBadge version={server.version} />
-          {server.proxy && <span className="badge-platform">{server.proxy}</span>}
+          {server.proxy && <ServerTag>{server.proxy}</ServerTag>}
         </div>
 
         <div className="flex flex-wrap gap-1 mb-3">
