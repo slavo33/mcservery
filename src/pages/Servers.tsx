@@ -55,6 +55,7 @@ const Servers = () => {
   const [sortDir, setSortDir] = useState<"desc" | "asc">("desc");
   const [showVipOnly, setShowVipOnly] = useState(false);
   const [dbServers, setDbServers] = useState<DbServer[]>([]);
+  const [loading, setLoading] = useState(true);
 
   // Synchronizácia URL -> stav (napr. späť/vpred v prehliadači alebo zdieľaný odkaz)
   useEffect(() => {
@@ -101,6 +102,7 @@ const Servers = () => {
     const fetch = async () => {
       const { data } = await supabase.from("servers").select("*").order("vote_count", { ascending: false });
       if (data) setDbServers(data as unknown as DbServer[]);
+      setLoading(false);
     };
     fetch();
   }, []);
@@ -191,6 +193,7 @@ const Servers = () => {
           description:
             "Prehľadávaj a filtruj Minecraft servery podľa verzie, platformy a herných módov. Nájdi si ten najlepší server pre seba.",
           path: "/servers",
+          pageType: "CollectionPage",
           breadcrumbs: [["Servery", "/servers"]],
         })}
       />
@@ -248,7 +251,22 @@ const Servers = () => {
         </div>
 
 
-        {filtered.length > 0 ? (
+        {loading ? (
+          /* Skeleton s rovnakou výškou ako karty — drží layout a znižuje CLS */
+          <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3" data-server-grid-skeleton="" aria-hidden="true">
+            {Array.from({ length: PER_PAGE }).map((_, i) => (
+              <div key={i} className="rounded-lg border border-border overflow-hidden">
+                <div className="h-40 bg-secondary animate-pulse" />
+                <div className="p-4 space-y-3">
+                  <div className="h-5 w-2/3 rounded bg-secondary animate-pulse" />
+                  <div className="h-4 w-full rounded bg-secondary animate-pulse" />
+                  <div className="h-4 w-5/6 rounded bg-secondary animate-pulse" />
+                  <div className="h-8 w-full rounded bg-secondary animate-pulse" />
+                </div>
+              </div>
+            ))}
+          </div>
+        ) : filtered.length > 0 ? (
           <>
             <div
               className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3"

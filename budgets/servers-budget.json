@@ -1,0 +1,49 @@
+{
+  "comment": "Jediný zdroj pravdy pre SEO a performance rozpočty stránky /servers. Používa ho e2e/servers_seo_perf_budget_e2e.py aj Lighthouse (lighthouse-budget*.json majú zhodné prahy pre cestu /servers).",
+  "path": "/servers",
+  "seo": {
+    "titleMinChars": 15,
+    "titleMaxChars": 60,
+    "descriptionMinChars": 70,
+    "descriptionMaxChars": 160,
+    "maxH1": 1,
+    "minH1": 1,
+    "requireCanonical": true,
+    "canonicalPath": "/servers",
+    "requireIndexable": true,
+    "requireOpenGraph": ["og:title", "og:description", "og:type", "og:url"],
+    "requireTwitter": ["twitter:card", "twitter:title", "twitter:description"],
+    "requireJsonLdTypes": ["BreadcrumbList", "CollectionPage"],
+    "requireHtmlLang": true,
+    "requireViewport": true,
+    "maxImagesWithoutAlt": 0,
+    "requireInternalLinksMin": 5
+  },
+  "performance": {
+    "desktop": {
+      "ttfb_ms": 800,
+      "fcp_ms": 1800,
+      "lcp_ms": 2500,
+      "cls": 0.1,
+      "dcl_ms": 3000,
+      "longtask_total_ms": 1500,
+      "script_kb": 700,
+      "stylesheet_kb": 120,
+      "total_kb": 2000,
+      "requests": 80
+    },
+    "mobile": {
+      "ttfb_ms": 1200,
+      "fcp_ms": 3000,
+      "lcp_ms": 4000,
+      "cls": 0.1,
+      "dcl_ms": 5000,
+      "longtask_total_ms": 3000,
+      "script_kb": 700,
+      "stylesheet_kb": 120,
+      "total_kb": 2000,
+      "requests": 80,
+      "cpuThrottle": 4
+    }
+  }
+}
