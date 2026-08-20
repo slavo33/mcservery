@@ -1,0 +1,354 @@
+{
+  "generatedAt": "2026-08-20T10:16:43.392Z",
+  "files": [
+    {
+      "file": "assets/index-BmVd2Sf0.js",
+      "type": "js",
+      "raw": 774270,
+      "gzip": 228657,
+      "brotli": 191539
+    },
+    {
+      "file": "assets/index-v75XcIDm.css",
+      "type": "css",
+      "raw": 77425,
+      "gzip": 13443,
+      "brotli": 11427
+    },
+    {
+      "file": "assets/ServerConsole-QbJ9b_8R.js",
+      "type": "js",
+      "raw": 27429,
+      "gzip": 8554,
+      "brotli": 7711
+    },
+    {
+      "file": "assets/AdminPanel-ueq8uR5x.js",
+      "type": "js",
+      "raw": 39249,
+      "gzip": 8298,
+      "brotli": 7325
+    },
+    {
+      "file": "assets/ServerDetail-ZebEu-Jt.js",
+      "type": "js",
+      "raw": 26075,
+      "gzip": 8125,
+      "brotli": 7260
+    },
+    {
+      "file": "assets/select-D_SvXFU3.js",
+      "type": "js",
+      "raw": 22200,
+      "gzip": 7698,
+      "brotli": 6901
+    },
+    {
+      "file": "assets/EditServer-aaYMATYW.js",
+      "type": "js",
+      "raw": 18151,
+      "gzip": 5331,
+      "brotli": 4768
+    },
+    {
+      "file": "assets/StaffPostDetail-CimKECHa.js",
+      "type": "js",
+      "raw": 16989,
+      "gzip": 5271,
+      "brotli": 4731
+    },
+    {
+      "file": "assets/StaffRecruitment-DpuH8UHc.js",
+      "type": "js",
+      "raw": 14378,
+      "gzip": 4519,
+      "brotli": 4057
+    },
+    {
+      "file": "assets/Servers-CSMHcfWT.js",
+      "type": "js",
+      "raw": 11072,
+      "gzip": 3887,
+      "brotli": 3459
+    },
+    {
+      "file": "assets/AddServer-ZZbQBLIO.js",
+      "type": "js",
+      "raw": 12079,
+      "gzip": 3460,
+      "brotli": 3056
+    },
+    {
+      "file": "assets/Auth-CCBs6nFo.js",
+      "type": "js",
+      "raw": 8061,
+      "gzip": 3262,
+      "brotli": 2837
+    },
+    {
+      "file": "assets/Profile-E-IqQQ9Z.js",
+      "type": "js",
+      "raw": 10176,
+      "gzip": 3084,
+      "brotli": 2741
+    },
+    {
+      "file": "assets/VipPage-i_m9TAZh.js",
+      "type": "js",
+      "raw": 8882,
+      "gzip": 2891,
+      "brotli": 2566
+    },
+    {
+      "file": "assets/ServerImageUpload-BZ1vyRON.js",
+      "type": "js",
+      "raw": 4370,
+      "gzip": 1998,
+      "brotli": 1761
+    },
+    {
+      "file": "assets/serverJsonLd-QxFF-rhS.js",
+      "type": "js",
+      "raw": 4030,
+      "gzip": 1691,
+      "brotli": 1475
+    },
+    {
+      "file": "assets/UserProfile-D8GHK-IF.js",
+      "type": "js",
+      "raw": 3617,
+      "gzip": 1523,
+      "brotli": 1378
+    },
+    {
+      "file": "assets/avatar-CjXP8YdG.js",
+      "type": "js",
+      "raw": 3187,
+      "gzip": 1467,
+      "brotli": 1253
+    },
+    {
+      "file": "assets/switch-0YsZQWe8.js",
+      "type": "js",
+      "raw": 2477,
+      "gzip": 1241,
+      "brotli": 1075
+    },
+    {
+      "file": "assets/ReportDialog-Ch9I_OxJ.js",
+      "type": "js",
+      "raw": 2176,
+      "gzip": 1090,
+      "brotli": 959
+    },
+    {
+      "file": "assets/label-y6BdYGgF.js",
+      "type": "js",
+      "raw": 1880,
+      "gzip": 907,
+      "brotli": 791
+    },
+    {
+      "file": "assets/VipSuccess-Bx0j5PkP.js",
+      "type": "js",
+      "raw": 1769,
+      "gzip": 850,
+      "brotli": 748
+    },
+    {
+      "file": "assets/Privacy-D7mzMmHi.js",
+      "type": "js",
+      "raw": 1911,
+      "gzip": 647,
+      "brotli": 567
+    },
+    {
+      "file": "assets/Terms-Djj6CtgO.js",
+      "type": "js",
+      "raw": 2100,
+      "gzip": 640,
+      "brotli": 546
+    },
+    {
+      "file": "assets/NotFound-_3E59DLZ.js",
+      "type": "js",
+      "raw": 798,
+      "gzip": 478,
+      "brotli": 408
+    },
+    {
+      "file": "assets/PageBreadcrumbs-BaJxyeZt.js",
+      "type": "js",
+      "raw": 872,
+      "gzip": 478,
+      "brotli": 421
+    },
+    {
+      "file": "assets/settings-BHtbZzS1.js",
+      "type": "js",
+      "raw": 894,
+      "gzip": 442,
+      "brotli": 403
+    },
+    {
+      "file": "assets/trophy-DZkFNrUp.js",
+      "type": "js",
+      "raw": 634,
+      "gzip": 388,
+      "brotli": 343
+    },
+    {
+      "file": "assets/shield-off-VE9h8ACV.js",
+      "type": "js",
+      "raw": 568,
+      "gzip": 384,
+      "brotli": 345
+    },
+    {
+      "file": "assets/card-CSPBPPSp.js",
+      "type": "js",
+      "raw": 987,
+      "gzip": 378,
+      "brotli": 311
+    },
+    {
+      "file": "assets/message-square-BIg-eXZ0.js",
+      "type": "js",
+      "raw": 723,
+      "gzip": 360,
+      "brotli": 336
+    },
+    {
+      "file": "assets/input-BYVF7_n-.js",
+      "type": "js",
+      "raw": 580,
+      "gzip": 354,
+      "brotli": 291
+    },
+    {
+      "file": "assets/trash-2-aQCH8nbC.js",
+      "type": "js",
+      "raw": 526,
+      "gzip": 342,
+      "brotli": 319
+    },
+    {
+      "file": "assets/send-BlWKHO8p.js",
+      "type": "js",
+      "raw": 459,
+      "gzip": 329,
+      "brotli": 296
+    },
+    {
+      "file": "assets/server-Cwb3NEKT.js",
+      "type": "js",
+      "raw": 507,
+      "gzip": 313,
+      "brotli": 256
+    },
+    {
+      "file": "assets/circle-check-big-DhhWI1Xp.js",
+      "type": "js",
+      "raw": 356,
+      "gzip": 280,
+      "brotli": 232
+    },
+    {
+      "file": "assets/arrow-left-Dsq1MtSO.js",
+      "type": "js",
+      "raw": 333,
+      "gzip": 265,
+      "brotli": 217
+    },
+    {
+      "file": "assets/ban-Cx4iXbR9.js",
+      "type": "js",
+      "raw": 338,
+      "gzip": 264,
+      "brotli": 223
+    },
+    {
+      "file": "assets/plus-CGw4EzxM.js",
+      "type": "js",
+      "raw": 322,
+      "gzip": 255,
+      "brotli": 210
+    },
+    {
+      "file": "assets/urlValidation-BU0nFnOz.js",
+      "type": "js",
+      "raw": 340,
+      "gzip": 211,
+      "brotli": 174
+    },
+    {
+      "file": "assets/index-DsLmyiRo.js",
+      "type": "js",
+      "raw": 232,
+      "gzip": 173,
+      "brotli": 149
+    }
+  ],
+  "checks": [
+    {
+      "label": "Celkom JS (gzip)",
+      "actual": 310785,
+      "limit": 430080,
+      "status": "ok"
+    },
+    {
+      "label": "Celkom JS (brotli)",
+      "actual": 264438,
+      "limit": 368640,
+      "status": "ok"
+    },
+    {
+      "label": "Celkom CSS (gzip)",
+      "actual": 13443,
+      "limit": 92160,
+      "status": "ok"
+    },
+    {
+      "label": "Celkom CSS (brotli)",
+      "actual": 11427,
+      "limit": 76800,
+      "status": "ok"
+    },
+    {
+      "label": "Celkom ALL (gzip)",
+      "actual": 324228,
+      "limit": 921600,
+      "status": "ok"
+    },
+    {
+      "label": "Celkom ALL (brotli)",
+      "actual": 275865,
+      "limit": 819200,
+      "status": "ok"
+    },
+    {
+      "label": "Najväčší JS súbor (gzip)",
+      "actual": 228657,
+      "limit": 307200,
+      "status": "ok"
+    },
+    {
+      "label": "Najväčší JS súbor (brotli)",
+      "actual": 191539,
+      "limit": 266240,
+      "status": "ok"
+    },
+    {
+      "label": "Najväčší CSS súbor (gzip)",
+      "actual": 13443,
+      "limit": 92160,
+      "status": "ok"
+    },
+    {
+      "label": "Najväčší CSS súbor (brotli)",
+      "actual": 11427,
+      "limit": 76800,
+      "status": "ok"
+    }
+  ]
+}
