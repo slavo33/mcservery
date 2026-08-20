@@ -181,9 +181,15 @@ async def skeleton_states(context, vp):
     """Spomalíme backend requesty, aby sa skeleton dal spoľahlivo zachytiť."""
     page = await context.new_page()
 
+    delay = {"on": True}
+
     async def slow(route):
-        await asyncio.sleep(2.0)
-        await route.continue_()
+        if delay["on"]:
+            await asyncio.sleep(2.0)
+        try:
+            await route.continue_()
+        except Exception:
+            pass
 
     await page.route("**/rest/v1/**", slow)
     await page.route("**/functions/v1/**", slow)
@@ -212,8 +218,7 @@ async def skeleton_states(context, vp):
         note(f"[{vp}] skeleton preskočený", "skeleton sa nezobrazil (dáta z cache)")
 
     # po dokončení načítania skeleton zmizne
-    await page.unroute("**/rest/v1/**")
-    await page.unroute("**/functions/v1/**")
+    delay["on"] = False
     try:
         await page.wait_for_selector("[data-server-grid], [data-empty-state]", timeout=20000)
         gone = await page.locator("[data-server-grid-skeleton]").count() == 0
