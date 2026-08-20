@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useMemo } from "react";
 import Header from "@/components/Header";
 import SEO from "@/components/SEO";
 import { buildPageJsonLdGraph } from "@/lib/pageJsonLd";
@@ -11,6 +11,7 @@ import { ArrowRight, Crown } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { useLanguage } from "@/i18n/LanguageContext";
 import type { MinecraftServer } from "@/lib/mockData";
+import { useMultiServerStatus } from "@/hooks/useMultiServerStatus";
 
 const mapServer = (s: any): MinecraftServer & { is_warez?: boolean; has_whitelist?: boolean; votes?: number; slug?: string; vip_expires_at?: string | null; vote_cooldown_hours?: number } => ({
   id: s.id,
@@ -67,6 +68,13 @@ const Index = () => {
     fetchData();
   }, []);
 
+  // Jeden zdieľaný live zdroj stavu pre všetky karty na stránke.
+  const serverIps = useMemo(
+    () => Array.from(new Set([...vipServers, ...featured].map((s) => s.ip))),
+    [vipServers, featured],
+  );
+  const { statuses } = useMultiServerStatus(serverIps);
+
   return (
     <div className="min-h-screen flex flex-col bg-background">
       <SEO
@@ -108,7 +116,7 @@ const Index = () => {
             </div>
             <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
               {vipServers.map((server) => (
-                <ServerCard key={server.id} server={server} dbMode dbId={server.id} />
+                <ServerCard key={server.id} server={server} dbMode dbId={server.id} liveStatus={statuses[server.ip] ?? null} />
               ))}
             </div>
           </section>
@@ -129,7 +137,7 @@ const Index = () => {
           </div>
           <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
             {featured.map((server) => (
-              <ServerCard key={server.id} server={server} dbMode dbId={server.id} />
+              <ServerCard key={server.id} server={server} dbMode dbId={server.id} liveStatus={statuses[server.ip] ?? null} />
             ))}
           </div>
         </section>

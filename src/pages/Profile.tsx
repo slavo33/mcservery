@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useMemo } from "react";
 import { logError } from "@/lib/logger";
 import { supabase } from "@/integrations/supabase/client";
 import { useAuth } from "@/hooks/useAuth";
@@ -12,6 +12,7 @@ import { useNavigate } from "react-router-dom";
 import { useLanguage } from "@/i18n/LanguageContext";
 import type { MinecraftServer } from "@/lib/mockData";
 import SEO from "@/components/SEO";
+import { useMultiServerStatus } from "@/hooks/useMultiServerStatus";
 
 const Profile = () => {
   const { user, loading, profile, refreshProfile } = useAuth();
@@ -26,6 +27,12 @@ const Profile = () => {
   const [myServers, setMyServers] = useState<(MinecraftServer & { dbId: string; is_warez: boolean; has_whitelist: boolean })[]>([]);
   const [loadingFavorites, setLoadingFavorites] = useState(false);
   const [loadingMyServers, setLoadingMyServers] = useState(false);
+  // Jeden zdieľaný live zdroj stavu pre obľúbené aj vlastné servery.
+  const serverIps = useMemo(
+    () => Array.from(new Set([...likedServers, ...myServers].map((s) => s.ip))),
+    [likedServers, myServers],
+  );
+  const { statuses } = useMultiServerStatus(serverIps);
   const [favSubTab, setFavSubTab] = useState<"servers" | "posts">("servers");
   const navigate = useNavigate();
 
@@ -386,7 +393,7 @@ const Profile = () => {
               likedServers.length > 0 ? (
                 <div className="grid gap-6 sm:grid-cols-2">
                   {likedServers.map((server) => (
-                    <ServerCard key={server.id} server={server} dbMode dbId={server.dbId} />
+                    <ServerCard key={server.id} server={server} dbMode dbId={server.dbId} liveStatus={statuses[server.ip] ?? null} />
                   ))}
                 </div>
               ) : (
@@ -424,7 +431,7 @@ const Profile = () => {
             ) : myServers.length > 0 ? (
               <div className="grid gap-6 sm:grid-cols-2">
                 {myServers.map((server) => (
-                  <ServerCard key={server.id} server={server} dbMode dbId={server.dbId} />
+                  <ServerCard key={server.id} server={server} dbMode dbId={server.dbId} liveStatus={statuses[server.ip] ?? null} />
                 ))}
               </div>
             ) : (
