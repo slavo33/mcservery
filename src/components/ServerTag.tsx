@@ -21,11 +21,11 @@ export type ServerTagSize = "sm" | "md";
 
 export const serverTagBase =
   "inline-flex items-center gap-1 rounded-md border font-body font-medium " +
-  "whitespace-nowrap text-nowrap leading-none max-w-full";
+  "whitespace-nowrap text-nowrap max-w-full";
 
 export const serverTagSizes: Record<ServerTagSize, string> = {
-  sm: "px-1.5 py-0.5 text-xs",
-  md: "px-1.5 py-0.5 text-xs sm:px-2.5 sm:py-1 sm:text-sm",
+  sm: "px-1.5 py-0.5 text-xs leading-none",
+  md: "px-1.5 py-0.5 text-xs sm:px-2.5 sm:py-1 sm:text-sm leading-none",
 };
 
 export const serverTagVariants: Record<ServerTagVariant, string> = {

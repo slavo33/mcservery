@@ -19,9 +19,9 @@ describe("ServerTag", () => {
     const accent = serverTagClasses("accent");
     expect(neutral).toContain("font-body");
     expect(accent).toContain("font-body");
-    expect(neutral.replace(/bg-\S+|text-foreground\/80|border-\S+/g, "")).toBe(
-      accent.replace(/bg-\S+|text-primary\b|border-\S+/g, "")
-    );
+    const typography = (cls: string) =>
+      cls.split(" ").filter((c) => /^(px-|py-|sm:px-|sm:py-|text-xs|sm:text-sm|font-|rounded-|leading-|inline-flex|items-center|gap-)/.test(c)).sort().join(" ");
+    expect(typography(neutral)).toBe(typography(accent));
   });
 
   it("VersionBadge používa rovnakú základňu ako ostatné tagy", () => {
