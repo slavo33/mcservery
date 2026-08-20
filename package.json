@@ -15,7 +15,10 @@
     "test": "vitest run",
     "test:watch": "vitest",
     "perf:urls": "bunx tsx scripts/lighthouse-urls.ts",
-    "perf": "bun run perf:urls && npx --yes @lhci/cli@0.14.x autorun --config=lighthouserc.cjs"
+    "perf": "bun run perf:urls && npx --yes @lhci/cli@0.14.x autorun --config=lighthouserc.cjs",
+    "perf:mobile": "LH_FORM_FACTOR=mobile bun run perf",
+    "perf:desktop": "LH_FORM_FACTOR=desktop bun run perf",
+    "perf:compare": "bunx tsx scripts/lighthouse-compare.ts"
   },
   "dependencies": {
     "@hookform/resolvers": "^3.10.0",
