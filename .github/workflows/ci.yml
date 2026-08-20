@@ -292,6 +292,10 @@ jobs:
       - name: E2E vizuálna regresia kariet serverov a filtrov
         run: python3 e2e/server_card_filters_visual_e2e.py
 
+      - name: E2E vizuálna regresia detailu servera (tagy, médiá, stavy)
+        run: python3 e2e/server_detail_visual_e2e.py
+
+
 
 
       - name: E2E OpenGraph/Twitter meta tagy na profiloch serverov
