@@ -182,7 +182,6 @@ const VipPage = () => {
         )}
 
         {/* Tier cards */}
-        {/* Tier cards */}
         <h2 className="font-display text-2xl md:text-3xl font-bold text-foreground text-center mb-6">
           {t("vip_tiers_heading") || "VIP balíky"}
         </h2>
