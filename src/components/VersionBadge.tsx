@@ -9,6 +9,7 @@ import {
   TooltipTrigger,
 } from "@/components/ui/tooltip";
 import { getVersionCompatibilitySummary } from "@/lib/versionCompatibility";
+import { serverTagClasses } from "@/components/ServerTag";
 
 interface VersionBadgeProps {
   version?: string | null;
