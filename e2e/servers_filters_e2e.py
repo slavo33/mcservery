@@ -16,6 +16,11 @@ from urllib.parse import parse_qs, urlparse
 
 from playwright.async_api import async_playwright
 
+import sys as _sys
+from pathlib import Path as _Path
+_sys.path.insert(0, str(_Path(__file__).parent))
+from filters_drawer import open_filters_if_needed  # noqa: E402
+
 BASE_URL = "http://localhost:8080"
 SERVERS_URL = f"{BASE_URL}/servers"
 SCREENSHOTS = Path(__file__).parent / "screenshots"
@@ -33,19 +38,51 @@ def check(cond: bool, msg: str) -> None:
         print(f"  FAIL: {msg}")
 
 
+EXTRACT_JS = """els => els.map(e => ({
+    name: e.dataset.serverName || "",
+    ip: e.dataset.serverIp || "",
+    version: e.dataset.serverVersion || "",
+    software: e.dataset.serverSoftware || "",
+    platforms: (e.dataset.serverPlatforms || "").split(",").filter(Boolean),
+    minigames: (e.dataset.serverMinigames || "").split(",").filter(Boolean),
+}))"""
+
+
+async def _collect_scrolled(page, extract_js):
+    """Virtualizovaná mriežka renderuje len viditeľné riadky – preskrolujeme ju."""
+    seen = {}
+    height = await page.evaluate("() => window.innerHeight")
+    pos, guard = 0, 0
+    while guard < 40:
+        for c in await page.eval_on_selector_all("[data-server-card]", extract_js):
+            seen[c["ip"]] = c
+        limit = await page.evaluate("() => document.documentElement.scrollHeight")
+        if pos >= limit:
+            break
+        pos += int(height * 0.7)
+        await page.evaluate(f"window.scrollTo(0, {pos})")
+        await page.wait_for_timeout(250)
+        guard += 1
+    await page.evaluate("window.scrollTo(0, 0)")
+    await page.wait_for_timeout(250)
+    return list(seen.values())
+
+
 async def cards(page):
-    """Vráti dáta všetkých zobrazených kariet serverov."""
-    return await page.eval_on_selector_all(
-        "[data-server-card]",
-        """els => els.map(e => ({
-            name: e.dataset.serverName || "",
-            ip: e.dataset.serverIp || "",
-            version: e.dataset.serverVersion || "",
-            software: e.dataset.serverSoftware || "",
-            platforms: (e.dataset.serverPlatforms || "").split(",").filter(Boolean),
-            minigames: (e.dataset.serverMinigames || "").split(",").filter(Boolean),
-        }))""",
-    )
+    """Vráti dáta všetkých kariet naprieč stránkovaním (mriežka je virtualizovaná)."""
+    collected = {}
+    for c in await _collect_scrolled(page, EXTRACT_JS):
+        collected[c["ip"]] = c
+    page_count = len(await page.locator("[data-pagination] [data-page-btn]").all())
+    for i in range(2, page_count + 1):
+        await page.click(f"[data-pagination] [data-page-btn='{i}']")
+        await page.wait_for_timeout(500)
+        for c in await _collect_scrolled(page, EXTRACT_JS):
+            collected[c["ip"]] = c
+    if page_count > 1:
+        await page.click("[data-pagination] [data-page-btn='1']")
+        await page.wait_for_timeout(500)
+    return list(collected.values())
 
 
 def qs(page) -> dict:

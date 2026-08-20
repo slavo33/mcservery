@@ -20,6 +20,7 @@ from pathlib import Path
 from playwright.async_api import async_playwright
 
 sys.path.insert(0, str(Path(__file__).parent))
+from filters_drawer import open_filters_if_needed  # noqa: E402
 from visual_diff import compare_with_baseline  # noqa: E402
 
 BASE = os.environ.get("E2E_BASE_URL", "http://localhost:8080")
@@ -228,7 +229,8 @@ async def skeleton_states(context, vp):
 
     # skeleton / prechodný stav pri zmene filtrov
     await page.add_style_tag(content=STABILIZE_CSS)
-    chip = page.locator("[data-server-filters] .filter-chip").nth(1)
+    await open_filters_if_needed(page)
+    chip = page.locator("[data-server-filters] .filter-chip, [data-filter-drawer] .filter-chip").nth(1)
     if await chip.count() > 0:
         await chip.click()
         await page.wait_for_timeout(120)

@@ -1,0 +1,16 @@
+{
+  "_comment": "Prahy pre vizuálne regresné testy. 'default' platí pre všetky snapshoty, 'overrides' pre konkrétne názvy (prefix match). 'ci' definuje automatický limit veľkosti zmien pre celý beh.",
+  "default_tolerance": 0.01,
+  "pixel_threshold": 12,
+  "overrides": {
+    "pg_": 0.015,
+    "det_nav_": 0.02,
+    "drw_": 0.02,
+    "st_skeleton": 0.02
+  },
+  "ci": {
+    "max_changed_snapshots_ratio": 0.25,
+    "max_total_diff_ratio": 0.05,
+    "min_snapshots_for_ratio_check": 4
+  }
+}

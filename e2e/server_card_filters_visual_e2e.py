@@ -20,6 +20,11 @@ from pathlib import Path
 
 from playwright.async_api import async_playwright
 
+import sys as _sys
+from pathlib import Path as _Path
+_sys.path.insert(0, str(_Path(__file__).parent))
+from filters_drawer import open_filters_if_needed  # noqa: E402
+
 BASE = os.environ.get("E2E_BASE_URL", "http://localhost:8080")
 ROOT = Path(__file__).parent
 SHOTS = ROOT / "screenshots"
@@ -94,7 +99,7 @@ async def typography_checks(page, vp_name: str):
               (groups[key] = groups[key] || []).push(s.fontFamily + '|' + s.fontSize + '|' + s.fontWeight);
             });
           }
-          const chipFonts = [...document.querySelectorAll('[data-server-filters] .filter-chip')].map(el => {
+          const chipFonts = [...document.querySelectorAll('[data-server-filters] .filter-chip, [data-filter-drawer] .filter-chip')].map(el => {
             const s = getComputedStyle(el);
             return s.fontFamily + '|' + s.fontSize;
           });
@@ -154,7 +159,8 @@ async def run():
             await typography_checks(page, vp_name)
 
             # 2) aktívny stav filtrov (vybraný chip + text vo vyhľadávaní + iné triedenie)
-            chip = page.locator("[data-server-filters] .filter-chip").nth(1)
+            await open_filters_if_needed(page)
+            chip = page.locator("[data-server-filters] .filter-chip, [data-filter-drawer] .filter-chip").nth(1)
             if await chip.count() > 0:
                 await chip.click()
             search = page.locator("[data-server-filters] input[type=text]").first

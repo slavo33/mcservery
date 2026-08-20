@@ -97,6 +97,26 @@ const Servers = () => {
     setMinigame(v);
     updateParam("minigame", v);
   };
+  // Dávkové aplikovanie (mobilný drawer) — všetky parametre naraz, aby sa neprepisovali
+  const handleFiltersApply = (v: {
+    platform: string;
+    version: string;
+    software: string;
+    minigame: string;
+  }) => {
+    setPlatform(v.platform);
+    setVersion(v.version);
+    setSoftware(v.software);
+    setMinigame(v.minigame);
+    const next = new URLSearchParams(searchParams);
+    for (const [key, value] of Object.entries(v)) {
+      if (value) next.set(key, value);
+      else next.delete(key);
+    }
+    next.delete("page");
+    setSearchParams(next, { replace: true });
+  };
+
 
 
   useEffect(() => {
@@ -263,6 +283,7 @@ const Servers = () => {
           selectedVersion={version} onVersionChange={handleVersionChange}
           selectedSoftware={software} onSoftwareChange={handleSoftwareChange}
           selectedMinigame={minigame} onMinigameChange={handleMinigameChange}
+          onFiltersApply={handleFiltersApply}
         />
 
 
