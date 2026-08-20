@@ -1,93 +1,75 @@
-import { useState, useEffect, useRef, useCallback } from "react";
-import { supabase } from "@/integrations/supabase/client";
+import { useState, useEffect, useRef } from "react";
+import {
+  ServerStatus,
+  OFFLINE_STATUS,
+  fetchStatus,
+  getCachedStatus,
+  setCachedStatus,
+  subscribeStatus,
+} from "@/lib/serverStatusStore";
 
-interface ServerStatus {
-  online: boolean;
-  players: { online: number; max: number };
-}
+export type { ServerStatus };
 
-const cache = new Map<string, { data: ServerStatus; ts: number }>();
-const CACHE_TTL = 60_000; // 1 min
-
-// Dedup in-flight requests so multiple components with the same IP share one fetch
-const inflight = new Map<string, Promise<ServerStatus>>();
-
-const fetchServerStatus = async (ip: string): Promise<ServerStatus> => {
-  const { data, error } = await supabase.functions.invoke("mc-ping", {
-    body: { ip },
-  });
-
-  if (error || !data) {
-    return { online: false, players: { online: 0, max: 0 } };
-  }
-
-  return { online: data.online, players: data.players };
-};
-
+/**
+ * Živý stav jedného servera. Číta a zapisuje do zdieľaného store
+ * (`serverStatusStore`), takže hodnota je zhodná so zoznamom serverov.
+ */
 export const useServerStatus = (ip: string) => {
-  const [status, setStatus] = useState<ServerStatus | null>(() => {
-    const c = cache.get(ip);
-    if (c && Date.now() - c.ts < CACHE_TTL) return c.data;
-    return null;
-  });
-  const [loading, setLoading] = useState(!status);
+  const [status, setStatus] = useState<ServerStatus | null>(() => getCachedStatus(ip));
+  const [loading, setLoading] = useState(!getCachedStatus(ip));
   const retryCount = useRef(0);
 
   useEffect(() => {
-    if (!ip) { setLoading(false); return; }
-
-    const c = cache.get(ip);
-    if (c && Date.now() - c.ts < CACHE_TTL) {
-      setStatus(c.data);
+    if (!ip) {
       setLoading(false);
       return;
     }
 
+    // Zostaň v synchrone s ostatnými komponentmi, ktoré ten istý IP načítali.
+    const unsubscribe = subscribeStatus((changedIp, next) => {
+      if (changedIp === ip) {
+        setStatus(next);
+        setLoading(false);
+      }
+    });
+
+    const cached = getCachedStatus(ip);
+    if (cached) {
+      setStatus(cached);
+      setLoading(false);
+      return unsubscribe;
+    }
+
     let cancelled = false;
+    retryCount.current = 0;
 
     const doFetch = async () => {
-      // Dedup: if there's already an inflight request for this IP, reuse it
-      let promise = inflight.get(ip);
-      if (!promise) {
-        promise = fetchServerStatus(ip);
-        inflight.set(ip, promise);
+      const result = await fetchStatus(ip, { force: retryCount.current > 0 });
+      if (cancelled) return;
+
+      if (!result.online && retryCount.current < 2) {
+        retryCount.current++;
+        setTimeout(doFetch, retryCount.current * 3000);
+        return;
       }
 
-      try {
-        const result = await promise;
-        if (cancelled) return;
-
-        if (!result.online && retryCount.current < 2) {
-          retryCount.current++;
-          inflight.delete(ip); // allow retry with fresh request
-          const delay = retryCount.current * 3000;
-          setTimeout(doFetch, delay);
-          return;
-        }
-
-        cache.set(ip, { data: result, ts: Date.now() });
-        setStatus(result);
-        retryCount.current = 0;
-      } catch {
-        if (cancelled) return;
-        if (retryCount.current < 2) {
-          retryCount.current++;
-          inflight.delete(ip);
-          const delay = retryCount.current * 3000;
-          setTimeout(doFetch, delay);
-          return;
-        }
-        const fallback = { online: false, players: { online: 0, max: 0 } };
-        cache.set(ip, { data: fallback, ts: Date.now() });
-        setStatus(fallback);
-      } finally {
-        inflight.delete(ip);
-        if (!cancelled) setLoading(false);
-      }
+      setCachedStatus(ip, result);
+      setStatus(result);
+      setLoading(false);
+      retryCount.current = 0;
     };
 
-    doFetch();
-    return () => { cancelled = true; };
+    doFetch().catch(() => {
+      if (cancelled) return;
+      setCachedStatus(ip, OFFLINE_STATUS);
+      setStatus(OFFLINE_STATUS);
+      setLoading(false);
+    });
+
+    return () => {
+      cancelled = true;
+      unsubscribe();
+    };
   }, [ip]);
 
   return { status, loading };
