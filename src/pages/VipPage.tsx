@@ -182,6 +182,10 @@ const VipPage = () => {
         )}
 
         {/* Tier cards */}
+        {/* Tier cards */}
+        <h2 className="font-display text-2xl md:text-3xl font-bold text-foreground text-center mb-6">
+          {t("vip_tiers_heading") || "VIP balíky"}
+        </h2>
         <div className="grid gap-6 md:grid-cols-3 max-w-5xl mx-auto mb-12">
           {VIP_TIERS.map((tier) => {
             const Icon = tier.icon;

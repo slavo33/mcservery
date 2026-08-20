@@ -89,6 +89,7 @@ const Header = () => {
                 onClick={signOut}
                 className="rounded-md p-2 text-muted-foreground hover:bg-secondary hover:text-foreground transition-colors"
                 title={t("nav_logout")}
+                aria-label={t("nav_logout") || "Odhlásiť sa"}
               >
                 <LogOut className="h-4 w-4" />
               </button>

@@ -476,7 +476,7 @@ const ServerDetailPage = () => {
 
             {server.minigames.length > 0 && (
               <div data-detail-section="minigames">
-                <h3 className="text-sm font-semibold text-foreground mb-2">{t("detail_minigames")}</h3>
+                <h2 className="text-sm font-semibold text-foreground mb-2">{t("detail_minigames")}</h2>
                 <div className="flex flex-wrap gap-1.5">
                   {server.minigames.map((mg) => (
                     <span key={mg} className="text-xs text-muted-foreground bg-secondary rounded px-2 py-1">{mg}</span>
@@ -488,7 +488,7 @@ const ServerDetailPage = () => {
             {/* Social Links */}
             {links.length > 0 && (
               <div data-detail-section="links">
-                <h3 className="text-sm font-semibold text-foreground mb-2">{t("add_links")}</h3>
+                <h2 className="text-sm font-semibold text-foreground mb-2">{t("add_links")}</h2>
                 <div className="flex flex-wrap gap-2">
                   {links.map((link) => (
                     <a
