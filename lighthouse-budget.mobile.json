@@ -2,22 +2,111 @@
   {
     "path": "/*",
     "timings": [
-      { "metric": "largest-contentful-paint", "budget": 4000 },
-      { "metric": "cumulative-layout-shift", "budget": 0.1 },
-      { "metric": "first-contentful-paint", "budget": 3000 },
-      { "metric": "total-blocking-time", "budget": 600 },
-      { "metric": "interactive", "budget": 7000 }
+      {
+        "metric": "largest-contentful-paint",
+        "budget": 4000
+      },
+      {
+        "metric": "cumulative-layout-shift",
+        "budget": 0.1
+      },
+      {
+        "metric": "first-contentful-paint",
+        "budget": 3000
+      },
+      {
+        "metric": "total-blocking-time",
+        "budget": 600
+      },
+      {
+        "metric": "interactive",
+        "budget": 7000
+      }
     ],
     "resourceSizes": [
-      { "resourceType": "script", "budget": 700 },
-      { "resourceType": "stylesheet", "budget": 120 },
-      { "resourceType": "image", "budget": 900 },
-      { "resourceType": "font", "budget": 200 },
-      { "resourceType": "total", "budget": 2000 }
+      {
+        "resourceType": "script",
+        "budget": 700
+      },
+      {
+        "resourceType": "stylesheet",
+        "budget": 120
+      },
+      {
+        "resourceType": "image",
+        "budget": 900
+      },
+      {
+        "resourceType": "font",
+        "budget": 200
+      },
+      {
+        "resourceType": "total",
+        "budget": 2000
+      }
     ],
     "resourceCounts": [
-      { "resourceType": "third-party", "budget": 15 },
-      { "resourceType": "total", "budget": 80 }
+      {
+        "resourceType": "third-party",
+        "budget": 15
+      },
+      {
+        "resourceType": "total",
+        "budget": 80
+      }
+    ]
+  },
+  {
+    "path": "/servers",
+    "timings": [
+      {
+        "metric": "largest-contentful-paint",
+        "budget": 4000
+      },
+      {
+        "metric": "cumulative-layout-shift",
+        "budget": 0.1
+      },
+      {
+        "metric": "first-contentful-paint",
+        "budget": 3000
+      },
+      {
+        "metric": "total-blocking-time",
+        "budget": 600
+      },
+      {
+        "metric": "interactive",
+        "budget": 7000
+      }
+    ],
+    "resourceSizes": [
+      {
+        "resourceType": "script",
+        "budget": 700
+      },
+      {
+        "resourceType": "stylesheet",
+        "budget": 120
+      },
+      {
+        "resourceType": "image",
+        "budget": 900
+      },
+      {
+        "resourceType": "total",
+        "budget": 2000
+      }
+    ],
+    "resourceCounts": [
+      {
+        "resourceType": "third-party",
+        "budget": 15
+      },
+      {
+        "resourceType": "total",
+        "budget": 80
+      }
     ]
   }
 ]
