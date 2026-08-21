@@ -337,7 +337,7 @@ const StaffPostDetail = () => {
             <Link to={`/user/${post.owner_id}`} className="flex items-center gap-2 group">
               <div className="h-8 w-8 rounded-full bg-secondary border border-border overflow-hidden flex items-center justify-center group-hover:border-primary/50 transition-colors">
                 {ownerAvatar ? (
-                  <img src={ownerAvatar} alt="" className="h-full w-full object-cover" />
+                  <img src={ownerAvatar} alt={`Profilový obrázok používateľa ${ownerNickname}`} className="h-full w-full object-cover" />
                 ) : (
                   <Users className="h-4 w-4 text-muted-foreground" />
                 )}
