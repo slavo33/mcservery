@@ -109,8 +109,7 @@ async function auditRpc() {
     const denied = deniedByPermission(anon.status, anon.text);
 
     if (fn.access === "public") {
-      record(`rpc:${fn.name}`, fn.access, !denied || anon.status === 404 === false ? !denied : false,
-        `anonymné volanie status ${anon.status}`);
+      record(`rpc:${fn.name}`, fn.access, !denied, `anonymné volanie povolené (status ${anon.status})`);
     } else {
       record(`rpc:${fn.name}`, fn.access, denied, `anonymné volanie odmietnuté (status ${anon.status})`);
     }
