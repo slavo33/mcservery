@@ -40,6 +40,30 @@ jobs:
           VITE_SUPABASE_PUBLISHABLE_KEY: ${{ secrets.VITE_SUPABASE_PUBLISHABLE_KEY }}
           VITE_SUPABASE_PROJECT_ID: ${{ secrets.VITE_SUPABASE_PROJECT_ID }}
 
+  security-permissions:
+    name: Bezpečnostný re-scan oprávnení (auth + funkcie)
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: oven-sh/setup-bun@v2
+        with:
+          bun-version: latest
+
+      - name: Inštalácia závislostí
+        run: bun install --frozen-lockfile
+
+      - name: Statická kontrola manifestu oprávnení
+        run: bunx vitest run src/lib/__tests__/securityPermissions.test.ts
+
+      - name: Re-scan oprávnení RPC a edge funkcií (blokuje merge pri zlyhaní)
+        run: bun run security:permissions
+        env:
+          VITE_SUPABASE_URL: ${{ secrets.VITE_SUPABASE_URL }}
+          VITE_SUPABASE_PUBLISHABLE_KEY: ${{ secrets.VITE_SUPABASE_PUBLISHABLE_KEY }}
+          SECURITY_AUDIT_USER_JWT: ${{ secrets.E2E_SUPABASE_ACCESS_TOKEN }}
+
   bundle-size:
     name: Veľkosť buildu (gzip/brotli prah)
     runs-on: ubuntu-latest
