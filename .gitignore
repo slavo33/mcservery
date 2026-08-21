@@ -27,3 +27,8 @@ e2e/a11y-report.json
 .lighthouseci/
 
 .bundle-size/
+
+# Environment variables
+.env
+.env.*
+!.env.example

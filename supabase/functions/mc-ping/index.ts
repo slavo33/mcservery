@@ -49,12 +49,44 @@ function isValidMinecraftAddress(ip: string): boolean {
   return true;
 }
 
+// Simple in-memory per-IP rate limiting (best effort, per isolate)
+const RATE_LIMIT = 60; // requests
+const RATE_WINDOW_MS = 60_000; // per minute
+const hits = new Map<string, { count: number; reset: number }>();
+
+function isRateLimited(clientIp: string): boolean {
+  const now = Date.now();
+  const entry = hits.get(clientIp);
+  if (!entry || now > entry.reset) {
+    hits.set(clientIp, { count: 1, reset: now + RATE_WINDOW_MS });
+    if (hits.size > 10_000) {
+      for (const [k, v] of hits) if (now > v.reset) hits.delete(k);
+    }
+    return false;
+  }
+  entry.count++;
+  return entry.count > RATE_LIMIT;
+}
+
 serve(async (req) => {
   if (req.method === "OPTIONS") {
     return new Response(null, { headers: corsHeaders });
   }
 
+  const clientIp =
+    req.headers.get("x-forwarded-for")?.split(",")[0].trim() ||
+    req.headers.get("cf-connecting-ip") ||
+    "unknown";
+
+  if (isRateLimited(clientIp)) {
+    return new Response(JSON.stringify({ error: "rate_limited" }), {
+      status: 429,
+      headers: { ...corsHeaders, "Content-Type": "application/json", "Retry-After": "60" },
+    });
+  }
+
   try {
+
     const { ip } = await req.json();
     if (!ip || typeof ip !== "string" || !isValidMinecraftAddress(ip)) {
       return new Response(JSON.stringify({ error: "Invalid address" }), {
