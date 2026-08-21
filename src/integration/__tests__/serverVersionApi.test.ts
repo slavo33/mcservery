@@ -11,12 +11,15 @@ const SUPABASE_KEY = process.env.VITE_SUPABASE_PUBLISHABLE_KEY;
 
 const IP_PREFIX = "invalid-version-itest";
 
-const canRun = Boolean(SUPABASE_URL && SUPABASE_KEY);
+// Vkladanie serverov je pre anonymných zablokované RLS (401), preto testy
+// bežia len keď je k dispozícii token prihláseného používateľa.
+const USER_JWT = process.env.ITEST_USER_JWT;
+const canRun = Boolean(SUPABASE_URL && SUPABASE_KEY && USER_JWT);
 const d = canRun ? describe : describe.skip;
 
 const headers = {
   apikey: SUPABASE_KEY ?? "",
-  Authorization: `Bearer ${SUPABASE_KEY ?? ""}`,
+  Authorization: `Bearer ${USER_JWT ?? SUPABASE_KEY ?? ""}`,
   "Content-Type": "application/json",
 };
 
