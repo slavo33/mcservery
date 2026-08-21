@@ -264,13 +264,22 @@ const StaffPostDetail = () => {
         {post.images.length > 0 && (
           <div className="mb-6 space-y-2">
             <div className="rounded-lg overflow-hidden aspect-video">
-              <img src={post.images[0]} alt="" className="w-full h-full object-cover" />
+              <img
+                src={post.images[0]}
+                alt={`${post.position} — nábor na Minecraft server ${serverName}`}
+                className="w-full h-full object-cover"
+              />
             </div>
             {post.images.length > 1 && (
               <div className="grid grid-cols-3 gap-2">
                 {post.images.slice(1).map((img, i) => (
                   <div key={i} className="rounded-md overflow-hidden aspect-video">
-                    <img src={img} alt="" className="w-full h-full object-cover" loading="lazy" />
+                    <img
+                      src={img}
+                      alt={`Screenshot ${i + 2} zo servera ${serverName} — nábor na pozíciu ${post.position}`}
+                      className="w-full h-full object-cover"
+                      loading="lazy"
+                    />
                   </div>
                 ))}
               </div>
@@ -298,9 +307,21 @@ const StaffPostDetail = () => {
             )}
           </div>
 
-          <Link to={serverSlug ? `/server/${serverSlug}` : '#'} className="block text-2xl sm:text-3xl font-bold text-foreground hover:text-primary transition-colors">
-            {serverName}
-          </Link>
+          <h1 className="text-2xl sm:text-3xl font-bold text-foreground">
+            {post.position}
+            {serverName ? (
+              <>
+                {" — "}
+                <Link
+                  to={serverSlug ? `/server/${serverSlug}` : "#"}
+                  className="hover:text-primary transition-colors"
+                >
+                  {serverName}
+                </Link>
+              </>
+            ) : null}
+          </h1>
+
           <div className="flex items-center gap-3">
             <p className="text-sm text-muted-foreground font-mono">{post.server_ip}</p>
             <button
@@ -316,7 +337,7 @@ const StaffPostDetail = () => {
             <Link to={`/user/${post.owner_id}`} className="flex items-center gap-2 group">
               <div className="h-8 w-8 rounded-full bg-secondary border border-border overflow-hidden flex items-center justify-center group-hover:border-primary/50 transition-colors">
                 {ownerAvatar ? (
-                  <img src={ownerAvatar} alt="" className="h-full w-full object-cover" />
+                  <img src={ownerAvatar} alt={`Profilový obrázok používateľa ${ownerNickname}`} className="h-full w-full object-cover" />
                 ) : (
                   <Users className="h-4 w-4 text-muted-foreground" />
                 )}
