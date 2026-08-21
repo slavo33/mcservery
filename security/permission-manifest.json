@@ -1,0 +1,89 @@
+{
+  "$comment": "Očakávaný prístupový model pre bezpečnostne citlivé backend funkcie. Používa scripts/security-permission-audit.ts a src/lib/__tests__/securityPermissions.test.ts.",
+  "rpc": [
+    {
+      "name": "get_top_voters",
+      "access": "public",
+      "args": { "p_server_id": "00000000-0000-0000-0000-000000000000", "p_limit": 1 },
+      "reason": "Verejný rebríček hlasujúcich na detaile servera."
+    },
+    {
+      "name": "has_role",
+      "access": "authenticated",
+      "args": { "_user_id": "00000000-0000-0000-0000-000000000000", "_role": "admin" },
+      "reason": "RLS helper – volateľný len prihlásenými."
+    },
+    {
+      "name": "is_banned",
+      "access": "authenticated",
+      "args": { "_user_id": "00000000-0000-0000-0000-000000000000" },
+      "reason": "RLS helper – volateľný len prihlásenými."
+    },
+    {
+      "name": "user_server_count",
+      "access": "authenticated",
+      "args": { "_user_id": "00000000-0000-0000-0000-000000000000" },
+      "reason": "Limit 5 serverov – RLS helper."
+    },
+    {
+      "name": "user_staff_post_count",
+      "access": "authenticated",
+      "args": { "_user_id": "00000000-0000-0000-0000-000000000000" },
+      "reason": "Limit 5 inzerátov – RLS helper."
+    },
+    {
+      "name": "handle_new_user",
+      "access": "internal",
+      "args": {},
+      "reason": "SECURITY DEFINER trigger – nesmie byť volateľný z API."
+    },
+    {
+      "name": "create_server_secrets",
+      "access": "internal",
+      "args": {},
+      "reason": "SECURITY DEFINER trigger – nesmie byť volateľný z API."
+    },
+    {
+      "name": "update_server_vote_count",
+      "access": "internal",
+      "args": {},
+      "reason": "SECURITY DEFINER trigger – nesmie byť volateľný z API."
+    },
+    {
+      "name": "update_server_likes_count",
+      "access": "internal",
+      "args": {},
+      "reason": "SECURITY DEFINER trigger – nesmie byť volateľný z API."
+    },
+    {
+      "name": "update_staff_post_likes_count",
+      "access": "internal",
+      "args": {},
+      "reason": "SECURITY DEFINER trigger – nesmie byť volateľný z API."
+    },
+    {
+      "name": "generate_server_slug",
+      "access": "internal",
+      "args": { "server_ip": "play.example.com" },
+      "reason": "Interná pomocná funkcia pre trigger."
+    },
+    {
+      "name": "generate_staff_post_slug",
+      "access": "internal",
+      "args": { "server_ip_val": "play.example.com" },
+      "reason": "Interná pomocná funkcia pre trigger."
+    }
+  ],
+  "edgeFunctions": [
+    { "name": "mc-ping", "access": "public", "body": { "ip": "play.example.com" } },
+    { "name": "sitemap", "access": "public", "method": "GET" },
+    { "name": "get-top-voters", "access": "public", "body": { "server_id": "00000000-0000-0000-0000-000000000000" } },
+    { "name": "handle-vote", "access": "public", "body": {}, "reason": "Anonymné hlasovanie, chránené validáciou a cooldownom." },
+    { "name": "create-vip-checkout", "access": "authenticated", "body": { "tier": "basic" } },
+    { "name": "verify-vip-payment", "access": "authenticated", "body": { "session_id": "cs_test" } },
+    { "name": "test-votifier", "access": "authenticated", "body": { "server_id": "00000000-0000-0000-0000-000000000000" } },
+    { "name": "cleanup-expired-vip", "access": "authenticated", "body": {} },
+    { "name": "chat-plugin-api", "access": "api-key", "body": { "action": "poll" } },
+    { "name": "get-pending-votes", "access": "api-key", "body": { "server_id": "00000000-0000-0000-0000-000000000000" } }
+  ]
+}

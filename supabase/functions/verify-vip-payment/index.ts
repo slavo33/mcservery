@@ -28,12 +28,19 @@ serve(async (req) => {
     { auth: { persistSession: false } },
   );
 
+  const unauthorized = () =>
+    new Response(JSON.stringify({ error: "unauthorized" }), {
+      headers: { ...corsHeaders, "Content-Type": "application/json" },
+      status: 401,
+    });
+
   try {
-    const authHeader = req.headers.get("Authorization")!;
+    const authHeader = req.headers.get("Authorization");
+    if (!authHeader?.startsWith("Bearer ")) return unauthorized();
     const token = authHeader.replace("Bearer ", "");
     const { data } = await supabaseClient.auth.getUser(token);
     const user = data.user;
-    if (!user) throw new Error("Not authenticated");
+    if (!user) return unauthorized();
     logStep("User authenticated", { userId: user.id });
 
     const { session_id } = await req.json();

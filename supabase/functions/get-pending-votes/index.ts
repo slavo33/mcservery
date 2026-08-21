@@ -15,8 +15,13 @@ Deno.serve(async (req) => {
     const apiKey = url.searchParams.get("key");
     const serverId = url.searchParams.get("server_id");
 
-    if (!apiKey || !serverId) {
-      return new Response(JSON.stringify({ error: "Missing key or server_id" }), { status: 400, headers: { ...corsHeaders, "Content-Type": "application/json" } });
+    // Chýbajúci API kľúč je vždy 401 (neautorizované), nie 400
+    if (!apiKey) {
+      return new Response(JSON.stringify({ error: "unauthorized" }), { status: 401, headers: { ...corsHeaders, "Content-Type": "application/json" } });
+    }
+
+    if (!serverId) {
+      return new Response(JSON.stringify({ error: "Missing server_id" }), { status: 400, headers: { ...corsHeaders, "Content-Type": "application/json" } });
     }
 
     const supabase = createClient(
