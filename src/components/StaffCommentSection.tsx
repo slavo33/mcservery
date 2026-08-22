@@ -138,7 +138,7 @@ const StaffCommentSection = ({ staffPostId }: { staffPostId: string }) => {
                 <Link to={`/user/${comment.user_id}`} className="flex items-center gap-2 mb-1 group">
                   <div className="h-7 w-7 rounded-full bg-secondary border border-border overflow-hidden flex items-center justify-center shrink-0 group-hover:border-primary/50 transition-colors">
                     {comment.profile?.avatar_url ? (
-                      <img src={comment.profile.avatar_url} alt="" className="h-full w-full object-cover" />
+                      <img src={comment.profile.avatar_url} alt={`Profilový obrázok používateľa ${comment.profile.nickname || "MCServery"}`} className="h-full w-full object-cover" />
                     ) : (
                       <User className="h-3.5 w-3.5 text-muted-foreground" />
                     )}

@@ -488,7 +488,7 @@ const StaffRecruitment = () => {
                   <div className="aspect-[2.5/1] overflow-hidden">
                     <img
                       src={post.images[0]}
-                      alt=""
+                      alt={`${post.position} — nábor na Minecraft server ${post.server_name || post.server_ip}`}
                       className="w-full h-full object-cover"
                       loading="lazy"
                     />
@@ -568,7 +568,7 @@ const StaffRecruitment = () => {
                     <div className="flex items-center gap-2">
                       <div className="h-5 w-5 rounded-full bg-secondary border border-border overflow-hidden flex items-center justify-center">
                         {post.owner_avatar ? (
-                          <img src={post.owner_avatar} alt="" className="h-full w-full object-cover" />
+                          <img src={post.owner_avatar} alt={`Profilový obrázok používateľa ${post.owner_nickname || "MCServery"}`} className="h-full w-full object-cover" />
                         ) : (
                           <Users className="h-3 w-3 text-muted-foreground" />
                         )}
