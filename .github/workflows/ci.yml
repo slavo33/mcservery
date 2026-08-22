@@ -349,6 +349,11 @@ jobs:
       - name: E2E SEO kľúčových stránok (JSON-LD, canonical, og metadáta)
         run: python3 e2e/key_pages_seo_e2e.py
 
+      - name: E2E SEO regresia staff stránok (H1, alt, meta, JobPosting JSON-LD)
+        run: python3 e2e/staff_pages_seo_e2e.py
+
+
+
       - name: E2E povinné polia JSON-LD a konzistencia údajov servera
         run: python3 e2e/jsonld_fields_consistency_e2e.py
 
