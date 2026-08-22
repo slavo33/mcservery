@@ -20,6 +20,7 @@ import { useLanguage } from "@/i18n/LanguageContext";
 import { sanitizeHref } from "@/lib/urlValidation";
 import { toast } from "sonner";
 import SEO from "@/components/SEO";
+import { buildStaffPostJsonLdGraph } from "@/lib/staffJsonLd";
 
 interface StaffPost {
   id: string;
@@ -229,29 +230,36 @@ const StaffPostDetail = () => {
 
   const isOwner = user?.id === post.owner_id;
 
-  const staffMetaDesc = (post.description || `${post.position} — nábor na server ${serverName}.`)
-    .replace(/\s+/g, " ")
-    .trim()
-    .slice(0, 155);
+  const rawDesc = (post.description || "").replace(/\s+/g, " ").trim();
+  const fallbackDesc = `${post.position} — nábor do tímu na Minecraft server ${serverName || post.server_ip}. Pozri si požiadavky a prihlás sa cez MCServery.`;
+  const staffMetaDesc = (rawDesc.length >= 60 ? rawDesc : `${rawDesc ? rawDesc + " " : ""}${fallbackDesc}`)
+    .slice(0, 155)
+    .trim();
+  const staffImage = post.images && post.images.length > 0 ? post.images[0] : undefined;
+  const staffTitle = `${post.position} — nábor na ${serverName || "Minecraft server"} | MCServery`;
 
   return (
     <div className="min-h-screen bg-background">
       <SEO
-        title={`${post.position} — nábor na ${serverName || "Minecraft server"} | MCServery`}
+        title={staffTitle.length > 65 ? `${post.position} — nábor | MCServery` : staffTitle}
         description={staffMetaDesc}
         path={`/staff/${slug}`}
-        image={post.images && post.images.length > 0 ? post.images[0] : undefined}
+        image={staffImage}
+        imageAlt={`${post.position} — nábor na Minecraft server ${serverName || post.server_ip}`}
         type="article"
-        jsonLd={{
-          "@context": "https://schema.org",
-          "@type": "JobPosting",
-          title: post.position,
+        publishedTime={post.created_at}
+        jsonLd={buildStaffPostJsonLdGraph({
+          position: post.position,
           description: staffMetaDesc,
-          datePosted: post.created_at,
-          employmentType: "VOLUNTEER",
-          hiringOrganization: { "@type": "Organization", name: serverName || "MCServery" },
-        }}
+          slug: slug ?? "",
+          serverName,
+          serverPath: serverSlug ? `/server/${serverSlug}` : null,
+          createdAt: post.created_at,
+          image: staffImage,
+          requirements: post.requirements,
+        })}
       />
+
       <Header />
       <main className="container mx-auto px-4 py-8 max-w-3xl">
         {/* Back link */}
