@@ -6,7 +6,7 @@ export const ORGANIZATION_JSON_LD: Record<string, unknown> = {
   "@type": "Organization",
   name: "MCServery",
   url: SITE_URL,
-  description: "Databáza Minecraft serverov.",
+  description: "Nájdi najlepšie Minecraft servery na jednom mieste. Prehľadná databáza, aktuálne informácie a aktívna komunita hráčov.",
 };
 
 export interface PageJsonLdInput {

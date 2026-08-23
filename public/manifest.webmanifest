@@ -1,7 +1,7 @@
 {
   "name": "MCServery — Databáza Minecraft serverov",
   "short_name": "MCServery",
-  "description": "Databáza Minecraft serverov. Rýchlo, prehľadne, jednoducho, na jednom mieste.",
+  "description": "Nájdi najlepšie Minecraft servery na jednom mieste. Prehľadná databáza, aktuálne informácie a aktívna komunita hráčov.",
   "start_url": "/",
   "scope": "/",
   "display": "standalone",
