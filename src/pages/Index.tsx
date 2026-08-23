@@ -79,7 +79,7 @@ const Index = () => {
     <div className="min-h-screen flex flex-col bg-background">
       <SEO
         title="MCServery — Databáza Minecraft serverov"
-        description="Databáza Minecraft serverov. Rýchlo, prehľadne a jednoducho na jednom mieste. Nájdi si server alebo pridaj svoj do najväčšej komunity hráčov."
+        description="Nájdi najlepšie Minecraft servery na jednom mieste. Prehľadná databáza, aktuálne informácie a aktívna komunita hráčov."
         path="/"
         jsonLd={[
           {
@@ -87,7 +87,7 @@ const Index = () => {
             "@type": "WebSite",
             name: "MCServery",
             url: "https://mcservery.one",
-            description: "Databáza Minecraft serverov.",
+            description: "Nájdi najlepšie Minecraft servery na jednom mieste. Prehľadná databáza, aktuálne informácie a aktívna komunita hráčov.",
             potentialAction: {
               "@type": "SearchAction",
               target: "https://mcservery.one/servers?q={search_term_string}",
@@ -97,7 +97,7 @@ const Index = () => {
           ...buildPageJsonLdGraph({
             name: "MCServery — Databáza Minecraft serverov",
             description:
-              "Databáza Minecraft serverov. Rýchlo, prehľadne a jednoducho na jednom mieste. Nájdi si server alebo pridaj svoj do najväčšej komunity hráčov.",
+              "Nájdi najlepšie Minecraft servery na jednom mieste. Prehľadná databáza, aktuálne informácie a aktívna komunita hráčov.",
             path: "/",
           }),
         ]}
