@@ -2,13 +2,13 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" xmlns:image="http://www.google.com/schemas/sitemap-image/1.1">
   <url>
     <loc>https://mcservery.one/</loc>
-    <lastmod>2026-08-19T07:56:09+00:00</lastmod>
+    <lastmod>2026-09-29T17:55:13+00:00</lastmod>
     <changefreq>daily</changefreq>
     <priority>1.0</priority>
   </url>
   <url>
     <loc>https://mcservery.one/servers</loc>
-    <lastmod>2026-08-19T07:56:09+00:00</lastmod>
+    <lastmod>2026-09-29T17:55:13+00:00</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.9</priority>
   </url>
@@ -87,7 +87,7 @@
   </url>
   <url>
     <loc>https://mcservery.one/server/kamienok</loc>
-    <lastmod>2026-08-19T07:56:09+00:00</lastmod>
+    <lastmod>2026-09-29T17:55:13+00:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
     <image:image>
@@ -131,13 +131,24 @@
   </url>
   <url>
     <loc>https://mcservery.one/server/ciwland</loc>
-    <lastmod>2026-08-17T13:30:20+00:00</lastmod>
+    <lastmod>2026-09-27T10:44:42+00:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
     <image:image>
       <image:loc>https://uinrxvxfrvjtqwklbiqk.supabase.co/storage/v1/object/public/server-images/80c2f42d-f862-4701-9434-3c3f7c7a7134/1785953263768-1nben4nb327.webp</image:loc>
       <image:title>CIWLand.CZ🌴 1.21.10 RPG | Survival | VoiceChat</image:title>
       <image:caption>Minecraft server CIWLand.CZ🌴 1.21.10 RPG | Survival | VoiceChat na MCServery</image:caption>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://mcservery.one/server/flex-games</loc>
+    <lastmod>2026-09-01T18:10:46+00:00</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+    <image:image>
+      <image:loc>https://uinrxvxfrvjtqwklbiqk.supabase.co/storage/v1/object/public/server-images/cfa81939-30f2-4244-88ad-c9ae305ef45d/1774004761030-dacxargd3xq.webp</image:loc>
+      <image:title>Flex-Games.cz</image:title>
+      <image:caption>Minecraft server Flex-Games.cz na MCServery</image:caption>
     </image:image>
   </url>
   <url>
@@ -149,17 +160,6 @@
       <image:loc>https://uinrxvxfrvjtqwklbiqk.supabase.co/storage/v1/object/public/server-images/daef1ebf-30e4-4338-a731-64d4a59b5c4b/1781110540189-bzsnkagi3m6.webp</image:loc>
       <image:title>Crownix.eu</image:title>
       <image:caption>Minecraft server Crownix.eu na MCServery</image:caption>
-    </image:image>
-  </url>
-  <url>
-    <loc>https://mcservery.one/server/flex-games</loc>
-    <lastmod>2026-07-24T12:39:30+00:00</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.8</priority>
-    <image:image>
-      <image:loc>https://uinrxvxfrvjtqwklbiqk.supabase.co/storage/v1/object/public/server-images/cfa81939-30f2-4244-88ad-c9ae305ef45d/1774004761030-dacxargd3xq.webp</image:loc>
-      <image:title>Flex-Games.cz</image:title>
-      <image:caption>Minecraft server Flex-Games.cz na MCServery</image:caption>
     </image:image>
   </url>
   <url>
