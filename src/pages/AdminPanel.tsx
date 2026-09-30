@@ -13,6 +13,7 @@ import VipManagementAdmin from "@/components/VipManagementAdmin";
 import BugReportsAdmin from "@/components/BugReportsAdmin";
 import StaffPostVipAdmin from "@/components/StaffPostVipAdmin";
 import BannedUsersAdmin from "@/components/BannedUsersAdmin";
+import DnsCheckAdmin from "@/components/DnsCheckAdmin";
 import { Button } from "@/components/ui/button";
 import SEO from "@/components/SEO";
 
@@ -325,6 +326,7 @@ const AdminPanel = () => {
         <DiscountCodesAdmin />
         <BannedUsersAdmin />
         <BugReportsAdmin />
+        <DnsCheckAdmin />
       </main>
       <Footer />
     </div>
