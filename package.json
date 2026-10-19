@@ -20,7 +20,8 @@
     "perf:mobile": "LH_FORM_FACTOR=mobile bun run perf",
     "perf:desktop": "LH_FORM_FACTOR=desktop bun run perf",
     "perf:compare": "bunx tsx scripts/lighthouse-compare.ts",
-    "security:permissions": "bunx tsx scripts/security-permission-audit.ts"
+    "security:permissions": "bunx tsx scripts/security-permission-audit.ts",
+    "start": "node server.js"
   },
   "dependencies": {
     "@hookform/resolvers": "^3.10.0",
