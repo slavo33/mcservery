@@ -2,13 +2,13 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" xmlns:image="http://www.google.com/schemas/sitemap-image/1.1">
   <url>
     <loc>https://mcservery.one/</loc>
-    <lastmod>2026-09-29T17:55:13+00:00</lastmod>
+    <lastmod>2026-10-18T19:53:19+00:00</lastmod>
     <changefreq>daily</changefreq>
     <priority>1.0</priority>
   </url>
   <url>
     <loc>https://mcservery.one/servers</loc>
-    <lastmod>2026-09-29T17:55:13+00:00</lastmod>
+    <lastmod>2026-10-18T19:53:19+00:00</lastmod>
     <changefreq>daily</changefreq>
     <priority>0.9</priority>
   </url>
@@ -86,17 +86,6 @@
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://mcservery.one/server/kamienok</loc>
-    <lastmod>2026-09-29T17:55:13+00:00</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.8</priority>
-    <image:image>
-      <image:loc>https://uinrxvxfrvjtqwklbiqk.supabase.co/storage/v1/object/public/server-images/f01a0ad2-a66e-4880-9734-5b6bc54d2c21/1771870744669-vvts483hypp.png</image:loc>
-      <image:title>Kamienok</image:title>
-      <image:caption>Minecraft server Kamienok na MCServery</image:caption>
-    </image:image>
-  </url>
-  <url>
     <loc>https://mcservery.one/server/my-mc</loc>
     <lastmod>2026-04-10T18:11:25+00:00</lastmod>
     <changefreq>weekly</changefreq>
@@ -105,6 +94,17 @@
       <image:loc>https://uinrxvxfrvjtqwklbiqk.supabase.co/storage/v1/object/public/server-images/temp-1775844518440/1775844519023-i3t6iu8sycj.webp</image:loc>
       <image:title>My-Mc.EU</image:title>
       <image:caption>Minecraft server My-Mc.EU na MCServery</image:caption>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://mcservery.one/server/kamienok</loc>
+    <lastmod>2026-10-18T19:53:19+00:00</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+    <image:image>
+      <image:loc>https://uinrxvxfrvjtqwklbiqk.supabase.co/storage/v1/object/public/server-images/f01a0ad2-a66e-4880-9734-5b6bc54d2c21/1771870744669-vvts483hypp.png</image:loc>
+      <image:title>Kamienok</image:title>
+      <image:caption>Minecraft server Kamienok na MCServery</image:caption>
     </image:image>
   </url>
   <url>
@@ -131,7 +131,7 @@
   </url>
   <url>
     <loc>https://mcservery.one/server/ciwland</loc>
-    <lastmod>2026-09-27T10:44:42+00:00</lastmod>
+    <lastmod>2026-10-18T18:35:54+00:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
     <image:image>
@@ -181,7 +181,7 @@
   </url>
   <url>
     <loc>https://mcservery.one/server/blackmc</loc>
-    <lastmod>2026-04-01T20:36:52+00:00</lastmod>
+    <lastmod>2026-10-07T16:43:05+00:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
     <image:image>
@@ -493,6 +493,12 @@
   <url>
     <loc>https://mcservery.one/user/f396f7d8-6317-4a4b-af45-6f1bd8445121</loc>
     <lastmod>2026-03-16T14:18:05+00:00</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.5</priority>
+  </url>
+  <url>
+    <loc>https://mcservery.one/user/926a8732-f299-49c5-a297-33bb849c9799</loc>
+    <lastmod>2026-10-06T16:14:11+00:00</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url>
