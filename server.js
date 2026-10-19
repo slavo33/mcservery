@@ -20,6 +20,12 @@ if (!fs.existsSync(path.join(root, "index.html"))) {
 }
 
 http.createServer((req, res) => {
+  // www.mcservery.one -> mcservery.one (jedna kanonická adresa pre SEO)
+  const host = (req.headers.host || "").toLowerCase().split(":")[0];
+  if (host === "www.mcservery.one") {
+    res.writeHead(301, { Location: `https://mcservery.one${req.url || "/"}` });
+    return res.end();
+  }
   const urlPath = decodeURIComponent((req.url || "/").split("?")[0]);
   let file = path.normalize(path.join(root, urlPath));
   if (!file.startsWith(root)) { res.writeHead(403); return res.end(); }
