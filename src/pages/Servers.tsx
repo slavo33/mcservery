@@ -206,7 +206,7 @@ const Servers = () => {
     const cachedResult = queryCache.get(key);
     if (cachedResult) return cachedResult as typeof allServers;
 
-    let result = allServers.filter((s) => {
+    const result = allServers.filter((s) => {
       if (showVipOnly) {
         const vipExpires = (s as any).vip_expires_at;
         if (!vipExpires || new Date(vipExpires) < new Date()) return false;
