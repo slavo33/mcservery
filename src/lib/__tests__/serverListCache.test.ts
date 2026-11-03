@@ -80,14 +80,14 @@ describe("buildQueryKey", () => {
 });
 
 describe("buildDataVersion", () => {
-  const statuses = {
+  const statuses: Record<string, { online?: boolean; players?: { online?: number } }> = {
     "a.net": { online: true, players: { online: 5 } },
     "b.net": { online: false, players: { online: 0 } },
   };
 
   it("pri triedení mimo hráčov ignoruje live stavy", () => {
-    const v1 = buildDataVersion(["a", "b"], statuses as any, "votes");
-    const v2 = buildDataVersion(["a", "b"], { "a.net": { online: true, players: { online: 99 } } } as any, "votes");
+    const v1 = buildDataVersion(["a", "b"], statuses, "votes");
+    const v2 = buildDataVersion(["a", "b"], { "a.net": { online: true, players: { online: 99 } } }, "votes");
     expect(v1).toBe(v2);
   });
 
@@ -95,7 +95,7 @@ describe("buildDataVersion", () => {
     const v1 = buildDataVersion(["a", "b"], statuses as any, "players");
     const v2 = buildDataVersion(
       ["a", "b"],
-      { ...statuses, "a.net": { online: true, players: { online: 6 } } } as any,
+      { ...statuses, "a.net": { online: true, players: { online: 6 } } },
       "players",
     );
     expect(v1).not.toBe(v2);
