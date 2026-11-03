@@ -2,7 +2,7 @@ import { useState, useEffect } from "react";
 import { supabase } from "@/integrations/supabase/client";
 import { useLanguage } from "@/i18n/LanguageContext";
 import { toast } from "sonner";
-import { Tag, Plus, Ban, Infinity, Hash, Copy } from "lucide-react";
+import { Tag, Plus, Ban, Infinity as InfinityIcon, Hash, Copy } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 
@@ -54,7 +54,7 @@ const DiscountCodesAdmin = () => {
 
     const usageMap = new Map<string, number>();
     if (usageData) {
-      usageData.forEach((u: any) => {
+      usageData.forEach((u) => {
         usageMap.set(u.discount_code_id, (usageMap.get(u.discount_code_id) || 0) + 1);
       });
     }
@@ -152,7 +152,7 @@ const DiscountCodesAdmin = () => {
                   : "bg-secondary text-muted-foreground hover:text-foreground"
               }`}
             >
-              <Infinity className="h-3.5 w-3.5" /> {t("dc_unlimited")}
+              <InfinityIcon className="h-3.5 w-3.5" /> {t("dc_unlimited")}
             </button>
           </div>
           <Button onClick={handleCreate} disabled={creating} className="gap-1.5">
