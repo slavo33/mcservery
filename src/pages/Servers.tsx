@@ -11,7 +11,7 @@ import type { MinecraftServer } from "@/lib/mockData";
 import { supabase } from "@/integrations/supabase/client";
 import { useLanguage } from "@/i18n/LanguageContext";
 import { useMultiServerStatus } from "@/hooks/useMultiServerStatus";
-import { useSearchParams } from "react-router-dom";
+import { Link, useSearchParams } from "react-router-dom";
 import { versions, platforms, softwareOptions, minigameOptions } from "@/lib/mockData";
 import { sortServers } from "@/lib/serverSorting";
 import { serverListStore, queryCache, buildQueryKey, buildDataVersion } from "@/lib/serverListCache";
@@ -276,6 +276,22 @@ const Servers = () => {
           {t("servers_title_1")} <span className="text-gradient">{t("servers_title_2")}</span>
         </h1>
         <p className="text-muted-foreground mb-8">{t("servers_subtitle")}</p>
+
+        <section aria-label="Populárne Minecraft kategórie" className="mb-8">
+          <h2 className="mb-3 font-display text-lg font-semibold text-foreground">Hľadaj podľa herného režimu</h2>
+          <div className="flex flex-wrap gap-2">
+            {[
+              ["Survival", "/minecraft-servery/survival"],
+              ["SkyBlock", "/minecraft-servery/skyblock"],
+              ["BedWars", "/minecraft-servery/bedwars"],
+              ["SkyWars", "/minecraft-servery/skywars"],
+              ["PvP", "/minecraft-servery/pvp"],
+              ["SMP", "/minecraft-servery/smp"],
+            ].map(([label, path]) => (
+              <Link key={path} to={path} className="rounded-full border border-border px-3 py-1.5 text-sm text-muted-foreground transition-colors hover:border-primary hover:text-primary">{label}</Link>
+            ))}
+          </div>
+        </section>
 
         <ServerFilters
           search={search} onSearchChange={handleSearchChange}
