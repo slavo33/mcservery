@@ -114,6 +114,7 @@ export const buildServerJsonLd = ({
       url: "https://mcservery.one",
     },
   };
+};
 
 /** Drobečková navigácia Domov → Servery → profil, aby Google zobrazil cestu vo výsledkoch. */
 export const buildServerBreadcrumbJsonLd = (
