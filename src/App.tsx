@@ -11,6 +11,7 @@ import SupportPopup from "./components/SupportPopup";
 
 // Lazy load non-critical routes
 const Servers = lazy(() => import("./pages/Servers"));
+const CategoryPage = lazy(() => import("./pages/CategoryPage"));
 const AddServer = lazy(() => import("./pages/AddServer"));
 const ServerDetail = lazy(() => import("./pages/ServerDetail"));
 const EditServer = lazy(() => import("./pages/EditServer"));
@@ -47,6 +48,7 @@ const App = () => (
               <Routes>
                 <Route path="/" element={<Index />} />
                 <Route path="/servers" element={<Servers />} />
+                <Route path="/minecraft-servery/:category" element={<CategoryPage />} />
                 <Route path="/server/:slug" element={<ServerDetail />} />
                 <Route path="/server/:slug/edit" element={<EditServer />} />
                 <Route path="/add-server" element={<AddServer />} />
