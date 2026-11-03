@@ -43,7 +43,7 @@ export const serverListStore = {
         return null;
       }
     }
-    if (!payload || !Array.isArray((payload as any).data)) return null;
+    if (!payload || !Array.isArray(payload.data)) return null;
     return { data: payload.data, fresh: Date.now() - payload.ts < ttlMs };
   },
 
