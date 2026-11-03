@@ -14,13 +14,15 @@ type GridServer = MinecraftServer & {
   slug?: string;
 };
 
+type DataAttributes = { [key: `data-${string}`]: string | number | undefined };
+
 interface VirtualServerGridProps {
   servers: GridServer[];
   statuses: Record<string, ServerStatus>;
   /** Odhadovaná výška riadku (karta + medzera) pre plynulý scroll pred zmeraním */
   estimateRowHeight?: number;
   className?: string;
-  gridProps?: React.HTMLAttributes<HTMLDivElement>;
+  gridProps?: React.HTMLAttributes<HTMLDivElement> & DataAttributes;
 }
 
 /** Počet stĺpcov podľa breakpointu (zhoduje sa s grid sm:2 / lg:3) */
