@@ -90,9 +90,12 @@ const StaffPostDetail = () => {
 
       setServerName(serverRes.data?.name || "Unknown");
       setServerSlug(serverRes.data?.slug || "");
-      const postVipActive = data.vip_tier && data.vip_expires_at && new Date(data.vip_expires_at) > new Date();
-      setIsVip(!!postVipActive);
-      setVipTier(postVipActive ? data.vip_tier : null);
+      const postVipTier = data.vip_tier === "basic" || data.vip_tier === "pro" || data.vip_tier === "max"
+        ? data.vip_tier
+        : null;
+      const postVipActive = postVipTier !== null && data.vip_expires_at !== null && new Date(data.vip_expires_at) > new Date();
+      setIsVip(postVipActive);
+      setVipTier(postVipActive ? postVipTier : null);
       setOwnerNickname(profileRes.data?.nickname || "Unknown");
       setOwnerAvatar(profileRes.data?.avatar_url || null);
       setLoading(false);
