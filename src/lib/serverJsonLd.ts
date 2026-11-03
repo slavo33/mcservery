@@ -69,13 +69,43 @@ export const toEditions = (platform?: string[] | null): string[] => {
 /** `operatingSystem` odráža edície, na ktorých sa dá hrať (Minecraft Java / Bedrock). */
 export const toOperatingSystem = (platform?: string[] | null): string => {
   const editions = toEditions(platform);
+  return editions.length > 0
+    ? editions.map((edition) => `Minecraft ${edition} Edition`).join(", ")
+    : "Minecraft";
+};
+
+/** Loader/software servera (Paper, Spigot, Purpur, …) — prázdne hodnoty sa vynechajú. */
+export const toLoader = (software?: string | null): string | undefined => {
+  const value = (software || "").trim();
+  if (!value || value.toLowerCase() === "žiadny") return undefined;
+  return value;
+};
+
+export const buildServerJsonLd = ({
+  name,
+  description,
+  version,
+  platform,
+  software,
+  url,
+  image,
+  ip,
+  maxPlayers,
+  keywords,
+  createdAt,
+  updatedAt,
+}: ServerJsonLdInput): Record<string, unknown> => {
+  const editions = toEditions(platform);
   const loader = toLoader(software);
   const keywordList = [
     ...editions.map((edition) => `Minecraft ${edition} Edition`),
     loader,
     toSoftwareVersion(version),
     ...(keywords ?? []),
+    ip,
+    maxPlayers && maxPlayers > 0 ? `Max players: ${maxPlayers}` : undefined,
   ].map((keyword) => (keyword ?? "").trim()).filter(Boolean);
+
   return {
     "@context": "https://schema.org",
     "@type": "WebPage",
