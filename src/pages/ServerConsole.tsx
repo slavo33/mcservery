@@ -67,7 +67,7 @@ const ServerConsole = () => {
       if (data) {
         const eligible = isAdmin
           ? data
-          : data.filter((s: any) => s.vip_expires_at && new Date(s.vip_expires_at) > new Date());
+          : data.filter((s) => s.vip_expires_at && new Date(s.vip_expires_at) > new Date());
         setServers(eligible);
         if (eligible.length === 1) setSelectedServerId(eligible[0].id);
       }
@@ -80,15 +80,15 @@ const ServerConsole = () => {
     if (!selectedServerId || !user) return;
     const fetchConnection = async () => {
       const { data } = await supabase
-        .from("chat_connections" as any)
+        .from("chat_connections")
         .select("id, api_key, is_active")
         .eq("server_id", selectedServerId)
         .maybeSingle();
 
       if (data) {
-        setApiKey((data as any).api_key);
-        setConnectionId((data as any).id);
-        setIsConnected((data as any).is_active);
+        setApiKey(data.api_key);
+        setConnectionId(data.id);
+        setIsConnected(data.is_active);
       } else {
         setApiKey(null);
         setConnectionId(null);
@@ -103,12 +103,12 @@ const ServerConsole = () => {
     if (!selectedServerId) return;
     const fetchMessages = async () => {
       const { data } = await supabase
-        .from("chat_messages" as any)
+        .from("chat_messages")
         .select("*")
         .eq("server_id", selectedServerId)
         .order("created_at", { ascending: true })
         .limit(200);
-      if (data) setMessages(data as any);
+      if (data) setMessages(data);
     };
     fetchMessages();
   }, [selectedServerId]);
@@ -118,10 +118,10 @@ const ServerConsole = () => {
     if (!selectedServerId) return;
     const fetchPlayers = async () => {
       const { data } = await supabase
-        .from("chat_online_players" as any)
+        .from("chat_online_players")
         .select("*")
         .eq("server_id", selectedServerId);
-      if (data) setPlayers(data as any);
+      if (data) setPlayers(data);
     };
     fetchPlayers();
   }, [selectedServerId]);
@@ -165,11 +165,11 @@ const ServerConsole = () => {
         () => {
           // Refetch players on any change
           supabase
-            .from("chat_online_players" as any)
+            .from("chat_online_players")
             .select("*")
             .eq("server_id", selectedServerId)
             .then(({ data }) => {
-              if (data) setPlayers(data as any);
+              if (data) setPlayers(data);
             });
         }
       )
@@ -207,8 +207,8 @@ const ServerConsole = () => {
   const createConnection = async () => {
     if (!selectedServerId) return;
     const { data, error } = await supabase
-      .from("chat_connections" as any)
-      .insert({ server_id: selectedServerId } as any)
+      .from("chat_connections")
+      .insert({ server_id: selectedServerId })
       .select()
       .single();
 
@@ -217,8 +217,8 @@ const ServerConsole = () => {
       return;
     }
     if (data) {
-      setApiKey((data as any).api_key);
-      setConnectionId((data as any).id);
+      setApiKey(data.api_key);
+      setConnectionId(data.id);
       setIsConnected(true);
       toast({ title: "Pripojenie vytvorené", description: "API kľúč bol vygenerovaný." });
     }
@@ -227,12 +227,12 @@ const ServerConsole = () => {
   const sendMessage = async () => {
     if (!newMessage.trim() || !selectedServerId || !user) return;
     setSendingMessage(true);
-    const { error } = await supabase.from("chat_messages" as any).insert({
+    const { error } = await supabase.from("chat_messages").insert({
       server_id: selectedServerId,
       user_id: user.id,
       source: "web",
       message: newMessage.trim().slice(0, 500),
-    } as any);
+    });
 
     if (error) {
       toast({ title: "Chyba", description: error.message, variant: "destructive" });
@@ -253,8 +253,8 @@ const ServerConsole = () => {
     if (!connectionId) return;
     const newKey = crypto.randomUUID();
     const { error } = await supabase
-      .from("chat_connections" as any)
-      .update({ api_key: newKey } as any)
+      .from("chat_connections")
+      .update({ api_key: newKey })
       .eq("id", connectionId);
 
     if (!error) {
