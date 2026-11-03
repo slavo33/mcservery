@@ -8,8 +8,19 @@ import EditServer from "@/pages/EditServer";
 import { buildServerMeta, isSoftwareVersionConsistent } from "@/lib/serverJsonLd";
 import { versions } from "@/lib/mockData";
 
-const inserted: any[] = [];
-const updated: any[] = [];
+type CapturedServerRow = {
+  name: string;
+  ip: string;
+  description: string;
+  version: string;
+  platform?: string[];
+  proxy?: string | null;
+  [key: string]: unknown;
+};
+type CapturedServerUpdate = Partial<CapturedServerRow> & Record<string, unknown>;
+
+const inserted: CapturedServerRow[] = [];
+const updated: CapturedServerUpdate[] = [];
 
 const SERVER_ROW = {
   id: "server-1",
@@ -35,7 +46,7 @@ vi.mock("@/hooks/useAuth", () => ({
 vi.mock("sonner", () => ({ toast: { success: vi.fn(), error: vi.fn() } }));
 
 vi.mock("react-router-dom", async () => {
-  const actual = await vi.importActual<any>("react-router-dom");
+  const actual = await vi.importActual<typeof import("react-router-dom")>("react-router-dom");
   return {
     ...actual,
     useParams: () => ({ slug: SERVER_ROW.slug }),
@@ -56,11 +67,11 @@ vi.mock("@/integrations/supabase/client", () => {
     supabase: {
       from: (table: string) => ({
         select: () => selectChain(table),
-        insert: (row: any) => {
+        insert: (row: CapturedServerRow) => {
           inserted.push(row);
           return Promise.resolve({ error: null });
         },
-        update: (row: any) => {
+        update: (row: CapturedServerUpdate) => {
           if (table === "servers") updated.push(row);
           return { eq: () => Promise.resolve({ error: null }) };
         },
@@ -130,7 +141,7 @@ describe("JSON-LD softwareVersion zodpovedá zvolenej verzii", () => {
     await waitFor(() => expect(updated).toHaveLength(1));
     await waitFor(() => expect(headJsonLd().softwareVersion).toBe("v1.20.4"));
     expect(headJsonLd().softwareVersion).toMatch(VERSION_PATTERN);
-    expect(isSoftwareVersionConsistent(headJsonLd(), updated[0].version)).toBe(true);
+    expect(isSoftwareVersionConsistent(headJsonLd(), updated[0].version ?? "")).toBe(true);
     // Stará verzia sa v JSON-LD už nesmie vyskytovať.
     expect(JSON.stringify(headJsonLd())).not.toContain("26.2");
   });
