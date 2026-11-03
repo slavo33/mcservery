@@ -40,19 +40,19 @@ const BugReportsAdmin = () => {
 
   const fetchReports = async () => {
     setLoading(true);
-    let query = supabase.from("bug_reports" as any).select("*").order("created_at", { ascending: false });
+    let query = supabase.from("bug_reports").select("*").order("created_at", { ascending: false });
     if (filter !== "all") {
       query = query.eq("status", filter);
     }
     const { data } = await query;
     if (!data) { setLoading(false); return; }
 
-    const reportsList = data as any as BugReport[];
+    const reportsList: BugReport[] = data;
     const reporterIds = [...new Set(reportsList.map(r => r.reporter_id))];
 
     const { data: profiles } = await supabase.from("profiles").select("id, nickname, avatar_url").in("id", reporterIds);
     const profileMap = new Map<string, { nickname: string; avatar_url: string | null }>();
-    if (profiles) profiles.forEach((p: any) => profileMap.set(p.id, { nickname: p.nickname, avatar_url: p.avatar_url }));
+    if (profiles) profiles.forEach((p) => profileMap.set(p.id, { nickname: p.nickname, avatar_url: p.avatar_url }));
 
     setReports(reportsList.map(r => ({
       ...r,
@@ -63,19 +63,19 @@ const BugReportsAdmin = () => {
   };
 
   const handleResolve = async (id: string) => {
-    await supabase.from("bug_reports" as any).update({ status: "resolved", resolved_at: new Date().toISOString() } as any).eq("id", id);
+    await supabase.from("bug_reports").update({ status: "resolved", resolved_at: new Date().toISOString() }).eq("id", id);
     toast.success(t("bug_admin_resolved"));
     fetchReports();
   };
 
   const handleDismiss = async (id: string) => {
-    await supabase.from("bug_reports" as any).update({ status: "dismissed", resolved_at: new Date().toISOString() } as any).eq("id", id);
+    await supabase.from("bug_reports").update({ status: "dismissed", resolved_at: new Date().toISOString() }).eq("id", id);
     toast.success(t("bug_admin_dismissed"));
     fetchReports();
   };
 
   const handleDelete = async (id: string) => {
-    await supabase.from("bug_reports" as any).delete().eq("id", id);
+    await supabase.from("bug_reports").delete().eq("id", id);
     toast.success(t("bug_admin_deleted"));
     fetchReports();
   };
