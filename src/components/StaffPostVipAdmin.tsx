@@ -57,8 +57,8 @@ const StaffPostVipAdmin = () => {
       const serverMap = new Map(servers?.map(s => [s.id, s.name]) || []);
       setPosts(data.map(p => ({
         ...p,
-        vip_tier: (p as any).vip_tier,
-        vip_expires_at: (p as any).vip_expires_at,
+        vip_tier: p.vip_tier,
+        vip_expires_at: p.vip_expires_at,
         server_name: serverMap.get(p.server_id) || "Unknown",
       })));
     } else {
@@ -82,7 +82,7 @@ const StaffPostVipAdmin = () => {
     const expiry = new Date(Date.now() + (tierDays[assignTier] || 30) * 86400000);
     const { error } = await supabase
       .from("staff_posts")
-      .update({ vip_tier: assignTier, vip_expires_at: expiry.toISOString() } as any)
+      .update({ vip_tier: assignTier, vip_expires_at: expiry.toISOString() })
       .eq("id", selectedPostId);
     if (error) {
       toast.error("Chyba pri prideľovaní VIP");
@@ -102,7 +102,7 @@ const StaffPostVipAdmin = () => {
     const newExpiry = new Date(currentExpiry.getTime() + parseInt(extendDays) * 86400000);
     const { error } = await supabase
       .from("staff_posts")
-      .update({ vip_expires_at: newExpiry.toISOString() } as any)
+      .update({ vip_expires_at: newExpiry.toISOString() })
       .eq("id", extendDialog.id);
     if (error) {
       toast.error("Chyba pri predĺžení VIP");
@@ -118,7 +118,7 @@ const StaffPostVipAdmin = () => {
     setProcessing(true);
     const { error } = await supabase
       .from("staff_posts")
-      .update({ vip_tier: null, vip_expires_at: null } as any)
+      .update({ vip_tier: null, vip_expires_at: null })
       .eq("id", post.id);
     if (error) {
       toast.error("Chyba pri zrušení VIP");
