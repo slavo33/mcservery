@@ -15,10 +15,11 @@ Object.defineProperty(window, "matchMedia", {
 });
 
 // jsdom nemá ResizeObserver – potrebné pre Radix komponenty
-if (!(globalThis as any).ResizeObserver) {
-  (globalThis as any).ResizeObserver = class {
-    observe() {}
-    unobserve() {}
+if (typeof globalThis.ResizeObserver === "undefined") {
+  globalThis.ResizeObserver = class implements ResizeObserver {
+    constructor(_callback: ResizeObserverCallback) {}
+    observe(_target: Element) {}
+    unobserve(_target: Element) {}
     disconnect() {}
   };
 }
