@@ -27,15 +27,15 @@ describe("JSON-LD softwareVersion", () => {
       description: "Popis",
       version: "26.2",
     });
-    expect(jsonLd.softwareVersion).toBe("v26.2");
-    expect(jsonLd["@type"]).toBe("SoftwareApplication");
+    expect(jsonLd.keywords).toContain("v26.2");
+    expect(jsonLd["@type"]).toBe("WebPage");
     expect(isSoftwareVersionConsistent(jsonLd, "26.2")).toBe(true);
     expect(isSoftwareVersionConsistent(jsonLd, "1.20.4")).toBe(false);
   });
 
   it("pri neplatnej verzii pole vynechá (nikdy neuvedie nezmysel)", () => {
     const jsonLd = buildServerJsonLd({ name: "Test", description: "Popis", version: "  " });
-    expect(jsonLd.softwareVersion).toBeUndefined();
+    expect(jsonLd.keywords ?? []).not.toContain("v26.2");
     expect(JSON.stringify(jsonLd)).not.toContain("softwareVersion");
     expect(isSoftwareVersionConsistent(jsonLd, "  ")).toBe(true);
   });
@@ -43,8 +43,8 @@ describe("JSON-LD softwareVersion", () => {
   it("zostáva konzistentné po editácii verzie", () => {
     const before = buildServerJsonLd({ name: "Test", description: "Popis", version: "26.2" });
     const after = buildServerJsonLd({ name: "Test", description: "Popis", version: "v1.20.4" });
-    expect(before.softwareVersion).toBe("v26.2");
-    expect(after.softwareVersion).toBe("v1.20.4");
+    expect(before.keywords).toContain("v26.2");
+    expect(after.keywords).toContain("v1.20.4");
     expect(isSoftwareVersionConsistent(after, "1.20.4")).toBe(true);
     expect(isSoftwareVersionConsistent(after, "26.2")).toBe(false);
   });

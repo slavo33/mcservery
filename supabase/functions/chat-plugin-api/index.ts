@@ -1,6 +1,9 @@
 import { serve } from "https://deno.land/std@0.168.0/http/server.ts";
 import { createClient } from "https://esm.sh/@supabase/supabase-js@2";
 
+const isRecord = (value: unknown): value is Record<string, unknown> =>
+  typeof value === "object" && value !== null && !Array.isArray(value);
+
 const corsHeaders = {
   "Access-Control-Allow-Origin": "*",
   "Access-Control-Allow-Headers": "authorization, x-client-info, apikey, content-type, x-api-key",
@@ -38,9 +41,11 @@ serve(async (req) => {
     });
   }
 
-  let body: any;
+  let body: Record<string, unknown>;
   try {
-    body = await req.json();
+    const parsedBody: unknown = await req.json();
+    if (!isRecord(parsedBody)) throw new Error("Request body must be an object");
+    body = parsedBody;
   } catch {
     return new Response(JSON.stringify({ error: "Invalid JSON" }), {
       status: 400,
@@ -79,7 +84,7 @@ serve(async (req) => {
       await supabase
         .from("chat_messages")
         .delete()
-        .in("id", oldMessages.map((m: any) => m.id));
+        .in("id", oldMessages.map((m) => m.id));
     }
 
     return new Response(JSON.stringify({ ok: true }), {
@@ -91,7 +96,7 @@ serve(async (req) => {
   if (action === "event") {
     const { event_type, player_name, message: eventMessage } = body;
     const validEvents = ["join", "leave", "death", "advancement", "kick"];
-    if (!event_type || !validEvents.includes(event_type)) {
+    if (typeof event_type !== "string" || !validEvents.includes(event_type)) {
       return new Response(JSON.stringify({ error: "Invalid event type" }), {
         status: 400,
         headers: { ...corsHeaders, "Content-Type": "application/json" },
@@ -139,7 +144,7 @@ serve(async (req) => {
       .eq("server_id", connection.server_id);
 
     if (players.length > 0) {
-      const validPlayers = players.slice(0, 200).map((p: any) => ({
+      const validPlayers = players.slice(0, 200).filter(isRecord).map((p) => ({
         server_id: connection.server_id,
         player_name: String(p.name).slice(0, 32),
         player_uuid: p.uuid ? String(p.uuid).slice(0, 36) : null,
@@ -165,22 +170,22 @@ serve(async (req) => {
       .limit(50);
 
     if (messages && messages.length > 0) {
-      const userIds = [...new Set(messages.map((m: any) => m.user_id).filter(Boolean))];
+      const userIds = [...new Set(messages.map((m) => m.user_id).filter((id): id is string => id !== null))];
       const { data: profiles } = await supabase
         .from("profiles")
         .select("id, nickname")
         .in("id", userIds);
 
-      const profileMap = new Map(profiles?.map((p: any) => [p.id, p.nickname]) || []);
+      const profileMap = new Map<string, string>(profiles?.map((p) => [p.id, p.nickname]) || []);
 
       await supabase
         .from("chat_messages")
         .update({ delivered: true })
-        .in("id", messages.map((m: any) => m.id));
+        .in("id", messages.map((m) => m.id));
 
       return new Response(
         JSON.stringify({
-          messages: messages.map((m: any) => ({
+          messages: messages.map((m) => ({
             id: m.id,
             message: m.message,
             sender: profileMap.get(m.user_id) || "Web",

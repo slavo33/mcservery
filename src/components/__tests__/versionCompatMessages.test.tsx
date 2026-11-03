@@ -32,7 +32,7 @@ vi.mock("@/hooks/useAuth", () => ({
 }));
 vi.mock("sonner", () => ({ toast: { success: vi.fn(), error: vi.fn() } }));
 vi.mock("react-router-dom", async () => {
-  const actual = await vi.importActual<any>("react-router-dom");
+  const actual = await vi.importActual<typeof import("react-router-dom")>("react-router-dom");
   return { ...actual, useParams: () => ({ slug: "testserver" }), useNavigate: () => vi.fn() };
 });
 vi.mock("@/integrations/supabase/client", () => {

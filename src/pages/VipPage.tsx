@@ -201,7 +201,7 @@ const VipPage = () => {
 
                 <div className={`inline-flex items-center gap-2 rounded-full px-3 py-1 mb-4 ${tier.badgeClass} text-sm font-bold`}>
                   <Icon className="h-4 w-4" />
-                  {t(`vip_tier_${tier.id}` as any)}
+                  {t(`vip_tier_${tier.id}`)}
                 </div>
 
                 <div className="mb-4">

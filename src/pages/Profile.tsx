@@ -11,6 +11,7 @@ import { Camera, User, Heart, Settings, Server, Users } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import { useLanguage } from "@/i18n/LanguageContext";
 import type { MinecraftServer } from "@/lib/mockData";
+import type { Tables } from "@/integrations/supabase/types";
 import SEO from "@/components/SEO";
 import { useMultiServerStatus } from "@/hooks/useMultiServerStatus";
 
@@ -23,7 +24,7 @@ const Profile = () => {
   const [saving, setSaving] = useState(false);
   const [tab, setTab] = useState<"settings" | "favorites" | "my_servers">("settings");
   const [likedServers, setLikedServers] = useState<(MinecraftServer & { dbId: string; is_warez: boolean; has_whitelist: boolean })[]>([]);
-  const [likedPosts, setLikedPosts] = useState<any[]>([]);
+  const [likedPosts, setLikedPosts] = useState<(Tables<"staff_posts"> & { server_name: string })[]>([]);
   const [myServers, setMyServers] = useState<(MinecraftServer & { dbId: string; is_warez: boolean; has_whitelist: boolean })[]>([]);
   const [loadingFavorites, setLoadingFavorites] = useState(false);
   const [loadingMyServers, setLoadingMyServers] = useState(false);
@@ -54,7 +55,7 @@ const Profile = () => {
 
         if (servers) {
           setLikedServers(
-            servers.map((s: any) => ({
+            servers.map((s) => ({
               id: s.id,
               dbId: s.id,
               name: s.name,
@@ -127,7 +128,7 @@ const Profile = () => {
 
       if (servers) {
         setMyServers(
-          servers.map((s: any) => ({
+          servers.map((s) => ({
             id: s.id,
             dbId: s.id,
             name: s.name,
@@ -402,7 +403,7 @@ const Profile = () => {
             ) : (
               likedPosts.length > 0 ? (
                 <div className="grid gap-4 sm:grid-cols-2">
-                  {likedPosts.map((post: any) => (
+                  {likedPosts.map((post) => (
                     <a key={post.id} href={`/staff/${post.id}`} className="block">
                       <div className="gradient-card rounded-lg border border-border p-4 hover:border-primary/30 transition-colors">
                         <div className="flex items-center gap-2 mb-2">

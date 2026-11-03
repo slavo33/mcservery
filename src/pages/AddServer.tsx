@@ -193,7 +193,7 @@ const AddServer = () => {
       youtube_url: youtubeUrl.trim() || null,
       twitter_url: twitterUrl.trim() || null,
       images: serverImages,
-    } as any);
+    });
 
     if (error) {
       logError("Server insert error:", error);

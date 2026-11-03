@@ -29,12 +29,12 @@ const ReportDialog = ({ targetId, reportType, triggerClassName }: ReportDialogPr
   const handleSubmit = async () => {
     if (!user || !reason.trim()) return;
     setSubmitting(true);
-    const { error } = await supabase.from("reports" as any).insert({
+    const { error } = await supabase.from("reports").insert({
       reporter_id: user.id,
       report_type: reportType,
       target_id: targetId,
       reason: reason.trim(),
-    } as any);
+    });
     if (error) {
       toast.error(t("report_error"));
     } else {

@@ -93,7 +93,7 @@ const EditServer = () => {
 
       // Fetch vote API key and votifier config from server_secrets (owner-only access)
       const { data: secrets } = await supabase
-        .from("server_secrets" as any)
+        .from("server_secrets")
         .select("vote_api_key, votifier_ip, votifier_port, votifier_public_key, votifier_token")
         .eq("server_id", data.id)
         .maybeSingle() as { data: { vote_api_key: string | null; votifier_ip: string | null; votifier_port: number | null; votifier_public_key: string | null; votifier_token: string | null } | null };
@@ -251,11 +251,11 @@ const EditServer = () => {
       tiktok_url: tiktokUrl.trim() || null,
       youtube_url: youtubeUrl.trim() || null,
       twitter_url: twitterUrl.trim() || null,
-    } as any).eq("id", serverId);
+    }).eq("id", serverId);
 
     if (error) {
       logError("Server update error:", error);
-      if ((error as any).code === "23514") {
+      if (error.code === "23514") {
         toast.error(error.message || "Neplatná kombinácia verzie a nastavení servera.");
       } else {
         toast.error(t("edit_save_error"));
@@ -264,13 +264,13 @@ const EditServer = () => {
       // Save votifier config to server_secrets
       const cleanedVotifierKey = normalizeVotifierPublicKey(votifierPublicKey);
       await supabase
-        .from("server_secrets" as any)
+        .from("server_secrets")
         .update({
           votifier_ip: votifierIp.trim() || null,
           votifier_port: votifierPort ? parseInt(votifierPort, 10) : null,
           votifier_public_key: cleanedVotifierKey || null,
           votifier_token: votifierToken.trim() || null,
-        } as any)
+        })
         .eq("server_id", serverId);
 
       // Titulok a sociálne meta tagy prepíšeme okamžite, ešte pred navigáciou.
@@ -551,13 +551,13 @@ const EditServer = () => {
                 setTestingVotifier(true);
                 try {
                   await supabase
-                    .from("server_secrets" as any)
+                    .from("server_secrets")
                     .update({
                       votifier_ip: votifierIp.trim() || null,
                       votifier_port: votifierPort ? parseInt(votifierPort, 10) : null,
                       votifier_public_key: cleaned || null,
                       votifier_token: votifierToken.trim() || null,
-                    } as any)
+                    })
                     .eq("server_id", serverId);
 
                   const session = await supabase.auth.getSession();

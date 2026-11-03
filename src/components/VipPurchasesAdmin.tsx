@@ -58,7 +58,7 @@ const VipPurchasesAdmin = () => {
     const serverMap = new Map<string, string>();
     servers?.forEach((s) => serverMap.set(s.id, s.name));
     const profileMap = new Map<string, string>();
-    profiles?.forEach((p: any) => profileMap.set(p.id, p.nickname));
+    profiles?.forEach((p) => profileMap.set(p.id, p.nickname));
 
     setPurchases(
       data.map((p) => ({

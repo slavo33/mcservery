@@ -6,8 +6,19 @@ import { LanguageProvider } from "@/i18n/LanguageContext";
 import AddServer from "@/pages/AddServer";
 import VersionBadge from "@/components/VersionBadge";
 
+type CapturedServerRow = {
+  name: string;
+  ip: string;
+  description: string;
+  version: string;
+  platform?: string[];
+  proxy?: string | null;
+  [key: string]: unknown;
+};
+type CapturedServerUpdate = Partial<CapturedServerRow> & Record<string, unknown>;
+
 /** Zachytené riadky "databázy" */
-const inserted: any[] = [];
+const inserted: CapturedServerRow[] = [];
 
 vi.mock("@/hooks/useAuth", () => ({
   useAuth: () => ({ user: { id: "test-user" }, profile: null, loading: false }),
@@ -27,7 +38,7 @@ vi.mock("@/integrations/supabase/client", () => ({
             { maybeSingle: () => Promise.resolve({ data: null, error: null }) }
           ),
       }),
-      insert: (row: any) => {
+      insert: (row: CapturedServerRow) => {
         inserted.push(row);
         return Promise.resolve({ error: null });
       },

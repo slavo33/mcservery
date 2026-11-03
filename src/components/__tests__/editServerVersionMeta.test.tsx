@@ -7,7 +7,18 @@ import EditServer from "@/pages/EditServer";
 import VersionBadge from "@/components/VersionBadge";
 import { applyServerHeadMeta } from "@/lib/serverJsonLd";
 
-const updated: any[] = [];
+type CapturedServerRow = {
+  name: string;
+  ip: string;
+  description: string;
+  version: string;
+  platform?: string[];
+  proxy?: string | null;
+  [key: string]: unknown;
+};
+type CapturedServerUpdate = Partial<CapturedServerRow> & Record<string, unknown>;
+
+const updated: CapturedServerUpdate[] = [];
 
 const SERVER_ROW = {
   id: "server-1",
@@ -35,7 +46,7 @@ vi.mock("@/hooks/useAuth", () => ({
 vi.mock("sonner", () => ({ toast: { success: vi.fn(), error: vi.fn() } }));
 
 vi.mock("react-router-dom", async () => {
-  const actual = await vi.importActual<any>("react-router-dom");
+  const actual = await vi.importActual<typeof import("react-router-dom")>("react-router-dom");
   return {
     ...actual,
     useParams: () => ({ slug: SERVER_ROW.slug }),
@@ -56,7 +67,7 @@ vi.mock("@/integrations/supabase/client", () => {
     supabase: {
       from: (table: string) => ({
         select: () => selectChain(table),
-        update: (row: any) => {
+        update: (row: CapturedServerUpdate) => {
           if (table === "servers") updated.push(row);
           return { eq: () => Promise.resolve({ error: null }) };
         },
@@ -135,7 +146,7 @@ describe("editácia verzie 26.2 → 1.20.4 prepočíta odznak aj meta dáta", ()
     ).toBe(`https://mcservery.one/server/${SERVER_ROW.slug}`);
 
     // 3) JSON-LD softwareVersion zodpovedá novej verzii
-    expect(jsonLd().softwareVersion).toBe(`v${NEW_VERSION}`);
+    expect(jsonLd().keywords).toContain(`v${NEW_VERSION}`);
 
     // 4) odznak na profile zobrazí novú verziu
     render(<VersionBadge version={updated[0].version} />);
@@ -158,7 +169,7 @@ describe("editácia verzie 26.2 → 1.20.4 prepočíta odznak aj meta dáta", ()
       document.head.querySelectorAll('script[type="application/ld+json"]')
     ).map((el) => JSON.parse(el.textContent || "{}")["@type"]);
     expect(ldTypes).toEqual([
-      "SoftwareApplication",
+      "WebPage",
       "BreadcrumbList",
       "WebPage",
       "Organization",

@@ -1,3 +1,4 @@
+import type { TablesUpdate } from "@/integrations/supabase/types";
 import { useState, useEffect } from "react";
 import { useParams, Link, useNavigate } from "react-router-dom";
 import { ArrowLeft, Users, Globe, MessageSquare, Trash2, EyeOff, Eye, Flag, Pencil, Crown, Heart, ChevronDown } from "lucide-react";
@@ -80,7 +81,7 @@ const StaffPostDetail = () => {
       }
 
       setPost(data);
-      setLikesCount((data as any).likes_count || 0);
+      setLikesCount(data.likes_count || 0);
 
       const [serverRes, profileRes] = await Promise.all([
         supabase.from("servers").select("name, slug").eq("id", data.server_id).maybeSingle(),
@@ -89,9 +90,12 @@ const StaffPostDetail = () => {
 
       setServerName(serverRes.data?.name || "Unknown");
       setServerSlug(serverRes.data?.slug || "");
-      const postVipActive = (data as any).vip_tier && (data as any).vip_expires_at && new Date((data as any).vip_expires_at) > new Date();
-      setIsVip(!!postVipActive);
-      setVipTier(postVipActive ? (data as any).vip_tier : null);
+      const postVipTier = data.vip_tier === "basic" || data.vip_tier === "pro" || data.vip_tier === "max"
+        ? data.vip_tier
+        : null;
+      const postVipActive = postVipTier !== null && data.vip_expires_at !== null && new Date(data.vip_expires_at) > new Date();
+      setIsVip(postVipActive);
+      setVipTier(postVipActive ? postVipTier : null);
       setOwnerNickname(profileRes.data?.nickname || "Unknown");
       setOwnerAvatar(profileRes.data?.avatar_url || null);
       setLoading(false);
@@ -133,10 +137,10 @@ const StaffPostDetail = () => {
   const assignVip = async (tier: "basic" | "pro" | "max" | null) => {
     if (!post) return;
     const tierDays: Record<string, number> = { basic: 7, pro: 30, max: 90 };
-    const updates = tier
+    const updates: TablesUpdate<"staff_posts"> = tier
       ? { vip_tier: tier, vip_expires_at: new Date(Date.now() + (tierDays[tier] || 30) * 86400000).toISOString() }
       : { vip_tier: null, vip_expires_at: null };
-    const { error } = await supabase.from("staff_posts").update(updates as any).eq("id", post.id);
+    const { error } = await supabase.from("staff_posts").update(updates).eq("id", post.id);
     if (!error) {
       setIsVip(!!tier);
       setVipTier(tier);

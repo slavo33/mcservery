@@ -49,7 +49,13 @@ function collect(dir: string): Map<string, Metrics> {
 
   for (const file of readdirSync(abs)) {
     if (!file.endsWith(".json") || file === "manifest.json" || file === "assertion-results.json") continue;
-    let report: any;
+    let report: {
+      audits?: Record<string, { numericValue?: unknown } | undefined>;
+      finalUrl?: string;
+      finalDisplayedUrl?: string;
+      requestedUrl?: string;
+      categories?: { performance?: { score?: unknown } };
+    };
     try {
       report = JSON.parse(readFileSync(join(abs, file), "utf8"));
     } catch {

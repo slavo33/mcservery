@@ -11,9 +11,10 @@ import { ArrowRight, Crown } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { useLanguage } from "@/i18n/LanguageContext";
 import type { MinecraftServer } from "@/lib/mockData";
+import type { Tables } from "@/integrations/supabase/types";
 import { useMultiServerStatus } from "@/hooks/useMultiServerStatus";
 
-const mapServer = (s: any): MinecraftServer & { is_warez?: boolean; has_whitelist?: boolean; votes?: number; slug?: string; vip_expires_at?: string | null; vote_cooldown_hours?: number } => ({
+const mapServer = (s: Tables<"servers">): MinecraftServer & { is_warez?: boolean; has_whitelist?: boolean; votes?: number; slug?: string; vip_expires_at?: string | null; vote_cooldown_hours?: number } => ({
   id: s.id,
   name: s.name,
   description: s.description,
@@ -49,7 +50,7 @@ const Index = () => {
         .select("*")
         .gt("vip_expires_at", new Date().toISOString())
         .order("vote_count", { ascending: false });
-      const vipIds = new Set((vipData || []).map((s: any) => s.id));
+      const vipIds = new Set((vipData || []).map((s) => s.id));
       if (vipData) {
         setVipServers(vipData.map(mapServer));
       }
@@ -61,7 +62,7 @@ const Index = () => {
         .order("vote_count", { ascending: false })
         .limit(20);
       if (featuredData) {
-        const filtered = featuredData.filter((s: any) => !vipIds.has(s.id)).slice(0, 3);
+        const filtered = featuredData.filter((s) => !vipIds.has(s.id)).slice(0, 3);
         setFeatured(filtered.map(mapServer));
       }
     };

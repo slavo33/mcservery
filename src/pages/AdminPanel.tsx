@@ -52,20 +52,20 @@ const AdminPanel = () => {
 
   const fetchReports = async () => {
     setLoading(true);
-    let query = supabase.from("reports" as any).select("*").order("created_at", { ascending: false });
+    let query = supabase.from("reports").select("*").order("created_at", { ascending: false });
     if (filter !== "all") {
       query = query.eq("status", filter);
     }
     const { data } = await query;
     if (!data) { setLoading(false); return; }
 
-    const reportsList = data as any as Report[];
+    const reportsList: Report[] = data;
 
     // Fetch reporter nicknames
     const reporterIds = [...new Set(reportsList.map(r => r.reporter_id))];
     const { data: profiles } = await supabase.from("profiles").select("id, nickname").in("id", reporterIds);
     const profileMap = new Map<string, string>();
-    if (profiles) profiles.forEach((p: any) => profileMap.set(p.id, p.nickname));
+    if (profiles) profiles.forEach((p) => profileMap.set(p.id, p.nickname));
 
     // Fetch server names for server reports
     const serverIds = reportsList.filter(r => r.report_type === "server").map(r => r.target_id);
@@ -137,7 +137,7 @@ const AdminPanel = () => {
       toast.error(t("detail_delete_error"));
       return;
     }
-    await supabase.from("reports" as any).update({ status: "resolved", resolved_by: user!.id, resolved_at: new Date().toISOString() } as any).eq("id", report.id);
+    await supabase.from("reports").update({ status: "resolved", resolved_by: user!.id, resolved_at: new Date().toISOString() }).eq("id", report.id);
     toast.success(t("admin_server_deleted"));
     fetchReports();
   };
@@ -153,7 +153,7 @@ const AdminPanel = () => {
         return;
       }
     }
-    await supabase.from("reports" as any).update({ status: "resolved", resolved_by: user!.id, resolved_at: new Date().toISOString() } as any).eq("id", report.id);
+    await supabase.from("reports").update({ status: "resolved", resolved_by: user!.id, resolved_at: new Date().toISOString() }).eq("id", report.id);
     toast.success(t("admin_comment_deleted"));
     fetchReports();
   };
@@ -165,13 +165,13 @@ const AdminPanel = () => {
       toast.error(t("staff_error"));
       return;
     }
-    await supabase.from("reports" as any).update({ status: "resolved", resolved_by: user!.id, resolved_at: new Date().toISOString() } as any).eq("id", report.id);
+    await supabase.from("reports").update({ status: "resolved", resolved_by: user!.id, resolved_at: new Date().toISOString() }).eq("id", report.id);
     toast.success(t("staff_deleted"));
     fetchReports();
   };
 
   const handleDismiss = async (report: Report) => {
-    await supabase.from("reports" as any).update({ status: "dismissed", resolved_by: user!.id, resolved_at: new Date().toISOString() } as any).eq("id", report.id);
+    await supabase.from("reports").update({ status: "dismissed", resolved_by: user!.id, resolved_at: new Date().toISOString() }).eq("id", report.id);
     toast.success(t("admin_dismissed"));
     fetchReports();
   };

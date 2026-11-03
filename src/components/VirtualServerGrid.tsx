@@ -1,16 +1,28 @@
 import { useEffect, useRef, useState } from "react";
 import { useWindowVirtualizer } from "@tanstack/react-virtual";
 import ServerCard from "@/components/ServerCard";
+import type { MinecraftServer } from "@/lib/mockData";
+import type { ServerStatus } from "@/lib/serverStatusStore";
 
-type AnyServer = any;
+type GridServer = MinecraftServer & {
+  dbId?: string;
+  is_warez?: boolean;
+  has_whitelist?: boolean;
+  votes?: number;
+  vip_expires_at?: string | null;
+  vote_cooldown_hours?: number;
+  slug?: string;
+};
+
+type DataAttributes = { [key: `data-${string}`]: string | number | undefined };
 
 interface VirtualServerGridProps {
-  servers: AnyServer[];
-  statuses: Record<string, any>;
+  servers: GridServer[];
+  statuses: Record<string, ServerStatus>;
   /** Odhadovaná výška riadku (karta + medzera) pre plynulý scroll pred zmeraním */
   estimateRowHeight?: number;
   className?: string;
-  gridProps?: React.HTMLAttributes<HTMLDivElement>;
+  gridProps?: React.HTMLAttributes<HTMLDivElement> & DataAttributes;
 }
 
 /** Počet stĺpcov podľa breakpointu (zhoduje sa s grid sm:2 / lg:3) */
@@ -90,7 +102,7 @@ const VirtualServerGrid = ({
                 transform: `translateY(${row.start - virtualizer.options.scrollMargin}px)`,
               }}
             >
-              {items.map((server: AnyServer) => (
+              {items.map((server) => (
                 <ServerCard
                   key={server.id}
                   server={server}

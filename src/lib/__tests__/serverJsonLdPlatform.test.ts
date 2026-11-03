@@ -29,21 +29,23 @@ describe("JSON-LD — typ servera a loader", () => {
       platform: ["java", "bedrock"],
       software: "Spigot",
     });
-    expect(ld.operatingSystem).toBe("Minecraft Java Edition, Minecraft Bedrock Edition");
-    expect(ld.applicationSubCategory).toBe("Minecraft Java / Bedrock");
-    expect(ld.runtimePlatform).toBe("Spigot");
-    expect(ld.additionalProperty).toEqual([
-      { "@type": "PropertyValue", name: "Edition", value: "Java, Bedrock" },
-      { "@type": "PropertyValue", name: "Server software", value: "Spigot" },
-    ]);
+    expect(ld["@type"]).toBe("WebPage");
+    expect(ld.keywords).toEqual(expect.arrayContaining([
+      "Minecraft Java Edition",
+      "Minecraft Bedrock Edition",
+      "Spigot",
+      "v1.20.4",
+    ]));
+    expect(ld).not.toHaveProperty("operatingSystem");
+    expect(ld).not.toHaveProperty("runtimePlatform");
   });
 
   it("bez platformy a loadera zostane JSON-LD čisté", () => {
     const ld = buildServerJsonLd({ name: "Test", description: "popis", version: "1.20.4" });
-    expect(ld.operatingSystem).toBe("Minecraft");
-    expect(ld.runtimePlatform).toBeUndefined();
-    expect(ld.additionalProperty).toBeUndefined();
-    expect(ld.applicationSubCategory).toBeUndefined();
+    expect(ld["@type"]).toBe("WebPage");
+    expect(ld.keywords).toEqual(["v1.20.4"]);
+    expect(ld).not.toHaveProperty("operatingSystem");
+    expect(ld).not.toHaveProperty("runtimePlatform");
   });
 
   it("buildServerMeta prenáša nastavenia profilu do JSON-LD", () => {
@@ -56,8 +58,10 @@ describe("JSON-LD — typ servera a loader", () => {
       platform: ["java"],
       software: "Purpur",
     });
-    expect(meta.jsonLd.softwareVersion).toBe("v26.2");
-    expect(meta.jsonLd.runtimePlatform).toBe("Purpur");
-    expect(meta.jsonLd.operatingSystem).toBe("Minecraft Java Edition");
+    expect(meta.jsonLd.keywords).toEqual(expect.arrayContaining([
+      "v26.2",
+      "Purpur",
+      "Minecraft Java Edition",
+    ]));
   });
 });

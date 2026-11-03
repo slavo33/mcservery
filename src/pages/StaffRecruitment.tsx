@@ -53,7 +53,7 @@ const StaffRecruitment = () => {
   const { t } = useLanguage();
   const { user } = useAuth();
   const [posts, setPosts] = useState<StaffPost[]>([]);
-  const [myServers, setMyServers] = useState<{ id: string; name: string; ip: string; discord_url: string | null; website_url: string | null; vip_expires_at: string | null }[]>([]);
+  const [myServers, setMyServers] = useState<{ id: string; name: string; ip: string; discord_url: string | null; website_url: string | null; vip_expires_at: string | null; vote_cooldown_hours: number }[]>([]);
   const [loading, setLoading] = useState(true);
   const [dialogOpen, setDialogOpen] = useState(false);
   const [showMyPosts, setShowMyPosts] = useState(false);
@@ -86,23 +86,26 @@ const StaffRecruitment = () => {
 
       const serversRes = await supabase.from("servers").select("id, name").in("id", serverIds);
       const profilesRes = await supabase.from("profiles").select("id, nickname, avatar_url").in("id", ownerIds);
-      let myLikesRes: { data: any[] | null } = { data: null };
+      let myLikesRes: { data: { staff_post_id: string }[] | null } = { data: null };
       if (user) {
         myLikesRes = await supabase.from("staff_post_likes").select("staff_post_id").eq("user_id", user.id).in("staff_post_id", postIds);
       }
 
-      const serverMap = new Map(serversRes.data?.map((s: any) => [s.id, { name: s.name }]) || []);
-      const profileMap = new Map(profilesRes.data?.map((p: any) => [p.id, p]) || []);
-      const myLikedIds = new Set(myLikesRes?.data?.map((l: any) => l.staff_post_id) || []);
+      const serverMap = new Map(serversRes.data?.map((s) => [s.id, { name: s.name }]) || []);
+      const profileMap = new Map(profilesRes.data?.map((p) => [p.id, p]) || []);
+      const myLikedIds = new Set(myLikesRes.data?.map((l) => l.staff_post_id) || []);
 
       setPosts(data.map(p => {
-        const postVipActive = (p as any).vip_tier && (p as any).vip_expires_at && new Date((p as any).vip_expires_at) > new Date();
+        const postVipTier = p.vip_tier === "basic" || p.vip_tier === "pro" || p.vip_tier === "max"
+          ? p.vip_tier
+          : null;
+        const postVipActive = postVipTier !== null && p.vip_expires_at !== null && new Date(p.vip_expires_at) > new Date();
         return {
           ...p,
-          likes_count: (p as any).likes_count || 0,
+          likes_count: p.likes_count || 0,
           server_name: serverMap.get(p.server_id)?.name || "Unknown",
           is_vip: !!postVipActive,
-          vip_tier: postVipActive ? (p as any).vip_tier : null,
+          vip_tier: postVipActive ? postVipTier : null,
           owner_nickname: profileMap.get(p.owner_id)?.nickname || "Unknown",
           owner_avatar: profileMap.get(p.owner_id)?.avatar_url,
           liked_by_me: myLikedIds.has(p.id),
@@ -160,7 +163,7 @@ const StaffRecruitment = () => {
     let vipTier: string | null = null;
     if (serverHasVip) {
       // Derive tier from cooldown
-      const cooldown = (server as any).vote_cooldown_hours;
+      const cooldown = server.vote_cooldown_hours;
       if (cooldown === 2) vipTier = "max";
       else if (cooldown === 4) vipTier = "pro";
       else vipTier = "basic";
@@ -177,7 +180,7 @@ const StaffRecruitment = () => {
       website_url: server.website_url,
       images,
       ...(serverHasVip ? { vip_tier: vipTier, vip_expires_at: server.vip_expires_at } : {}),
-    } as any);
+    });
 
     if (error) {
       if (error.code === "42501") {
@@ -477,7 +480,7 @@ const StaffRecruitment = () => {
         ) : (
           <div className="grid gap-4 sm:grid-cols-2">
             {displayedPosts.map(post => (
-              <Link key={post.id} to={`/staff/${(post as any).slug || post.id}`} className="block">
+              <Link key={post.id} to={`/staff/${post.slug || post.id}`} className="block">
               <Card className={`overflow-hidden transition-colors cursor-pointer ${post.is_vip ? (
                 post.vip_tier === "max" ? "border-amber-500/40 hover:border-amber-500/60 ring-1 ring-amber-500/10" :
                 post.vip_tier === "pro" ? "border-purple-500/40 hover:border-purple-500/60 ring-1 ring-purple-500/10" :

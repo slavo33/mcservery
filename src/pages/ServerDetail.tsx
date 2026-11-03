@@ -133,7 +133,7 @@ const ServerDetailPage = () => {
           vip_tier: vipTier,
         });
         setLikesCount(data.likes_count);
-        setVoteCount((data as any).vote_count || 0);
+        setVoteCount(data.vote_count || 0);
       }
       setLoading(false);
     };
@@ -154,7 +154,7 @@ const ServerDetailPage = () => {
           const next = payload.new as Partial<ServerDetailData>;
           setServer((prev) => (prev ? { ...prev, ...next } : prev));
           if (typeof next.likes_count === "number") setLikesCount(next.likes_count);
-          if (typeof (next as any).vote_count === "number") setVoteCount((next as any).vote_count);
+          if (typeof next.vote_count === "number") setVoteCount(next.vote_count);
         }
       )
       .subscribe();

@@ -22,7 +22,9 @@ export const LanguageProvider = ({ children }: { children: ReactNode }) => {
   };
 
   const t = (key: string): string => {
-    return (translations[locale] as any)?.[key] || (translations.sk as any)?.[key] || key;
+    const currentMessages = translations[locale] as Record<string, string>;
+    const fallbackMessages = translations.sk as Record<string, string>;
+    return currentMessages[key] || fallbackMessages[key] || key;
   };
 
   return (
@@ -35,7 +37,7 @@ export const LanguageProvider = ({ children }: { children: ReactNode }) => {
 const fallback: LanguageContextType = {
   locale: "sk",
   setLocale: () => {},
-  t: (key: string) => (translations.sk as any)?.[key] || key,
+  t: (key: string) => (translations.sk as Record<string, string>)[key] || key,
 };
 
 export const useLanguage = () => {
