@@ -43,7 +43,7 @@ const UserProfile = () => {
 
       if (serversRes.data) {
         setServers(
-          serversRes.data.map((s: any) => ({
+          serversRes.data.map((s) => ({
             id: s.id,
             dbId: s.id,
             name: s.name,
