@@ -53,7 +53,7 @@ const StaffRecruitment = () => {
   const { t } = useLanguage();
   const { user } = useAuth();
   const [posts, setPosts] = useState<StaffPost[]>([]);
-  const [myServers, setMyServers] = useState<{ id: string; name: string; ip: string; discord_url: string | null; website_url: string | null; vip_expires_at: string | null }[]>([]);
+  const [myServers, setMyServers] = useState<{ id: string; name: string; ip: string; discord_url: string | null; website_url: string | null; vip_expires_at: string | null; vote_cooldown_hours: number }[]>([]);
   const [loading, setLoading] = useState(true);
   const [dialogOpen, setDialogOpen] = useState(false);
   const [showMyPosts, setShowMyPosts] = useState(false);
@@ -96,13 +96,16 @@ const StaffRecruitment = () => {
       const myLikedIds = new Set(myLikesRes.data?.map((l) => l.staff_post_id) || []);
 
       setPosts(data.map(p => {
-        const postVipActive = p.vip_tier && p.vip_expires_at && new Date(p.vip_expires_at) > new Date();
+        const postVipTier = p.vip_tier === "basic" || p.vip_tier === "pro" || p.vip_tier === "max"
+          ? p.vip_tier
+          : null;
+        const postVipActive = postVipTier !== null && p.vip_expires_at !== null && new Date(p.vip_expires_at) > new Date();
         return {
           ...p,
           likes_count: p.likes_count || 0,
           server_name: serverMap.get(p.server_id)?.name || "Unknown",
           is_vip: !!postVipActive,
-          vip_tier: postVipActive ? p.vip_tier : null,
+          vip_tier: postVipActive ? postVipTier : null,
           owner_nickname: profileMap.get(p.owner_id)?.nickname || "Unknown",
           owner_avatar: profileMap.get(p.owner_id)?.avatar_url,
           liked_by_me: myLikedIds.has(p.id),
