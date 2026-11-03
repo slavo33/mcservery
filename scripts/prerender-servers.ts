@@ -78,22 +78,18 @@ function buildHead(server: ServerRow) {
 
   const jsonLd = {
     "@context": "https://schema.org",
-    "@type": "SoftwareApplication",
+    "@type": "WebPage",
     name: server.name,
     description,
-    applicationCategory: "GameApplication",
-    operatingSystem: "Minecraft",
-    ...(versionLabel ? { softwareVersion: versionLabel } : {}),
-    offers: { "@type": "Offer", price: "0", priceCurrency: "EUR" },
-    ...(server.likes_count && server.likes_count > 0
-      ? {
-          aggregateRating: {
-            "@type": "AggregateRating",
-            ratingValue: "5",
-            ratingCount: String(server.likes_count),
-          },
-        }
-      : {}),
+    url: canonical,
+    ...(image ? { image } : {}),
+    inLanguage: "sk",
+    ...(server.updated_at ? { dateModified: server.updated_at } : {}),
+    publisher: {
+      "@type": "Organization",
+      name: "MCServery",
+      url: BASE_URL,
+    },
   };
 
   return [
