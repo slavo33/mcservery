@@ -492,7 +492,7 @@ export type Database = {
           owner_id: string
           platform?: string[]
           proxy?: string | null
-          slug: string
+          slug?: string
           software?: string
           tags?: string[]
           tiktok_url?: string | null
