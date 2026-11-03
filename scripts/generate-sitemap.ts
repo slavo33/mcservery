@@ -92,6 +92,12 @@ function toSitemapImages(
 const staticEntries: SitemapEntry[] = [
   { path: "/", changefreq: "daily", priority: "1.0" },
   { path: "/servers", changefreq: "daily", priority: "0.9" },
+  { path: "/minecraft-servery/survival", changefreq: "weekly", priority: "0.8" },
+  { path: "/minecraft-servery/skyblock", changefreq: "weekly", priority: "0.8" },
+  { path: "/minecraft-servery/bedwars", changefreq: "weekly", priority: "0.8" },
+  { path: "/minecraft-servery/skywars", changefreq: "weekly", priority: "0.8" },
+  { path: "/minecraft-servery/pvp", changefreq: "weekly", priority: "0.8" },
+  { path: "/minecraft-servery/smp", changefreq: "weekly", priority: "0.8" },
   { path: "/staff", changefreq: "daily", priority: "0.7" },
   { path: "/vip", changefreq: "monthly", priority: "0.6" },
   { path: "/add-server", changefreq: "monthly", priority: "0.6" },
