@@ -33,6 +33,9 @@ interface DbServer {
   has_whitelist: boolean;
   images: string[];
   vote_count: number;
+  slug: string;
+  vip_expires_at: string | null;
+  vote_cooldown_hours: number;
 }
 
 const Servers = () => {
@@ -155,7 +158,7 @@ const Servers = () => {
     };
   }, []);
 
-  const allServers: (MinecraftServer & { dbId?: string; is_warez?: boolean; has_whitelist?: boolean; slug?: string })[] = useMemo(() => {
+  const allServers: (MinecraftServer & { dbId?: string; is_warez?: boolean; has_whitelist?: boolean; slug?: string; votes?: number; vip_expires_at?: string | null; vote_cooldown_hours?: number })[] = useMemo(() => {
     return dbServers.map((s) => ({
       id: s.id,
       dbId: s.id,
@@ -170,14 +173,14 @@ const Servers = () => {
       software: s.software,
       minigames: s.minigames,
       likes: s.likes_count,
-      votes: (s as any).vote_count || 0,
+      votes: s.vote_count || 0,
       tags: s.tags,
       isOnline: true,
       is_warez: s.is_warez,
       has_whitelist: s.has_whitelist,
-      slug: (s as any).slug,
-      vip_expires_at: (s as any).vip_expires_at,
-      vote_cooldown_hours: (s as any).vote_cooldown_hours,
+      slug: s.slug,
+      vip_expires_at: s.vip_expires_at,
+      vote_cooldown_hours: s.vote_cooldown_hours,
     }));
   }, [dbServers]);
 
@@ -188,7 +191,7 @@ const Servers = () => {
     // Kľúč cache: filtre + zoradenie + podpis datasetu (a live stavov pri triedení podľa hráčov)
     const dataVersion = buildDataVersion(
       allServers.map((s) => s.id),
-      statuses as any,
+      statuses,
       sortBy,
     );
     const key = buildQueryKey({
@@ -208,7 +211,7 @@ const Servers = () => {
 
     const result = allServers.filter((s) => {
       if (showVipOnly) {
-        const vipExpires = (s as any).vip_expires_at;
+        const vipExpires = s.vip_expires_at;
         if (!vipExpires || new Date(vipExpires) < new Date()) return false;
       }
       if (search) {
@@ -226,7 +229,7 @@ const Servers = () => {
     });
 
     // Sort (zdieľaná logika – kryté unit testami v src/lib/__tests__/serverSorting.test.ts)
-    const sorted = sortServers(result as any, sortBy, sortDir, statuses as any) as typeof result;
+    const sorted = sortServers(result, sortBy, sortDir, statuses);
     queryCache.set(key, sorted as unknown[]);
     return sorted;
   }, [search, platform, version, software, minigame, allServers, sortBy, sortDir, statuses, showVipOnly]);
@@ -324,18 +327,18 @@ const Servers = () => {
               type="button"
               data-sort={opt}
               aria-pressed={sortBy === opt}
-              aria-label={`${t("sort_label")}: ${t(`sort_${opt}` as any)}${sortBy === opt ? ` (${sortDir === "desc" ? "↓" : "↑"})` : ""}`}
+              aria-label={`${t("sort_label")}: ${t(`sort_${opt}`)}${sortBy === opt ? ` (${sortDir === "desc" ? "↓" : "↑"})` : ""}`}
               onClick={() => {
                 if (sortBy === opt) setSortDir(sortDir === "desc" ? "asc" : "desc");
                 else { setSortBy(opt); setSortDir("desc"); }
               }}
               className={`text-sm px-3 py-1 rounded-full border transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/60 ${sortBy === opt ? "border-primary bg-primary/10 text-primary" : "border-border text-muted-foreground hover:border-primary/40"}`}
             >
-              <span aria-hidden="true">{t(`sort_${opt}` as any)} {sortBy === opt ? (sortDir === "desc" ? "↓" : "↑") : ""}</span>
+              <span aria-hidden="true">{t(`sort_${opt}`)} {sortBy === opt ? (sortDir === "desc" ? "↓" : "↑") : ""}</span>
             </button>
           ))}
           <span className="sr-only" aria-live="polite">
-            {t("sort_label")}: {t(`sort_${sortBy}` as any)} {sortDir === "desc" ? "↓" : "↑"}
+            {t("sort_label")}: {t(`sort_${sortBy}`)} {sortDir === "desc" ? "↓" : "↑"}
           </span>
         </div>
 
@@ -366,7 +369,7 @@ const Servers = () => {
                 "data-results-count": filtered.length,
                 "data-page": page,
                 "data-page-count": pageCount,
-              } as any}
+              }}
             />
 
 
