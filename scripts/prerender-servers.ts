@@ -188,7 +188,7 @@ function buildCategoryHead(slug: keyof typeof CATEGORY_PAGES) {
     `<meta name="twitter:title" content="${esc(`${category.title} | MCServery`)}" />`,
     `<meta name="twitter:description" content="${esc(category.description)}" />`,
     ...graph.map((item) => `<script type="application/ld+json">${JSON.stringify(item)}</script>`),
-  ].join("\\n    ");
+  ].join("\n    ");
 }
 
 async function main() {
@@ -212,7 +212,7 @@ async function main() {
 
   let categoriesWritten = 0;
   for (const slug of Object.keys(CATEGORY_PAGES) as (keyof typeof CATEGORY_PAGES)[]) {
-    const html = stripSitewideMeta(template).replace("</head>", `  ${buildCategoryHead(slug)}\\n  </head>`);
+    const html = stripSitewideMeta(template).replace("</head>", `  ${buildCategoryHead(slug)}\n  </head>`);
     const out = resolve(DIST, "minecraft-servery", slug, "index.html");
     mkdirSync(dirname(out), { recursive: true });
     writeFileSync(out, html);
