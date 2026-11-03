@@ -92,7 +92,7 @@ describe("buildDataVersion", () => {
   });
 
   it("pri triedení podľa hráčov reflektuje zmenu počtu hráčov", () => {
-    const v1 = buildDataVersion(["a", "b"], statuses as any, "players");
+    const v1 = buildDataVersion(["a", "b"], statuses, "players");
     const v2 = buildDataVersion(
       ["a", "b"],
       { ...statuses, "a.net": { online: true, players: { online: 6 } } },
