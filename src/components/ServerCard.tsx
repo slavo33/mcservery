@@ -8,7 +8,7 @@ import { useLanguage } from "@/i18n/LanguageContext";
 import { useServerStatus } from "@/hooks/useServerStatus";
 
 interface ServerCardProps {
-  server: MinecraftServer & { is_warez?: boolean; has_whitelist?: boolean; votes?: number; vip_expires_at?: string | null; vote_cooldown_hours?: number };
+  server: MinecraftServer & { is_warez?: boolean; has_whitelist?: boolean; votes?: number; vip_expires_at?: string | null; vote_cooldown_hours?: number; slug?: string };
   dbMode?: boolean;
   dbId?: string;
   /** Stav získaný hromadne v zozname – zaručuje zhodu s poradím pri zoradení podľa hráčov. */
@@ -102,7 +102,7 @@ const ServerCard = ({ server, dbMode, dbId, liveStatus }: ServerCardProps) => {
           <div className="flex items-center gap-3 shrink-0">
             <span className="flex items-center gap-1 text-muted-foreground text-xs">
               <Vote className="h-3.5 w-3.5 text-primary" />
-              {(server as any).votes || 0}
+              {server.votes || 0}
             </span>
             <button onClick={handleLike} className="flex items-center gap-1 text-muted-foreground hover:text-primary transition-colors">
               <Heart className={`h-4 w-4 transition-all ${liked ? "fill-primary text-primary scale-110" : ""}`} />
@@ -145,7 +145,7 @@ const ServerCard = ({ server, dbMode, dbId, liveStatus }: ServerCardProps) => {
   );
 
   if (dbMode && dbId) {
-    return <Link to={`/server/${(server as any).slug || dbId}`} className="block min-w-0">{cardContent}</Link>;
+    return <Link to={`/server/${server.slug || dbId}`} className="block min-w-0">{cardContent}</Link>;
   }
 
   return cardContent;
