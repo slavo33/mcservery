@@ -27,7 +27,7 @@ const TopVoters = ({ serverId, refreshKey }: TopVotersProps) => {
         });
         if (!error && data) {
           setVoters(
-            (data as any[]).map((r) => ({ nick: r.nick, count: Number(r.vote_count) }))
+            data.map((r) => ({ nick: r.nick, count: Number(r.vote_count) }))
           );
         }
       } catch {
