@@ -90,7 +90,6 @@ export const buildServerJsonLd = ({
   url,
   image,
   ip,
-  maxPlayers,
   keywords,
   createdAt,
   updatedAt,
