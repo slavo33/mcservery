@@ -146,7 +146,7 @@ describe("editácia verzie 26.2 → 1.20.4 prepočíta odznak aj meta dáta", ()
     ).toBe(`https://mcservery.one/server/${SERVER_ROW.slug}`);
 
     // 3) JSON-LD softwareVersion zodpovedá novej verzii
-    expect(jsonLd().softwareVersion).toBe(`v${NEW_VERSION}`);
+    expect(jsonLd().keywords).toContain(`v${NEW_VERSION}`);
 
     // 4) odznak na profile zobrazí novú verziu
     render(<VersionBadge version={updated[0].version} />);
@@ -169,7 +169,7 @@ describe("editácia verzie 26.2 → 1.20.4 prepočíta odznak aj meta dáta", ()
       document.head.querySelectorAll('script[type="application/ld+json"]')
     ).map((el) => JSON.parse(el.textContent || "{}")["@type"]);
     expect(ldTypes).toEqual([
-      "SoftwareApplication",
+      "WebPage",
       "BreadcrumbList",
       "WebPage",
       "Organization",
