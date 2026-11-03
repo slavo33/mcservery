@@ -84,6 +84,7 @@
     { "name": "test-votifier", "access": "authenticated", "body": { "server_id": "00000000-0000-0000-0000-000000000000" } },
     { "name": "cleanup-expired-vip", "access": "authenticated", "body": {} },
     { "name": "chat-plugin-api", "access": "api-key", "body": { "action": "poll" } },
-    { "name": "get-pending-votes", "access": "api-key", "body": { "server_id": "00000000-0000-0000-0000-000000000000" } }
+    { "name": "get-pending-votes", "access": "api-key", "body": { "server_id": "00000000-0000-0000-0000-000000000000" } },
+    { "name": "dns-admin", "access": "authenticated", "body": { "action": "lookup" }, "reason": "DNS diagnostika je dostupná iba prihlásenému administrátorovi; funkcia overuje JWT aj rolu admin." }
   ]
 }
