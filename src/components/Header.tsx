@@ -28,7 +28,7 @@ const Header = () => {
 
   const showConsole = isAdmin || hasVipServer;
 
-  const navItems = [
+  const navItems: Array<{ label: string; to: string; icon?: typeof Users; isVip?: boolean }> = [
     { label: t("nav_home"), to: "/" },
     { label: t("nav_servers"), to: "/servers" },
     { label: t("nav_add_server"), to: "/add-server" },
@@ -48,7 +48,7 @@ const Header = () => {
 
         {/* Desktop nav */}
         <nav aria-label="Hlavná navigácia" className="hidden items-center gap-1 lg:flex">
-          {navItems.map((item: any) => (
+          {navItems.map((item) => (
             <Link
               key={item.to}
               to={item.to}
@@ -120,7 +120,7 @@ const Header = () => {
       {mobileOpen && (
         <div className="border-t border-border bg-background px-4 pb-4 lg:hidden animate-slide-up">
           <nav aria-label="Mobilná navigácia" className="flex flex-col gap-1 pt-2">
-            {navItems.map((item: any) => (
+            {navItems.map((item) => (
               <Link
                 key={item.to}
                 to={item.to}
