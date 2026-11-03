@@ -13,7 +13,7 @@ const VIP_TIERS: Record<string, { price_id: string; days: number; cooldown: numb
   max:   { price_id: "price_1T8gFUH8BEd7vCRGf1wiQNir", days: 90, cooldown: 2 },
 };
 
-const logStep = (step: string, details?: any) => {
+const logStep = (step: string, details?: unknown) => {
   const detailsStr = details ? ` - ${JSON.stringify(details)}` : '';
   console.log(`[CREATE-VIP-CHECKOUT] ${step}${detailsStr}`);
 };
@@ -119,9 +119,8 @@ serve(async (req) => {
     const origin = req.headers.get("origin") || "https://mcservery.lovable.app";
     const expiresAt = new Date(Date.now() + tierConfig.days * 24 * 60 * 60 * 1000).toISOString();
 
-    const sessionParams: any = {
-      customer: customerId,
-      customer_email: customerId ? undefined : user.email,
+    const sessionParams: Stripe.Checkout.SessionCreateParams = {
+      ...(customerId ? { customer: customerId } : { customer_email: user.email }),
       line_items: [{ price: tierConfig.price_id, quantity: 1 }],
       mode: "payment",
       success_url: `${origin}/vip-success?session_id={CHECKOUT_SESSION_ID}`,
@@ -135,11 +134,8 @@ serve(async (req) => {
         price_id: tierConfig.price_id,
         discount_code_id: discountCodeId || "",
       },
+      ...(stripeCouponId ? { discounts: [{ coupon: stripeCouponId }] } : {}),
     };
-
-    if (stripeCouponId) {
-      sessionParams.discounts = [{ coupon: stripeCouponId }];
-    }
 
     const session = await stripe.checkout.sessions.create(sessionParams);
     logStep("Checkout session created", { sessionId: session.id, url: session.url });
