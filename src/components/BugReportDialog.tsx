@@ -65,12 +65,12 @@ const BugReportDialog = ({ mobile }: BugReportDialogProps = {}) => {
       screenshotUrl = publicUrl;
     }
 
-    const { error } = await supabase.from("bug_reports" as any).insert({
+    const { error } = await supabase.from("bug_reports").insert({
       reporter_id: user.id,
       title: title.trim(),
       description: description.trim(),
       screenshot_url: screenshotUrl,
-    } as any);
+    });
 
     if (error) {
       toast.error(t("bug_submit_error"));
