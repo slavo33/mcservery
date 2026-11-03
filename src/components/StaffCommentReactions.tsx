@@ -27,7 +27,7 @@ const StaffCommentReactions = ({ staffCommentId }: { staffCommentId: string }) =
 
   const fetchReactions = async () => {
     const { data } = await supabase
-      .from("staff_reactions" as any)
+      .from("staff_reactions")
       .select("reaction, user_id")
       .eq("staff_comment_id", staffCommentId);
 
@@ -36,7 +36,7 @@ const StaffCommentReactions = ({ staffCommentId }: { staffCommentId: string }) =
       REACTION_EMOJIS.forEach(({ type }) => {
         counts[type] = { count: 0, userReacted: false };
       });
-      (data as any[]).forEach((r) => {
+      data.forEach((r) => {
         if (counts[r.reaction]) {
           counts[r.reaction].count++;
           if (user && r.user_id === user.id) {
@@ -58,17 +58,17 @@ const StaffCommentReactions = ({ staffCommentId }: { staffCommentId: string }) =
 
     const current = reactions[type];
     if (current.userReacted) {
-      await (supabase.from("staff_reactions" as any) as any)
+      await supabase.from("staff_reactions")
         .delete()
         .eq("staff_comment_id", staffCommentId)
         .eq("user_id", user.id)
         .eq("reaction", type);
     } else {
-      await supabase.from("staff_reactions" as any).insert({
+      await supabase.from("staff_reactions").insert({
         staff_comment_id: staffCommentId,
         user_id: user.id,
         reaction: type,
-      } as any);
+      });
     }
     await fetchReactions();
   };
