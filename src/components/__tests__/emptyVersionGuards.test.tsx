@@ -8,8 +8,19 @@ import EditServer from "@/pages/EditServer";
 import VersionBadge, { formatVersion } from "@/components/VersionBadge";
 import { buildServerMeta, toSoftwareVersion } from "@/lib/serverJsonLd";
 
-const inserted: any[] = [];
-const updated: any[] = [];
+type CapturedServerRow = {
+  name: string;
+  ip: string;
+  description: string;
+  version: string;
+  platform?: string[];
+  proxy?: string | null;
+  [key: string]: unknown;
+};
+type CapturedServerUpdate = Partial<CapturedServerRow> & Record<string, unknown>;
+
+const inserted: CapturedServerRow[] = [];
+const updated: CapturedServerUpdate[] = [];
 
 const SERVER_ROW = {
   id: "server-1",
@@ -35,7 +46,7 @@ vi.mock("@/hooks/useAuth", () => ({
 vi.mock("sonner", () => ({ toast: { success: vi.fn(), error: vi.fn() } }));
 
 vi.mock("react-router-dom", async () => {
-  const actual = await vi.importActual<any>("react-router-dom");
+  const actual = await vi.importActual<typeof import("react-router-dom")>("react-router-dom");
   return {
     ...actual,
     useParams: () => ({ slug: SERVER_ROW.slug }),
@@ -56,11 +67,11 @@ vi.mock("@/integrations/supabase/client", () => {
     supabase: {
       from: (table: string) => ({
         select: () => selectChain(table),
-        insert: (row: any) => {
+        insert: (row: CapturedServerRow) => {
           inserted.push(row);
           return Promise.resolve({ error: null });
         },
-        update: (row: any) => {
+        update: (row: CapturedServerUpdate) => {
           if (table === "servers") updated.push(row);
           return { eq: () => Promise.resolve({ error: null }) };
         },
@@ -150,9 +161,9 @@ describe("prázdna verzia — editácia servera", () => {
 describe("odznak a metadáta pri chýbajúcej verzii", () => {
   it("VersionBadge nevykreslí nič pre prázdnu alebo neplatnú hodnotu", () => {
     for (const value of ["", "   ", null, undefined, "v", "abc", "26.x", "v.", "1..2"]) {
-      const { container, unmount } = render(<VersionBadge version={value as any} />);
+      const { container, unmount } = render(<VersionBadge version={value} />);
       expect(container.innerHTML).toBe("");
-      expect(formatVersion(value as any)).toBeNull();
+      expect(formatVersion(value)).toBeNull();
       unmount();
     }
   });
