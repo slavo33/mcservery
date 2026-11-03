@@ -177,7 +177,7 @@ const StaffRecruitment = () => {
       website_url: server.website_url,
       images,
       ...(serverHasVip ? { vip_tier: vipTier, vip_expires_at: server.vip_expires_at } : {}),
-    } as any);
+    });
 
     if (error) {
       if (error.code === "42501") {
