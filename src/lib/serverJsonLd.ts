@@ -75,7 +75,6 @@ export const buildServerJsonLd = ({
   name,
   description,
   version,
-  likesCount,
   platform,
   software,
   url,
@@ -101,18 +100,11 @@ export const buildServerJsonLd = ({
   const keywordList = (keywords ?? []).map((k) => (k || "").trim()).filter(Boolean);
   return {
     "@context": "https://schema.org",
-    "@type": "SoftwareApplication",
+    "@type": "WebPage",
     name,
     description,
-    applicationCategory: "GameApplication",
-    applicationSubCategory: editions.length > 0 ? `Minecraft ${editions.join(" / ")}` : undefined,
-    operatingSystem: toOperatingSystem(platform),
-    softwareVersion: toSoftwareVersion(version) ?? undefined,
-    runtimePlatform: loader,
-    additionalProperty: properties.length > 0 ? properties : undefined,
     url: url || undefined,
     image: image || undefined,
-    keywords: keywordList.length > 0 ? keywordList.join(", ") : undefined,
     inLanguage: "sk",
     datePublished: createdAt || undefined,
     dateModified: updatedAt || createdAt || undefined,
@@ -121,13 +113,7 @@ export const buildServerJsonLd = ({
       name: "MCServery",
       url: "https://mcservery.one",
     },
-    offers: { "@type": "Offer", price: "0", priceCurrency: "EUR" },
-    aggregateRating:
-      likesCount && likesCount > 0
-        ? { "@type": "AggregateRating", ratingValue: "5", ratingCount: String(likesCount) }
-        : undefined,
   };
-};
 
 /** Drobečková navigácia Domov → Servery → profil, aby Google zobrazil cestu vo výsledkoch. */
 export const buildServerBreadcrumbJsonLd = (

@@ -23,6 +23,9 @@ const Footer = () => {
             <nav aria-label="Pätička – navigácia" className="flex flex-col gap-2">
               <Link to="/" className="text-sm text-muted-foreground hover:text-foreground transition-colors">{t("nav_home")}</Link>
               <Link to="/servers" className="text-sm text-muted-foreground hover:text-foreground transition-colors">{t("nav_servers")}</Link>
+              <Link to="/minecraft-servery/survival" className="text-sm text-muted-foreground hover:text-foreground transition-colors">Survival servery</Link>
+              <Link to="/minecraft-servery/skyblock" className="text-sm text-muted-foreground hover:text-foreground transition-colors">SkyBlock servery</Link>
+              <Link to="/minecraft-servery/bedwars" className="text-sm text-muted-foreground hover:text-foreground transition-colors">BedWars servery</Link>
               <Link to="/add-server" className="text-sm text-muted-foreground hover:text-foreground transition-colors">{t("nav_add_server")}</Link>
             </nav>
           </div>
