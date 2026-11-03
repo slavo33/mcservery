@@ -43,7 +43,7 @@ export const isSoftwareVersionConsistent = (
   const expectedVersion = toSoftwareVersion(version);
   const keywords = jsonLd.keywords;
   const versionKeywords = Array.isArray(keywords)
-    ? keywords.filter((keyword): keyword is string => typeof keyword === "string" && /^v\\d+(\\.\\d+){1,3}$/.test(keyword))
+    ? keywords.filter((keyword): keyword is string => typeof keyword === "string" && /^v\d+(\.\d+){1,3}$/.test(keyword))
     : [];
 
   return expectedVersion
