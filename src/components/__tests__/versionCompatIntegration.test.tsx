@@ -5,16 +5,27 @@ import { HelmetProvider } from "react-helmet-async";
 import { LanguageProvider } from "@/i18n/LanguageContext";
 import AddServer from "@/pages/AddServer";
 
+type CapturedServerRow = {
+  name: string;
+  ip: string;
+  description: string;
+  version: string;
+  platform?: string[];
+  proxy?: string | null;
+  [key: string]: unknown;
+};
+type CapturedServerUpdate = Partial<CapturedServerRow> & Record<string, unknown>;
+
 /** Zachytené riadky "databázy" */
-const inserted: any[] = [];
+const inserted: CapturedServerRow[] = [];
 
 vi.mock("@/hooks/useAuth", () => ({
   useAuth: () => ({ user: { id: "test-user" }, profile: null, loading: false }),
 }));
 
-const toastError = vi.fn();
+const toastError = vi.fn<(message: string) => void>();
 vi.mock("sonner", () => ({
-  toast: { success: vi.fn(), error: (...a: any[]) => toastError(...a) },
+  toast: { success: vi.fn(), error: (message: string) => toastError(message) },
 }));
 
 vi.mock("@/integrations/supabase/client", () => ({
@@ -27,7 +38,7 @@ vi.mock("@/integrations/supabase/client", () => ({
             { maybeSingle: () => Promise.resolve({ data: null, error: null }) }
           ),
       }),
-      insert: (row: any) => {
+      insert: (row: CapturedServerRow) => {
         inserted.push(row);
         return Promise.resolve({ error: null });
       },
