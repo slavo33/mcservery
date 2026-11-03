@@ -122,6 +122,75 @@ function stripSitewideMeta(html: string): string {
     .replace(/<script type="application\/ld\+json">[\s\S]*?<\/script>/gi, "");
 }
 
+
+/** SEO metadáta kategórií — musia zostať synchronizované s CategoryPage.tsx. */
+const CATEGORY_PAGES = {
+  survival: {
+    title: "Minecraft Survival servery",
+    description: "Nájdi Minecraft Survival servery na MCServery. Porovnaj slovenské a české servery, verzie Minecraftu, Java a Bedrock a vyber si svet na hranie.",
+  },
+  skyblock: {
+    title: "Minecraft SkyBlock servery",
+    description: "Objav Minecraft SkyBlock servery. Začni na malom ostrove, rozvíjaj svoju ekonomiku a porovnaj herné možnosti slovenských a českých serverov.",
+  },
+  bedwars: {
+    title: "Minecraft BedWars servery",
+    description: "Nájdi Minecraft BedWars servery a zahraj si tímové PvP. Porovnaj dostupné servery, podporované verzie a Java alebo Bedrock edíciu.",
+  },
+  skywars: {
+    title: "Minecraft SkyWars servery",
+    description: "Prezri si Minecraft SkyWars servery. Súťaž v PvP na ostrovoch, zbieraj výbavu a nájdi server kompatibilný s tvojou verziou Minecraftu.",
+  },
+  pvp: {
+    title: "Minecraft PvP servery",
+    description: "Nájdi Minecraft PvP servery pre duely, KitPvP a súťažné súboje. Porovnaj herné režimy, verzie a dostupné edície na MCServery.",
+  },
+  smp: {
+    title: "Minecraft SMP servery",
+    description: "Objav Minecraft SMP servery pre spoločné survival hranie. Nájdi komunitný svet, pozri si podporované verzie a vyber si server pre seba a kamarátov.",
+  },
+} as const;
+
+function buildCategoryHead(slug: keyof typeof CATEGORY_PAGES) {
+  const category = CATEGORY_PAGES[slug];
+  const path = `/minecraft-servery/${slug}`;
+  const canonical = `${BASE_URL}${path}`;
+  const graph = [
+    {
+      "@context": "https://schema.org",
+      "@type": "CollectionPage",
+      name: category.title,
+      description: category.description,
+      url: canonical,
+      inLanguage: "sk",
+      isPartOf: { "@type": "WebSite", name: "MCServery", url: BASE_URL },
+      publisher: { "@type": "Organization", name: "MCServery", url: BASE_URL },
+    },
+    {
+      "@context": "https://schema.org",
+      "@type": "BreadcrumbList",
+      itemListElement: [
+        { "@type": "ListItem", position: 1, name: "Domov", item: `${BASE_URL}/` },
+        { "@type": "ListItem", position: 2, name: "Servery", item: `${BASE_URL}/servers` },
+        { "@type": "ListItem", position: 3, name: category.title, item: canonical },
+      ],
+    },
+  ];
+  return [
+    `<title>${esc(`${category.title} | MCServery`)}</title>`,
+    `<meta name="description" content="${esc(category.description)}" />`,
+    `<link rel="canonical" href="${esc(canonical)}" />`,
+    `<meta property="og:type" content="website" />`,
+    `<meta property="og:url" content="${esc(canonical)}" />`,
+    `<meta property="og:title" content="${esc(`${category.title} | MCServery`)}" />`,
+    `<meta property="og:description" content="${esc(category.description)}" />`,
+    `<meta name="twitter:card" content="summary_large_image" />`,
+    `<meta name="twitter:title" content="${esc(`${category.title} | MCServery`)}" />`,
+    `<meta name="twitter:description" content="${esc(category.description)}" />`,
+    ...graph.map((item) => `<script type="application/ld+json">${JSON.stringify(item)}</script>`),
+  ].join("\\n    ");
+}
+
 async function main() {
   const templatePath = resolve(DIST, "index.html");
   if (!existsSync(templatePath)) {
@@ -140,6 +209,16 @@ async function main() {
     written++;
   }
   console.log(`prerender: vygenerovaných ${written} profilov serverov`);
+
+  let categoriesWritten = 0;
+  for (const slug of Object.keys(CATEGORY_PAGES) as (keyof typeof CATEGORY_PAGES)[]) {
+    const html = stripSitewideMeta(template).replace("</head>", `  ${buildCategoryHead(slug)}\\n  </head>`);
+    const out = resolve(DIST, "minecraft-servery", slug, "index.html");
+    mkdirSync(dirname(out), { recursive: true });
+    writeFileSync(out, html);
+    categoriesWritten++;
+  }
+  console.log(`prerender: vygenerovaných ${categoriesWritten} SEO kategórií`);
 }
 
 main();
