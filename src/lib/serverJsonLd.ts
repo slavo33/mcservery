@@ -35,7 +35,7 @@ export const toSoftwareVersion = (version?: string | null): string | null => {
   return /^v\d+(\.\d+){1,3}$/.test(label) ? label : null;
 };
 
-/** True, ak JSON-LD `softwareVersion` zodpovedá zadanej verzii servera. */
+/** True, ak JSON-LD obsahuje zodpovedajúcu verziu medzi kľúčovými slovami stránky. */
 export const isSoftwareVersionConsistent = (
   jsonLd: Record<string, unknown>,
   version?: string | null
@@ -66,7 +66,7 @@ export const toEditions = (platform?: string[] | null): string[] => {
     .filter((p) => (seen.has(p) ? false : (seen.add(p), true)));
 };
 
-/** `operatingSystem` odráža edície, na ktorých sa dá hrať (Minecraft Java / Bedrock). */
+/** Vráti čitateľný názov edícií podporovaných serverom. */
 export const toOperatingSystem = (platform?: string[] | null): string => {
   const editions = toEditions(platform);
   return editions.length > 0
@@ -102,8 +102,6 @@ export const buildServerJsonLd = ({
     loader,
     toSoftwareVersion(version),
     ...(keywords ?? []),
-    ip,
-    maxPlayers && maxPlayers > 0 ? `Max players: ${maxPlayers}` : undefined,
   ].map((keyword) => (keyword ?? "").trim()).filter(Boolean);
 
   return {
@@ -113,6 +111,7 @@ export const buildServerJsonLd = ({
     description,
     url: url || undefined,
     image: image || undefined,
+    identifier: ip || undefined,
     inLanguage: "sk",
     datePublished: createdAt || undefined,
     dateModified: updatedAt || createdAt || undefined,
