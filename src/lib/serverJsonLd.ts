@@ -39,7 +39,17 @@ export const toSoftwareVersion = (version?: string | null): string | null => {
 export const isSoftwareVersionConsistent = (
   jsonLd: Record<string, unknown>,
   version?: string | null
-): boolean => jsonLd.softwareVersion === (toSoftwareVersion(version) ?? undefined);
+): boolean => {
+  const expectedVersion = toSoftwareVersion(version);
+  const keywords = jsonLd.keywords;
+  const versionKeywords = Array.isArray(keywords)
+    ? keywords.filter((keyword): keyword is string => typeof keyword === "string" && /^v\\d+(\\.\\d+){1,3}$/.test(keyword))
+    : [];
+
+  return expectedVersion
+    ? versionKeywords.includes(expectedVersion)
+    : versionKeywords.length === 0;
+};
 
 /** Normalizované edície (Java/Bedrock) presne podľa nastavení profilu servera. */
 export const toEditions = (platform?: string[] | null): string[] => {
@@ -59,45 +69,13 @@ export const toEditions = (platform?: string[] | null): string[] => {
 /** `operatingSystem` odráža edície, na ktorých sa dá hrať (Minecraft Java / Bedrock). */
 export const toOperatingSystem = (platform?: string[] | null): string => {
   const editions = toEditions(platform);
-  return editions.length > 0
-    ? editions.map((e) => `Minecraft ${e} Edition`).join(", ")
-    : "Minecraft";
-};
-
-/** Loader/software servera (Paper, Spigot, Purpur, …) — prázdne hodnoty sa vynechajú. */
-export const toLoader = (software?: string | null): string | undefined => {
-  const value = (software || "").trim();
-  if (!value || value.toLowerCase() === "žiadny") return undefined;
-  return value;
-};
-
-export const buildServerJsonLd = ({
-  name,
-  description,
-  version,
-  platform,
-  software,
-  url,
-  image,
-  ip,
-  maxPlayers,
-  keywords,
-  createdAt,
-  updatedAt,
-}: ServerJsonLdInput): Record<string, unknown> => {
-  const editions = toEditions(platform);
   const loader = toLoader(software);
-  const properties = [
-    editions.length > 0
-      ? { "@type": "PropertyValue", name: "Edition", value: editions.join(", ") }
-      : null,
-    loader ? { "@type": "PropertyValue", name: "Server software", value: loader } : null,
-    ip ? { "@type": "PropertyValue", name: "Server IP", value: ip } : null,
-    maxPlayers && maxPlayers > 0
-      ? { "@type": "PropertyValue", name: "Max players", value: String(maxPlayers) }
-      : null,
-  ].filter(Boolean) as Record<string, string>[];
-  const keywordList = (keywords ?? []).map((k) => (k || "").trim()).filter(Boolean);
+  const keywordList = [
+    ...editions.map((edition) => `Minecraft ${edition} Edition`),
+    loader,
+    toSoftwareVersion(version),
+    ...(keywords ?? []),
+  ].map((keyword) => (keyword ?? "").trim()).filter(Boolean);
   return {
     "@context": "https://schema.org",
     "@type": "WebPage",
@@ -113,6 +91,7 @@ export const buildServerJsonLd = ({
       name: "MCServery",
       url: "https://mcservery.one",
     },
+    keywords: keywordList.length > 0 ? [...new Set(keywordList)] : undefined,
   };
 };
 
