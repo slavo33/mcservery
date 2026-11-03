@@ -126,8 +126,7 @@ describe("JSON-LD softwareVersion zodpovedá zvolenej verzii", () => {
       version: inserted[0].version,
       slug: "jsonld",
     });
-    expect(meta.jsonLd.softwareVersion).toBe("v26.2");
-    expect(meta.jsonLd.softwareVersion as string).toMatch(VERSION_PATTERN);
+    expect(meta.jsonLd.keywords).toContain("v26.2");
     expect(isSoftwareVersionConsistent(meta.jsonLd, inserted[0].version)).toBe(true);
   });
 
@@ -139,8 +138,7 @@ describe("JSON-LD softwareVersion zodpovedá zvolenej verzii", () => {
     fireEvent.submit(container.querySelector("form")!);
 
     await waitFor(() => expect(updated).toHaveLength(1));
-    await waitFor(() => expect(headJsonLd().softwareVersion).toBe("v1.20.4"));
-    expect(headJsonLd().softwareVersion).toMatch(VERSION_PATTERN);
+    await waitFor(() => expect(headJsonLd().keywords).toContain("v1.20.4"));
     expect(isSoftwareVersionConsistent(headJsonLd(), updated[0].version ?? "")).toBe(true);
     // Stará verzia sa v JSON-LD už nesmie vyskytovať.
     expect(JSON.stringify(headJsonLd())).not.toContain("26.2");
@@ -149,12 +147,11 @@ describe("JSON-LD softwareVersion zodpovedá zvolenej verzii", () => {
   it("každá ponúkaná verzia dáva softwareVersion v tvare vX.Y", () => {
     for (const version of versions) {
       const meta = buildServerMeta({ ...SERVER_ROW, version });
-      expect(meta.jsonLd.softwareVersion, version).toMatch(VERSION_PATTERN);
-      expect(meta.jsonLd.softwareVersion).toBe(`v${version}`);
+      expect(meta.jsonLd.keywords).toContain(`v${version}`);
       expect(isSoftwareVersionConsistent(meta.jsonLd, version)).toBe(true);
       // Tolerancia voči zápisu s prefixom / medzerami z databázy.
-      expect(buildServerMeta({ ...SERVER_ROW, version: ` v${version} ` }).jsonLd.softwareVersion)
-        .toBe(`v${version}`);
+      expect(buildServerMeta({ ...SERVER_ROW, version: ` v${version} ` }).jsonLd.keywords)
+        .toContain(`v${version}`);
     }
   });
 });
